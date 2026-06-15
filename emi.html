@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+  <link rel="icon" type="image/png" href="favicon.png">
+ 
+ <link rel="manifest" href="/manifest.json">
+<link rel="apple-touch-icon" href="/app-icon.png">
+  <meta name="description" content="Calculate your loan EMI instantly with Pextume. A fast and reliable monthly installment calculator for home, car, and personal loans.">
+
+ 
+  <meta name="keywords" content="EMI Calculator, Loan Calculator, Monthly Installment, Monthly EMI, Pextume">
+
+<title>EMI Calculator</title>
+    <style>
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body { 
+            background: #0f172a; 
+            color: white; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+            padding: 20px; 
+        }
+
+        .container { 
+            background: #1e293b; 
+            padding: 30px; 
+            border-radius: 40px; 
+            width: 100%; 
+            max-width: 400px; 
+            text-align: center;
+            border: 1px solid #3b82f6; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        h2 { 
+            color: #818cf8; 
+            font-size: 1.8rem; 
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .input-group { text-align: left; margin-bottom: 12px; }
+        label { display: block; margin-bottom: 5px; color: #94a3b8; font-size: 0.85rem; }
+
+        input { 
+            width: 100%; 
+            padding: 12px; 
+            border-radius: 12px; 
+            border: 1px solid #334155; 
+            background: #0f172a; 
+            color: white; 
+            outline: none; 
+            font-size: 1rem; 
+        }
+
+        input:focus { border-color: #818cf8; }
+
+        button { 
+            width: 100%; 
+            padding: 15px; 
+            border-radius: 15px; 
+            border: none; 
+            background: #4f46e5; 
+            color: white; 
+            font-weight: bold; 
+            font-size: 1.1rem; 
+            cursor: pointer; 
+            transition: all 0.2s; 
+            margin-top: 15px;
+            text-transform: uppercase;
+        }
+
+        button:active { transform: scale(0.96); background: #4338ca; }
+
+        .result-box { 
+            margin-top: 20px; 
+            padding: 20px; 
+            background: rgba(79, 70, 229, 0.15); 
+            border-radius: 25px; 
+            display: none; 
+            border: 1px solid #4f46e5;
+        }
+
+        .result-box p.title { font-size: 0.85rem; color: #94a3b8; margin-bottom: 5px; }
+        .result-box h3 { font-size: 2.1rem; color: #fff; margin-bottom: 15px; }
+
+        .details { 
+            text-align: left; 
+            border-top: 1px solid rgba(255,255,255,0.1); 
+            padding-top: 12px;
+            font-size: 0.85rem; 
+            color: #cbd5e1;
+            line-height: 1.8;
+        }
+
+        .details span { float: right; color: #fff; font-weight: bold; }
+
+        .footer { 
+            margin-top: 30px; 
+            font-size: 0.8rem; 
+            color: #94a3b8; 
+            text-align: center;
+        }
+
+        .footer span { font-style: italic; font-family: serif; margin: 0 3px; }
+   .top-header {
+    position: fixed;  
+    top: 10px;
+    left: 8px;
+    z-index: 9999;
+}
+
+.brand-logo {
+    width: 140px;     
+    height: auto;
+}
+    </style>
+</head>
+<body>
+<div class="top-header">
+        <img src="logo.png" alt="Logo" class="brand-logo">
+    </div>
+    
+    <div class="container">
+        <h2>EMI Calculator</h2>
+        
+        <div class="input-group">
+            <label>Price / Loan Amount (₹)</label>
+            <input type="text" id="p" inputmode="numeric" placeholder="e.g. 50,000" oninput="handleInput(this)">
+        </div>
+
+        <div class="input-group">
+            <label>Down Payment (₹)</label>
+            <input type="text" id="dp" inputmode="numeric" placeholder="e.g. 10,000" oninput="handleInput(this)">
+        </div>
+
+        <div class="input-group">
+            <label>Annual Interest Rate (%)</label>
+            <input type="number" id="r" placeholder="e.g. 12" step="0.1" oninput="hideResult()">
+        </div>
+
+        <div class="input-group">
+            <label>Tenure (Months)</label>
+            <input type="number" id="n" placeholder="e.g. 12" oninput="hideResult()">
+        </div>
+
+        <button onclick="calculate()">Calculate EMI</button>
+
+        <div class="result-box" id="res">
+            <p class="title">Monthly Installment (EMI)</p>
+            <h3 id="emi">₹0</h3>
+            
+            <div class="details">
+                <p>Actual Loan Amount: <span id="p_val">₹0</span></p>
+                <p>Total Interest: <span id="i_val">₹0</span></p>
+                <p>Total Payment: <span id="t_val">₹0</span></p>
+            </div>
+        </div>
+
+        <div class="footer">
+            💡 Tap (⋮) to explore other tools
+        </div>
+    </div>
+
+    <script>
+        function hideResult() {
+            document.getElementById('res').style.display = 'none';
+        }
+
+        function handleInput(input) {
+            hideResult();
+            
+            // সংখ্যা ছাড়া অন্য কিছু (ABCD) মুছে ফেলার ফিল্টার
+            let value = input.value.replace(/[^0-9]/g, ''); 
+            
+            if(value !== '') {
+                input.value = Number(value).toLocaleString('en-IN');
+            } else {
+                input.value = '';
+            }
+        }
+
+        function calculate() {
+            let pRaw = document.getElementById('p').value.replace(/,/g, '');
+            let dpRaw = document.getElementById('dp').value.replace(/,/g, '') || "0";
+            
+            let Price = parseFloat(pRaw);
+            let DP = parseFloat(dpRaw);
+            let R = parseFloat(document.getElementById('r').value);
+            let N = parseFloat(document.getElementById('n').value);
+
+            let P = Price - DP;
+
+            if (P > 0 && R > 0 && N > 0) {
+                let r = R / 12 / 100;
+                let x = Math.pow(1 + r, N);
+                let emi = (P * r * x) / (x - 1);
+                
+                let totalPayment = emi * N;
+                let totalInterest = totalPayment - P;
+
+                document.getElementById('res').style.display = 'block';
+                
+                document.getElementById('emi').innerText = "₹" + Math.round(emi).toLocaleString('en-IN');
+                document.getElementById('p_val').innerText = "₹" + P.toLocaleString('en-IN');
+                document.getElementById('i_val').innerText = "₹" + Math.round(totalInterest).toLocaleString('en-IN');
+                document.getElementById('t_val').innerText = "₹" + Math.round(totalPayment).toLocaleString('en-IN');
+            } else if (P <= 0 && Price > 0) {
+                alert("Down payment cannot be equal or more than the price!");
+            } else {
+                alert("Please enter valid details");
+            }
+        }
+    </script>
+<div id="menuBtnWrapper" style="position: fixed; top: 38px; right: 29.5px; z-index: 99999;">
+    <div onclick="event.stopPropagation(); document.getElementById('sideMenu').style.transform='translateX(0)'" 
+         style="cursor:pointer; font-size:35px; color:#818cf8; background:none; border:none; line-height:0.6; -webkit-tap-highlight-color:transparent; text-shadow: 0 0 12px rgba(129, 140, 248, 0.7); padding: 5px;">
+        ⋮
+    </div>
+</div>
+
+<div id="sideMenu" style="height:100%; width:270px; position:fixed; z-index:100000; top:0; right:0; background: rgba(15, 23, 42, 0.98); transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); border-top-left-radius: 35px; border-bottom-left-radius: 35px; border-left: 2px solid #3b82f6; box-shadow: -10px 0 30px rgba(0,0,0,0.5); will-change: transform; overflow-x:hidden;">
+    
+    <a href="javascript:void(0)" onclick="document.getElementById('sideMenu').style.transform='translateX(100%)'" 
+       style="position:absolute; top:20px; right:25px; font-size:40px; color:#ff4757; text-decoration:none; font-family:sans-serif; -webkit-tap-highlight-color:transparent;">&times;</a>
+    
+    <div style="width: 270px; padding-top: 100px; display: flex; flex-direction: column; white-space: nowrap;">
+        
+        <div style="padding: 0 30px 15px 0; text-align: right; color: #818cf8; font-family: sans-serif; font-size: 14px; font-weight: bold; letter-spacing: 2px; text-shadow: 0 0 8px rgba(129, 140, 248, 0.5); opacity: 0.9; text-transform: uppercase;">
+            Other Tools
+        </div>
+
+        <a href="age.html" style="padding:18px 30px; text-decoration:none; font-size:18px; color:#fff; font-family:sans-serif; border-bottom:1px solid rgba(255,255,255,0.05); text-align: right; letter-spacing: 1px; -webkit-tap-highlight-color:transparent;">Age calculator</a>
+        <a href="electric.html" style="padding:18px 30px; text-decoration:none; font-size:18px; color:#fff; font-family:sans-serif; border-bottom:1px solid rgba(255,255,255,0.05); text-align: right; letter-spacing: 1px; -webkit-tap-highlight-color:transparent;">Electric calculator</a>
+        <a href="future.html" style="padding:18px 30px; text-decoration:none; font-size:18px; color:#fff; font-family:sans-serif; border-bottom:1px solid rgba(255,255,255,0.05); text-align: right; letter-spacing: 1px; -webkit-tap-highlight-color:transparent;">Future day calculator</a>
+        <a href="index.html" style="padding:18px 30px; text-decoration:none; font-size:18px; color:#fff; font-family:sans-serif; border-bottom:1px solid rgba(255,255,255,0.05); text-align: right; letter-spacing: 1px; -webkit-tap-highlight-color:transparent;">Gst calculator</a>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('click', function(event) {
+        var sideMenu = document.getElementById('sideMenu');
+        var menuBtn = document.getElementById('menuBtnWrapper');
+        
+        // যদি ক্লিকটা মেনু এবং মেনুর বাটনের বাইরে হয়
+        if (!sideMenu.contains(event.target) && !menuBtn.contains(event.target)) {
+            sideMenu.style.transform = 'translateX(100%)';
+        }
+    });
+</script>
+</body>
+</html>
+
+
