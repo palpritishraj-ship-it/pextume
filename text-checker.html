@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Text Checker</title>
+<meta name="description" content="Analyze your text, articles, or essays in real-time. Count words, characters, and lines instantly with Pextume.">
+<meta name="keywords" content="Smart Text Checker, Word Counter, Character Counter, Line Counter, Text Analysis Tool, Online Text Editor, Pextume">
+
+
+<meta property="og:site_name" content="Pextume">
+<meta property="og:title" content="Smart Text Checker">
+<meta property="og:description" content="Analyze and format your text instantly in real-time with Pextume.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://pextume.in/text-checker.html">
+
+
+<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96"/>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+<link rel="shortcut icon" href="/favicon.ico"/>
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
+<meta name="apple-mobile-web-app-title" content="Pextume "/>
+
+<link rel="manifest" href="/site.webmanifest"/>
+
+<link rel="canonical" href="https://pextume.in/text-checker.html">
+    <style>
+        :root {
+            --bg-color: #0b132b;
+            --card-bg: #1c2541;
+            --primary-blue: #0066ff;
+            --navy-dark: #0f2a4a;
+            --text-main: #ffffff;
+            --text-muted: #8ecae6;
+            --glossy-glow: rgba(0, 102, 255, 0.5);
+            --neon-accent: #00f2fe;
+            --highlight-color: rgba(0, 242, 254, 0.5);
+            --btn-blue: #0062ff;
+            --btn-blue-hover: #0052d4;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* ১. একদম মাথায় ডানদিকের সার্চ বক্স */
+        .top-search-bar {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            width: 100%;
+            gap: 10px;
+        }
+
+        .search-wrapper {
+            position: relative;
+            width: 50%;         
+            min-width: 120px;   
+        }
+
+        .search-input {
+            width: 100%;
+            background-color: var(--card-bg);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+            padding: 6px 10px;  
+            border-radius: 20px;
+            font-size: 0.85rem;
+            outline: none;
+            padding-right: 55px; 
+            transition: all 0.2s ease-in-out;
+        }
+
+        .search-input:focus {
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 15px var(--glossy-glow), inset 0 0 5px rgba(0, 102, 255, 0.3);
+        }
+
+        .search-badge {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.8rem;
+            color: var(--neon-accent);
+            font-weight: bold;
+        }
+
+        /* ২. ব্র্যান্ড হেডার রো */
+        .app-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 0 5px;
+            width: 100%;
+            position: relative;
+            gap: 15px;
+        }
+
+        .app-header {
+            flex: 1;
+        }
+
+        .app-header h1 {
+            font-size: 1.8rem;
+            background: linear-gradient(45deg, #0066ff, #00f2fe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .app-header p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-top: 5px;
+            white-space: nowrap;
+        }
+
+        .header-copy-box {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 4px;
+            flex-shrink: 0;
+            margin-top: 6px;
+        }
+
+        .copy-icon-btn {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            width: 24px;   
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.1s ease;
+            outline: none; 
+        }
+
+        .copy-icon-btn::before {
+            content: '';
+            position: absolute;
+            left: 2px;
+            top: 8px;
+            width: 14px;
+            height: 14px;
+            border: 2px solid var(--neon-accent); 
+            border-radius: 2px;
+            background-color: var(--bg-color); 
+            z-index: 1;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .copy-icon-btn::after {
+            content: '';
+            position: absolute;
+            right: 2px;
+            top: 2px;
+            width: 14px;
+            height: 14px;
+            border: 2px solid var(--neon-accent); 
+            border-radius: 2px;
+            background-color: var(--bg-color);
+            z-index: 2;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .copy-icon-btn:active::before, .copy-icon-btn:active::after,
+        .copy-icon-btn.copied::before, .copy-icon-btn.copied::after {
+            border-color: #ffffff !important; 
+            box-shadow: 0 0 12px var(--neon-accent);
+        }
+        
+        .copy-icon-btn:active {
+            transform: scale(0.9);
+        }
+
+        .copy-toast {
+            font-size: 0.75rem;
+            color: var(--neon-accent);
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.2s;
+            pointer-events: none;
+            position: absolute;
+            bottom: -10px;
+            right: 0;
+        }
+
+        /* ৩. মেইন টেক্সট বক্স লেআউট */
+        .editor-box {
+            position: relative;
+            width: 100%;
+            height: 310px; /* এডিটর বক্সের সঠিক সুন্দর হাইট ফিরিয়ে আনা হলো */
+            background-color: var(--bg-color);
+            border: 2px solid var(--navy-dark);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.25s ease-in-out;
+        }
+
+        .editor-box:focus-within {
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 20px var(--glossy-glow);
+        }
+
+        .backdrop, .rich-editor {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 15px;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            overflow-y: auto;
+            border: none;
+            font-variant-ligatures: none;
+            font-feature-settings: "liga" 0;
+        }
+
+        .backdrop {
+            color: transparent;
+            background: transparent;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .backdrop div, .rich-editor div,
+        .backdrop p, .rich-editor p {
+            margin: 0;
+            padding: 0;
+            min-height: 1.6em;
+        }
+
+        mark {
+            background-color: var(--highlight-color);
+            color: transparent;
+            border-radius: 3px;
+        }
+
+        .rich-editor {
+            background: transparent;
+            color: var(--text-main);
+            outline: none;
+            z-index: 2;
+        }
+
+        /* ৪ ও ৫. পাশাপাশি কাউন্টার রো */
+        .counter-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .counter-tile {
+            background-color: var(--card-bg);
+            padding: 10px 15px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .counter-tile p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .counter-tile span {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--neon-accent);
+        }
+
+        /* ৬. ৪ টি বাটনের পাশাপাশি গ্রিড লেআউট */
+        .utility-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 5px;
+        }
+
+        /* ফিক্সড: বাটনগুলোকে আগের মতো বড় এবং প্রিমিয়াম মাপে ফিরিয়ে আনা হলো */
+        .util-btn {
+            background: var(--btn-blue); 
+            border: none;
+            color: white;
+            padding: 12px; /* প্যাডিং আবার ১২ করে বড় করা হলো */
+            font-size: 0.95rem; /* ফন্ট সাইজ বড় করা হলো */
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: center;
+            transition: background 0.2s ease;
+            box-shadow: none !important;
+            outline: none; 
+        }
+
+        .util-btn:hover {
+            background: var(--btn-blue-hover);
+        }
+
+        .util-btn:active, .util-btn:focus {
+            background: var(--btn-blue-hover) !important; 
+            border: none !important;
+            box-shadow: none !important; 
+            transform: scale(0.97);
+        }
+
+        /* ফুটার স্টাইল */
+        footer {
+            margin-top: 20px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            text-align: center;
+            width: 100%;
+            opacity: 0.7;
+        }
+  .top-header {
+    position: fixed;
+    top: 15px;
+    left: 8px;
+    z-index: 9999;
+}
+
+.brand-logo {
+    width: 140px;
+    height: auto;
+    display: block;
+}
+  
+    </style>
+</head>
+<body>
+<div class="top-header">
+    <img src="logo.png" alt="PEXTUME Logo" class="brand-logo">
+</div>
+    <div class="app-container">
+        
+        <div class="top-search-bar">
+            <div class="search-wrapper">
+                <input type="text" id="searchInput" class="search-input" placeholder="Find words...">
+                <div class="search-badge"><span id="matchCount">0</span> times</div>
+            </div>
+        </div>
+
+        <div class="app-header-row">
+            <div class="app-header">
+                <h1>Smart Text Checker</h1>
+                <p>Advanced Real-time Text Checking & Analysis Tool</p>
+            </div>
+            <div class="header-copy-box">
+                <button class="copy-icon-btn" onclick="copyText()" title="Copy Text"></button>
+                <span class="copy-toast" id="copyToast">Copied!</span>
+            </div>
+        </div>
+
+        <div class="editor-box">
+            <div id="backdrop" class="backdrop"></div>
+            <div id="richEditor" class="rich-editor" contenteditable="true" placeholder="চেক করার জন্য এখানে টেক্সট লিখুন বা পেস্ট করুন..."></div>
+        </div>
+
+        <div class="counter-row">
+            <div class="counter-tile">
+                <p>Words</p>
+                <span id="wordCount">0</span>
+            </div>
+            <div class="counter-tile">
+                <p>Characters</p>
+                <span id="charCount">0</span>
+            </div>
+        </div>
+
+        <div class="counter-row">
+            <div class="counter-tile">
+                <p>No Spaces</p>
+                <span id="charNoSpaceCount">0</span>
+            </div>
+            <div class="counter-tile">
+                <p>Lines</p>
+                <span id="lineCount">0</span>
+            </div>
+        </div>
+
+        <div class="utility-grid">
+            <button class="util-btn" onclick="convertCase('upper')">UPPERCASE</button>
+            <button class="util-btn" onclick="convertCase('lower')">lowercase</button>
+            <button class="util-btn" onclick="convertCase('sentence')">Sentence case</button>
+            <button class="util-btn" onclick="trimSpaces()">Trim Spaces</button>
+        </div>
+
+        <!-- কপিরাইট ফুটার লাইন -->
+        <footer>
+            <p>&copy; 2026 Pextume Utility Network. All Rights Reserved.</p>
+        </footer>
+
+    </div>
+
+    <script>
+        const richEditor = document.getElementById('richEditor');
+        const searchInput = document.getElementById('searchInput');
+        const matchCount = document.getElementById('matchCount');
+        const backdrop = document.getElementById('backdrop');
+        const copyToast = document.getElementById('copyToast');
+        const copyBtn = document.querySelector('.copy-icon-btn');
+        
+        const wordCount = document.getElementById('wordCount');
+        const charCount = document.getElementById('charCount');
+        const charNoSpaceCount = document.getElementById('charNoSpaceCount');
+        const lineCount = document.getElementById('lineCount');
+
+        richEditor.addEventListener('scroll', () => {
+            backdrop.scrollTop = richEditor.scrollTop;
+            backdrop.scrollLeft = richEditor.scrollLeft;
+        });
+
+        richEditor.addEventListener('input', () => {
+            updateCounts();
+            handleSearchAndHighlight();
+        });
+
+        searchInput.addEventListener('input', handleSearchAndHighlight);
+
+        function updateCounts() {
+            const text = richEditor.innerText || "";
+            charCount.innerText = text.length;
+            charNoSpaceCount.innerText = text.replace(/\s/g, '').length;
+            
+            const words = text.trim().split(/\s+/);
+            wordCount.innerText = text.trim() === '' ? 0 : words.length;
+
+            const lines = text.split('\n');
+            lineCount.innerText = text === '' ? 0 : lines.length;
+        }
+
+        // ক্লোন-ভিত্তিক নিখুঁত রিয়েল-টাইম হাইলাইটার
+        function handleSearchAndHighlight() {
+            const searchKey = searchInput.value;
+            const mainText = richEditor.innerText || "";
+
+            if (!mainText) {
+                backdrop.innerHTML = "";
+                matchCount.innerText = 0;
+                return;
+            }
+
+            if (searchKey) {
+                const escapedKey = searchKey.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+                const regex = new RegExp(escapedKey, 'gi');
+                const matches = mainText.match(regex);
+                matchCount.innerText = matches ? matches.length : 0;
+            } else {
+                matchCount.innerText = 0;
+            }
+
+            let cloneNode = richEditor.cloneNode(true);
+            
+            if (searchKey) {
+                const escapedKey = searchKey.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+                const regex = new RegExp(escapedKey, 'gi');
+                
+                function highlightTextNodes(node) {
+                    if (node.nodeType === 3) {
+                        const text = node.nodeValue;
+                        if (regex.test(text)) {
+                            const span = document.createElement('span');
+                            let escapedHtml = text
+                                .replace(/&/g, '&amp;')
+                                .replace(/</g, '&lt;')
+                                .replace(/>/g, '&gt;');
+                            
+                            escapedHtml = escapedHtml.replace(regex, (match) => `<mark>${match}</mark>`);
+                            span.innerHTML = escapedHtml;
+                            node.parentNode.replaceChild(span, node);
+                        }
+                    } else {
+                        for (let i = node.childNodes.length - 1; i >= 0; i--) {
+                            highlightTextNodes(node.childNodes[i]);
+                        }
+                    }
+                }
+                highlightTextNodes(cloneNode);
+            }
+
+            backdrop.innerHTML = cloneNode.innerHTML;
+            backdrop.scrollTop = richEditor.scrollTop;
+            backdrop.scrollLeft = richEditor.scrollLeft;
+        }
+
+        function convertCase(type) {
+            const selection = window.getSelection();
+            const selectedText = selection.toString();
+
+            if (selectedText.length > 0) {
+                let nextText = "";
+                if (type === 'upper') nextText = selectedText.toUpperCase();
+                if (type === 'lower') nextText = selectedText.toLowerCase();
+                if (type === 'sentence') nextText = selectedText.toLowerCase().replace(/(^\s*|[.!?]\s+)([a-z])/g, (m, p1, p2) => p1 + p2.toUpperCase());
+                
+                document.execCommand('insertText', false, nextText);
+            } else {
+                let currentText = richEditor.innerText;
+                if (!currentText) return;
+
+                if (type === 'upper') richEditor.innerText = currentText.toUpperCase();
+                if (type === 'lower') richEditor.innerText = currentText.toLowerCase();
+                if (type === 'sentence') richEditor.innerText = currentText.toLowerCase().replace(/(^\s*|[.!?]\s+)([a-z])/g, (m, p1, p2) => p1 + p2.toUpperCase());
+            }
+            updateCounts();
+            handleSearchAndHighlight();
+        }
+
+        // আল্ট্রা-স্মার্ট এবং প্যারাগ্রাফ-সেফ ট্রিম স্পেস ফাংশন
+        function trimSpaces() {
+            let text = richEditor.innerText;
+            if (!text) return;
+
+            let cleanParagraphs = text.replace(/\n{3,}/g, '\n\n');
+            let lines = cleanParagraphs.split('\n');
+            let cleanedLines = lines.map(line => {
+                return line.replace(/[ \t]+/g, ' ').trim();
+            });
+
+            richEditor.innerText = cleanedLines.join('\n');
+
+            updateCounts();
+            handleSearchAndHighlight();
+        }
+
+        function copyText() {
+            const text = richEditor.innerText ? richEditor.innerText.trim() : "";
+            
+            if (text === "") return; 
+            
+            navigator.clipboard.writeText(richEditor.innerText);
+            
+            copyToast.style.opacity = "1";
+            copyBtn.classList.add('copied');
+            
+            setTimeout(() => { 
+                copyToast.style.opacity = "0";
+                copyBtn.classList.remove('copied');
+            }, 1500);
+        }
+    </script>
+</body>
+</html>
