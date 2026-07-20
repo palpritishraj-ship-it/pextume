@@ -4,19 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+  <title>EMI Calculator</title>
+  <meta name="description" content="Calculate your loan EMI instantly with Pextume. A fast and reliable monthly installment calculator for home, car, and personal loans.">
+  <meta name="keywords" content="EMI Calculator, Loan Calculator, Monthly Installment, Monthly EMI, Pextume">
+ 
+
+<meta property="og:site_name" content="Pextume">
+<meta property="og:title" content="EMI Calculator">
+<meta property="og:description" content="Calculate your loan EMI instantly with Pextume.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://pextume.in/emi.html">
+
+
+<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <link rel="shortcut icon" href="/favicon.ico" />
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 <meta name="apple-mobile-web-app-title" content="Pextume " />
-<link rel="manifest" href="/site.webmanifest" />
-    
-     <link rel="canonical" href="https://pextume.in/emi.html">
-    
-    <meta name="description" content="Calculate your loan EMI instantly with Pextume. A fast and reliable monthly installment calculator for home, car, and personal loans.">
-    <meta name="keywords" content="EMI Calculator, Loan Calculator, Monthly Installment, Monthly EMI, Pextume">
 
-    <title>EMI Calculator</title>
+<link rel="manifest" href="/site.webmanifest" />
+
+<link rel="canonical" href="https://pextume.in/emi.html"/>  
     <style>
         * { 
             margin: 0; 
@@ -30,6 +38,7 @@
             background: #0f172a; 
             color: white; 
             display: flex; 
+            flex-direction: column; /* ফুটার নিচে নামানোর জন্য যোগ করা হলো */
             justify-content: center; 
             align-items: center; 
             min-height: 100vh; 
@@ -45,6 +54,7 @@
             text-align: center;
             border: 1px solid #3b82f6; 
             box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            margin-bottom: 20px; /* ফুটার থেকে গ্যাপ রাখার জন্য */
         }
 
         h2 { 
@@ -156,6 +166,16 @@
             width: 140px;     
             height: auto;
         }
+
+        /* নেটওয়ার্ক ফুটারের পারফেক্ট সাইজ ও নো-র‍্যাপ স্টাইল */
+        .network-footer {
+            font-size: 0.80rem;
+            color: #475569;
+            text-align: center;
+            margin-top: 15px;
+            letter-spacing: 0.5px;
+            white-space: nowrap; /* লেখা ভাঙা ব্লক করার জন্য লক করা হলো */
+        }
     </style>
 </head>
 <body>
@@ -206,6 +226,11 @@
         <div class="footer">
             💡 Tap (⋮) to explore other tools
         </div>
+    </div>
+
+    <!-- নিচে এই নতুন নেটওয়ার্ক ফুটার লাইনটি যোগ করা হয়েছে ভাই -->
+    <div class="network-footer">
+        © 2026 Pextume Utility Network. All Rights Reserved.
     </div>
 
     <script>
@@ -321,13 +346,13 @@
             }
         });
         
-        // window.onload এর ভেতরের কিবোর্ড লিসেনারের সংঘাত দূর করা হয়েছে
         window.onload = function() {
             const inputs = document.querySelectorAll('input');
             inputs.forEach(input => {
-                input.addEventListener('input', checkInputs); // keyup বদলে input ইভেন্ট ব্যবহার করা হয়েছে যা নিরাপদ
+                input.addEventListener('input', checkInputs);
             });
         };
     </script>
 </body>
-</html>
+    </html>
+                
