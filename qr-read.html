@@ -178,8 +178,10 @@
         .file-upload-wrapper {
             position: relative;
             margin: 10px 0;
+            width: 100%;
         }
 
+        /* 👑 এখানে ফাইলের নাম বক্সের বাইরে চলে যাওয়ার প্রবলেম ১০০% ফিক্স করা হলো ভাই */
         .file-upload-btn {
             display: block;
             text-align: center;
@@ -192,6 +194,9 @@
             font-size: 0.95rem;
             font-weight: 600;
             transition: all 0.2s ease;
+            word-break: break-all; 
+            overflow: hidden; 
+            white-space: pre-wrap; 
         }
 
         .file-upload-btn:hover {
@@ -341,8 +346,8 @@
             <a href="day.html" style="padding:18px 30px; text-decoration:none; font-size:18px; color:#0f172a; font-family:sans-serif; border-bottom:1px solid rgba(0,0,0,0.05); text-align: right; letter-spacing: 1px;">Day counter</a>
             <a href="https://pextume.in/" style="padding:18px 30px; text-decoration:none; font-size:18px; color:var(--text-main); font-family:sans-serif; border-bottom:1px solid rgba(0,0,0,0.05); text-align: right; letter-spacing: 1px;">Gst calculator</a>
         </div>
-    </div>
-        <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+        </div>
+            <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
 
     <script>
         let videoStream = null;
@@ -486,7 +491,8 @@
         function scanQRFromImage(event) {
             let file = event.target.files[0];
             if (!file) return;
-            document.getElementById("uploadLabel").innerText = "✓ " + file.name;
+            // 👑 এখানে আপলোড করা ফাইলের নাম যাতে বক্সে সুন্দরভাবে ব্রেক হয় তার সেটিংস ভাই
+            document.getElementById("uploadLabel").innerHTML = "✓<br>" + file.name;
             stopCameraScanner();
             let reader = new FileReader();
             reader.onload = function(e) {
@@ -505,22 +511,6 @@
                 img.src = e.target.result;
             };
             reader.readAsDataURL(file);
-        }
-
-        function getNativeAppFormat(url) {
-            let lowerUrl = url.toLowerCase();
-            if (lowerUrl.includes("youtube.com") || lowerUrl.includes("youtu.be")) {
-                let match = url.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/);
-                if (match && match[2].length == 11) { return `vnd.youtube:${match[2]}`; }
-            }
-            if (lowerUrl.includes("facebook.com")) { return `fb://facewebmodal/f?href=${encodeURIComponent(url)}`; }
-            if (lowerUrl.includes("instagram.com")) {
-                let cleanUrl = url.replace(/(^\w+:|^)\/\/(www\.)?instagram\.com\//, "");
-                return `instagram://user?username=${cleanUrl.split('/')[0]}`;
-            }
-            if (lowerUrl.includes("twitter.com") || lowerUrl.includes("x.com")) { return `twitter://url?url=${encodeURIComponent(url)}`; }
-            if (lowerUrl.includes("spotify.com")) { return url.replace("https://open.spotify.com/", "spotify:"); }
-            return url; 
         }
 
         function parseContactQR(rawText) {
@@ -559,10 +549,8 @@
             if (/^\+?[0-9\s\-]{7,15}$/.test(data)) { return `📞 Tel: <a href="tel:${data}" class="qr-scanned-link">🔗 Call Number</a><div style="margin-top:6px;font-size:13px;color:#475569;word-break:break-all;">${data}</div>`; }
             if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data)) { return `✉ Email: <a href="mailto:${data}" class="qr-scanned-link">🔗 Send Email</a><div style="margin-top:6px;font-size:13px;color:#475569;word-break:break-all;">${data}</div>`; }
             
-            // 👑 চ্যাট জিপিটির সেই সুপার স্পিড ট্রিক ম্যাজিক কোড ভাই! লিংকের টেক্সট জাস্ট "🔗 Open Link"
             if (data.startsWith("http://") || data.startsWith("https://")) {
-                let nativeAppUrl = getNativeAppFormat(data);
-                return `<a href="${nativeAppUrl}" target="_blank" class="qr-scanned-link">🔗 Open Link</a><div style="margin-top:6px;font-size:13px;color:#475569;word-break:break-all;">${data}</div>`;
+                return `<a href="${data}" target="_blank" class="qr-scanned-link">🔗 Open Link</a><div style="margin-top:6px;font-size:13px;color:#475569;word-break:break-all;">${data}</div>`;
             }
             return rawText; 
         }
