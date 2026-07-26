@@ -181,7 +181,6 @@
             width: 100%;
         }
 
-        /* 👑 এখানে ফাইলের নাম বক্সের বাইরে চলে যাওয়ার প্রবলেম ১০০% ফিক্স করা হলো ভাই */
         .file-upload-btn {
             display: block;
             text-align: center;
@@ -287,8 +286,8 @@
             width: 100%;
         }
     </style>
-</head>
-<body>
+    </head>
+    <body>
 
     <div class="top-header">
         <img src="logo.png" alt="Pextume Logo" class="brand-logo">
@@ -346,8 +345,8 @@
             <a href="day.html" style="padding:18px 30px; text-decoration:none; font-size:18px; color:#0f172a; font-family:sans-serif; border-bottom:1px solid rgba(0,0,0,0.05); text-align: right; letter-spacing: 1px;">Day counter</a>
             <a href="https://pextume.in/" style="padding:18px 30px; text-decoration:none; font-size:18px; color:var(--text-main); font-family:sans-serif; border-bottom:1px solid rgba(0,0,0,0.05); text-align: right; letter-spacing: 1px;">Gst calculator</a>
         </div>
-        </div>
-            <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+    </div>
+        <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
 
     <script>
         let videoStream = null;
@@ -491,7 +490,6 @@
         function scanQRFromImage(event) {
             let file = event.target.files[0];
             if (!file) return;
-            // 👑 এখানে আপলোড করা ফাইলের নাম যাতে বক্সে সুন্দরভাবে ব্রেক হয় তার সেটিংস ভাই
             document.getElementById("uploadLabel").innerHTML = "✓<br>" + file.name;
             stopCameraScanner();
             let reader = new FileReader();
@@ -513,8 +511,46 @@
             reader.readAsDataURL(file);
         }
 
+        // 👑 প্রিমিয়াম ইমেল ডিকোডার এবং পার্সিং ইঞ্জিন ভাই
         function parseContactQR(rawText) {
             let data = rawText.trim();
+            
+            // 🎯 জাদুকরী লজিক: mailto: লিঙ্ক বা সাধারণ টেক্সট থেকে ডিকোড করার মেকানিজম ভাই
+            if (data.toLowerCase().startsWith("mailto:") || data.toLowerCase().includes("subject=") || data.toLowerCase().includes("body=")) {
+                let cleanData = data;
+                if(cleanData.toLowerCase().startsWith("mailto:")) {
+                    cleanData = cleanData.substring(7);
+                }
+                
+                let emailAddress = "";
+                let subjectText = "No Subject";
+                let bodyText = "";
+                
+                // ইমেল এড্রেস, সাবজেক্ট এবং বডি আলাদা করে কেটে বের করার লজিক ভাই
+                let parts = cleanData.split('?');
+                emailAddress = parts[0] || "";
+                
+                if (parts[1]) {
+                    let queryParams = new URLSearchParams(parts[1]);
+                    if (queryParams.has('subject')) subjectText = queryParams.get('subject');
+                    if (queryParams.has('body')) bodyText = queryParams.get('body');
+                }
+                
+                // 🎯 এনকোডেড ক্যারেক্টার ও ইমোজি ১০০% ডিকোড ভাই
+                try {
+                    emailAddress = decodeURIComponent(emailAddress);
+                    subjectText = decodeURIComponent(subjectText);
+                    bodyText = decodeURIComponent(bodyText);
+                } catch(e) {}
+                
+                // স্ক্রিনে পরপর সাজিয়ে দেখানোর প্রিমিয়াম ভিউ ভাই
+                let beautifulEmailView = `✉️ <b>Email:</b> <a href="${data}" class="qr-scanned-link">🔗 Send Email</a>\n`;
+                beautifulEmailView += `📧 <b>To:</b> ${emailAddress}\n`;
+                beautifulEmailView += `📝 <b>Subject:</b> ${subjectText}\n`;
+                beautifulEmailView += `📋 <b>Body:</b>\n${bodyText}`;
+                return beautifulEmailView;
+            }
+
             if (data.toLowerCase().startsWith("sms:")) {
                 let cleanData = data.substring(4); let parts = cleanData.split('?');
                 let phoneNum = parts[0] || ""; let bodyText = "";
@@ -561,8 +597,12 @@
             document.getElementById('resultText').innerHTML = displayData;
             document.getElementById('resultPanel').style.display = 'block';
             let actBtn = document.getElementById('actionBtn');
+            
+            // বাটন টেক্সট সেট ভাই
             if (rawDataForClipboard.startsWith("http://") || rawDataForClipboard.startsWith("https://")) {
                 actBtn.innerText = "📋 Copy Link URL";
+            } else if (rawDataForClipboard.toLowerCase().startsWith("mailto:") || rawDataForClipboard.toLowerCase().includes("subject=")) {
+                actBtn.innerText = "📋 Copy Clean Email Data";
             } else {
                 actBtn.innerText = "📋 Copy Text to Clipboard";
             }
@@ -572,7 +612,18 @@
             var sideMenu = document.getElementById('sideMenu'); var menuBtn = document.getElementById('menuBtnWrapper');
             if (!sideMenu.contains(event.target) && !menuBtn.contains(event.target)) { sideMenu.style.transform = 'translateX(100%)'; }
         });
-        function handleResultAction() { navigator.clipboard.writeText(rawDataForClipboard); alert("Data successfully copied! 👍"); }
+        
+        // কপি বোতামে ক্লিক করলে যাতে ডিকোডেড ক্লিন টেক্সট কপি হয় ভাই
+        function handleResultAction() { 
+            let textToCopy = rawDataForClipboard;
+            if (textToCopy.toLowerCase().startsWith("mailto:")) {
+                try {
+                    textToCopy = decodeURIComponent(textToCopy);
+                } catch(e) {}
+            }
+            navigator.clipboard.writeText(textToCopy); 
+            alert("Data successfully copied! 👍"); 
+        }
     </script>
 </body>
-</html>
+    </html>
