@@ -37,34 +37,33 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 85px 20px 40px 20px; 
+            padding: 110px 20px 40px 20px; /* টপ প্যাডিং একটু বাড়ানো হলো যাতে গ্রেডিয়েন্ট প্যানেলের নিচে কন্টেন্ট না ঢোকে ভাই */
             overflow-x: hidden;
             box-sizing: border-box;
         }
 
-        /* 👑 লোগো দৃশ্যমানতা ফিক্সড ইঞ্জিন: লোগো বক্সে সুন্দর হালকা ডার্ক গ্লাস ইফেক্ট দেওয়া হলো ভাই */
+        /* 👑 প্রীতীশ ভাইয়ের কাস্টম গ্রেডিয়েন্ট লোগো ঘর ইঞ্জিন লক ভাই */
         .top-header {
             position: fixed;  
-            top: 15px;
-            left: 12px;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 75px;
             z-index: 9999;
-            background: rgba(15, 23, 42, 0.09); 
-            padding: 6px 12px;
-            border-radius: 12px;
-            backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px);
-            border: 1px solid rgba(15, 23, 42, 0.05);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            /* বাদিকে তোমার সেই সি-সবুজ এবং ডানদিকে সাদা পেজের সাথে ব্লেন্ডিং হ্যাক ভাই */
+            background: linear-gradient(to right, rgba(0, 210, 160, 0.92) 0%, rgba(0, 210, 160, 0.4) 40%, rgba(255, 255, 255, 0) 85%);
             display: flex;
             align-items: center;
-            justify-content: center;
+            padding-left: 20px;
+            pointer-events: none; /* যাতে পেজের অন্য ক্লিক আটকানো না হয় ভাই */
         }
 
         .brand-logo {
-            width: 115px;
+            width: 125px;
             height: auto;
             display: block;
-            filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.2)); /* হালকা ড্রপ শ্যাডো ভাই */
+            pointer-events: auto; /* লোগো টাচ একটিভ ভাই */
+            filter: drop-shadow(0px 2px 4px rgba(15, 23, 42, 0.15)); /* লোগোর টেক্সট পুরো ফুটিয়ে তোলার জন্য সুপ্রিম শ্যাডো ভাই */
         }
 
         .app-container {
@@ -336,7 +335,8 @@
         © 2026 Pextume Utility Network. All Rights Reserved.
     </div>
 
-    <div id="menuBtnWrapper" style="position: fixed; top: 38px; right: 29.5px; z-index: 99999;">
+    <!-- 👑 থ্রি ডট বোতামটি পজিশন গ্রেডিয়েন্টের সাথে মিল রেখে সেট করা হলো ভাই -->
+    <div id="menuBtnWrapper" style="position: fixed; top: 22px; right: 25px; z-index: 99999;">
         <div onclick="event.stopPropagation(); document.getElementById('sideMenu').style.transform='translateX(0)'" 
              style="cursor:pointer; font-size:35px; color:var(--btn-green); background:none; border:none; line-height:0.6; padding: 5px; font-weight: bold;">
             ⋮
@@ -358,7 +358,7 @@
             <a href="https://pextume.in/" style="padding:18px 30px; text-decoration:none; font-size:18px; color:var(--text-main); font-family:sans-serif; border-bottom:1px solid rgba(0,0,0,0.05); text-align: right; letter-spacing: 1px;">Gst calculator</a>
         </div>
                 </div>
-            <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+                    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
 
     <script>
         let videoStream = null;
@@ -499,7 +499,6 @@
             document.getElementById('startCamBtn').style.display = 'block';
         }
 
-        // গ্যালারি আপলোড ইঞ্জিন
         function scanQRFromImage(event) {
             let file = event.target.files[0];
             if (!file) return;
@@ -550,7 +549,7 @@
                     bodyText = decodeURIComponent(bodyText);
                 } catch(e) {}
                 
-                let beautifulEmailView = `✉️ <b>Email:</b> <a href="${data}" class="qr-scanned-link">🔗 Send Email</a>\n`;
+                let beautifulEmailView = `✉️ <b>Email:</b> <a href="${data}" target="_blank" class="qr-scanned-link">🔗 Send Email</a>\n`;
                 beautifulEmailView += `📧 <b>To:</b> ${emailAddress}\n`;
                 beautifulEmailView += `📝 <b>Subject:</b> ${subjectText}\n`;
                 beautifulEmailView += `📋 <b>Body:</b>\n${bodyText}`;
@@ -629,4 +628,3 @@
     </script>
 </body>
 </html>
-    
