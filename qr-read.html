@@ -3,8 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium QR Code Reader & Scanner - Pextume</title>
-    <meta name="description" content="Scan your QR codes instantly with Pextume Text Suite. Minimal light mode camera scanner with optimized fast links.">
+    <title>QR Code Scanner</title>
+    <meta name="description" content="Scan any QR code instantly with your device camera or upload an image from your gallery. Free, fast, and secure online QR Code Scanner tool by Pextume.">
+    <meta name="keywords" content="QR Code Scanner, Scan QR Code online, Online QR Reader, Camera QR Scanner, QR Code from Gallery, Pextume Scanner, free qr scanner">
+
+    <meta property="og:site_name" content="Pextume">
+    <meta property="og:title" content="QR Code Scanner">
+    <meta property="og:description" content="Scan any QR code instantly with your device camera or upload an image from your gallery. Fast, free, and secure.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://pextume.in/qr-scan.html">
+
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96"/>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+    <link rel="shortcut icon" href="/favicon.ico"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
+    <meta name="apple-mobile-web-app-title" content="Pextume"/>
+ 
+    <link rel="manifest" href="/site.webmanifest"/>
+    <link rel="canonical" href="https://pextume.in/qr-scan.html"/>
+   
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     
     <style>
@@ -37,22 +54,47 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 85px 20px 40px 20px; 
+            padding: 110px 20px 40px 20px; 
             overflow-x: hidden;
             box-sizing: border-box;
         }
 
+        .main-fixed-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 54px;
+            background-color: #ffffff; 
+            z-index: 99990; 
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+        }
+
         .top-header {
-            position: fixed;  
-            top: 15px;
-            left: 8px;
-            z-index: 9999;
+            width: 100%;
+            height: 100%;  
+            background: linear-gradient(to right, rgba(0, 210, 160, 1) 0%, rgba(0, 210, 160, 0.6) 40%, rgba(255, 255, 255, 0) 85%);
+            pointer-events: none; 
+        }
+
+        .logo-box {
+            position: fixed; 
+            top: 5px;      
+            left: 8px;      
+            z-index: 99999;  
+            background: #000000; 
+            padding: 5px 8px; 
+            border-radius: 12px;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(0, 210, 160, 0.3); 
         }
 
         .brand-logo {
-            width: 130px;
+            width: 120px; 
             height: auto;
             display: block;
+            filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3)); 
         }
 
         .app-container {
@@ -63,6 +105,7 @@
             gap: 10px;
             text-align: center;
             box-sizing: border-box;
+            margin-top: 20px; 
         }
 
         h2 {
@@ -91,6 +134,62 @@
             color: var(--text-muted);
             margin-bottom: 20px;
             line-height: 1.5;
+        }
+
+        .settings-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--light-gray);
+            border: 1px solid var(--border-color);
+            padding: 10px 14px;
+            border-radius: 12px;
+            margin-bottom: 5px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+        }
+
+        .switch input { 
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #cbd5e1;
+            transition: .3s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .3s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--btn-green);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(20px);
         }
 
         .scanner-view-wrapper {
@@ -178,6 +277,7 @@
         .file-upload-wrapper {
             position: relative;
             margin: 10px 0;
+            width: 100%;
         }
 
         .file-upload-btn {
@@ -192,6 +292,9 @@
             font-size: 0.95rem;
             font-weight: 600;
             transition: all 0.2s ease;
+            word-break: break-all; 
+            overflow: hidden; 
+            white-space: pre-wrap; 
         }
 
         .file-upload-btn:hover {
@@ -285,13 +388,25 @@
 </head>
 <body>
 
-    <div class="top-header">
+    <div class="main-fixed-header">
+        <div class="top-header"></div>
+    </div>
+    
+    <div class="logo-box">
         <img src="logo.png" alt="Pextume Logo" class="brand-logo">
     </div>
 
     <div class="app-container">
-        <h2>QR Code Reader</h2>
+        <h2>QR Code Scanner</h2>
         <p>Scan any QR code with your device camera or quickly drop an image here from your device gallery.</p>
+
+        <div class="settings-bar">
+            <span>🔊 Scan Success Beep Sound</span>
+            <label class="switch">
+                <input type="checkbox" id="beepToggle" checked>
+                <span class="slider"></span>
+            </label>
+        </div>
 
         <button class="action-btn" id="startCamBtn" style="background: var(--btn-green);" onmouseover="this.style.background='var(--btn-green-hover)'" onmouseout="this.style.background='var(--btn-green)'" onclick="startCameraScanner()">📷 Start Live Camera Scan</button>
         
@@ -320,14 +435,14 @@
         © 2026 Pextume Utility Network. All Rights Reserved.
     </div>
 
-    <div id="menuBtnWrapper" style="position: fixed; top: 38px; right: 29.5px; z-index: 99999;">
+    <div id="menuBtnWrapper" style="position: fixed; top: 10px; right: 20px; z-index: 999999;">
         <div onclick="event.stopPropagation(); document.getElementById('sideMenu').style.transform='translateX(0)'" 
-             style="cursor:pointer; font-size:35px; color:var(--btn-green); background:none; border:none; line-height:0.6; padding: 5px; font-weight: bold;">
-            ⋮
+             style="cursor:pointer; font-size: 24px; font-weight: 300; color: var(--btn-green); background: none; border: none; line-height: 1; padding: 4px; filter: contrast(150%) drop-shadow(0px 0px 0.3px rgba(0, 210, 160, 0.2));">
+            ☰
         </div>
     </div>
 
-    <div id="sideMenu" style="height:100%; width:270px; position:fixed; z-index:100000; top:0; right:0; background: rgba(255, 255, 255, 0.99); transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); border-top-left-radius: 35px; border-bottom-left-radius: 35px; border-left: 2px solid var(--primary-green); box-shadow: -10px 0 30px rgba(0,0,0,0.08); will-change: transform; overflow-x:hidden;">
+    <div id="sideMenu" style="height:100%; width:270px; position:fixed; z-index:1000000; top:0; right:0; background: rgba(255, 255, 255, 0.99); transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); border-top-left-radius: 35px; border-bottom-left-radius: 35px; border-left: 2px solid var(--primary-green); box-shadow: -10px 0 30px rgba(0,0,0,0.08); will-change: transform; overflow-x:hidden;">
         <a href="javascript:void(0)" onclick="document.getElementById('sideMenu').style.transform='translateX(100%)'" 
            style="position:absolute; top:20px; right:25px; font-size:40px; color:#ef4444; text-decoration:none; font-family:sans-serif;">&times;</a>
         
@@ -335,11 +450,7 @@
             <div style="padding: 0 30px 15px 0; text-align: right; color: var(--primary-green); font-family: sans-serif; font-size: 14px; font-weight: bold; letter-spacing: 2px; opacity: 0.9; text-transform: uppercase;">
                 Other Tools
             </div>
-            <a href="qr.html" style="padding:18px 30px; text-decoration:none; font-size:18px; color:var(--text-main); font-family:sans-serif; border-bottom:1px solid rgba(0,0,0,0.05); text-align: right; letter-spacing: 1px;">QR Generator</a>
-            <a href="age.html" style="padding:18px 30px; text-decoration:none; font-size:18px; color:var(--text-main); font-family:sans-serif; border-bottom:1px solid rgba(0,0,0,0.05); text-align: right; letter-spacing: 1px;">Age calculator</a>
-            <a href="electric.html" style="padding:18px 30px; text-decoration:none; font-size:18px; color:var(--text-main); font-family:sans-serif; border-bottom:1px solid rgba(0,0,0,0.05); text-align: right; letter-spacing: 1px;">Electric calculator</a>
-            <a href="day.html" style="padding:18px 30px; text-decoration:none; font-size:18px; color:#0f172a; font-family:sans-serif; border-bottom:1px solid rgba(0,0,0,0.05); text-align: right; letter-spacing: 1px;">Day counter</a>
-            <a href="https://pextume.in/" style="padding:18px 30px; text-decoration:none; font-size:18px; color:var(--text-main); font-family:sans-serif; border-bottom:1px solid rgba(0,0,0,0.05); text-align: right; letter-spacing: 1px;">Gst calculator</a>
+            <a style="padding:18px 30px; text-decoration:none; font-size:18px; color:var(--text-main); font-family:sans-serif; border-bottom:1px solid rgba(0,0,0,0.05); text-align:right; letter-spacing:1px; cursor:default; pointer-events:none; opacity:0.6;">Coming Soon</a>
         </div>
     </div>
         <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
@@ -358,6 +469,29 @@
                 if (interceptedData) { showScanResult(decodeURIComponent(interceptedData)); }
             }
         });
+
+        function playSuccessBeep() {
+            let beepEnabled = document.getElementById('beepToggle').checked;
+            if (!beepEnabled) return; 
+
+            try {
+                let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                let oscillator = audioCtx.createOscillator();
+                let gainNode = audioCtx.createGain();
+
+                oscillator.type = 'sine'; 
+                oscillator.frequency.setValueAtTime(880, audioCtx.currentTime); 
+
+                gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.15);
+
+                oscillator.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+
+                oscillator.start();
+                oscillator.stop(audioCtx.currentTime + 0.15);
+            } catch (e) { console.log("Audio not supported", e); }
+        }
 
         async function startCameraScanner() {
             document.getElementById('resultPanel').style.display = 'none';
@@ -381,10 +515,6 @@
                         let capabilities = track.getCapabilities();
                         if (capabilities && capabilities.torch) {
                             let flashBtn = document.getElementById('flashToggleBtn');
-                            flashBtn.style.color = "#94a3b8";
-                            flashBtn.style.borderColor = "transparent";
-                            flashBtn.style.background = "transparent";
-                            flashBtn.style.boxShadow = "none";
                             flashBtn.style.display = 'flex';
                         }
                         animationFrameId = requestAnimationFrame(tickCameraFrame);
@@ -409,16 +539,32 @@
             track.applyConstraints({ advanced: [{ torch: isFlashOn }] }).catch(err => {});
         }
 
-        function applyHighContrastFilters(ctx, width, height) {
+        function processAdvancedSmartFilters(ctx, width, height) {
             let imgData = ctx.getImageData(0, 0, width, height);
             let d = imgData.data;
+            
+            let totalLuminance = 0, sampleCount = 0;
+            for (let i = 0; i < d.length; i += 40) {
+                let r = d[i]; let g = d[i+1]; let b = d[i+2];
+                totalLuminance += (0.2126 * r + 0.7152 * g + 0.0722 * b);
+                sampleCount++;
+            }
+            let avgLuminance = totalLuminance / sampleCount;
+            let isDarkBackground = avgLuminance < 120;
+            
             for (let i = 0; i < d.length; i += 4) {
                 let r = d[i]; let g = d[i+1]; let b = d[i+2];
-                if ((g > 140 && r > 140 && b < 100) || (g > 130 && r < 120 && b > 130) || (g > 150 && r < 120 && b < 120)) {
-                    d[i] = 0; d[i+1] = 0; d[i+2] = 0;
+                let colorDiff = Math.abs(r - b); 
+                
+                if (colorDiff > 60) { 
+                    d[i] = d[i+1] = d[i+2] = (r > b) ? 0 : 255; 
                 } else {
                     let v = (0.2126 * r + 0.7152 * g + 0.0722 * b);
-                    d[i] = d[i+1] = d[i+2] = v > 128 ? 255 : 0;
+                    if (isDarkBackground) {
+                        d[i] = d[i+1] = d[i+2] = v > avgLuminance ? 0 : 255;
+                    } else {
+                        d[i] = d[i+1] = d[i+2] = v > 128 ? 255 : 0;
+                    }
                 }
             }
             ctx.putImageData(imgData, 0, 0);
@@ -432,7 +578,9 @@
                 canvas.width = video.videoWidth; canvas.height = video.videoHeight;
                 let ctx = canvas.getContext("2d", { willReadFrequently: true });
                 ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-                applyHighContrastFilters(ctx, canvas.width, canvas.height);
+                
+                processAdvancedSmartFilters(ctx, canvas.width, canvas.height);
+                
                 let imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
                 let code = jsQR(imageData.data, imageData.width, imageData.height, { inversionAttempts: "dontInvert" });
                 
@@ -447,6 +595,7 @@
                     document.getElementById('flashToggleBtn').style.display = 'none'; 
                     document.getElementById('startCamBtn').style.display = 'block';
                     
+                    playSuccessBeep();
                     showScanResult(code.data); 
                     return; 
                 }
@@ -486,7 +635,7 @@
         function scanQRFromImage(event) {
             let file = event.target.files[0];
             if (!file) return;
-            document.getElementById("uploadLabel").innerText = "✓ " + file.name;
+            document.getElementById("uploadLabel").innerHTML = "✓<br>" + file.name;
             stopCameraScanner();
             let reader = new FileReader();
             reader.onload = function(e) {
@@ -496,10 +645,15 @@
                     canvas.width = img.width; canvas.height = img.height;
                     let ctx = canvas.getContext("2d", { willReadFrequently: true });
                     ctx.drawImage(img, 0, 0, img.width, img.height);
-                    applyHighContrastFilters(ctx, canvas.width, canvas.height);
+                    
+                    processAdvancedSmartFilters(ctx, canvas.width, canvas.height);
+                    
                     let imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
                     let code = jsQR(imageData.data, imageData.width, imageData.height);
-                    if (code) { showScanResult(code.data); } 
+                    if (code) { 
+                        playSuccessBeep();
+                        showScanResult(code.data); 
+                    } 
                     else { alert("No valid QR code found in this image!"); document.getElementById('resultPanel').style.display = 'none'; }
                 };
                 img.src = e.target.result;
@@ -507,36 +661,56 @@
             reader.readAsDataURL(file);
         }
 
-        function getNativeAppFormat(url) {
-            let lowerUrl = url.toLowerCase();
-            if (lowerUrl.includes("youtube.com") || lowerUrl.includes("youtu.be")) {
-                let match = url.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/);
-                if (match && match[2].length == 11) { return `vnd.youtube:${match[2]}`; }
-            }
-            if (lowerUrl.includes("facebook.com")) { return `fb://facewebmodal/f?href=${encodeURIComponent(url)}`; }
-            if (lowerUrl.includes("instagram.com")) {
-                let cleanUrl = url.replace(/(^\w+:|^)\/\/(www\.)?instagram\.com\//, "");
-                return `instagram://user?username=${cleanUrl.split('/')[0]}`;
-            }
-            if (lowerUrl.includes("twitter.com") || lowerUrl.includes("x.com")) { return `twitter://url?url=${encodeURIComponent(url)}`; }
-            if (lowerUrl.includes("spotify.com")) { return url.replace("https://open.spotify.com/", "spotify:"); }
-            return url; 
-        }
-
         function parseContactQR(rawText) {
             let data = rawText.trim();
-            if (data.toLowerCase().startsWith("sms:")) {
-                let cleanData = data.substring(4); let parts = cleanData.split('?');
-                let phoneNum = parts[0] || ""; let bodyText = "";
-                if (parts[1] && parts[1].toLowerCase().startsWith("body=")) { bodyText = decodeURIComponent(parts[1].substring(5)); }
-                let prettySmsView = `💬 Sms: <a href="${data}" class="qr-scanned-link">🔗 Open SMS</a><div style="margin-top:6px;font-size:13px;color:#475569;word-break:break-all;">${phoneNum}</div>`;
-                if(bodyText) { prettySmsView += `<div style="font-size:13px;color:#475569;">✉ Msg: ${bodyText}</div>`; }
+            let lowerData = data.toLowerCase();
+            
+            // 🎯 SMS লেআউট: মডার্ন চ্যাট-অ্যালার্ট লোগো (📳) এবং মেসেজে চ্যাট বাবল (💬) ফিক্স করা হলো ভাই
+            if (lowerData.startsWith("sms:") || lowerData.startsWith("smsto:")) {
+                let cleanData = lowerData.startsWith("sms:") ? data.substring(4) : data.substring(6); 
+                let parts = cleanData.split('?');
+                let phoneNum = parts[0] || ""; 
+                let bodyText = "";
+                
+                if (parts[1]) {
+                    let queryParams = new URLSearchParams(parts[1]);
+                    if (queryParams.has('body')) {
+                        bodyText = queryParams.get('body');
+                    }
+                }
+                
+                try { bodyText = decodeURIComponent(bodyText); } catch(e) {}
+                
+                let prettySmsView = `📳 <b>SMS:</b> <a href="sms:${phoneNum}${bodyText ? '?body=' + encodeURIComponent(bodyText) : ''}" class="qr-scanned-link">🔗 Send SMS</a><br>`;
+                prettySmsView += `📱 <b>Number:</b> ${phoneNum}<br>`;
+                if(bodyText) { prettySmsView += `💬 <b>Msg:</b> ${bodyText}`; }
                 return prettySmsView;
             }
-            if (data.toLowerCase().startsWith("tel:")) {
-                let numOnly = data.substring(4).trim();
-                return `📞 Tel: <a href="tel:${numOnly}" class="qr-scanned-link">🔗 Call Number</a><div style="margin-top:6px;font-size:13px;color:#475569;word-break:break-all;">${numOnly}</div>`;
+
+            // 🎯 ইমেল লেআউট:
+            if (lowerData.startsWith("mailto:") || (lowerData.includes("mailto:") && lowerData.includes("body="))) {
+                let cleanData = data;
+                if(lowerData.startsWith("mailto:")) { cleanData = data.substring(7); }
+                let emailAddress = "", subjectText = "No Subject", bodyText = "";
+                let parts = cleanData.split('?'); emailAddress = parts[0] || "";
+                if (parts[1]) {
+                    let queryParams = new URLSearchParams(parts[1]);
+                    if (queryParams.has('subject')) subjectText = queryParams.get('subject');
+                    if (queryParams.has('body')) bodyText = queryParams.get('body');
+                }
+                try {
+                    emailAddress = decodeURIComponent(emailAddress);
+                    subjectText = decodeURIComponent(subjectText);
+                    bodyText = decodeURIComponent(bodyText);
+                } catch(e) {}
+                let beautifulEmailView = `✉️ <b>Email:</b> <a href="${data}" target="_blank" class="qr-scanned-link">🔗 Send Email</a><br>`;
+                beautifulEmailView += `📧 <b>To:</b> ${emailAddress}<br>`;
+                beautifulEmailView += `📝 <b>Subject:</b> ${subjectText}<br>`;
+                beautifulEmailView += `📋 <b>Body:</b><br>${bodyText}`;
+                return beautifulEmailView;
             }
+
+            // 🎯 ভি-কার্ড লেআউট:
             if (data.startsWith("MECARD:") || data.startsWith("BEGIN:VCARD")) {
                 let name = "", org = "", tel = "", email = "";
                 if (data.startsWith("MECARD:")) {
@@ -550,31 +724,66 @@
                     org = org.replace(/;/g, '').trim();
                 }
                 let beautifulView = "";
-                if(name) beautifulView += "👤 Name: " + name + "\n";
-                if(org) beautifulView += "🏢 Company: " + org + "\n";
-                if(tel) beautifulView += `📞 Tel: <a href="tel:${tel.trim()}" class="qr-scanned-link">🔗 Call</a> (${tel})\n`;
-                if(email) beautifulView += `✉ Email: <a href="mailto:${email.trim()}" class="qr-scanned-link">🔗 Email</a> (${email})`;
+                if(name) beautifulView += "👤 <b>Name:</b> " + name + "<br>";
+                if(org) beautifulView += "🏢 <b>Company:</b> " + org + "<br>";
+                if(tel) beautifulView += `📞 <b>Tel:</b> <a href="tel:${tel.trim()}" class="qr-scanned-link">🔗 Call</a> (${tel})<br>`;
+                if(email) beautifulView += `📧 <b>Email:</b> <a href="mailto:${email.trim()}" class="qr-scanned-link">🔗 Email</a> (${email})`;
                 return beautifulView ? beautifulView.trim() : rawText;
             }
-            if (/^\+?[0-9\s\-]{7,15}$/.test(data)) { return `📞 Tel: <a href="tel:${data}" class="qr-scanned-link">🔗 Call Number</a><div style="margin-top:6px;font-size:13px;color:#475569;word-break:break-all;">${data}</div>`; }
-            if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data)) { return `✉ Email: <a href="mailto:${data}" class="qr-scanned-link">🔗 Send Email</a><div style="margin-top:6px;font-size:13px;color:#475569;word-break:break-all;">${data}</div>`; }
-            
-            // 👑 চ্যাট জিপিটির সেই সুপার স্পিড ট্রিক ম্যাজিক কোড ভাই! লিংকের টেক্সট জাস্ট "🔗 Open Link"
-            if (data.startsWith("http://") || data.startsWith("https://")) {
-                let nativeAppUrl = getNativeAppFormat(data);
-                return `<a href="${nativeAppUrl}" target="_blank" class="qr-scanned-link">🔗 Open Link</a><div style="margin-top:6px;font-size:13px;color:#475569;word-break:break-all;">${data}</div>`;
+
+            // 🎯 কল/টেল লেআউট:
+            if (lowerData.startsWith("tel:")) {
+                let numOnly = data.substring(4).trim();
+                return `📞 <b>Tel:</b> <a href="tel:${numOnly}" class="qr-scanned-link">🔗 Call Number</a><br>📱 <b>Number:</b> ${numOnly}`;
             }
+
+            if (/^\+?[0-9\s\-]{7,15}$/.test(data)) {
+                return `📞 <b>Tel:</b> <a href="tel:${data}" class="qr-scanned-link">🔗 Call Number</a><br>📱 <b>Number:</b> ${data}`;
+            }
+
+            if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data)) { return `📧 <b>Email:</b> <a href="mailto:${data}" class="qr-scanned-link">🔗 Send Email</a><br>📧 <b>To:</b> ${data}`; }
+            
+            if (data.startsWith("http://") || data.startsWith("https://")) {
+                return `🌐 <b>Web Link:</b> <a href="${data}" target="_blank" class="qr-scanned-link">🔗 Open Link</a><br>🔗 <b>URL:</b> ${data}`;
+            }
+
+            if (data.length > 0) {
+                return `📝 <b>Text:</b> ${data}`;
+            }
+
             return rawText; 
+        }
+
+        function checkUniversalFallback(data) {
+            let lowerData = data.toLowerCase();
+            if (!lowerData.startsWith("sms:") && !lowerData.startsWith("smsto:") && !lowerData.startsWith("mailto:") && 
+                !data.startsWith("MECARD:") && !data.startsWith("BEGIN:VCARD") && !lowerData.startsWith("tel:") && 
+                !/^\+?[0-9\s\-]{7,15}$/.test(data) && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data) && 
+                !data.startsWith("http://") && !data.startsWith("https://") && data.length > 0) {
+                
+                let displayTitle = "📄 Raw Text";
+                if (lowerData.startsWith("wifi:")) displayTitle = "📶 Wi-Fi Network";
+                else if (lowerData.startsWith("geo:")) displayTitle = "📍 Geolocation";
+                else if (lowerData.includes("t.me/") || lowerData.includes("whatsapp.com")) displayTitle = "📱 Social Link";
+                
+                return `<b>${displayTitle}:</b> ${data}`;
+            }
+            return null;
         }
 
         function showScanResult(data) {
             rawDataForClipboard = data.trim(); 
-            let displayData = parseContactQR(rawDataForClipboard);
+            let fallbackData = checkUniversalFallback(rawDataForClipboard);
+            let displayData = fallbackData ? fallbackData : parseContactQR(rawDataForClipboard);
+            
             document.getElementById('resultText').innerHTML = displayData;
             document.getElementById('resultPanel').style.display = 'block';
             let actBtn = document.getElementById('actionBtn');
+            
             if (rawDataForClipboard.startsWith("http://") || rawDataForClipboard.startsWith("https://")) {
                 actBtn.innerText = "📋 Copy Link URL";
+            } else if (rawDataForClipboard.toLowerCase().startsWith("mailto:") || rawDataForClipboard.toLowerCase().includes("subject=")) {
+                actBtn.innerText = "📋 Copy Clean Email Data";
             } else {
                 actBtn.innerText = "📋 Copy Text to Clipboard";
             }
@@ -584,7 +793,15 @@
             var sideMenu = document.getElementById('sideMenu'); var menuBtn = document.getElementById('menuBtnWrapper');
             if (!sideMenu.contains(event.target) && !menuBtn.contains(event.target)) { sideMenu.style.transform = 'translateX(100%)'; }
         });
-        function handleResultAction() { navigator.clipboard.writeText(rawDataForClipboard); alert("Data successfully copied! 👍"); }
+        
+        function handleResultAction() { 
+            let textToCopy = rawDataForClipboard;
+            if (textToCopy.toLowerCase().startsWith("mailto:")) {
+                try { textToCopy = decodeURIComponent(textToCopy); } catch(e) {}
+            }
+            navigator.clipboard.writeText(textToCopy); 
+            alert("Data successfully copied! 👍"); 
+        }
     </script>
 </body>
-</html>
+    </html>
