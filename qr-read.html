@@ -143,7 +143,8 @@
             font-size: 1rem; font-weight: 600; border-radius: 14px; cursor: pointer; 
             width: 100%; transition: all 0.2s ease; margin-top: 10px; box-shadow: none; outline: none;
         }
-                .upload-loading-overlay {
+
+        .upload-loading-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(15, 23, 42, 0.04); backdrop-filter: blur(0px); z-index: 100000; display: none; align-items: center; justify-content: center;
         }
@@ -282,19 +283,17 @@
         .footer-links-list { list-style: none; display: flex; flex-direction: column; gap: 8px; align-items: start; }
         .footer-links-list li { width: 100%; text-align: left; }
         
-        /* 🎯 ফিক্সড: গ্লোবাল লিংক কালার প্রপার্টি একদম নিরেট লক করা হলো ভাই */
         .footer-links-list li a {
             color: #475569 !important; text-decoration: none !important; font-size: 0.88rem; font-weight: 600;
             transition: color 0.15s, padding-left 0.15s; cursor: pointer; display: inline-block;
             outline: none !important; -webkit-tap-highlight-color: transparent !important;
         }
 
-        /* 🎯 মাস্টার ফিক্স: হোভার (Hover), অ্যাক্টিভ (Active) এবং সবচেয়ে বড় ভিলেন ফোকাস (Focus) তিনটি স্টেটেই সবুজ হওয়া ১০০% লক করে কালার ফিক্সড করে দেওয়া হলো ভাই */
         .footer-links-list li a:hover, 
         .footer-links-list li a:active, 
         .footer-links-list li a:focus,
         .footer-links-list li a:focus-visible { 
-            color: #475569 !important; /* ট্যাপ করার পরেও রঙ বিন্দুমাত্র পাল্টাবে না ভাই */
+            color: #475569 !important; 
             padding-left: 4px; text-decoration: none !important; outline: none !important;
         }
 
@@ -339,19 +338,15 @@
         .info-popup-body-scroller h4 { color: var(--text-main); font-size: 1rem; margin: 16px 0 6px 0; font-weight: 600; }
         .info-popup-body-scroller p { font-size: 0.86rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 12px; text-align: left; }
         .info-popup-body-scroller ol, .info-popup-body-scroller ul { margin-left: 18px; margin-bottom: 12px; font-size: 0.86rem; color: var(--text-muted); }
-        .info-popup-body-scroller li { margin-bottom: 6px; line-height: 1.5; }
-
-        #sideMenu { position:fixed; z-index:2700000; top:0; right:0; background: rgba(255, 255, 255, 0.99); transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); border-top-left-radius: 35px; border-bottom-left-radius: 35px; border-left: 2px solid var(--primary-green); box-shadow: -10px 0 30px rgba(0,0,0,0.08); overflow-x:hidden; }
-    </style>
-</head>
-<body>
+        .info-popup-body-scr
+        <body>
     <div class="main-fixed-header">
         <div class="top-header"></div>
     </div>
     <div class="logo-box">
         <img src="logo.png" alt="Pextume Logo" class="brand-logo">
     </div>
-        <div class="app-container">
+    <div class="app-container">
         <h2>QR Code Scanner</h2>
         <p>Scan any QR code with your device camera or quickly drop an image here from your device gallery.</p>
 
@@ -400,7 +395,7 @@
             <div class="loading-text-label">Scanning...</div>
         </div>
     </div>
-    <div class="history-modal" id="historyModalBox" onclick="closeHistoryModalBox()">
+           <div class="history-modal" id="historyModalBox" onclick="closeHistoryModalBox()">
         <div class="history-modal-content" id="modalMainContentBox" onclick="event.stopPropagation(); executeBlankSpaceMenuClose(event)">
             <div class="history-modal-header">
                 <div class="history-modal-title">🕰️ QR Scanned History</div>
@@ -460,8 +455,8 @@
             <a style="padding:18px 30px; text-decoration:none; font-size:18px; color:var(--text-main); font-family:sans-serif; border-bottom:1px solid rgba(0,0,0,0.05); text-align:right; letter-spacing:1px; opacity:0.6;">Coming Soon</a>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
-        <script>
+            <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+    <script>
         let videoStream = null;
         let animationFrameId = null;
         let scannedData = "";
@@ -506,27 +501,77 @@
                     return;
                 }
             } catch (pErr) {}
+
             document.getElementById('resultPanel').style.display = 'none';
             document.getElementById('imagePreviewPanel').style.display = 'none';
             let container = document.getElementById('videoContainer');
             container.innerHTML = '<video id="scannerVideo" autoplay muted playsinline style="width:100%; height:100%; object-fit:cover;"></video>';
+            
             try {
-                videoStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
+                videoStream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { facingMode: { ideal: "environment" }, width: { ideal: 1280 }, height: { ideal: 720 } } 
+                });
                 let video = document.getElementById('scannerVideo');
                 video.srcObject = videoStream;
+                
                 video.onloadedmetadata = async function() {
                     try {
                         await video.play();
                         document.getElementById('scannerWrapper').style.display = 'block';
                         document.getElementById('startCamBtn').style.display = 'none';
+                        
                         let track = videoStream.getVideoTracks()[0];
                         let capabilities = track.getCapabilities();
-                        if (capabilities && capabilities.torch) { document.getElementById('flashToggleBtn').style.display = 'flex'; }
+                        if (capabilities && capabilities.torch) { 
+                            document.getElementById('flashToggleBtn').style.display = 'flex'; 
+                        } else {
+                            document.getElementById('flashToggleBtn').style.display = 'none';
+                        }
+                        
+                        if (animationFrameId) cancelAnimationFrame(animationFrameId);
                         animationFrameId = requestAnimationFrame(tickCameraFrame);
                     } catch(playErr) {}
                 };
-            } catch (err) { alert("📷 Camera Blocked! Please check your browser settings to Allow camera access."); }
+            } catch (err) { 
+                alert("📷 Camera Blocked or not supported on this device!"); 
+            }
         }
+
+        function stopCameraScanner() {
+            if (animationFrameId) { 
+                cancelAnimationFrame(animationFrameId); 
+                animationFrameId = null; 
+            }
+            if (isFlashOn) {
+                try {
+                    let track = videoStream.getVideoTracks()[0];
+                    track.applyConstraints({ advanced: [{ torch: false }] });
+                } catch(e) {}
+                isFlashOn = false;
+            }
+            if (videoStream) { 
+                videoStream.getTracks().forEach(track => track.stop()); 
+                videoStream = null; 
+            }
+            
+            let wrapper = document.getElementById('scannerWrapper');
+            if(wrapper) wrapper.style.display = 'none';
+            
+            let startBtn = document.getElementById('startCamBtn');
+            if(startBtn) startBtn.style.display = 'block';
+            
+            let flashBtn = document.getElementById('flashToggleBtn');
+            if(flashBtn) flashBtn.style.display = 'none';
+            
+            let container = document.getElementById('videoContainer');
+            if(container) container.innerHTML = '';
+        }
+
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                stopCameraScanner();
+            }
+        });
 
         function executeInstantTorchToggle(event) {
             if (!videoStream) return;
@@ -543,7 +588,7 @@
             }
             track.applyConstraints({ advanced: [{ torch: isFlashOn }] }).catch(err => {});
         }
-                        /* 🎯 ওরিজিনাল স্মার্ট ফিল্টার: তোমার অরিজিনাল লুপকে একদম ১০০% অক্ষত রাখা হলো ভাই */
+
         function processAdvancedSmartFilters(ctx, width, height) {
             let imgData = ctx.getImageData(0, 0, width, height);
             let d = imgData.data;
@@ -567,20 +612,46 @@
             ctx.putImageData(imgData, 0, 0);
         }
 
-             /* 🚀 চূড়ান্ত সিকোয়েন্স ইঞ্জিন: আগে লোডিং চাকা বন্ধ হবে, তারপর টিক সাউন্ড বাজবে এবং সাথে সাথে রেজাল্ট দেখাবে ভাই! */
+        function tickCameraFrame() {
+            let video = document.getElementById('scannerVideo');
+            if (video && video.readyState === video.HAVE_ENOUGH_DATA) {
+                let canvas = document.createElement("canvas");
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                let ctx = canvas.getContext("2d", { willReadFrequently: true });
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                
+                let imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                let code = jsQR(imgData.data, imgData.width, imgData.height, { inversionAttempts: "attemptBoth" });
+                
+                if (!code) {
+                    processAdvancedSmartFilters(ctx, canvas.width, canvas.height);
+                    let filteredData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                    code = jsQR(filteredData.data, filteredData.width, filteredData.height, { inversionAttempts: "attemptBoth" });
+                }
+
+                if (code && code.data) {
+                    playSuccessBeep();
+                    stopCameraScanner();
+                    showScanResult(code.data, "", "Live_Camera_Scan.jpg");
+                    return;
+                }
+            }
+            if (videoStream) {
+                animationFrameId = requestAnimationFrame(tickCameraFrame);
+            }
+        }
+
         function scanQRFromImage(event) {
             let file = event.target.files[0]; if (!file) return;
             document.getElementById("uploadLabel").innerHTML = "📁 Choose QR Image from Gallery";
             
             let loadingOverlay = document.getElementById('uploadLoadingOverlay'); 
-            loadingOverlay.style.display = 'flex'; // ১. লোডিং চাকা শুরু
+            loadingOverlay.style.display = 'flex'; 
 
             if (animationFrameId) { cancelAnimationFrame(animationFrameId); animationFrameId = null; }
-            if (isFlashOn) { executeInstantHardwareTorchOff(); }
-            if (videoStream) { videoStream.getTracks().forEach(track => track.stop()); videoStream = null; }
+            if (videoStream) { stopCameraScanner(); }
             
-            let uniqueScanToken = Date.now();
-
             setTimeout(async () => {
                 let reader = new FileReader();
                 reader.onload = async function(e) {
@@ -593,7 +664,6 @@
 
                         let codeData = null;
 
-                        // 🔍 ধাপ ১: হার্ডওয়্যার বারকোড ডিটেক্টর
                         try {
                             if ('BarcodeDetector' in window) {
                                 const detector = new BarcodeDetector({ formats: ['qr_code'] });
@@ -604,67 +674,44 @@
                             }
                         } catch (err) {}
 
-                        // 🔍 ধাপ ২: লেয়ার ১ - কাঁচা র-ইমেজে attemptBoth স্ক্যান (সবুজ/রঙিন কোড)
                         if (!codeData) {
                             let rawImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
                             let code = jsQR(rawImageData.data, rawImageData.width, rawImageData.height, { inversionAttempts: "attemptBoth" });
                             if (code && code.data) codeData = code.data;
                         }
 
-                        // 🔍 ধাপ ৩: লেয়ার ২ - পেপার কোডের জন্য শার্প ফিল্টার
                         if (!codeData) {
                             ctx.drawImage(img, 0, 0, img.width, img.height);
-                            let imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                            
-                            if (typeof processAdvancedSmartFilters === 'function') {
-                                processAdvancedSmartFilters(ctx, canvas.width, canvas.height);
-                            } else {
-                                let d = imageData.data;
-                                for (let i = 0; i < d.length; i += 4) {
-                                    let gray = Math.round(0.2126 * d[i] + 0.7152 * d[i+1] + 0.0722 * d[i+2]);
-                                    let c = (gray > 130) ? 255 : 0;
-                                    d[i] = d[i+1] = d[i+2] = c;
-                                }
-                                ctx.putImageData(imageData, 0, 0);
-                            }
-                            
+                            processAdvancedSmartFilters(ctx, canvas.width, canvas.height);
                             let filteredData = ctx.getImageData(0, 0, canvas.width, canvas.height);
                             let codeFiltered = jsQR(filteredData.data, filteredData.width, filteredData.height, { inversionAttempts: "attemptBoth" });
                             if (codeFiltered && codeFiltered.data) codeData = codeFiltered.data;
                         }
 
-                        // 🔍 ধাপ ৪: লেয়ার ৩ - ইনভার্টেড ফ্লিপ ব্যাকআপ
                         if (!codeData) {
                             ctx.drawImage(img, 0, 0, img.width, img.height);
                             let rawImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
                             let d = rawImageData.data;
                             for (let i = 0; i < d.length; i += 4) {
-                                d[i] = 255 - d[i]; 
-                                d[i+1] = 255 - d[i+1]; 
-                                d[i+2] = 255 - d[i+2];
+                                d[i] = 255 - d[i]; d[i+1] = 255 - d[i+1]; d[i+2] = 255 - d[i+2];
                             }
                             ctx.putImageData(rawImageData, 0, 0);
                             let codeInverted = jsQR(rawImageData.data, rawImageData.width, rawImageData.height, { inversionAttempts: "attemptBoth" });
                             if (codeInverted && codeInverted.data) codeData = codeInverted.data;
                         }
 
-                        if (codeData) { 
-                            // 🎯 নিখুঁت সিকোয়েন্স: সবার আগে লোডিং চাকা চিরতরে বন্ধ হবে!
-                            loadingOverlay.style.display = 'none'; 
+                        loadingOverlay.style.display = 'none';
 
-                            // চাকা বন্ধ হওয়ার সাথে সাথেই টিক সাউন্ড বাজবে এবং রেজাল্ট দেখাবে
+                        if (codeData) { 
                             playSuccessBeep(); 
-                            let finalImgSrc = e.target.result || null;
+                            let finalImgSrc = e.target.result || "";
                             let finalFileName = file.name || "Scanned_QR.jpg";
                             let parsedDisplay = parseContactQR(codeData.trim());
                             
-                            saveScanToLocalStorageHistory(parsedDisplay, codeData.trim() + " (Scan #" + uniqueScanToken + ")", finalImgSrc, finalFileName);
-                            renderMainDashboardResultPanel(parsedDisplay, finalImgSrc, finalFileName);
+                            showScanResult(codeData.trim(), finalImgSrc, finalFileName);
                             rawDataForClipboard = codeData.trim();
                         } else { 
-                            // যদি কোড না পাওয়া যায়, তবেই কেবল লোডিং বন্ধ করে অ্যালার্ট দেবে
-                            loadingOverlay.style.display = 'none';
-                            alert("No valid QR code found in this image! The print or color contrast is too degraded."); 
+                            alert("No valid QR code found in this image!"); 
                             document.getElementById('resultPanel').style.display = 'none'; 
                             document.getElementById('imagePreviewPanel').style.display = 'none'; 
                         }
@@ -672,7 +719,8 @@
                     img.src = e.target.result;
                 };
                 reader.readAsDataURL(file);
-            }, 50); // ডিলে একদম কমিয়ে ৫০ মিলিিসেকেন্ড করে দেওয়া হলো
+                event.target.value = '';
+            }, 50);
         }
                       const tagTranslationMap = { "N": "Name", "FN": "Full Name", "TEL": "Telephone", "EMAIL": "Email", "ADR": "Address", "ORG": "Organization", "TITLE": "Title", "URL": "Website", "NOTE": "Note", "BDAY": "Birthday" };
 
@@ -728,30 +776,66 @@
 
         function saveScanToLocalStorageHistory(parsedContent, rawCleanText, imgSrc, fileName) {
             try {
-                let historyData = localStorage.getItem('pextume_qr_history'); let historyArray = historyData ? JSON.parse(historyData) : []; let now = new Date();
-                let dateStr = now.toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' }); let timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }); let fullTimestamp = `${dateStr} at ${timeStr}`;
-                historyArray.unshift({ id: Date.now() + Math.random().toString(36).substr(2, 5), timestamp: fullTimestamp, content: parsedContent, rawText: rawCleanText, imgSrc: imgSrc || null, fileName: fileName || null });
-                if(historyArray.length > 50) { historyArray.pop(); } localStorage.setItem('pextume_qr_history', JSON.stringify(historyArray));
-            } catch(e) {}
+                let historyData = localStorage.getItem('pextume_qr_history'); 
+                let historyArray = historyData ? JSON.parse(historyData) : []; 
+                let now = new Date();
+                let dateStr = now.toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' }); 
+                let timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }); 
+                let fullTimestamp = `${dateStr} at ${timeStr}`;
+                
+                let uniqueTokenTag = "<!-- id_" + Date.now() + "_" + Math.random().toString(36).substr(2, 4) + " -->";
+                let finalFormattedContent = (typeof parsedContent === 'string' ? parsedContent : "Scanned Content") + uniqueTokenTag;
+                let uniqueForcedId = "id_" + Date.now() + "_" + Math.floor(Math.random() * 1000000);
+                
+                let cleanRaw = rawCleanText ? rawCleanText.split(' [Scan ID:')[0].trim() : "Scanned Data";
+                let uniqueRawText = cleanRaw + " [Scan ID:" + Date.now() + "_" + Math.floor(Math.random() * 99999) + "]";
+
+                historyArray.unshift({ 
+                    id: uniqueForcedId, 
+                    timestamp: fullTimestamp, 
+                    content: finalFormattedContent, 
+                    rawText: uniqueRawText, 
+                    imgSrc: imgSrc || "", 
+                    fileName: fileName || "Scanned QR Image" 
+                });
+                
+                if(historyArray.length > 50) { historyArray.pop(); } 
+                
+                localStorage.setItem('pextume_qr_history', JSON.stringify(historyArray));
+            } catch(err) {
+                console.log("Storage error: ", err);
+            }
         }
 
         function showScanResult(data, imgSrc, fileName) {
-            rawDataForClipboard = data.trim(); let displayData = parseContactQR(rawDataForClipboard);
-            saveScanToLocalStorageHistory(displayData, rawDataForClipboard, imgSrc, fileName); renderMainDashboardResultPanel(displayData, imgSrc, fileName);
+            rawDataForClipboard = data.trim(); 
+            let displayData = parseContactQR(rawDataForClipboard);
+            let finalImage = imgSrc || "";
+            let finalFileName = fileName || "Scanned_QR.jpg";
+            
+            saveScanToLocalStorageHistory(displayData, rawDataForClipboard, finalImage, finalFileName); 
+            renderMainDashboardResultPanel(displayData, finalImage, finalFileName);
         }
 
-        /* 🎯 এরর ফিক্সড ভাই: বোতামের কালার ডার্ক স্লেট ব্লু থাকবে এবং কপি করার আসল ফাংশনটি ১০০% রিস্টোর করা হলো */
         function renderMainDashboardResultPanel(displayData, imgSrc, fileName) {
-            if (imgSrc && fileName) { document.getElementById('previewImgElement').src = imgSrc; document.getElementById('previewFileNameText').innerText = fileName; document.getElementById('imagePreviewPanel').style.display = 'flex'; } else { document.getElementById('imagePreviewPanel').style.display = 'none'; }
+            if (imgSrc && imgSrc.trim() !== "") { 
+                document.getElementById('previewImgElement').src = imgSrc; 
+                document.getElementById('previewFileNameText').innerText = fileName || "Scanned_QR.jpg"; 
+                document.getElementById('imagePreviewPanel').style.display = 'flex'; 
+            } else { 
+                document.getElementById('imagePreviewPanel').style.display = 'none'; 
+            }
             
             const actionBtn = document.getElementById('actionBtn');
             actionBtn.innerText = "📋 Copy Text to Clipboard";
             actionBtn.style.background = "#475569";
             actionBtn.style.color = "#ffffff";
             
-            document.getElementById('resultText').innerHTML = displayData; document.getElementById('resultPanel').style.display = 'block';
+            document.getElementById('resultText').innerHTML = displayData; 
+            document.getElementById('resultPanel').style.display = 'block';
         }
-                function handleResultAction() {
+
+        function handleResultAction() {
             if (!rawDataForClipboard) return;
             navigator.clipboard.writeText(rawDataForClipboard).then(() => {
                 const actionBtn = document.getElementById('actionBtn');
@@ -813,4 +897,4 @@
         document.addEventListener('click', function(event) { var sideMenu = document.getElementById('sideMenu'); var menuBtn = document.getElementById('menuBtnWrapper'); if (sideMenu && !sideMenu.contains(event.target) && !menuBtn.contains(event.target)) { sideMenu.style.transform = 'translateX(100%)'; } });
     </script>
 </body>
-</html>                          
+</html>      
