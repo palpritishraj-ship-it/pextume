@@ -14,7 +14,7 @@
     <link rel="canonical" href="https://pextume.in/qr-scan.html"/>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     
- <style>
+<style>
         :root {
             --bg-color: #ffffff;
             --text-main: #0f172a;
@@ -95,9 +95,9 @@
         @keyframes spinCircular { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         .loading-text-label { font-size: 0.95rem; font-weight: 600; color: var(--text-main); letter-spacing: 0.3px; text-transform: uppercase; }
         
-        /* 🛠️ History Modal Content (margin-top যোগ করা হয়েছে) */
+        /* 🛠️ History Modal Content (বড় সাইজ ও লোগো বারের ঠিক নিচে নামানোর জন্য margin-top ও height ফিক্সড) */
         .history-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.04); backdrop-filter: blur(0px); z-index: 100000; display: none; align-items: center; justify-content: center; padding: 16px; }
-        .history-modal-content { background: #ffffff; width: 100%; max-width: 395px; border-radius: 28px; padding: 22px; box-shadow: 0 25px 55px rgba(15, 23, 25, 0.15); display: flex; flex-direction: column; max-height: 82vh; margin-top: 25px; border: 2.5px solid var(--primary-green); animation: modalScale 0.28s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .history-modal-content { background: #ffffff; width: 100%; max-width: 440px; border-radius: 28px; padding: 22px; box-shadow: 0 25px 55px rgba(15, 23, 25, 0.15); display: flex; flex-direction: column; max-height: 75vh; margin-top: 45px; border: 2.5px solid var(--primary-green); animation: modalScale 0.28s cubic-bezier(0.34, 1.56, 0.64, 1); }
         
         @keyframes modalScale { from { transform: scale(0.92) translateY(12px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
         .history-modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px dashed var(--border-color); padding-bottom: 12px; }
@@ -133,11 +133,11 @@
         .footer-divider-line { width: 100%; max-width: 420px; margin: 25px auto 15px auto; border: 0; border-top: 1.5px solid var(--border-color); }
         .footer-bottom-copyright-bar { width: 100%; max-width: 420px; margin: 0 auto; text-align: center; font-size: 0.82rem; color: #94a3b8; font-weight: 500; letter-spacing: 0.2px; white-space: nowrap !important; display: block; overflow: hidden; text-overflow: clip; }
         
-        /* 🛠️ Info Popup Content Card (margin-top যোগ করা হয়েছে) */
-        .info-popup-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.04); backdrop-filter: blur(0px); z-index: 100000; display: none; align-items: center; justify-content: center; padding: 20px; }
-        .info-popup-content-card { background: #ffffff; width: 100%; max-width: 480px; border-radius: 24px; padding: 24px; box-shadow: 0 25px 60px rgba(15, 23, 25, 0.15); border: 2.5px solid var(--primary-green); display: flex; flex-direction: column; max-height: 85vh; margin-top: 25px; }
+        /* 🛠️ Info Popup Content Card (বড় সাইজ, পূর্ণাঙ্গ বড় লেখা এবং লোগো বারের নিচে নামানোর জন্য margin-top ও height ফিক্সড) */
+        .info-popup-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.04); backdrop-filter: blur(0px); z-index: 100000; display: none; align-items: center; justify-content: center; padding: 16px; }
+        .info-popup-content-card { background: #ffffff; width: 100%; max-width: 440px; border-radius: 28px; padding: 22px; box-shadow: 0 25px 60px rgba(15, 23, 25, 0.15); border: 2.5px solid var(--primary-green); display: flex; flex-direction: column; max-height: 75vh; margin-top: 45px; }
         
-        .info-popup-body-scroller { flex: 1; overflow-y: auto; margin: 15px 0; padding-right: 4px; text-align: left; }
+        .info-popup-body-scroller { flex: 1; overflow-y: auto; margin: 12px 0; padding-right: 4px; text-align: left; }
         .info-popup-body-scroller h4 { color: var(--text-main); font-size: 1rem; margin: 16px 0 6px 0; font-weight: 600; }
         .info-popup-body-scroller p { font-size: 0.86rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 12px; text-align: left; }
         #sideMenu {
