@@ -7,14 +7,12 @@
     <meta name="description" content="Scan any QR code instantly with your device camera or upload an image from your gallery. Free, fast, and secure online QR Code Scanner tool by Pextume.">
     <meta name="keywords" content="QR Code Scanner, Scan QR Code online, Online QR Reader, Camera QR Scanner, QR Code from Gallery, Pextume Scanner, free qr scanner">
 
-   
     <meta property="og:site_name" content="Pextume">
     <meta property="og:title" content="QR Code Scanner">
     <meta property="og:description" content="Scan any QR code instantly with your device camera or upload an image from your gallery. Fast, free, and secure.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://pextume.in/qr-scan.html">
 
-  
     <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="shortcut icon" href="/favicon.ico" />
@@ -22,12 +20,10 @@
     <meta name="apple-mobile-web-app-title" content="Pextume" />
  
     <link rel="manifest" href="/site.webmanifest" />
-  
-   <link rel="canonical" href="https://pextume.in/qr-scan.html"/>
+    <link rel="canonical" href="https://pextume.in/qr-scan.html"/>
 
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    
-   <style>
+        <style>
         :root {
             --bg-color: #ffffff;
             --text-main: #0f172a;
@@ -53,11 +49,10 @@
         .top-menu-wrapper-fixed { position: fixed; top: 10px; right: 20px; z-index: 2600000; }
         .app-container { width: 100%; max-width: 420px; display: flex; flex-direction: column; gap: 10px; text-align: center; box-sizing: border-box; margin-top: 20px; flex: none; margin-bottom: 0px; padding-bottom: 0px; }
         h2 { color: var(--btn-green); font-family: 'Montserrat', sans-serif; font-size: 26px; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .mid-section-header-container { display: flex; justify-content: space-between; align-items: center; margin: 25px 0 5px 0; border-bottom: 1.5px solid var(--border-color); padding-bottom: 5px; width: 100%; }
+                .mid-section-header-container { display: flex; justify-content: space-between; align-items: center; margin: 25px 0 5px 0; border-bottom: 1.5px solid var(--border-color); padding-bottom: 5px; width: 100%; }
         .mid-section-title { font-size: 11px; color: #b45309; text-transform: uppercase; font-weight: 600; letter-spacing: 1px; }
-        .mid-history-btn { font-size: 11px; color: var(--link-blue); font-weight: 600; text-transform: uppercase; cursor: pointer; letter-spacing: 0.5px; background: #f0fdf4; padding: 3px 10px; border-radius: 12px; border: 1px solid rgba(0, 210, 160, 0.2); transition: all 0.2s ease; display: flex; align-items: center; gap: 4px; }
-        .mid-history-btn:hover { background: #dcfce7; transform: translateY(-1px); }
-        p { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 20px; line-height: 1.5; }
+        .mid-history-btn { font-size: 11px; color: var(--link-blue); font-weight: 600; text-transform: uppercase; cursor: pointer; letter-spacing: 0.5px; background: #f0fdf4; padding: 3px 10px; border-radius: 12px; border: 1px solid rgba(0, 210, 160, 0.2); transition: none; display: flex; align-items: center; gap: 4px; }
+        .mid-history-btn:hover, .mid-history-btn:active { background: #f0fdf4; transform: none; }
         .settings-bar { display: flex; align-items: center; justify-content: space-between; background: var(--light-gray); border: 1px solid var(--border-color); padding: 10px 14px; border-radius: 12px; margin-bottom: 5px; font-size: 0.85rem; color: #475569; font-weight: 600; }
         .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
         .switch input { opacity: 0; width: 0; height: 0; }
@@ -73,7 +68,7 @@
             position: absolute; bottom: 14px; left: 50%; transform: translateX(-50%); z-index: 15;
             background: var(--primary-green); color: #ffffff; border: none; padding: 7px 18px;
             font-size: 0.85rem; font-weight: 700; border-radius: 20px; cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0, 210, 160, 0.35); display: flex; align-items: center; gap: 5px;
+            box-shadow: 0 4px 12px rgba(0, 210, 160, 0.35); display: none; align-items: center; gap: 5px;
             touch-action: manipulation; transition: transform 0.1s; text-shadow: 0 1px 2px rgba(0,0,0,0.3);
         }
         .snap-shutter-btn:active { transform: translateX(-50%) scale(0.95); }
@@ -90,8 +85,7 @@
 
         .flash-btn-overlay { position: absolute; top: 15px; right: 15px; z-index: 10; background: rgba(0,0,0,0.3); border: 2px solid transparent; color: #94a3b8; width: 44px; height: 44px; border-radius: 50%; font-size: 1.5rem; display: none; align-items: center; justify-content: center; cursor: pointer; text-shadow: 0 2px 4px rgba(0,0,0,0.5); touch-action: manipulation; }
         .stop-btn-overlay { position: absolute; top: 15px; left: 15px; z-index: 10; background: rgba(0,0,0,0.3) !important; border: none !important; color: #ffffff; width: 44px; height: 44px; border-radius: 50%; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; cursor: pointer; text-shadow: 0 2px 4px rgba(0,0,0,0.6); touch-action: manipulation; }
-
-        .file-upload-wrapper { position: relative; margin: 10px 0; width: 100%; }
+                .file-upload-wrapper { position: relative; margin: 10px 0; width: 100%; }
         .file-upload-btn { display: block; text-align: center; background: var(--light-gray); border: 2.5px dashed var(--btn-green); color: var(--text-main); padding: 14px; border-radius: 14px; cursor: pointer; font-size: 0.95rem; font-weight: 600; transition: all 0.2s ease; }
         .file-upload-btn:hover { background: #f1f5f9; box-shadow: 0 0 12px rgba(0, 210, 160, 0.15); }
         .file-upload-wrapper input[type="file"] { position: absolute; left: 0; top: 0; opacity: 0; width: 100%; height: 100%; cursor: pointer; }
@@ -108,18 +102,16 @@
         @keyframes spinCircular { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         .loading-text-label { font-size: 0.95rem; font-weight: 600; color: var(--text-main); letter-spacing: 0.3px; text-transform: uppercase; }
         
-        /* 🛠️ History Modal Content (বড় সাইজ ও লোগো বারের ঠিক নিচে নামানোর জন্য margin-top ও height ফিক্সড) */
         .history-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.04); backdrop-filter: blur(0px); z-index: 100000; display: none; align-items: center; justify-content: center; padding: 16px; }
-        .history-modal-content { background: #ffffff; width: 100%; max-width: 440px; border-radius: 28px; padding: 22px; box-shadow: 0 25px 55px rgba(15, 23, 25, 0.15); display: flex; flex-direction: column; max-height: 75vh; margin-top: 45px; border: 2.5px solid var(--primary-green); animation: modalScale 0.28s cubic-bezier(0.34, 1.56, 0.64, 1); }
-        
-        @keyframes modalScale { from { transform: scale(0.92) translateY(12px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
-        .history-modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px dashed var(--border-color); padding-bottom: 12px; }
+        .history-modal-content { background: #ffffff; width: 100%; max-width: 440px; border-radius: 28px; padding: 22px; box-shadow: 0 25px 55px rgba(15, 23, 25, 0.15); display: flex; flex-direction: column; max-height: 75vh; margin-top: 45px; border: 2.5px solid var(--primary-green); }
+                .history-modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px dashed var(--border-color); padding-bottom: 12px; }
         .history-modal-title { font-size: 1.15rem; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 8px; }
         .history-count-badge { background: #f0fdf4; color: var(--btn-green); border: 1px solid rgba(0, 210, 160, 0.3); font-size: 0.75rem; font-weight: 700; padding: 2px 8px; border-radius: 10px; margin-left: 6px; }
         .history-close-btn { font-size: 20px; color: #64748b; cursor: pointer; background: #f1f5f9; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; transition: background 0.2s, color 0.2s; outline: none; }
         .history-close-btn:hover { color: var(--text-main); background: #e2e8f0; }
         .history-close-btn:active { background: #cbd5e1; color: var(--text-main); }
-        .history-list-container { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding-right: 2px; }
+        .history-list-container { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding-right: 2px; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+        .history-list-container::-webkit-scrollbar { display: none; }
         .history-card { background: #ffffff; border: 1px solid #f1f5f9; border-radius: 16px; padding: 14px; position: relative; display: flex; flex-direction: column; gap: 4px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.01); }
         .history-card:hover { border-color: rgba(0, 210, 160, 0.2); }
         .history-card-top-meta { display: flex; justify-content: space-between; align-items: center; width: 100%; position: relative;}
@@ -145,77 +137,20 @@
         .footer-links-list li a { color: #475569 !important; text-decoration: none !important; font-size: 0.88rem; font-weight: 600; cursor: pointer; display: inline-block; }
         .footer-divider-line { width: 100%; max-width: 420px; margin: 25px auto 15px auto; border: 0; border-top: 1.5px solid var(--border-color); }
         .footer-bottom-copyright-bar { width: 100%; max-width: 420px; margin: 0 auto; text-align: center; font-size: 0.82rem; color: #94a3b8; font-weight: 500; letter-spacing: 0.2px; white-space: nowrap !important; display: block; overflow: hidden; text-overflow: clip; }
-        
-        /* 🛠️ Info Popup Content Card (বড় সাইজ, পূর্ণাঙ্গ বড় লেখা এবং লোগো বারের নিচে নামানোর জন্য margin-top ও height ফিক্সড) */
         .info-popup-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.04); backdrop-filter: blur(0px); z-index: 100000; display: none; align-items: center; justify-content: center; padding: 16px; }
         .info-popup-content-card { background: #ffffff; width: 100%; max-width: 440px; border-radius: 28px; padding: 22px; box-shadow: 0 25px 60px rgba(15, 23, 25, 0.15); border: 2.5px solid var(--primary-green); display: flex; flex-direction: column; max-height: 75vh; margin-top: 45px; }
-        
-              .info-popup-body-scroller { 
-            flex: 1; 
-            overflow-y: auto; 
-            margin: 12px 0; 
-            padding-right: 4px; 
-            text-align: left; 
-            scrollbar-width: none;     /* Firefox-এর জন্য স্ক্রলবার হাইড */
-            -ms-overflow-style: none;  /* IE এবং পুরনো Edge-এর জন্য স্ক্রলবার হাইড */
-        }
-
-        /* ক্রোম, সাফারি ও অন্যান্য ব্রাউজারের জন্য ডিসক্লেইমার বক্সের স্ক্রলবার বা লাইন পুরোপুরি হাইড */
-        .info-popup-body-scroller::-webkit-scrollbar {
-            display: none; 
-        }
-
-        .info-popup-body-scroller h4 { 
-            color: var(--text-main); 
-            font-size: 1rem; 
-            margin: 16px 0 6px 0; 
-            font-weight: 600; 
-        }
-        
-        .info-popup-body-scroller p { 
-            font-size: 0.86rem; 
-            color: var(--text-muted); 
-            line-height: 1.6; 
-            margin-bottom: 12px; 
-            text-align: left; 
-        }
+        .info-popup-body-scroller { flex: 1; overflow-y: auto; margin: 12px 0; padding-right: 4px; text-align: left; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+        .info-popup-body-scroller::-webkit-scrollbar { display: none; }
+        .info-popup-body-scroller h4 { color: var(--text-main); font-size: 1rem; margin: 16px 0 6px 0; font-weight: 600; }
+        .info-popup-body-scroller p { font-size: 0.86rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 12px; text-align: left; }
         #sideMenu {
-            position: fixed; 
-            z-index: 2700000; 
-            top: 0; 
-            bottom: 0; /* ওপর থেকে নিচ পর্যন্ত একদম পিন্ট করে আটকে রাখবে */
-            right: 0;
-            width: 270px;
-            height: 100%; /* শতভাগ ফিক্সড উচ্চতা */
-            background: rgba(255, 255, 255, 0.99);
-            transform: translateX(100%); 
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border-top-left-radius: 35px; 
-            border-bottom-left-radius: 35px;
-            border-left: 2px solid var(--primary-green); 
-            box-shadow: -15px 0 40px rgba(0,0,0,0.12);
-            overflow-y: auto; 
-            display: flex;
-            flex-direction: column;
-            -webkit-overflow-scrolling: touch; /* মোবাইলে স্মুথ স্ক্রোলিংয়ের জন্য */
-            scrollbar-width: none;     /* Firefox-এর জন্য স্ক্রলবার হাইড */
-            -ms-overflow-style: none;  /* IE এবং পুরনো Edge-এর জন্য স্ক্রলবার হাইড */
+            position: fixed; z-index: 2700000; top: 0; bottom: 0; right: 0; width: 270px; height: 100%;
+            background: rgba(255, 255, 255, 0.99); transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-top-left-radius: 35px; border-bottom-left-radius: 35px; border-left: 2px solid var(--primary-green);
+            box-shadow: -15px 0 40px rgba(0,0,0,0.12); overflow-y: auto; display: flex; flex-direction: column;
+            -webkit-overflow-scrolling: touch; scrollbar-width: none; -ms-overflow-style: none;
         }
-
-        /* ক্রোম, সাফারি ও অন্যান্য ব্রাউজারের জন্য সাইড মেনুর স্ক্রলবার বা লাইন পুরোপুরি হাইড */
-        #sideMenu::-webkit-scrollbar {
-            display: none;
-        }
-    .history-list-container{
-    scrollbar-width:none;
-    -ms-overflow-style:none;
-    overscroll-behavior:contain;
-    -webkit-overflow-scrolling:touch;
-}
-
-.history-list-container::-webkit-scrollbar{
-    display:none;
-}
+        #sideMenu::-webkit-scrollbar { display: none; }
     </style>
 </head>
 <body>
@@ -230,9 +165,8 @@
         </div>
         <button class="action-btn" id="startCamBtn" onclick="startCameraScanner()">📷 Start Live Camera Scan</button>
         <div class="scanner-view-wrapper" id="scannerWrapper">
-            <!-- সেন্ট্রড ও সুন্দর সাইজের লো-লাইট অ্যালার্ট ব্যাজ -->
             <div class="low-light-alert-badge" id="lowLightAlertBadge">⚠️ Low Light! Tap Flash ⚡</div>
-            <button class="snap-shutter-btn" onpointerdown="captureAndScanCameraSnapshot(event)">📸 Snap & Scan</button>
+            <button class="snap-shutter-btn" id="snapShutterBtn" onpointerdown="captureAndScanCameraSnapshot(event)">📸 Snap & Scan</button>
             <div class="stop-btn-overlay" id="stopCamOverlayBtn" onclick="stopCameraScanner()">✕</div>
             <div class="flash-btn-overlay" id="flashToggleBtn" onpointerdown="executeInstantTorchToggle(event)">⚡</div>
             <div id="videoContainer" style="width:100%; height:100%;"></div>
@@ -255,10 +189,10 @@
             <button class="action-btn" id="actionBtn" onclick="handleResultAction()">📋 Copy Text to Clipboard</button>
         </div>
     </div>
-        <div class="upload-loading-overlay" id="uploadLoadingOverlay">
+    <div class="upload-loading-overlay" id="uploadLoadingOverlay" style="display: none;">
         <div class="loading-spinner-card">
             <div class="spinner-circle-logo"></div>
-            <div class="loading-text-label">Scanning...</div>
+            <div class="loading-text-label" id="loadingTextLabel">Scanning...</div>
         </div>
     </div>
     <div class="history-modal" id="historyModalBox" onclick="closeHistoryModalBox()">
@@ -271,7 +205,7 @@
             <button class="clear-history-btn" id="clearHistoryBtn" onclick="executeClearAllHistory()">🗑️ Clear All History</button>
         </div>
     </div>
-    <footer class="pextume-premium-footer">
+        <footer class="pextume-premium-footer">
         <div class="footer-grid-layout">
             <div class="footer-column-box">
                 <h3 class="footer-brand-title">PEXTUME</h3>
@@ -316,12 +250,14 @@
             <a style="padding:18px 30px; text-decoration:none; font-size:18px; color:var(--text-main); font-family:sans-serif; border-bottom:1px solid rgba(0,0,0,0.05); text-align:right; letter-spacing:1px; opacity:0.6;">Coming Soon</a>
         </div>
     </div>
-        <script src="https://cdn.jsdelivr.net/npm/jsQR@1.4.0/dist/jsQR.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/jsQR@1.4.0/dist/jsQR.min.js"></script>
     <script>
         let videoStream = null;
         let rawDataForClipboard = ""; 
         let isFlashOn = false; 
         let lowLightCheckInterval = null;
+        let focusCheckInterval = null;
 
         window.addEventListener('DOMContentLoaded', (event) => {
             let urlParams = new URLSearchParams(window.location.search);
@@ -330,8 +266,7 @@
                 if (interceptedData) { showScanResult(decodeURIComponent(interceptedData), null, null); }
             }
         });
-
-        function executeBlankSpaceMenuClose(event) {
+                function executeBlankSpaceMenuClose(event) {
             if (!event.target.classList.contains('history-three-dot-btn')) {
                 let allDropdowns = document.querySelectorAll('.history-action-dropdown-menu');
                 allDropdowns.forEach(menu => menu.style.display = 'none');
@@ -361,6 +296,11 @@
                     return;
                 }
             } catch (pErr) {}
+
+            let loadingOverlay = document.getElementById('uploadLoadingOverlay');
+            let loadingText = document.getElementById('loadingTextLabel');
+            if (loadingText) loadingText.innerText = "camera loading";
+            if (loadingOverlay) loadingOverlay.style.display = 'flex';
 
             document.getElementById('resultPanel').style.display = 'none';
             document.getElementById('imagePreviewPanel').style.display = 'none';
@@ -397,6 +337,7 @@
                     try {
                         videoStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
                     } catch (err3) {
+                        if (loadingOverlay) loadingOverlay.style.display = 'none';
                         alert("📷 Camera Blocked or not supported on this device!");
                         return;
                     }
@@ -409,10 +350,13 @@
             video.onloadedmetadata = async function() {
                 try {
                     await video.play();
+                    if (loadingOverlay) loadingOverlay.style.display = 'none';
+                    
                     document.getElementById('scannerWrapper').style.display = 'block';
                     document.getElementById('startCamBtn').style.display = 'none';
                     
                     startLowLightDetectionEngine();
+                    startFocusDetectionEngine();
 
                     try {
                         let track = videoStream.getVideoTracks()[0];
@@ -426,11 +370,64 @@
                             document.getElementById('flashToggleBtn').style.display = 'none';
                         }
                     } catch(e) {}
-                } catch(playErr) {}
+                } catch(playErr) {
+                    if (loadingOverlay) loadingOverlay.style.display = 'none';
+                }
             };
         }
+                function startFocusDetectionEngine() {
+            if (focusCheckInterval) clearInterval(focusCheckInterval);
+            let snapBtn = document.getElementById('snapShutterBtn');
+            if(snapBtn) snapBtn.style.display = 'none';
 
-        function startLowLightDetectionEngine() {
+            focusCheckInterval = setInterval(() => {
+                let video = document.getElementById('scannerVideo');
+                if (!video || !videoStream) {
+                    if(snapBtn) snapBtn.style.display = 'none';
+                    return;
+                }
+
+                try {
+                    let canvas = document.createElement("canvas");
+                    canvas.width = 100; canvas.height = 100;
+                    let ctx = canvas.getContext("2d", { willReadFrequently: true });
+                    ctx.drawImage(video, 0, 0, 100, 100);
+                    
+                    let imgData = ctx.getImageData(0, 0, 100, 100);
+                    let data = imgData.data;
+                    let width = imgData.width;
+                    let height = imgData.height;
+
+                    let sum = 0;
+                    let count = 0;
+                    for (let y = 1; y < height - 1; y++) {
+                        for (let x = 1; x < width - 1; x++) {
+                            let idx = (y * width + x) * 4;
+                            let gray = data[idx] * 0.299 + data[idx+1] * 0.587 + data[idx+2] * 0.114;
+                            let top = ((y - 1) * width + x) * 4;
+                            let bottom = ((y + 1) * width + x) * 4;
+                            let left = (y * width + (x - 1)) * 4;
+                            let right = (y * width + (x + 1)) * 4;
+
+                            let laplacian = Math.abs(4 * gray - (data[top] * 0.299 + data[top+1] * 0.587 + data[top+2] * 0.114 + data[bottom] * 0.299 + data[bottom+1] * 0.587 + data[bottom+2] * 0.114 + data[left] * 0.299 + data[left+1] * 0.587 + data[left+2] * 0.114 + data[right] * 0.299 + data[right+1] * 0.587 + data[right+2] * 0.114));
+                            sum += laplacian;
+                            count++;
+                        }
+                    }
+
+                    let sharpnessScore = sum / count;
+
+                    if (sharpnessScore > 3) {
+                        snapBtn.style.display = 'flex';
+                    } else {
+                        snapBtn.style.display = 'none';
+                    }
+                } catch(e) {
+                    if(snapBtn) snapBtn.style.display = 'flex';
+                }
+            }, 400);
+        }
+                function startLowLightDetectionEngine() {
             if (lowLightCheckInterval) clearInterval(lowLightCheckInterval);
             
             lowLightCheckInterval = setInterval(() => {
@@ -466,12 +463,13 @@
         }
 
         function stopCameraScanner() {
-            if (lowLightCheckInterval) {
-                clearInterval(lowLightCheckInterval);
-                lowLightCheckInterval = null;
-            }
+            if (lowLightCheckInterval) { clearInterval(lowLightCheckInterval); lowLightCheckInterval = null; }
+            if (focusCheckInterval) { clearInterval(focusCheckInterval); focusCheckInterval = null; }
             let badge = document.getElementById('lowLightAlertBadge');
             if(badge) badge.style.display = 'none';
+
+            let snapBtn = document.getElementById('snapShutterBtn');
+            if(snapBtn) snapBtn.style.display = 'none';
 
             if (isFlashOn && videoStream) {
                 try {
@@ -483,16 +481,11 @@
 
             let flashBtn = document.getElementById('flashToggleBtn');
             if (flashBtn) {
-                flashBtn.style.color = "#94a3b8"; 
-                flashBtn.style.borderColor = "transparent"; 
-                flashBtn.style.background = "rgba(0, 0, 0, 0.3)"; 
-                flashBtn.style.boxShadow = "none";
+                flashBtn.style.color = "#94a3b8"; flashBtn.style.borderColor = "transparent"; 
+                flashBtn.style.background = "rgba(0, 0, 0, 0.3)"; flashBtn.style.boxShadow = "none";
             }
 
-            if (videoStream) { 
-                videoStream.getTracks().forEach(track => track.stop()); 
-                videoStream = null; 
-            }
+            if (videoStream) { videoStream.getTracks().forEach(track => track.stop()); videoStream = null; }
             
             let wrapper = document.getElementById('scannerWrapper');
             if(wrapper) wrapper.style.display = 'none';
@@ -507,9 +500,7 @@
         }
 
         document.addEventListener("visibilitychange", function() {
-            if (document.hidden) {
-                stopCameraScanner();
-            }
+            if (document.hidden) { stopCameraScanner(); }
         });
 
         function executeInstantTorchToggle(event) {
@@ -532,8 +523,7 @@
                 track.applyConstraints({ advanced: [{ torch: isFlashOn }] }).catch(err => {});
             } catch(e) {}
         }
-
-        function processAdvancedSmartFilters(ctx, width, height) {
+                function processAdvancedSmartFilters(ctx, width, height) {
             try {
                 let imgData = ctx.getImageData(0, 0, width, height);
                 let d = imgData.data;
@@ -556,7 +546,9 @@
             }
 
             let loadingOverlay = document.getElementById('uploadLoadingOverlay'); 
-            loadingOverlay.style.display = 'flex'; 
+            let loadingText = document.getElementById('loadingTextLabel');
+            if (loadingText) loadingText.innerText = "Scanning...";
+            if (loadingOverlay) loadingOverlay.style.display = 'flex'; 
 
             let canvas = document.createElement("canvas");
             canvas.width = video.videoWidth;
@@ -568,7 +560,6 @@
 
             setTimeout(async () => {
                 let codeData = null;
-
                 try {
                     if ('BarcodeDetector' in window) {
                         const detector = new BarcodeDetector({ formats: ['qr_code'] });
@@ -576,9 +567,7 @@
                         imgObj.src = snapshotDataUrl;
                         await imgObj.decode();
                         const results = await detector.detect(imgObj);
-                        if (results.length > 0 && results[0].rawValue) {
-                            codeData = results[0].rawValue;
-                        }
+                        if (results.length > 0 && results[0].rawValue) { codeData = results[0].rawValue; }
                     }
                 } catch (err) {}
 
@@ -599,13 +588,12 @@
                     } catch(e) {}
                 }
 
-                loadingOverlay.style.display = 'none';
+                if(loadingOverlay) loadingOverlay.style.display = 'none';
                 stopCameraScanner();
 
                 if (codeData) {
                     playSuccessBeep();
-                    let finalFileName = "Camera_Snap_Scan.jpg";
-                    showScanResult(codeData.trim(), snapshotDataUrl, finalFileName);
+                    showScanResult(codeData.trim(), snapshotDataUrl, "Camera_Snap_Scan.jpg");
                 } else {
                     alert("No QR code found in this snapshot. Please align properly and snap again.");
                 }
@@ -621,7 +609,9 @@
             document.getElementById("uploadLabel").innerHTML = "📁 Choose QR Image from Gallery";
             
             let loadingOverlay = document.getElementById('uploadLoadingOverlay'); 
-            loadingOverlay.style.display = 'flex'; 
+            let loadingText = document.getElementById('loadingTextLabel');
+            if (loadingText) loadingText.innerText = "Scanning...";
+            if (loadingOverlay) loadingOverlay.style.display = 'flex'; 
 
             if (videoStream) { stopCameraScanner(); }
             
@@ -637,8 +627,7 @@
                     }
 
                     let canvas = document.createElement("canvas");
-                    canvas.width = w; 
-                    canvas.height = h;
+                    canvas.width = w; canvas.height = h;
                     let ctx = canvas.getContext("2d", { willReadFrequently: true });
                     ctx.drawImage(img, 0, 0, w, h);
 
@@ -649,9 +638,7 @@
                         if ('BarcodeDetector' in window) {
                             const detector = new BarcodeDetector({ formats: ['qr_code'] });
                             const results = await detector.detect(img);
-                            if (results.length > 0 && results[0].rawValue) {
-                                codeData = results[0].rawValue;
-                            }
+                            if (results.length > 0 && results[0].rawValue) { codeData = results[0].rawValue; }
                         }
                     } catch (err) {}
 
@@ -673,28 +660,12 @@
                         } catch(e) {}
                     }
 
-                    if (!codeData) {
-                        try {
-                            ctx.drawImage(img, 0, 0, w, h);
-                            let rawImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                            let d = rawImageData.data;
-                            for (let i = 0; i < d.length; i += 4) {
-                                d[i] = 255 - d[i]; d[i+1] = 255 - d[i+1]; d[i+2] = 255 - d[i+2];
-                            }
-                            ctx.putImageData(rawImageData, 0, 0);
-                            let codeInverted = jsQR(rawImageData.data, rawImageData.width, rawImageData.height, { inversionAttempts: "attemptBoth" });
-                            if (codeInverted && codeInverted.data) codeData = codeInverted.data;
-                        } catch(e) {}
-                    }
-
-                    loadingOverlay.style.display = 'none';
+                    if (loadingOverlay) loadingOverlay.style.display = 'none';
                     inputElement.value = '';
 
                     if (codeData) { 
                         playSuccessBeep(); 
-                        setTimeout(() => {
-                            showScanResult(codeData.trim(), freshDataUrl, originalFileName);
-                        }, 50);
+                        setTimeout(() => { showScanResult(codeData.trim(), freshDataUrl, originalFileName); }, 50);
                     } else { 
                         alert("No valid QR code found in this image!"); 
                         document.getElementById('resultPanel').style.display = 'none'; 
@@ -705,9 +676,7 @@
             };
             reader.readAsDataURL(file);
         }
-    </script>
-        <script>
-        const tagTranslationMap = { "N": "Name", "FN": "Full Name", "TEL": "Telephone", "EMAIL": "Email", "ADR": "Address", "ORG": "Organization", "TITLE": "Title", "URL": "Website", "NOTE": "Note", "BDAY": "Birthday" };
+                const tagTranslationMap = { "N": "Name", "FN": "Full Name", "TEL": "Telephone", "EMAIL": "Email", "ADR": "Address", "ORG": "Organization", "TITLE": "Title", "URL": "Website", "NOTE": "Note", "BDAY": "Birthday" };
 
         function parseContactQR(rawText) {
             let data = rawText.trim(); let upperData = data.toUpperCase(); let resultHtml = ""; let cardHeaderTitle = ""; let lowerData = data.toLowerCase();
@@ -760,42 +729,65 @@
         }
 
         function saveScanToLocalStorageHistory(parsedContent, rawCleanText, imgSrc, fileName) {
-            try {
-                let historyData = localStorage.getItem('pextume_qr_history'); 
-                let historyArray = historyData ? JSON.parse(historyData) : []; 
-                let now = new Date();
-                let dateStr = now.toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' }); 
-                let timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true }); 
-                let fullTimestamp = `${dateStr} at ${timeStr}`;
-                
-                let uniqueForcedId = "id_" + Date.now() + "_" + Math.floor(Math.random() * 10000000000);
-                
-                let cleanRaw = rawCleanText ? rawCleanText.split(' [Scan ID:')[0].trim() : "Scanned Data";
-                let uniqueRawText = cleanRaw + " [Scan ID:" + Date.now() + "_" + Math.floor(Math.random() * 999999999) + "]";
+    try {
+        let historyData = localStorage.getItem('pextume_qr_history');
+        let historyArray = historyData ? JSON.parse(historyData) : [];
 
-                historyArray.unshift({ 
-                    id: uniqueForcedId, 
-                    timestamp: fullTimestamp, 
-                    content: parsedContent, 
-                    rawText: uniqueRawText, 
-                    imgSrc: imgSrc || "", 
-                    fileName: fileName || "Scanned QR Image" 
-                });
-                
-                if(historyArray.length > 100) { historyArray.pop(); } 
-                
-                localStorage.setItem('pextume_qr_history', JSON.stringify(historyArray));
-            } catch(err) {
-                console.log("Storage error: ", err);
-            }
+        let now = new Date();
+        let dateStr = now.toLocaleDateString('en-US', {
+            day: '2-digit',
+            month: 'short',
+            year: 'numeric'
+        });
+
+        let timeStr = now.toLocaleTimeString('en-US', {
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: true
+        });
+
+        let fullTimestamp = `${dateStr} at ${timeStr}`;
+
+        let uniqueForcedId =
+            "id_" + Date.now() + "_" + Math.floor(Math.random() * 10000000000);
+
+        let cleanRaw = rawCleanText
+            ? rawCleanText.split(' [Scan ID:')[0].trim()
+            : "Scanned Data";
+
+        let uniqueRawText =
+            cleanRaw + " [Scan ID:" + Date.now() + "_" +
+            Math.floor(Math.random() * 999999999) + "]";
+
+        historyArray.unshift({
+            id: uniqueForcedId,
+            timestamp: fullTimestamp,
+            content: parsedContent,
+            rawText: uniqueRawText,
+            imgSrc: "",
+            fileName: fileName || "Scanned QR Image"
+        });
+
+        if (historyArray.length > 500) {
+            historyArray = historyArray.slice(0, 500);
         }
+
+        localStorage.setItem(
+            'pextume_qr_history',
+            JSON.stringify(historyArray)
+        );
+
+    } catch(err) {
+        console.log("Storage error: ", err);
+    }
+}
 
         function showScanResult(data, imgSrc, fileName) {
             rawDataForClipboard = data.trim(); 
             let displayData = parseContactQR(rawDataForClipboard);
             let finalImage = imgSrc || "";
             let finalFileName = fileName || "Scanned_QR.jpg";
-            
             saveScanToLocalStorageHistory(displayData, rawDataForClipboard, finalImage, finalFileName); 
             renderMainDashboardResultPanel(displayData, finalImage, finalFileName);
         }
@@ -828,26 +820,51 @@
         }
 
         function openHistoryModalBox() {
-            let container = document.getElementById('historyListContainer'); container.innerHTML = ""; 
-            let historyData = localStorage.getItem('pextume_qr_history'); let historyArray = historyData ? JSON.parse(historyData) : [];
-            
-            document.getElementById('historyCountBadge').innerText = historyArray.length;
+            let modalBox = document.getElementById('historyModalBox');
+            if (modalBox) modalBox.style.display = 'flex';
 
-            if (historyArray.length === 0) { container.innerHTML = `<div class="no-history-text">🕰️ No scanned items in history yet!</div>`; document.getElementById('clearHistoryBtn').style.display = 'none'; } else {
-                document.getElementById('clearHistoryBtn').style.display = 'block';
-                historyArray.forEach(item => {
-                    let card = document.createElement('div'); card.className = 'history-card';
-                    card.innerHTML = `<div class="history-card-top-meta"><div class="history-card-date">📅 ${item.timestamp}</div><div class="history-three-dot-btn" onclick="toggleActionDropdownMenuBox(event, '${item.id}')">⋮</div><div class="history-action-dropdown-menu" id="dropdown-${item.id}"><div class="dropdown-menu-item" onclick="executeLiveHistoryView(event, '${item.id}')">👁️ View</div><div class="dropdown-menu-item" id="copy-btn-${item.id}">📋 Copy</div><div class="dropdown-menu-item item-delete" onclick="executeSingleHistoryItemDelete(event, '${item.id}')">🗑️ Delete</div></div></div><div class="history-card-body">${item.content}</div>`;
-                    container.appendChild(card);
+            requestAnimationFrame(() => {
+                let container = document.getElementById('historyListContainer'); 
+                if (!container) return;
+                container.innerHTML = ""; 
+
+                let historyData = localStorage.getItem('pextume_qr_history'); 
+                let historyArray = historyData ? JSON.parse(historyData) : [];
+                
+                let countBadge = document.getElementById('historyCountBadge');
+                if (countBadge) countBadge.innerText = historyArray.length;
+
+                let clearBtn = document.getElementById('clearHistoryBtn');
+
+                if (historyArray.length === 0) { 
+                    container.innerHTML = `<div class="no-history-text">🕰️ No scanned items in history yet!</div>`; 
+                    if (clearBtn) clearBtn.style.display = 'none'; 
+                } else {
+                    if (clearBtn) clearBtn.style.display = 'block';
+                    let htmlContent = "";
+                    historyArray.forEach(item => {
+                        htmlContent += `<div class="history-card"><div class="history-card-top-meta"><div class="history-card-date">📅 ${item.timestamp}</div><div class="history-three-dot-btn" onclick="toggleActionDropdownMenuBox(event, '${item.id}')">⋮</div><div class="history-action-dropdown-menu" id="dropdown-${item.id}"><div class="dropdown-menu-item" onclick="executeLiveHistoryView(event, '${item.id}')">👁️ View</div><div class="dropdown-menu-item" id="copy-btn-${item.id}">📋 Copy</div><div class="dropdown-menu-item item-delete" onclick="executeSingleHistoryItemDelete(event, '${item.id}')">🗑️ Delete</div></div></div><div class="history-card-body">${item.content}</div></div>`;
+                    });
+                    container.innerHTML = htmlContent;
+
                     setTimeout(() => {
-                        let btn = document.getElementById(`copy-btn-${item.id}`);
-                        if(btn) { btn.addEventListener('click', function(e) { e.stopPropagation(); navigator.clipboard.writeText(item.rawText).then(() => { alert("Copied directly from history! 👍"); let allMenus = document.querySelectorAll('.history-action-dropdown-menu'); allMenus.forEach(m => m.style.display = 'none'); }); }); }
+                        historyArray.forEach(item => {
+                            let btn = document.getElementById(`copy-btn-${item.id}`);
+                            if(btn) { 
+                                btn.addEventListener('click', function(e) { 
+                                    e.stopPropagation(); 
+                                    navigator.clipboard.writeText(item.rawText).then(() => { 
+                                        alert("Copied directly from history! 👍"); 
+                                        let allMenus = document.querySelectorAll('.history-action-dropdown-menu'); 
+                                        allMenus.forEach(m => m.style.display = 'none'); 
+                                    }); 
+                                }); 
+                            }
+                        });
                     }, 10);
-                });
-            }
-            document.getElementById('historyModalBox').style.display = 'flex';
+                }
+            });
         }
-
         function toggleActionDropdownMenuBox(event, itemId) { event.stopPropagation(); let targetMenu = document.getElementById(`dropdown-${itemId}`); let isAlreadyOpen = targetMenu.style.display === 'flex'; let allMenus = document.querySelectorAll('.history-action-dropdown-menu'); allMenus.forEach(m => m.style.display = 'none'); if (!isAlreadyOpen) { targetMenu.style.display = 'flex'; } }
         function closeHistoryModalBox() { document.getElementById('historyModalBox').style.display = 'none'; }
         
@@ -866,7 +883,6 @@
         function executeSingleHistoryItemDelete(event, itemId) { event.stopPropagation(); let historyData = localStorage.getItem('pextume_qr_history'); if(!historyData) return; let historyArray = JSON.parse(historyData); let updatedArray = historyArray.filter(item => item.id !== itemId); localStorage.setItem('pextume_qr_history', JSON.stringify(updatedArray)); openHistoryModalBox(); }
         function executeClearAllHistory() { if(confirm("🗑️ Are you sure you want to delete all scanned history items permanently?")) { localStorage.removeItem('pextume_qr_history'); openHistoryModalBox(); } }
 
-        /* 🛡️ ফুলপ্রুফ, আইরন-ক্ল্যাড লিগ্যাল টার্মস ও সাপোর্ট ডাটাবেস প্যাক */
         const infoDatabasePack = {
             "how-to-use": { 
                 title: "📖 How to Use", 
@@ -890,7 +906,7 @@
             },
             "disclaimer": { 
                 title: "⚖️ Disclaimer", 
-                body: "<h4>1. Absolute Limitation of Liability</h4><p><b>Under no circumstances shall Pextume Network or its developers be held liable for any direct, indirect, incidental, consequential, or punitive damages—including financial loss, data theft, malware infection, device compromise, phishing scams, or legal repercussions—arising out of or related to scanned QR code payloads, text data, or external hyperlinks.</b></p><h4>2. Third-Party Content & Phishing Warning</h4><p>Pextume acts purely as a client-side algorithmic text translation parser. We do not verify, endorse, vet, or monitor the safety, legitimacy, or intent of any external websites or data encoded in scanned matrices. Users are solely responsible for verifying the authenticity of links before opening them.</p><h4>3. Bug Reports & Support</h4><p>Encountered a bug or structural issue? Report it to us at support@pextume.in</p>" 
+                body: "<h4>1. Absolute Limitation of Liability</h4><p><b>Under no circumstances shall Pextume Network or its developers be held liable for any direct, indirect, incidental, consequential, or punitive damages—including financial loss, data theft, malware infection, device compromise, phishing scams, or legal repercussions—arising out of or related to scanned QR code payloads, text data, or external hyperlinks.</b></p><h4>2. Third-Party Content & Phishing Warning</h4><p>Pextume acts purely as a client-side algorithmic text translation parser. We do not verify, endorse, vet, or monitor the safety, legitimacy, or intent of any external websites or data encoded in scanned matrices. Users are solely responsible for verifying the authenticity of links before opening them.</p><h4>3. Bug Reports & Support</h4><p>Encountered a bug or structural issue? Report it to us at support@pextume.in</p>"   
             }
         };
 
@@ -900,3 +916,4 @@
     </script>
 </body>
 </html>
+        
