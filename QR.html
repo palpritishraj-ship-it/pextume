@@ -808,30 +808,12 @@
             
             document.getElementById('resultText').innerHTML = displayData; 
             document.getElementById('resultPanel').style.display = 'block';
-        }
+        
 
-   function renderMainDashboardResultPanel(displayData, imgSrc, fileName) {
-    if (imgSrc && imgSrc.trim() !== "") { 
-        document.getElementById('previewImgElement').src = imgSrc; 
-        document.getElementById('previewFileNameText').innerText = fileName || "Scanned_QR.jpg"; 
-        document.getElementById('imagePreviewPanel').style.display = 'flex'; 
-    } else { 
-        document.getElementById('imagePreviewPanel').style.display = 'none'; 
-    }
-    
-    const actionBtn = document.getElementById('actionBtn');
-    actionBtn.innerText = "📋 Copy Text to Clipboard";
-    actionBtn.style.background = "#475569";
-    actionBtn.style.color = "#ffffff";
-    
-    document.getElementById('resultText').innerHTML = displayData; 
-    document.getElementById('resultPanel').style.display = 'block';
-
-    // === এই নতুন অংশটুকু ঠিক এই জায়গায় বসিয়ে দিন ===
-    setTimeout(() => {
+     setTimeout(() => {
         let resultPanel = document.getElementById('resultPanel');
         if (resultPanel) {
-            resultPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            resultPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
     }, 100);
 }
