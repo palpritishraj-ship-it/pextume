@@ -108,7 +108,7 @@
         .history-modal-title { font-size: 1.15rem; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 8px; }
         .history-count-badge { background: #f0fdf4; color: var(--btn-green); border: 1px solid rgba(0, 210, 160, 0.3); font-size: 0.75rem; font-weight: 700; padding: 2px 8px; border-radius: 10px; margin-left: 6px; }
         .history-close-btn { font-size: 20px; color: #64748b; cursor: pointer; background: #f1f5f9; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; transition: background 0.2s, color 0.2s; outline: none; }
-        .history-close-btn:hover { color: var(--text-main); background: #e2e8f0; }
+          .history-close-btn:hover { color: var(--text-main); background: #e2e8f0; }
         .history-close-btn:active { background: #cbd5e1; color: var(--text-main); }
         .history-list-container { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding-right: 2px; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
         .history-list-container::-webkit-scrollbar { display: none; }
@@ -250,15 +250,13 @@
             <a style="padding:18px 30px; text-decoration:none; font-size:18px; color:var(--text-main); font-family:sans-serif; border-bottom:1px solid rgba(0,0,0,0.05); text-align:right; letter-spacing:1px; opacity:0.6;">Coming Soon</a>
         </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/jsQR@1.4.0/dist/jsQR.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
     <script>
         let videoStream = null;
         let rawDataForClipboard = ""; 
         let isFlashOn = false; 
         let lowLightCheckInterval = null;
         let focusCheckInterval = null;
-
         window.addEventListener('DOMContentLoaded', (event) => {
             let urlParams = new URLSearchParams(window.location.search);
             if (urlParams.has('pextumedata')) {
@@ -266,7 +264,8 @@
                 if (interceptedData) { showScanResult(decodeURIComponent(interceptedData), null, null); }
             }
         });
-                function executeBlankSpaceMenuClose(event) {
+
+        function executeBlankSpaceMenuClose(event) {
             if (!event.target.classList.contains('history-three-dot-btn')) {
                 let allDropdowns = document.querySelectorAll('.history-action-dropdown-menu');
                 allDropdowns.forEach(menu => menu.style.display = 'none');
@@ -277,7 +276,7 @@
             let beepEnabled = document.getElementById('beepToggle').checked;
             if (!beepEnabled) return; 
             try {
-                let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
                 let oscillator = audioCtx.createOscillator();
                 let gainNode = audioCtx.createGain();
                 oscillator.type = 'sine'; oscillator.frequency.setValueAtTime(880, audioCtx.currentTime); 
@@ -306,20 +305,20 @@
             document.getElementById('imagePreviewPanel').style.display = 'none';
             let container = document.getElementById('videoContainer');
             container.innerHTML = '<video id="scannerVideo" autoplay muted playsinline style="width:100%; height:100%; object-fit:cover;"></video>';
-            
-            isFlashOn = false;
+     
+      isFlashOn = false;
             let flashBtn = document.getElementById('flashToggleBtn');
             if (flashBtn) {
                 flashBtn.style.color = "#94a3b8"; 
                 flashBtn.style.borderColor = "transparent"; 
                 flashBtn.style.background = "rgba(0, 0, 0, 0.3)"; 
                 flashBtn.style.boxShadow = "none";
-            }
-
+            }      
+          
             try {
                 videoStream = await navigator.mediaDevices.getUserMedia({ 
                     video: { 
-                        facingMode: { ideal: "environment" }, 
+                    facingMode: { ideal: "environment" }, 
                         width: { ideal: 1920 }, 
                         height: { ideal: 1080 },
                         advanced: [{ focusMode: "continuous" }] 
@@ -337,7 +336,7 @@
                     try {
                         videoStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
                     } catch (err3) {
-                        if (loadingOverlay) loadingOverlay.style.display = 'none';
+        if (loadingOverlay) loadingOverlay.style.display = 'none';                
                         alert("📷 Camera Blocked or not supported on this device!");
                         return;
                     }
@@ -349,15 +348,13 @@
             
             video.onloadedmetadata = async function() {
                 try {
-                    await video.play();
-                    if (loadingOverlay) loadingOverlay.style.display = 'none';
-                    
-                    document.getElementById('scannerWrapper').style.display = 'block';
+                await video.play();
+                 if (loadingOverlay) loadingOverlay.style.display = 'none';   
+                 document.getElementById('scannerWrapper').style.display = 'block';
                     document.getElementById('startCamBtn').style.display = 'none';
-                    
-                    startLowLightDetectionEngine();
-                    startFocusDetectionEngine();
-
+    startLowLightDetectionEngine();
+                    startFocusDetectionEngine();                
+                   
                     try {
                         let track = videoStream.getVideoTracks()[0];
                         let capabilities = track.getCapabilities();
@@ -368,7 +365,7 @@
                             document.getElementById('flashToggleBtn').style.display = 'flex'; 
                         } else {
                             document.getElementById('flashToggleBtn').style.display = 'none';
-                        }
+     }
                     } catch(e) {}
                 } catch(playErr) {
                     if (loadingOverlay) loadingOverlay.style.display = 'none';
@@ -535,8 +532,7 @@
                 }
                 ctx.putImageData(imgData, 0, 0);
             } catch(e) {}
-        }
-
+        }                   
         function captureAndScanCameraSnapshot(event) {
             event.preventDefault();
             let video = document.getElementById('scannerVideo');
@@ -599,132 +595,728 @@
                 }
             }, 50);
         }
+        /* 🎯 গ্যালারি ইমেজ স্ক্যানার (রঙিন কোড ডিটেকশনের মাল্টি-লেয়ার ব্যাকআপসহ) */
+        async function scanQRFromImage(event) {
 
-        function scanQRFromImage(event) {
-            let inputElement = event.target;
-            let file = inputElement.files[0]; 
-            if (!file) return;
-            
-            let originalFileName = file.name || "Scanned_QR.jpg";
-            document.getElementById("uploadLabel").innerHTML = "📁 Choose QR Image from Gallery";
-            
-            let loadingOverlay = document.getElementById('uploadLoadingOverlay'); 
-            let loadingText = document.getElementById('loadingTextLabel');
-            if (loadingText) loadingText.innerText = "Scanning...";
-            if (loadingOverlay) loadingOverlay.style.display = 'flex'; 
+    const file = event.target.files[0];
+    if (!file) return;
 
-            if (videoStream) { stopCameraScanner(); }
-            
-            let reader = new FileReader();
-            reader.onload = function(e) {
-                let img = new Image();
-                img.onload = async function() {
-                    let maxDim = 1280;
-                    let w = img.width, h = img.height;
-                    if (w > maxDim || h > maxDim) {
-                        if (w > h) { h = Math.round((h * maxDim) / w); w = maxDim; }
-                        else { w = Math.round((w * maxDim) / h); h = maxDim; }
+    const loading = document.getElementById("uploadLoadingOverlay");
+    const resultPanel = document.getElementById("resultPanel");
+    const previewPanel = document.getElementById("imagePreviewPanel");
+
+    if (loading) loading.style.display = "flex";
+
+    const start = performance.now();
+
+    try {
+
+        // Stop camera
+        try {
+            if (typeof videoStream !== "undefined" && videoStream) {
+                stopCameraScanner();
+            }
+        } catch (e) {}
+
+        // Load image
+        const src = await readFileAsDataURL(file);
+        const img = await loadImage(src);
+
+        let code = null;
+
+        // =========================================
+        // 1. FAST NATIVE QR
+        // =========================================
+
+        if ("BarcodeDetector" in window) {
+            try {
+
+                const detector = new BarcodeDetector({
+                    formats: ["qr_code"]
+                });
+
+                const found = await detector.detect(img);
+
+                if (found.length && found[0].rawValue) {
+                    code = found[0].rawValue;
+                }
+
+            } catch (e) {}
+        }
+
+
+        // =========================================
+        // CANVAS
+        // =========================================
+
+        if (!code) {
+
+            const MAX = 1200;
+
+            const scale = Math.min(
+                1,
+                MAX / Math.max(img.width, img.height)
+            );
+
+            const w = Math.max(
+                1,
+                Math.round(img.width * scale)
+            );
+
+            const h = Math.max(
+                1,
+                Math.round(img.height * scale)
+            );
+
+            const pad = 20;
+
+            const canvas = document.createElement("canvas");
+
+            canvas.width = w + pad * 2;
+            canvas.height = h + pad * 2;
+
+            const ctx = canvas.getContext(
+                "2d",
+                { willReadFrequently: true }
+            );
+
+            ctx.fillStyle = "#fff";
+            ctx.fillRect(
+                0,
+                0,
+                canvas.width,
+                canvas.height
+            );
+
+            ctx.drawImage(
+                img,
+                pad,
+                pad,
+                w,
+                h
+            );
+
+
+            // =====================================
+            // GET PIXELS ONLY ONCE
+            // =====================================
+
+            const imageData = ctx.getImageData(
+                0,
+                0,
+                canvas.width,
+                canvas.height
+            );
+
+
+            // =====================================
+            // 2. ORIGINAL jsQR
+            // =====================================
+
+            let result = tryQR(imageData);
+
+            if (result) {
+                code = result.data;
+            }
+
+
+            // =====================================
+            // 3. COLOR CHANNEL
+            // =====================================
+
+            if (!code) {
+
+                const channels = ["red", "green", "blue"];
+
+                for (const channel of channels) {
+
+                    const filtered =
+                        colorChannel(
+                            imageData,
+                            channel
+                        );
+
+                    result = tryQR(filtered);
+
+                    if (result) {
+                        code = result.data;
+                        break;
                     }
+                }
+            }
 
-                    let canvas = document.createElement("canvas");
-                    canvas.width = w; canvas.height = h;
-                    let ctx = canvas.getContext("2d", { willReadFrequently: true });
-                    ctx.drawImage(img, 0, 0, w, h);
 
-                    let freshDataUrl = canvas.toDataURL('image/jpeg', 0.9);
-                    let codeData = null;
+            // =====================================
+            // 4. SMART CROP
+            // =====================================
 
-                    try {
-                        if ('BarcodeDetector' in window) {
-                            const detector = new BarcodeDetector({ formats: ['qr_code'] });
-                            const results = await detector.detect(img);
-                            if (results.length > 0 && results[0].rawValue) { codeData = results[0].rawValue; }
+            if (!code) {
+
+                const region =
+                    findQRRegion(
+                        imageData
+                    );
+
+                if (region) {
+
+                    const crop =
+                        document.createElement("canvas");
+
+                    crop.width =
+                        region.w;
+
+                    crop.height =
+                        region.h;
+
+                    const cropCtx =
+                        crop.getContext(
+                            "2d",
+                            {
+                                willReadFrequently: true
+                            }
+                        );
+
+                    cropCtx.drawImage(
+                        canvas,
+                        region.x,
+                        region.y,
+                        region.w,
+                        region.h,
+                        0,
+                        0,
+                        region.w,
+                        region.h
+                    );
+
+
+                    const cropData =
+                        cropCtx.getImageData(
+                            0,
+                            0,
+                            crop.width,
+                            crop.height
+                        );
+
+
+                    // Crop original
+                    result =
+                        tryQR(
+                            cropData
+                        );
+
+
+                    // Crop color
+                    if (!result) {
+
+                        for (
+                            const channel
+                            of ["red", "green", "blue"]
+                        ) {
+
+                            result =
+                                tryQR(
+                                    colorChannel(
+                                        cropData,
+                                        channel
+                                    )
+                                );
+
+                            if (result) break;
                         }
-                    } catch (err) {}
-
-                    if (!codeData) {
-                        try {
-                            let rawImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                            let code = jsQR(rawImageData.data, rawImageData.width, rawImageData.height, { inversionAttempts: "attemptBoth" });
-                            if (code && code.data) codeData = code.data;
-                        } catch(e) {}
                     }
 
-                    if (!codeData) {
-                        try {
-                            ctx.drawImage(img, 0, 0, w, h);
-                            processAdvancedSmartFilters(ctx, canvas.width, canvas.height);
-                            let filteredData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                            let codeFiltered = jsQR(filteredData.data, filteredData.width, filteredData.height, { inversionAttempts: "attemptBoth" });
-                            if (codeFiltered && codeFiltered.data) codeData = codeFiltered.data;
-                        } catch(e) {}
-                    }
 
-                    if (loadingOverlay) loadingOverlay.style.display = 'none';
-                    inputElement.value = '';
-
-                    if (codeData) { 
-                        playSuccessBeep(); 
-                        setTimeout(() => { showScanResult(codeData.trim(), freshDataUrl, originalFileName); }, 50);
-                    } else { 
-                        alert("No valid QR code found in this image!"); 
-                        document.getElementById('resultPanel').style.display = 'none'; 
-                        document.getElementById('imagePreviewPanel').style.display = 'none'; 
+                    if (result) {
+                        code = result.data;
                     }
-                };
-                img.src = e.target.result;
-            };
+                }
+            }
+        }
+
+
+        // =========================================
+        // FINISH
+        // =========================================
+
+        if (loading) {
+            loading.style.display = "none";
+        }
+
+        const time =
+            Math.round(
+                performance.now() - start
+            );
+
+
+        if (code) {
+
+            console.log(
+                "⚡ QR FOUND:",
+                time + "ms"
+            );
+
+            try {
+                playSuccessBeep();
+            } catch (e) {}
+
+            showScanResult(
+                code.trim(),
+                src,
+                file.name || "Scanned_QR.jpg"
+            );
+
+        } else {
+
+            console.log(
+                "QR NOT FOUND:",
+                time + "ms"
+            );
+
+            alert(
+                "No valid QR code found in this image!"
+            );
+
+            if (resultPanel)
+                resultPanel.style.display = "none";
+
+            if (previewPanel)
+                previewPanel.style.display = "none";
+        }
+
+    } catch (error) {
+
+        console.error(
+            "QR Scan Error:",
+            error
+        );
+
+        if (loading)
+            loading.style.display = "none";
+
+        alert(
+            "Unable to process this image."
+        );
+
+    } finally {
+
+        event.target.value = "";
+    }
+}
+
+
+
+// =============================================
+// jsQR
+// =============================================
+
+function tryQR(data) {
+
+    try {
+
+        const result = jsQR(
+            data.data,
+            data.width,
+            data.height,
+            {
+                inversionAttempts: "attemptBoth"
+            }
+        );
+
+        return result && result.data
+            ? result
+            : null;
+
+    } catch (e) {
+
+        return null;
+    }
+}
+
+
+
+// =============================================
+// COLOR CHANNEL
+// =============================================
+
+function colorChannel(
+    source,
+    channel
+) {
+
+    const output =
+        new ImageData(
+            source.width,
+            source.height
+        );
+
+    const s = source.data;
+    const d = output.data;
+
+    const index =
+        channel === "green"
+            ? 1
+            : channel === "blue"
+                ? 2
+                : 0;
+
+    for (
+        let i = 0;
+        i < s.length;
+        i += 4
+    ) {
+
+        const v =
+            s[i + index];
+
+        d[i] = v;
+        d[i + 1] = v;
+        d[i + 2] = v;
+        d[i + 3] = 255;
+    }
+
+    return output;
+}
+
+
+
+// =============================================
+// FAST QR REGION
+// =============================================
+
+function findQRRegion(data) {
+
+    const w = data.width;
+    const h = data.height;
+    const d = data.data;
+
+    const step = 8;
+
+    let minX = w;
+    let minY = h;
+    let maxX = 0;
+    let maxY = 0;
+
+    let count = 0;
+
+    for (
+        let y = 0;
+        y < h;
+        y += step
+    ) {
+
+        for (
+            let x = 0;
+            x < w;
+            x += step
+        ) {
+
+            const i =
+                (y * w + x) * 4;
+
+            const r = d[i];
+            const g = d[i + 1];
+            const b = d[i + 2];
+
+            const dark =
+                Math.min(r, g, b);
+
+            if (dark > 100) continue;
+
+            minX = Math.min(minX, x);
+            minY = Math.min(minY, y);
+            maxX = Math.max(maxX, x);
+            maxY = Math.max(maxY, y);
+
+            count++;
+
+            if (count > 500) break;
+        }
+
+        if (count > 500) break;
+    }
+
+    if (
+        count < 20 ||
+        maxX - minX < 60 ||
+        maxY - minY < 60
+    ) {
+        return null;
+    }
+
+    const margin =
+        Math.max(
+            maxX - minX,
+            maxY - minY
+        ) * 0.25;
+
+    const x =
+        Math.max(
+            0,
+            Math.floor(minX - margin)
+        );
+
+    const y =
+        Math.max(
+            0,
+            Math.floor(minY - margin)
+        );
+
+    const right =
+        Math.min(
+            w,
+            Math.ceil(maxX + margin)
+        );
+
+    const bottom =
+        Math.min(
+            h,
+            Math.ceil(maxY + margin)
+        );
+
+    return {
+        x,
+        y,
+        w: right - x,
+        h: bottom - y
+    };
+}
+
+
+
+// =============================================
+// FILE → DATA URL
+// =============================================
+
+function readFileAsDataURL(file) {
+
+    return new Promise(
+        (resolve, reject) => {
+
+            const reader =
+                new FileReader();
+
+            reader.onload =
+                () => resolve(
+                    reader.result
+                );
+
+            reader.onerror =
+                reject;
+
             reader.readAsDataURL(file);
         }
-                const tagTranslationMap = { "N": "Name", "FN": "Full Name", "TEL": "Telephone", "EMAIL": "Email", "ADR": "Address", "ORG": "Organization", "TITLE": "Title", "URL": "Website", "NOTE": "Note", "BDAY": "Birthday" };
+    );
+}
+
+
+
+// =============================================
+// DATA URL → IMAGE
+// =============================================
+
+function loadImage(src) {
+
+    return new Promise(
+        (resolve, reject) => {
+
+            const img = new Image();
+
+            img.onload =
+                () => resolve(img);
+
+            img.onerror =
+                reject;
+
+            img.src = src;
+        }
+    );
+}
+                const tagTranslationMap = { "N": "Name", "FN": "Full Name", "TEL": "Telephone", "EMAIL": "Email", "ADR": "Address", "ORG": "Company", "TITLE": "Job Title", "URL": "Website", "NOTE": "Note", "BDAY": "Birthday" };
 
         function parseContactQR(rawText) {
-            let data = rawText.trim(); let upperData = data.toUpperCase(); let resultHtml = ""; let cardHeaderTitle = ""; let lowerData = data.toLowerCase();
-            if (lowerData.startsWith("mailto:") || lowerData.startsWith("sms:") || lowerData.startsWith("smsto:") || lowerData.startsWith("tel:")) {
-                let prefix = lowerData.startsWith("mailto:") ? "mailto:" : (lowerData.startsWith("sms:") ? "sms:" : (lowerData.startsWith("smsto:") ? "smsto:" : "tel:"));
-                if (prefix === "mailto:") cardHeaderTitle = "Email Address"; else if (prefix === "tel:") cardHeaderTitle = "Phone Number"; else cardHeaderTitle = "SMS Message";
-                let cleanBody = data.substring(prefix.length); let segments = cleanBody.split('?'); let mainTarget = segments[0] || ""; let outputLines = [];
+            let data = rawText.trim(); 
+            let upperData = data.toUpperCase(); 
+            let resultHtml = ""; 
+            let cardHeaderTitle = ""; 
+            let lowerData = data.toLowerCase();
+
+            // WiFi QR Code parsing logic
+            if (upperData.startsWith("WIFI:")) {
+                cardHeaderTitle = "WiFi Network";
+                let cleanBody = data.substring(5);
+                if (cleanBody.endsWith(';')) {
+                    cleanBody = cleanBody.slice(0, -1);
+                }
+                
+                let wifiParts = cleanBody.split(';');
+                let outputLines = [];
+
+                wifiParts.forEach(part => {
+                    let firstColon = part.indexOf(':');
+                    if (firstColon !== -1) {
+                        let key = part.substring(0, firstColon).trim().toUpperCase();
+                        let val = part.substring(firstColon + 1).trim();
+                        if (key === 'S') {
+                            outputLines.push(`<b>Network Name (SSID):</b> ${val}`);
+                        } else if (key === 'P') {
+                            outputLines.push(`<b>Password:</b> ${val}`);
+                        } else if (key === 'T') {
+                            outputLines.push(`<b>Encryption Type:</b> ${val}`);
+                        } else if (key === 'H') {
+                            outputLines.push(`<b>Hidden:</b> ${val}`);
+                        }
+                    }
+                });
+
+                resultHtml = outputLines.join('<br>');
+                return `<div style="font-size:1.05rem; color:#0284c7; font-weight:600; margin-bottom:12px; letter-spacing:0.5px;">${cardHeaderTitle}</div>` + resultHtml;
+            }
+
+            // Email / Mailto check
+            if (lowerData.startsWith("mailto:")) {
+                cardHeaderTitle = "Email";
+                let cleanBody = data.substring(7);
+                let segments = cleanBody.split('?');
+                let mainTarget = segments[0] || "";
+                let outputLines = [];
                 outputLines.push(`<b>To:</b> ${mainTarget}`);
                 if (segments[1]) {
                     let queryParams = segments[1].split('&');
                     queryParams.forEach(param => {
                         let pair = param.split('=');
                         if (pair[0]) {
-                            let key = pair[0].toLowerCase(); let val = pair[1] ? decodeURIComponent(pair[1].replace(/\+/g, ' ')) : "";
+                            let key = pair[0].toLowerCase();
+                            let val = pair[1] ? decodeURIComponent(pair[1].replace(/\+/g, ' ')) : "";
                             let displayTag = key === "body" ? "Body" : (key === "subject" ? "Subject" : pair[0].charAt(0).toUpperCase() + pair[0].slice(1));
                             if (val.trim()) { outputLines.push(`<b>${displayTag}:</b> ${val}`); }
                         }
                     });
                 }
-                resultHtml = outputLines.join('<br>'); return `<div style="font-size:1.05rem; color:#0284c7; font-weight:600; margin-bottom:12px; letter-spacing:0.5px;">${cardHeaderTitle}</div>` + resultHtml;
+                resultHtml = outputLines.join('<br>');
+                return `<div style="font-size:1.05rem; color:#0284c7; font-weight:600; margin-bottom:12px; letter-spacing:0.5px;">${cardHeaderTitle}</div>` + resultHtml;
             }
+
+            // SMS check
+            if (lowerData.startsWith("sms:") || lowerData.startsWith("smsto:")) {
+                cardHeaderTitle = "SMS Message";
+                let prefix = lowerData.startsWith("sms:") ? "sms:" : "smsto:";
+                let cleanBody = data.substring(prefix.length);
+                let segments = cleanBody.split('?');
+                let mainTarget = segments[0] || "";
+                let outputLines = [];
+                outputLines.push(`<b>To:</b> ${mainTarget}`);
+                if (segments[1]) {
+                    let queryParams = segments[1].split('&');
+                    queryParams.forEach(param => {
+                        let pair = param.split('=');
+                        if (pair[0]) {
+                            let key = pair[0].toLowerCase();
+                            let val = pair[1] ? decodeURIComponent(pair[1].replace(/\+/g, ' ')) : "";
+                            let displayTag = key === "body" ? "Body" : pair[0].charAt(0).toUpperCase() + pair[0].slice(1);
+                            if (val.trim()) { outputLines.push(`<b>${displayTag}:</b> ${val}`); }
+                        }
+                    });
+                }
+                resultHtml = outputLines.join('<br>');
+                return `<div style="font-size:1.05rem; color:#0284c7; font-weight:600; margin-bottom:12px; letter-spacing:0.5px;">${cardHeaderTitle}</div>` + resultHtml;
+            }
+
+            // Phone / Tel check
+            if (lowerData.startsWith("tel:")) {
+                cardHeaderTitle = "Phone Number";
+                let mainTarget = data.substring(4);
+                let outputLines = [`<b>Phone:</b> ${mainTarget}`];
+                resultHtml = outputLines.join('<br>');
+                return `<div style="font-size:1.05rem; color:#0284c7; font-weight:600; margin-bottom:12px; letter-spacing:0.5px;">${cardHeaderTitle}</div>` + resultHtml;
+            }
+
+            // Web Link check
             if (data.toLowerCase().startsWith("http://") || data.toLowerCase().startsWith("https://")) {
-                cardHeaderTitle = "Web Link"; let linkifiedVal = data.replace(/(https?:\/\/[^\s]+)/gi, '<a href="$1" target="_blank" class="qr-scanned-link">$1</a>');
+                cardHeaderTitle = "Web Link"; 
+                let linkifiedVal = data.replace(/(https?:\/\/[^\s]+)/gi, '<a href="$1" target="_blank" class="qr-scanned-link">$1</a>');
                 return `<div style="font-size:1.05rem; color:#0284c7; font-weight:600; margin-bottom:12px; letter-spacing:0.5px;">${cardHeaderTitle}</div>` + linkifiedVal;
             }
-            if (upperData.startsWith("MECARD:") || upperData.startsWith("BEGIN:VCARD")) { cardHeaderTitle = upperData.startsWith("BEGIN:VCARD") ? "Card" : "Contact (MECARD)"; if (upperData.startsWith("MECARD:")) data = data.substring(7); }
-            let rawLines = data.split(/\r?\n/); if (rawLines.length <= 2 && data.includes(";")) { rawLines = data.split(';'); }
-            let finalLines = []; let seenEntries = new Set();
+
+            // vCard / MECARD check
+            if (upperData.startsWith("BEGIN:VCARD")) {
+                cardHeaderTitle = "vCard";
+            } else if (upperData.startsWith("MECARD:")) {
+                cardHeaderTitle = "Contact (MECARD)";
+                data = data.substring(7);
+            }
+
+            let rawLines = data.split(/\r?\n/); 
+            if (rawLines.length <= 2 && data.includes(";")) { rawLines = data.split(';'); }
+            let finalLines = []; 
+            let seenEntries = new Set();
+            let parsedFN = "";
+            let parsedN = "";
+            let otherLines = [];
+
             rawLines.forEach(line => {
-                let cleanLine = line.trim(); if (!cleanLine || cleanLine === "BEGIN:VCARD" || cleanLine === "END:VCARD" || cleanLine.toUpperCase().startsWith("VERSION:")) return;
+                let cleanLine = line.trim(); 
+                if (!cleanLine || cleanLine === "BEGIN:VCARD" || cleanLine === "END:VCARD" || cleanLine.toUpperCase().startsWith("VERSION:")) return;
+                
                 if (cleanLine.toLowerCase().startsWith("http://") || cleanLine.toLowerCase().startsWith("https://")) {
                     let linkifiedClean = cleanLine.replace(/(https?:\/\/[^\s]+)/gi, '<a href="$1" target="_blank" class="qr-scanned-link">$1</a>');
-                    if(linkifiedClean.endsWith(';')) linkifiedClean = linkifiedClean.slice(0, -1).trim(); finalLines.push(linkifiedClean); return;
+                    if(linkifiedClean.endsWith(';')) linkifiedClean = linkifiedClean.slice(0, -1).trim(); 
+                    otherLines.push(linkifiedClean); 
+                    return;
                 }
+                
                 let firstColonIdx = cleanLine.indexOf(':');
-                if (firstColonIdx !== -1) {
-                    let leftPart = cleanLine.substring(0, firstColonIdx).trim(); let rawValue = cleanLine.substring(firstColonIdx + 1).trim(); if (!leftPart || !rawValue) return;
-                    let baseTag = leftPart.split(/[;=]+/)[0].toUpperCase(); let cleanValue = rawValue.replace(/^(CHARSET=[A-Z0-9\-]+:?|TYPE=[A-Z0-9,]+:?)+/i, '').trim();
-                    if(cleanValue.startsWith(':') || cleanValue.startsWith(';')) cleanValue = cleanValue.substring(1).trim(); if(cleanValue.endsWith(';')) cleanValue = cleanValue.slice(0, -1).trim(); if (!cleanValue) return;
-                    let displayTag = tagTranslationMap[baseTag] ? tagTranslationMap[baseTag] : baseTag; let uniqueKey = displayTag + "||" + cleanValue; if (seenEntries.has(uniqueKey)) return; seenEntries.add(uniqueKey);
-                    let linkifiedVal = cleanValue.replace(/(https?:\/\/[^\s]+)/gi, '<a href="$1" target="_blank" class="qr-scanned-link">$1</a>'); finalLines.push(`<b>${displayTag}:</b> ${linkifiedVal}`);
+                
+                // কঠোর চেক: যদি কোলন না থাকে, তবে সেটিকে করাপ্টেড বা ফালতু টেক্সট ধরে সরাসরি স্কিপ (হাইড) করে দেবো
+                if (firstColonIdx === -1) {
+                    return; 
+                }
+
+                let leftPart = cleanLine.substring(0, firstColonIdx).trim(); 
+                let rawValue = cleanLine.substring(firstColonIdx + 1).trim(); 
+                if (!leftPart || !rawValue) return;
+                
+                let baseTag = leftPart.split(/[;=]+/)[0].toUpperCase(); 
+                
+                // যদি ট্যাগটি আমাদের চেনা ট্যাগগুলোর বাইরে হয় (যেমন কোনো অদ্ভুত করাপ্টেড টেক্সট), তবে সেটিও হাইড করে দেবো
+                if (!tagTranslationMap[baseTag] && baseTag !== 'FN' && baseTag !== 'N') {
+                    return;
+                }
+
+                let cleanValue = rawValue.replace(/^(CHARSET=[A-Z0-9\-]+:?|TYPE=[A-Z0-9,]+:?)+/i, '').trim();
+                cleanValue = cleanValue.replace(/[;]+$/, '').trim();
+                if(cleanValue.startsWith(':') || cleanValue.startsWith(';')) cleanValue = cleanValue.substring(1).trim(); 
+                if (!cleanValue) return;
+
+                if (baseTag === 'FN') {
+                    parsedFN = cleanValue;
+                } else if (baseTag === 'N') {
+                    parsedN = cleanValue;
                 } else {
-                    let linkifiedClean = cleanLine.replace(/(https?:\/\/[^\s]+)/gi, '<a href="$1" target="_blank" class="qr-scanned-link">$1</a>');
-                    if(linkifiedClean.endsWith(';')) linkifiedClean = linkifiedClean.slice(0, -1).trim(); if(linkifiedClean.trim()) finalLines.push(linkifiedClean);
+                    let displayTag = tagTranslationMap[baseTag]; 
+                    let uniqueKey = displayTag + "||" + cleanValue; 
+                    if (seenEntries.has(uniqueKey)) return; 
+                    seenEntries.add(uniqueKey);
+
+                    let linkifiedVal = cleanValue.replace(/(https?:\/\/[^\s]+)/gi, '<a href="$1" target="_blank" class="qr-scanned-link">$1</a>'); 
+                    otherLines.push(`<b>${displayTag}:</b> ${linkifiedVal}`);
                 }
             });
+
+            if (parsedFN) {
+                finalLines.push(`<b>Full Name:</b> ${parsedFN}`);
+            }
+            if (parsedN && parsedN !== parsedFN) {
+                finalLines.push(`<b>Name:</b> ${parsedN}`);
+            }
+
+            finalLines = finalLines.concat(otherLines);
+
             if (!cardHeaderTitle) cardHeaderTitle = "Text";
-            if (finalLines.length > 0) { resultHtml = finalLines.join('<br>'); return `<div style="font-size:1.05rem; color:#0284c7; font-weight:600; margin-bottom:12px; letter-spacing:0.5px;">${cardHeaderTitle}</div>` + resultHtml; }
+            
+            if (finalLines.length > 0) { 
+                resultHtml = finalLines.join('<br>'); 
+                return `<div style="font-size:1.05rem; color:#0284c7; font-weight:600; margin-bottom:12px; letter-spacing:0.5px;">${cardHeaderTitle}</div>` + resultHtml; 
+            }
             return data;
         }
 
@@ -788,6 +1380,7 @@
             let displayData = parseContactQR(rawDataForClipboard);
             let finalImage = imgSrc || "";
             let finalFileName = fileName || "Scanned_QR.jpg";
+            
             saveScanToLocalStorageHistory(displayData, rawDataForClipboard, finalImage, finalFileName); 
             renderMainDashboardResultPanel(displayData, finalImage, finalFileName);
         }
@@ -923,4 +1516,5 @@
     </script>
 </body>
 </html>
+        
         
