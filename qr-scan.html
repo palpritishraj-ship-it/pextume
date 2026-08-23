@@ -54,6 +54,18 @@
         .mid-history-btn { font-size: 11px; color: var(--link-blue); font-weight: 600; text-transform: uppercase; cursor: pointer; letter-spacing: 0.5px; background: #f0fdf4; padding: 3px 10px; border-radius: 12px; border: 1px solid rgba(0, 210, 160, 0.2); transition: none; display: flex; align-items: center; gap: 4px; }
         .mid-history-btn:hover, .mid-history-btn:active { background: #f0fdf4; transform: none; }
         .settings-bar { display: flex; align-items: center; justify-content: space-between; background: var(--light-gray); border: 1px solid var(--border-color); padding: 10px 14px; border-radius: 12px; margin-bottom: 5px; font-size: 0.85rem; color: #475569; font-weight: 600; }
+        .scanner-settings-row { gap: 10px; }
+        .setting-control { flex: 1; min-width: 0; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+        .setting-control + .setting-control { border-left: 1px solid var(--border-color); padding-left: 10px; }
+        .setting-control span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 0.76rem; }
+        .switch { flex: 0 0 auto; }
+        .switch .slider { box-shadow: inset 0 0 0 1px rgba(15,23,42,.04); }
+        .switch .slider:before { box-shadow: 0 2px 5px rgba(15,23,42,.16); }
+        .action-btn, .file-upload-btn, .snap-shutter-btn, .flash-btn-overlay, .stop-btn-overlay, .mid-history-btn {
+            transition: transform .18s ease, background-color .22s ease, box-shadow .22s ease, opacity .22s ease, color .22s ease;
+        }
+        .action-btn:active, .file-upload-btn:active { transform: none !important; }
+
         .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
         .switch input { opacity: 0; width: 0; height: 0; }
         .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .3s; border-radius: 24px; }
@@ -94,8 +106,13 @@
         .preview-filename { font-size: 0.85rem; color: #64748b; margin-top: 12px; font-weight: 500; word-break: break-all; }
         .result-panel { background: var(--light-gray); border: 1.5px solid var(--primary-green); border-radius: 16px; padding: 18px; margin-top: 15px; text-align: left; display: none; }
         .result-text { color: var(--text-main); font-size: 0.95rem; word-break: break-word; white-space: pre-wrap; margin-bottom: 5px; background: #ffffff; padding: 14px; border-radius: 10px; border: 1px solid var(--border-color); max-height: 250px; overflow-y: auto; line-height: 1.6; }
+        /* Live Scanning: compact result card so camera + result can fit better on one phone screen. */
+        .result-panel.live-compact-result { padding: 11px 12px; margin-top: 10px; border-radius: 14px; }
+        .result-panel.live-compact-result .section-title { font-size: 0.95rem !important; margin-bottom: 7px !important; }
+        .result-panel.live-compact-result .result-text { font-size: 0.88rem; padding: 10px; margin-bottom: 3px; border-radius: 9px; line-height: 1.45; max-height: 180px; }
+        .result-panel.live-compact-result .action-btn { padding: 10px; font-size: 0.9rem; border-radius: 11px; margin-top: 7px; }
         .qr-scanned-link { color: var(--link-blue) !important; text-decoration: underline !important; font-weight: 600; word-break: break-all; }
-        .action-btn { background: var(--btn-green); color: white; border: none; padding: 14px; font-size: 1rem; font-weight: 600; border-radius: 14px; cursor: pointer; width: 100%; transition: all 0.2s ease; margin-top: 10px; box-shadow: none; outline: none; }
+        .action-btn { -webkit-tap-highlight-color: transparent; touch-action: manipulation; background: var(--btn-green); color: white; border: none; padding: 14px; font-size: 1rem; font-weight: 600; border-radius: 14px; cursor: pointer; width: 100%; transition: all 0.2s ease; margin-top: 10px; box-shadow: none; outline: none; }
         .upload-loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.04); backdrop-filter: blur(0px); z-index: 100000; display: none; align-items: center; justify-content: center; }
         .loading-spinner-card { background: #ffffff; padding: 24px 35px; border-radius: 20px; box-shadow: 0 15px 40px rgba(15, 23, 25, 0.15); display: flex; flex-direction: column; align-items: center; gap: 14px; border: 1px solid var(--border-color); }
         .spinner-circle-logo { width: 44px; height: 44px; border: 4px solid #f1f5f9; border-top: 4px solid var(--btn-green); border-radius: 50%; animation: spinCircular 0.8s linear infinite; }
@@ -151,7 +168,7 @@
             -webkit-overflow-scrolling: touch; scrollbar-width: none; -ms-overflow-style: none;
         }
         #sideMenu::-webkit-scrollbar { display: none; }
-    </style>
+    .scan-mode-control{gap:8px}.scan-mode-select{flex:0 0 auto;max-width:145px;border:1px solid var(--border-color);background:#fff;color:var(--text-main);border-radius:9px;padding:6px 8px;font-size:.72rem;font-weight:600;outline:none}.live-status-badge{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);z-index:15;color:#fff;font-size:.85rem;font-weight:700;font-style:italic;letter-spacing:.4px;display:none;align-items:center;gap:8px;text-shadow:0 1px 3px rgba(0,0,0,.55);pointer-events:none}.live-status-dot{width:8px;height:8px;border-radius:50%;background:#ef4444;box-shadow:0 0 8px rgba(239,68,68,.8);animation:liveDotPulse 1.15s ease-in-out infinite}.auto-status-dot{display:none}.live-status-badge.auto-status-badge{color:#fff;font-family:'Montserrat',sans-serif;font-style:normal;font-weight:700;letter-spacing:1.2px;text-shadow:0 2px 5px rgba(0,0,0,.55);animation:autoLedBlink 1.15s steps(1,end) infinite;transform-style:preserve-3d}@keyframes liveDotPulse{0%,100%{opacity:.55;transform:scale(.85)}50%{opacity:1;transform:scale(1.08)}}@keyframes autoLedBlink{0%,48%{opacity:1;text-shadow:0 0 8px rgba(255,255,255,.85),0 2px 5px rgba(0,0,0,.55)}49%,100%{opacity:.08;text-shadow:0 2px 5px rgba(0,0,0,.55)}}</style>
 </head>
 <body>
     <div class="main-fixed-header"><div class="top-header"></div></div>
@@ -159,13 +176,16 @@
     <div class="app-container">
         <h2>QR Code Scanner</h2>
         <p>Scan any QR code with your device camera or quickly drop an image here from your device gallery.</p>
-        <div class="settings-bar">
-            <span>🔊 Scan Success Beep Sound</span>
-            <label class="switch"><input type="checkbox" id="beepToggle" checked><span class="slider"></span></label>
+        <div class="settings-bar scanner-settings-row">
+            <div class="setting-control scan-mode-control"><span>👉</span><select id="scanModeSelect" class="scan-mode-select"><option value="snap">Snap &amp; Scan</option><option value="auto">Auto Scan</option><option value="live">Live Scanning</option></select></div>
+            <div class="setting-control">
+                <span>🔊 Beep Sound</span>
+                <label class="switch"><input type="checkbox" id="beepToggle" checked><span class="slider"></span></label>
+            </div>
         </div>
-        <button class="action-btn" id="startCamBtn" onclick="startCameraScanner()">📷 Start Live Camera Scan</button>
+        <button class="action-btn" id="startCamBtn" onclick="startCameraScanner()">📷 Start Camera Scanning</button>
         <div class="scanner-view-wrapper" id="scannerWrapper">
-            <div class="low-light-alert-badge" id="lowLightAlertBadge">⚠️ Low Light! Tap Flash ⚡</div>
+            <div class="low-light-alert-badge" id="lowLightAlertBadge">⚠️ Low Light! Tap Flash ⚡</div><div class="live-status-badge" id="liveStatusBadge"><span class="live-status-dot" id="liveStatusDot"></span><span id="liveStatusText">LIVE</span></div>
             <button class="snap-shutter-btn" id="snapShutterBtn" onpointerdown="captureAndScanCameraSnapshot(event)">📸 Snap & Scan</button>
             <div class="stop-btn-overlay" id="stopCamOverlayBtn" onclick="stopCameraScanner()">✕</div>
             <div class="flash-btn-overlay" id="flashToggleBtn" onpointerdown="executeInstantTorchToggle(event)">⚡</div>
@@ -257,7 +277,22 @@
         let isFlashOn = false; 
         let lowLightCheckInterval = null;
         let focusCheckInterval = null;
+        let liveScanInterval = null;
+        let liveBarcodeDetector = null;
+        let liveScanBusy = false;
+        let lastLiveScanData = "";
+        let lastLiveScanTime = 0;
+        let liveScanRequestId = 0;
+        // In Live Scanning, allow the page to auto-scroll only once: after the first successful scan.
+        let liveFirstResultScrollDone = false;
+        // In Live Scanning, remember where the camera settled after the first result.
+        // If the user manually moves the camera down afterward, the next scan can
+        // bring it back up again.
+        let liveLastResultScrollY = null;
         window.addEventListener('DOMContentLoaded', (event) => {
+            const scanModeSelect = document.getElementById('scanModeSelect');
+            if (scanModeSelect) scanModeSelect.addEventListener('change', handleScanModeChange);
+
             let urlParams = new URLSearchParams(window.location.search);
             if (urlParams.has('pextumedata')) {
                 let interceptedData = urlParams.get('pextumedata');
@@ -287,7 +322,124 @@
             } catch (e) { console.log("Audio not supported", e); }
         }
 
+
+        function getScanMode(){const s=document.getElementById('scanModeSelect');return s?s.value:'snap';}
+        function isAutoScanningEnabled(){return getScanMode()==='auto';}
+        function isContinuousLiveScanningEnabled(){return getScanMode()==='live';}
+        function isAutomaticScanningEnabled(){return isAutoScanningEnabled()||isContinuousLiveScanningEnabled();}
+        function updateLiveScanLayout(){
+            const isLive = isContinuousLiveScanningEnabled();
+            const galleryHeader = document.querySelector('.mid-section-header-container');
+            const galleryUpload = document.querySelector('.file-upload-wrapper');
+            const previewPanel = document.getElementById('imagePreviewPanel');
+            if (galleryHeader) galleryHeader.style.display = isLive && videoStream ? 'none' : '';
+            if (galleryUpload) galleryUpload.style.display = isLive && videoStream ? 'none' : '';
+            if (isLive && videoStream && previewPanel) previewPanel.style.display = 'none';
+        }
+        function updateScanModeUI(){const b=document.getElementById('snapShutterBtn'),l=document.getElementById('liveStatusBadge'),d=document.getElementById('liveStatusDot'),t=document.getElementById('liveStatusText');const mode=getScanMode();if(b)b.style.display=videoStream&&mode==='snap'?'flex':'none';if(l)l.style.display=videoStream&&(mode==='live'||mode==='auto')?'flex':'none';if(d)d.classList.toggle('auto-status-dot',mode==='auto');if(l)l.classList.toggle('auto-status-badge',mode==='auto');if(t)t.textContent=mode==='auto'?'AUTO SCAN':'LIVE SCAN';updateLiveScanLayout();}
+        function updateSnapButtonMode(){updateScanModeUI();}
+        function stopLiveScanningEngine() {
+            liveScanRequestId++;
+            liveScanBusy = false;
+            if (liveScanInterval) {
+                clearInterval(liveScanInterval);
+                liveScanInterval = null;
+            }
+            lastLiveScanData = "";
+            lastLiveScanTime = 0;
+            liveBarcodeDetector = null;
+        }
+
+        function startLiveScanningEngine() {
+            stopLiveScanningEngine();
+            if (!videoStream || !isAutomaticScanningEnabled()) {
+                updateSnapButtonMode();
+                return;
+            }
+
+            const requestId = liveScanRequestId;
+
+            // Create BarcodeDetector once instead of rebuilding it on every frame.
+            if ('BarcodeDetector' in window && !liveBarcodeDetector) {
+                try {
+                    liveBarcodeDetector = new BarcodeDetector({ formats: ['qr_code'] });
+                } catch (e) {
+                    liveBarcodeDetector = null;
+                }
+            }
+
+            liveScanInterval = setInterval(() => {
+                if (requestId !== liveScanRequestId || !videoStream || !isAutomaticScanningEnabled() || liveScanBusy) return;
+
+                const video = document.getElementById('scannerVideo');
+                if (!video || video.readyState < video.HAVE_CURRENT_DATA || video.videoWidth < 2 || video.videoHeight < 2) return;
+
+                liveScanBusy = true;
+
+                try {
+                    const maxSize = 720;
+                    const scale = Math.min(1, maxSize / Math.max(video.videoWidth, video.videoHeight));
+                    const canvas = document.createElement('canvas');
+                    canvas.width = Math.max(1, Math.round(video.videoWidth * scale));
+                    canvas.height = Math.max(1, Math.round(video.videoHeight * scale));
+
+                    const ctx = canvas.getContext('2d', { willReadFrequently: true });
+                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+                    if (liveBarcodeDetector) {
+                        liveBarcodeDetector.detect(canvas).then(results => {
+                            if (requestId !== liveScanRequestId || !videoStream || !isAutomaticScanningEnabled()) {
+                                liveScanBusy = false;
+                                return;
+                            }
+                            if (results.length && results[0].rawValue) {
+                                finishLiveScan(results[0].rawValue.trim());
+                            } else {
+                                liveScanBusy = false;
+                            }
+                        }).catch(() => {
+                            tryLiveJsQr(ctx, canvas.width, canvas.height, requestId);
+                        });
+                    } else {
+                        tryLiveJsQr(ctx, canvas.width, canvas.height, requestId);
+                    }
+                } catch (e) {
+                    liveScanBusy = false;
+                }
+            }, 100);
+        }
+
+        function tryLiveJsQr(ctx, width, height, requestId) {
+            if (requestId !== liveScanRequestId || !videoStream || !isAutomaticScanningEnabled()) {
+                liveScanBusy = false;
+                return;
+            }
+
+            let code = null;
+            try {
+                const imageData = ctx.getImageData(0, 0, width, height);
+                code = jsQR(imageData.data, imageData.width, imageData.height, {
+                    inversionAttempts: "attemptBoth"
+                });
+            } catch (e) {}
+
+            if (code && code.data) finishLiveScan(code.data.trim());
+            else liveScanBusy = false;
+        }
+
+        function finishLiveScan(codeData){
+            if(!codeData||!videoStream||!isAutomaticScanningEnabled()){liveScanBusy=false;return;}
+            const now=Date.now(); if(codeData===lastLiveScanData&&(now-lastLiveScanTime)<1800){liveScanBusy=false;return;}
+            lastLiveScanData=codeData; lastLiveScanTime=now; liveScanBusy=false; try{if(navigator.vibrate)navigator.vibrate(180)}catch(e){}
+            const video=document.getElementById('scannerVideo'); let snap=null; try{if(video&&video.videoWidth){const c=document.createElement('canvas');c.width=video.videoWidth;c.height=video.videoHeight;c.getContext('2d').drawImage(video,0,0,c.width,c.height);snap=c.toDataURL('image/jpeg',.88)}}catch(e){}
+            const continuous=isContinuousLiveScanningEnabled();
+            if(!continuous){stopLiveScanningEngine();try{if(videoStream)videoStream.getTracks().forEach(t=>t.stop())}catch(e){} videoStream=null;if(lowLightCheckInterval){clearInterval(lowLightCheckInterval);lowLightCheckInterval=null}if(focusCheckInterval){clearInterval(focusCheckInterval);focusCheckInterval=null}document.getElementById('scannerWrapper').style.display='none';document.getElementById('startCamBtn').style.display='block';document.getElementById('flashToggleBtn').style.display='none';updateScanModeUI()}
+            const ov=document.getElementById('uploadLoadingOverlay'),tx=document.getElementById('loadingTextLabel'); if(ov){if(tx)tx.textContent='Scanning...';ov.style.display='flex';setTimeout(()=>{ov.style.display='none';playSuccessBeep();showScanResult(codeData,snap,continuous?'Live_Scan.jpg':'Camera_Auto_Scan.jpg');if(continuous&&videoStream){setTimeout(()=>{lastLiveScanData='';startLiveScanningEngine();updateScanModeUI()},500)}},300)}else{playSuccessBeep();showScanResult(codeData,snap,continuous?'Live_Scan.jpg':'Camera_Auto_Scan.jpg');if(continuous&&videoStream){lastLiveScanData='';startLiveScanningEngine()}}
+        }
+        function handleScanModeChange(){if(!videoStream){updateLiveScanLayout();updateScanModeUI();return;}stopLiveScanningEngine();if(isAutomaticScanningEnabled())startLiveScanningEngine();updateScanModeUI();}
         async function startCameraScanner() {
+            // Each new Live Scanning camera session gets one initial result scroll.
+            if (getScanMode() === 'live') { liveFirstResultScrollDone = false; liveLastResultScrollY = null; }
             try {
                 const permissionStatus = await navigator.permissions.query({ name: 'camera' });
                 if (permissionStatus.state === 'denied') {
@@ -352,8 +504,11 @@
                  if (loadingOverlay) loadingOverlay.style.display = 'none';   
                  document.getElementById('scannerWrapper').style.display = 'block';
                     document.getElementById('startCamBtn').style.display = 'none';
+                    updateLiveScanLayout();
     startLowLightDetectionEngine();
-                    startFocusDetectionEngine();                
+                    startFocusDetectionEngine();
+                    updateSnapButtonMode();
+                    if (isAutomaticScanningEnabled()) startLiveScanningEngine();                
                    
                     try {
                         let track = videoStream.getVideoTracks()[0];
@@ -414,7 +569,9 @@
 
                     let sharpnessScore = sum / count;
 
-                    if (sharpnessScore > 3) {
+                    if (isAutomaticScanningEnabled()) {
+                        snapBtn.style.display = 'none';
+                    } else if (sharpnessScore > 3) {
                         snapBtn.style.display = 'flex';
                     } else {
                         snapBtn.style.display = 'none';
@@ -460,6 +617,7 @@
         }
 
         function stopCameraScanner() {
+            stopLiveScanningEngine();
             if (lowLightCheckInterval) { clearInterval(lowLightCheckInterval); lowLightCheckInterval = null; }
             if (focusCheckInterval) { clearInterval(focusCheckInterval); focusCheckInterval = null; }
             let badge = document.getElementById('lowLightAlertBadge');
@@ -467,6 +625,7 @@
 
             let snapBtn = document.getElementById('snapShutterBtn');
             if(snapBtn) snapBtn.style.display = 'none';
+            const liveBadge=document.getElementById('liveStatusBadge'); if(liveBadge) liveBadge.style.display='none';
 
             if (isFlashOn && videoStream) {
                 try {
@@ -486,6 +645,7 @@
             
             let wrapper = document.getElementById('scannerWrapper');
             if(wrapper) wrapper.style.display = 'none';
+            updateLiveScanLayout();
             
             let startBtn = document.getElementById('startCamBtn');
             if(startBtn) startBtn.style.display = 'block';
@@ -535,6 +695,7 @@
         }                   
         function captureAndScanCameraSnapshot(event) {
             event.preventDefault();
+            if (isAutomaticScanningEnabled()) return;
             let video = document.getElementById('scannerVideo');
             if (!video || video.readyState !== video.HAVE_ENOUGH_DATA) {
                 alert("Camera is not ready yet!");
@@ -553,6 +714,12 @@
             ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
             let snapshotDataUrl = canvas.toDataURL('image/jpeg', 0.9);
+
+            // Match Live Scan behavior: freeze/stop the camera immediately after
+            // capturing the frame, then do the QR processing while the scan
+            // animation runs. This prevents camera rendering from competing
+            // with the spinner on slower phones.
+            stopCameraScanner();
 
             setTimeout(async () => {
                 let codeData = null;
@@ -585,7 +752,6 @@
                 }
 
                 if(loadingOverlay) loadingOverlay.style.display = 'none';
-                stopCameraScanner();
 
                 if (codeData) {
                     playSuccessBeep();
@@ -1312,12 +1478,16 @@ function loadImage(src) {
             finalLines = finalLines.concat(otherLines);
 
             if (!cardHeaderTitle) cardHeaderTitle = "Text";
-            
-            if (finalLines.length > 0) { 
-                resultHtml = finalLines.join('<br>'); 
-                return `<div style="font-size:1.05rem; color:#0284c7; font-weight:600; margin-bottom:12px; letter-spacing:0.5px;">${cardHeaderTitle}</div>` + resultHtml; 
-            }
-            return data;
+
+const titleHtml = `<div style="font-size:1.05rem; color:#0284c7; font-weight:600; margin-bottom:12px; letter-spacing:0.5px;">${cardHeaderTitle}</div>`;
+
+if (finalLines.length > 0) { 
+    resultHtml = finalLines.join('<br>'); 
+    return titleHtml + resultHtml; 
+}
+
+// Plain Text QR-এর ক্ষেত্রেও title দেখাবে
+return titleHtml + data;
         }
 
         function saveScanToLocalStorageHistory(parsedContent, rawCleanText, imgSrc, fileName) {
@@ -1325,54 +1495,28 @@ function loadImage(src) {
         let historyData = localStorage.getItem('pextume_qr_history');
         let historyArray = historyData ? JSON.parse(historyData) : [];
 
-        let now = new Date();
-        let dateStr = now.toLocaleDateString('en-US', {
-            day: '2-digit',
-            month: 'short',
-            year: 'numeric'
-        });
-
-        let timeStr = now.toLocaleTimeString('en-US', {
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-            hour12: true
-        });
-
-        let fullTimestamp = `${dateStr} at ${timeStr}`;
-
-        let uniqueForcedId =
-            "id_" + Date.now() + "_" + Math.floor(Math.random() * 10000000000);
-
-        let cleanRaw = rawCleanText
-            ? rawCleanText.split(' [Scan ID:')[0].trim()
-            : "Scanned Data";
-
-        let uniqueRawText =
-            cleanRaw + " [Scan ID:" + Date.now() + "_" +
-            Math.floor(Math.random() * 999999999) + "]";
-
-        historyArray.unshift({
-            id: uniqueForcedId,
-            timestamp: fullTimestamp,
-            content: parsedContent,
-            rawText: uniqueRawText,
-            imgSrc: "",
-            fileName: fileName || "Scanned QR Image"
-        });
-
-        if (historyArray.length > 500) {
-            historyArray = historyArray.slice(0, 500);
+        // Do not save the same QR twice in a row. The result is still displayed normally;
+        // only the history entry is skipped. If a different QR is scanned in between,
+        // the original QR can be saved again.
+        const cleanRaw = rawCleanText ? rawCleanText.split(' [Scan ID:')[0].trim() : "Scanned Data";
+        if (historyArray.length > 0) {
+            const previousRaw = historyArray[0] && historyArray[0].rawText
+                ? historyArray[0].rawText.split(' [Scan ID:')[0].trim()
+                : "";
+            if (previousRaw === cleanRaw) return;
         }
 
-        localStorage.setItem(
-            'pextume_qr_history',
-            JSON.stringify(historyArray)
-        );
+        let now = new Date();
+        let dateStr = now.toLocaleDateString('en-US', { day:'2-digit', month:'short', year:'numeric' });
+        let timeStr = now.toLocaleTimeString('en-US', { hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:true });
+        let fullTimestamp = `${dateStr} at ${timeStr}`;
+        let uniqueForcedId = "id_" + Date.now() + "_" + Math.floor(Math.random() * 10000000000);
+        let uniqueRawText = cleanRaw + " [Scan ID:" + Date.now() + "_" + Math.floor(Math.random() * 999999999) + "]";
 
-    } catch(err) {
-        console.log("Storage error: ", err);
-    }
+        historyArray.unshift({ id:uniqueForcedId, timestamp:fullTimestamp, content:parsedContent, rawText:uniqueRawText, imgSrc:"", fileName:fileName || "Scanned QR Image" });
+        if (historyArray.length > 500) historyArray = historyArray.slice(0, 500);
+        localStorage.setItem('pextume_qr_history', JSON.stringify(historyArray));
+    } catch(err) { console.log("Storage error: ", err); }
 }
 
         function showScanResult(data, imgSrc, fileName) {
@@ -1386,12 +1530,16 @@ function loadImage(src) {
         }
 
         function renderMainDashboardResultPanel(displayData, imgSrc, fileName) {
-            if (imgSrc && imgSrc.trim() !== "") { 
+            const previewPanel = document.getElementById('imagePreviewPanel');
+            if (isContinuousLiveScanningEnabled() && videoStream) {
+                // Live Scanning keeps the camera at the top; no QR snapshot/gallery preview is shown.
+                if (previewPanel) previewPanel.style.display = 'none';
+            } else if (imgSrc && imgSrc.trim() !== "") { 
                 document.getElementById('previewImgElement').src = imgSrc; 
                 document.getElementById('previewFileNameText').innerText = fileName || "Scanned_QR.jpg"; 
-                document.getElementById('imagePreviewPanel').style.display = 'flex'; 
+                if (previewPanel) previewPanel.style.display = 'flex'; 
             } else { 
-                document.getElementById('imagePreviewPanel').style.display = 'none'; 
+                if (previewPanel) previewPanel.style.display = 'none';
             }
             
             const actionBtn = document.getElementById('actionBtn');
@@ -1400,15 +1548,37 @@ function loadImage(src) {
             actionBtn.style.color = "#ffffff";
             
             document.getElementById('resultText').innerHTML = displayData; 
-            document.getElementById('resultPanel').style.display = 'block';
+            const resultPanelEl = document.getElementById('resultPanel');
+            resultPanelEl.classList.toggle('live-compact-result', isContinuousLiveScanningEnabled());
+            resultPanelEl.style.display = 'block';
         
 
-     setTimeout(() => {
-        let resultPanel = document.getElementById('resultPanel');
-        if (resultPanel) {
-            resultPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+     if (!isContinuousLiveScanningEnabled()) {
+        setTimeout(() => {
+            let resultPanel = document.getElementById('resultPanel');
+            if (resultPanel) {
+                resultPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }, 100);
+    } else {
+        // Live Scanning: on the first successful scan, move the camera upward once.
+        // After that, do not move the page unless the user has manually moved the
+        // camera down again. In that case the next successful scan brings it back up.
+        const scannerWrapper = document.getElementById('scannerWrapper');
+        const cameraTopNow = scannerWrapper ? scannerWrapper.getBoundingClientRect().top : 0;
+        const userMovedCameraDown = liveFirstResultScrollDone && cameraTopNow > 180;
+
+        if (!liveFirstResultScrollDone || userMovedCameraDown) {
+            liveFirstResultScrollDone = true;
+            setTimeout(() => {
+                let resultPanel = document.getElementById('resultPanel');
+                if (resultPanel) {
+                    resultPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+                liveLastResultScrollY = window.scrollY;
+            }, 100);
         }
-    }, 100);
+    }
 }
         function handleResultAction() {
             if (!rawDataForClipboard) return;
