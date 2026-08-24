@@ -535,7 +535,11 @@
                 try{
                     stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{exact:next},width:{ideal:1920},height:{ideal:1080}}});
                 }catch(e){
-                    stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:next},width:{ideal:1920},height:{ideal:1080}}});
+                    // Some phones do not allow two camera streams at once.
+                    // Only in that case stop the old stream and retry with a flexible constraint.
+                    try{ oldStream.getTracks().forEach(t=>t.stop()); }catch(_){}
+                    videoStream=null;
+                    stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:next},width:{ideal:1280},height:{ideal:720}}});
                 }
 
                 const revealVideo=document.createElement('video');
@@ -545,10 +549,11 @@
                 container.appendChild(revealVideo);
                 await revealVideo.play();
 
-                // Wait for an actual frame so the reveal never exposes a black frame.
+                // Wait briefly for the first real camera frame.
                 await new Promise(resolve=>{
                     if(revealVideo.readyState>=2) requestAnimationFrame(resolve);
                     else revealVideo.addEventListener('loadeddata',()=>requestAnimationFrame(resolve),{once:true});
+                    setTimeout(resolve,1200);
                 });
 
                 currentFacingMode=next;
@@ -577,8 +582,9 @@
                     const fallback=document.querySelector('.camera-switch-reveal-video');
                     if(fallback) { const st=fallback.srcObject; fallback.remove(); if(st) st.getTracks().forEach(t=>t.stop()); }
                 }catch(_){}
-                videoStream=oldStream;
-                alert("📷 Unable to switch camera on this device.");
+                // Keep the current camera alive whenever possible; do not show a failure alert.
+                videoStream = oldStream || videoStream;
+                console.warn('Camera switch failed:', e);
             }
         }
 
