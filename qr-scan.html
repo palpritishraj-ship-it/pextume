@@ -168,7 +168,19 @@
             -webkit-overflow-scrolling: touch; scrollbar-width: none; -ms-overflow-style: none;
         }
         #sideMenu::-webkit-scrollbar { display: none; }
-    .scan-mode-control{gap:8px}.scan-mode-select{flex:0 0 auto;max-width:145px;border:1px solid var(--border-color);background:#fff;color:var(--text-main);border-radius:9px;padding:6px 8px;font-size:.72rem;font-weight:600;outline:none}.live-status-badge{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);z-index:15;color:#fff;font-size:.85rem;font-weight:700;font-style:italic;letter-spacing:.4px;display:none;align-items:center;gap:8px;text-shadow:0 1px 3px rgba(0,0,0,.55);pointer-events:none}.live-status-dot{width:8px;height:8px;border-radius:50%;background:#ef4444;box-shadow:0 0 8px rgba(239,68,68,.8);animation:liveDotPulse 1.15s ease-in-out infinite}.auto-status-dot{display:none}.live-status-badge.auto-status-badge{color:#fff;font-family:'Montserrat',sans-serif;font-style:normal;font-weight:700;letter-spacing:1.2px;text-shadow:0 2px 5px rgba(0,0,0,.55);animation:autoLedBlink 1.15s steps(1,end) infinite;transform-style:preserve-3d}@keyframes liveDotPulse{0%,100%{opacity:.55;transform:scale(.85)}50%{opacity:1;transform:scale(1.08)}}@keyframes autoLedBlink{0%,48%{opacity:1;text-shadow:0 0 8px rgba(255,255,255,.85),0 2px 5px rgba(0,0,0,.55)}49%,100%{opacity:.08;text-shadow:0 2px 5px rgba(0,0,0,.55)}}</style>
+    .scan-mode-control{gap:8px}.scan-mode-select{flex:0 0 auto;max-width:145px;border:1px solid var(--border-color);background:#fff;color:var(--text-main);border-radius:9px;padding:6px 8px;font-size:.72rem;font-weight:600;outline:none}.live-status-badge{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);z-index:15;color:#fff;font-size:.85rem;font-weight:700;font-style:italic;letter-spacing:.4px;display:none;align-items:center;gap:8px;text-shadow:0 1px 3px rgba(0,0,0,.55);pointer-events:none}.live-status-dot{width:8px;height:8px;border-radius:50%;background:#ef4444;box-shadow:0 0 8px rgba(239,68,68,.8);animation:liveDotPulse 1.15s ease-in-out infinite}.auto-status-dot{display:none}.live-status-badge.auto-status-badge{color:#fff;font-family:'Montserrat',sans-serif;font-style:normal;font-weight:700;letter-spacing:1.2px;text-shadow:0 2px 5px rgba(0,0,0,.55);animation:autoLedBlink 1.15s steps(1,end) infinite;transform-style:preserve-3d}@keyframes liveDotPulse{0%,100%{opacity:.55;transform:scale(.85)}50%{opacity:1;transform:scale(1.08)}}@keyframes autoLedBlink{0%,48%{opacity:1;text-shadow:0 0 8px rgba(255,255,255,.85),0 2px 5px rgba(0,0,0,.55)}49%,100%{opacity:.08;text-shadow:0 2px 5px rgba(0,0,0,.55)}}
+        /* Camera controls */
+        .camera-bottom-controls{position:absolute;left:9px;right:9px;bottom:9px;z-index:20;display:flex;justify-content:space-between;align-items:flex-end;pointer-events:none}
+        .camera-switch-btn,.camera-zoom-btn{pointer-events:auto;border:none;background:rgba(0,0,0,.3);color:#fff;cursor:pointer;touch-action:manipulation;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none}
+        .camera-switch-btn{width:46px;height:46px;border-radius:50%;font-size:1.35rem;display:flex;align-items:center;justify-content:center}
+        .camera-zoom-btn{width:46px;min-width:46px;height:46px;padding:0;border-radius:50%;font-size:.82rem;font-weight:700;line-height:1}
+        .camera-switch-btn:active,.camera-zoom-btn:active{transform:none !important;}
+        .camera-switch-icon{width:28px;height:28px;display:block;overflow:visible}
+        @keyframes cameraSwitchSpin { 0% { transform: rotate(0deg); } 100% { transform: rotate(180deg); } }
+        .camera-switch-icon.is-switching { animation: cameraSwitchSpin .62s cubic-bezier(.22,.61,.36,1) 1; transform-origin: 50% 50%; }
+        .camera-switch-btn{padding:0}
+
+</style>
 </head>
 <body>
     <div class="main-fixed-header"><div class="top-header"></div></div>
@@ -177,7 +189,7 @@
         <h2>QR Code Scanner</h2>
         <p>Scan any QR code with your device camera or quickly drop an image here from your device gallery.</p>
         <div class="settings-bar scanner-settings-row">
-            <div class="setting-control scan-mode-control"><span>👉</span><select id="scanModeSelect" class="scan-mode-select"><option value="snap">Snap &amp; Scan</option><option value="auto">Auto Scan</option><option value="live">Live Scanning</option></select></div>
+            <div class="setting-control scan-mode-control"><span>🤳</span><select id="scanModeSelect" class="scan-mode-select"><option value="snap">Snap &amp; Scan</option><option value="auto">Auto Scan</option><option value="live">Live Scanning</option></select></div>
             <div class="setting-control">
                 <span>🔊 Beep Sound</span>
                 <label class="switch"><input type="checkbox" id="beepToggle" checked><span class="slider"></span></label>
@@ -187,6 +199,20 @@
         <div class="scanner-view-wrapper" id="scannerWrapper">
             <div class="low-light-alert-badge" id="lowLightAlertBadge">⚠️ Low Light! Tap Flash ⚡</div><div class="live-status-badge" id="liveStatusBadge"><span class="live-status-dot" id="liveStatusDot"></span><span id="liveStatusText">LIVE</span></div>
             <button class="snap-shutter-btn" id="snapShutterBtn" onpointerdown="captureAndScanCameraSnapshot(event)">📸 Snap & Scan</button>
+            <div class="camera-bottom-controls">
+                <button class="camera-switch-btn" id="switchCameraBtn" onclick="switchCamera()" aria-label="Switch Camera" title="Switch Camera">
+    <svg class="camera-switch-icon" viewBox="0 0 64 64" aria-hidden="true">
+        <path d="M21 17a22 22 0 0 1 34 10" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+        <path d="M55 10v17H38" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M43 47a22 22 0 0 1-34-10" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+        <path d="M9 54V37h17" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+        <rect x="23" y="24" width="18" height="14" rx="4" fill="currentColor"/>
+        <circle cx="32" cy="31" r="5" fill="rgba(0,0,0,.3)"/>
+        <path d="M27 24l2.5-3h5l2.5 3" fill="currentColor"/>
+    </svg>
+</button>
+                <button class="camera-zoom-btn" id="zoomBtn" onclick="cycleCameraZoom()" aria-label="Camera Zoom">1×</button>
+            </div>
             <div class="stop-btn-overlay" id="stopCamOverlayBtn" onclick="stopCameraScanner()">✕</div>
             <div class="flash-btn-overlay" id="flashToggleBtn" onpointerdown="executeInstantTorchToggle(event)">⚡</div>
             <div id="videoContainer" style="width:100%; height:100%;"></div>
@@ -289,6 +315,10 @@
         // If the user manually moves the camera down afterward, the next scan can
         // bring it back up again.
         let liveLastResultScrollY = null;
+        let currentFacingMode = "environment";
+        let cameraZoom = 1;
+        let nativeZoomAvailable = false;
+        let nativeZoomMax = 4;
         window.addEventListener('DOMContentLoaded', (event) => {
             const scanModeSelect = document.getElementById('scanModeSelect');
             if (scanModeSelect) scanModeSelect.addEventListener('change', handleScanModeChange);
@@ -384,7 +414,7 @@
                     canvas.height = Math.max(1, Math.round(video.videoHeight * scale));
 
                     const ctx = canvas.getContext('2d', { willReadFrequently: true });
-                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    drawZoomedVideoFrame(video, ctx, canvas.width, canvas.height);
 
                     if (liveBarcodeDetector) {
                         liveBarcodeDetector.detect(canvas).then(results => {
@@ -437,6 +467,89 @@
             const ov=document.getElementById('uploadLoadingOverlay'),tx=document.getElementById('loadingTextLabel'); if(ov){if(tx)tx.textContent='Scanning...';ov.style.display='flex';setTimeout(()=>{ov.style.display='none';playSuccessBeep();showScanResult(codeData,snap,continuous?'Live_Scan.jpg':'Camera_Auto_Scan.jpg');if(continuous&&videoStream){setTimeout(()=>{lastLiveScanData='';startLiveScanningEngine();updateScanModeUI()},500)}},300)}else{playSuccessBeep();showScanResult(codeData,snap,continuous?'Live_Scan.jpg':'Camera_Auto_Scan.jpg');if(continuous&&videoStream){lastLiveScanData='';startLiveScanningEngine()}}
         }
         function handleScanModeChange(){if(!videoStream){updateLiveScanLayout();updateScanModeUI();return;}stopLiveScanningEngine();if(isAutomaticScanningEnabled())startLiveScanningEngine();updateScanModeUI();}
+
+        function getCameraTrack(){
+            return videoStream && videoStream.getVideoTracks ? videoStream.getVideoTracks()[0] : null;
+        }
+        function updateZoomButton(){
+            const b=document.getElementById('zoomBtn');
+            if(!b) return;
+            const level=Math.max(1,Math.min(4,Number(cameraZoom)||1));
+            b.textContent=level+'×';
+            b.style.fontSize=(0.82 + (level-1)*0.08)+'rem';
+        }
+        function drawZoomedVideoFrame(video,ctx,w,h){
+            const z=Math.max(1,Math.min(4,cameraZoom||1));
+            if(z<=1){ctx.drawImage(video,0,0,w,h);return;}
+            const vw=video.videoWidth,vh=video.videoHeight,sw=vw/z,sh=vh/z;
+            ctx.drawImage(video,(vw-sw)/2,(vh-sh)/2,sw,sh,0,0,w,h);
+        }
+        async function applyCameraZoom(){
+            const video=document.getElementById('scannerVideo');
+            const track=getCameraTrack();
+            let native=false;
+            try{
+                const caps=track && track.getCapabilities ? track.getCapabilities() : {};
+                if(caps.zoom){
+                    nativeZoomAvailable=true;
+                    nativeZoomMax=Math.min(4, Number(caps.zoom.max||4));
+                    const z=Math.max(Number(caps.zoom.min||1),Math.min(nativeZoomMax,cameraZoom));
+                    await track.applyConstraints({advanced:[{zoom:z}]});
+                    native=true;
+                }
+            }catch(e){}
+            if(video) video.style.transform=native?'scale(1)':'scale('+Math.max(1,cameraZoom)+')';
+            updateZoomButton();
+        }
+        async function cycleCameraZoom(){
+            if(!videoStream) return;
+            cameraZoom = cameraZoom>=4 ? 1 : cameraZoom+1;
+            await applyCameraZoom();
+        }
+        async function switchCamera(){
+            if(!videoStream) return;
+
+            // Smoothly rotate only the camera-switch icon exactly 180 degrees.
+            const switchIcon = document.querySelector('#switchCameraBtn .camera-switch-icon');
+            if (switchIcon) {
+                switchIcon.classList.remove('is-switching');
+                void switchIcon.offsetWidth; // restart the animation on every tap
+                switchIcon.classList.add('is-switching');
+                setTimeout(() => switchIcon.classList.remove('is-switching'), 700);
+            }
+
+            stopLiveScanningEngine();
+            try{videoStream.getTracks().forEach(t=>t.stop())}catch(e){}
+            videoStream=null;
+            const next=currentFacingMode==='environment'?'user':'environment';
+            try{
+                let stream;
+                try{
+                    stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{exact:next},width:{ideal:1920},height:{ideal:1080}}});
+                }catch(e){
+                    stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:next},width:{ideal:1920},height:{ideal:1080}}});
+                }
+                currentFacingMode=next;
+                videoStream=stream;
+                const video=document.getElementById('scannerVideo');
+                video.srcObject=stream;
+                video.style.transform='scale(1)';
+                await video.play();
+                await applyCameraZoom();
+                startLowLightDetectionEngine();
+                startFocusDetectionEngine();
+                updateSnapButtonMode();
+                if(isAutomaticScanningEnabled()) startLiveScanningEngine();
+                try{
+                    const track=stream.getVideoTracks()[0], caps=track.getCapabilities();
+                    if(caps.focusMode&&caps.focusMode.includes('continuous')) await track.applyConstraints({advanced:[{focusMode:'continuous'}]});
+                    document.getElementById('flashToggleBtn').style.display=caps.torch?'flex':'none';
+                }catch(e){}
+            }catch(e){
+                alert("📷 Unable to switch camera on this device.");
+            }
+        }
+
         async function startCameraScanner() {
             // Each new Live Scanning camera session gets one initial result scroll.
             if (getScanMode() === 'live') { liveFirstResultScrollDone = false; liveLastResultScrollY = null; }
@@ -468,6 +581,9 @@
             }      
           
             try {
+                currentFacingMode = "environment";
+                cameraZoom = 1;
+                nativeZoomAvailable = false;
                 videoStream = await navigator.mediaDevices.getUserMedia({ 
                     video: { 
                     facingMode: { ideal: "environment" }, 
@@ -654,6 +770,7 @@
             
             let container = document.getElementById('videoContainer');
             if(container) container.innerHTML = '';
+            cameraZoom=1; nativeZoomAvailable=false; nativeZoomMax=4; updateZoomButton();
         }
 
         document.addEventListener("visibilitychange", function() {
@@ -711,7 +828,7 @@
             canvas.width = video.videoWidth;
             canvas.height = video.videoHeight;
             let ctx = canvas.getContext("2d", { willReadFrequently: true });
-            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            drawZoomedVideoFrame(video, ctx, canvas.width, canvas.height);
 
             let snapshotDataUrl = canvas.toDataURL('image/jpeg', 0.9);
 
@@ -762,7 +879,7 @@
             }, 50);
         }
         /* 🎯 গ্যালারি ইমেজ স্ক্যানার (রঙিন কোড ডিটেকশনের মাল্টি-লেয়ার ব্যাকআপসহ) */
-        async function scanQRFromImage(event) {
+       async function scanQRFromImage(event) {
 
     const file = event.target.files[0];
     if (!file) return;
@@ -1296,7 +1413,7 @@ function loadImage(src) {
             img.src = src;
         }
     );
-}
+} 
                 const tagTranslationMap = { "N": "Name", "FN": "Full Name", "TEL": "Telephone", "EMAIL": "Email", "ADR": "Address", "ORG": "Company", "TITLE": "Job Title", "URL": "Website", "NOTE": "Note", "BDAY": "Birthday" };
 
         function parseContactQR(rawText) {
