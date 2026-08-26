@@ -73,6 +73,12 @@
         input:checked + .slider { background-color: var(--btn-green); }
         input:checked + .slider:before { transform: translateX(20px); }
         
+
+        .camera-switching-overlay { position:absolute; inset:0; z-index:5; display:none; align-items:center; justify-content:center; flex-direction:column; gap:14px; background:#000; color:#fff; pointer-events:none; }
+        .camera-switching-overlay.show { display:flex; }
+        .camera-switching-spinner { width:38px; height:38px; border:4px solid rgba(255,255,255,.28); border-top-color:#fff; border-radius:50%; animation:cameraSwitchLoading .75s linear infinite; }
+        .camera-switching-text { font-size:.95rem; font-weight:700; letter-spacing:.3px; }
+        @keyframes cameraSwitchLoading { to { transform:rotate(360deg); } }
         .scanner-view-wrapper { position: relative; width: 100%; max-width: 330px; height: 330px; margin: 10px auto 10px auto; border-radius: 20px; overflow: hidden; background: #000; border: 3.5px solid var(--primary-green); box-shadow: 0 15px 35px rgba(0, 210, 160, 0.15); display: none; }
         #scannerVideo { width: 100%; height: 100%; object-fit: cover; }
         
@@ -168,7 +174,19 @@
             -webkit-overflow-scrolling: touch; scrollbar-width: none; -ms-overflow-style: none;
         }
         #sideMenu::-webkit-scrollbar { display: none; }
-    .scan-mode-control{gap:8px}.scan-mode-select{flex:0 0 auto;max-width:145px;border:1px solid var(--border-color);background:#fff;color:var(--text-main);border-radius:9px;padding:6px 8px;font-size:.72rem;font-weight:600;outline:none}.live-status-badge{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);z-index:15;color:#fff;font-size:.85rem;font-weight:700;font-style:italic;letter-spacing:.4px;display:none;align-items:center;gap:8px;text-shadow:0 1px 3px rgba(0,0,0,.55);pointer-events:none}.live-status-dot{width:8px;height:8px;border-radius:50%;background:#ef4444;box-shadow:0 0 8px rgba(239,68,68,.8);animation:liveDotPulse 1.15s ease-in-out infinite}.auto-status-dot{display:none}.live-status-badge.auto-status-badge{color:#fff;font-family:'Montserrat',sans-serif;font-style:normal;font-weight:700;letter-spacing:1.2px;text-shadow:0 2px 5px rgba(0,0,0,.55);animation:autoLedBlink 1.15s steps(1,end) infinite;transform-style:preserve-3d}@keyframes liveDotPulse{0%,100%{opacity:.55;transform:scale(.85)}50%{opacity:1;transform:scale(1.08)}}@keyframes autoLedBlink{0%,48%{opacity:1;text-shadow:0 0 8px rgba(255,255,255,.85),0 2px 5px rgba(0,0,0,.55)}49%,100%{opacity:.08;text-shadow:0 2px 5px rgba(0,0,0,.55)}}</style>
+    .scan-mode-control{gap:8px}.scan-mode-select{flex:0 0 auto;max-width:145px;border:1px solid var(--border-color);background:#fff;color:var(--text-main);border-radius:9px;padding:6px 8px;font-size:.72rem;font-weight:600;outline:none}.live-status-badge{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);z-index:15;color:#fff;font-size:.85rem;font-weight:700;font-style:italic;letter-spacing:.4px;display:none;align-items:center;gap:8px;text-shadow:0 1px 3px rgba(0,0,0,.55);pointer-events:none}.live-status-dot{width:8px;height:8px;border-radius:50%;background:#ef4444;box-shadow:0 0 8px rgba(239,68,68,.8);animation:liveDotPulse 1.15s ease-in-out infinite}.auto-status-dot{display:none}.live-status-badge.auto-status-badge{color:#fff;font-family:'Montserrat',sans-serif;font-style:normal;font-weight:700;letter-spacing:1.2px;text-shadow:0 2px 5px rgba(0,0,0,.55);animation:autoLedBlink 1.15s steps(1,end) infinite;transform-style:preserve-3d}@keyframes liveDotPulse{0%,100%{opacity:.55;transform:scale(.85)}50%{opacity:1;transform:scale(1.08)}}@keyframes autoLedBlink{0%,48%{opacity:1;text-shadow:0 0 8px rgba(255,255,255,.85),0 2px 5px rgba(0,0,0,.55)}49%,100%{opacity:.08;text-shadow:0 2px 5px rgba(0,0,0,.55)}}
+        /* Camera controls */
+        .camera-bottom-controls{position:absolute;left:9px;right:9px;bottom:9px;z-index:20;display:flex;justify-content:space-between;align-items:flex-end;pointer-events:none}
+        .camera-switch-btn,.camera-zoom-btn{pointer-events:auto;border:none;background:rgba(0,0,0,.3);color:#fff;cursor:pointer;touch-action:manipulation;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none}
+        .camera-switch-btn{width:46px;height:46px;border-radius:50%;font-size:1.35rem;display:flex;align-items:center;justify-content:center}
+        .camera-zoom-btn{width:46px;min-width:46px;height:46px;padding:0;border-radius:50%;font-size:.82rem;font-weight:700;line-height:1}
+        .camera-switch-btn:active,.camera-zoom-btn:active{transform:none !important;}
+        .camera-switch-icon{width:28px;height:28px;display:block;overflow:visible}
+        @keyframes cameraSwitchSpin { 0% { transform: rotate(0deg); } 100% { transform: rotate(180deg); } }
+        .camera-switch-icon.is-switching { animation: cameraSwitchSpin .62s cubic-bezier(.22,.61,.36,1) 1; transform-origin: 50% 50%; }
+        .camera-switch-btn{padding:0}
+
+</style>
 </head>
 <body>
     <div class="main-fixed-header"><div class="top-header"></div></div>
@@ -177,7 +195,7 @@
         <h2>QR Code Scanner</h2>
         <p>Scan any QR code with your device camera or quickly drop an image here from your device gallery.</p>
         <div class="settings-bar scanner-settings-row">
-            <div class="setting-control scan-mode-control"><span>👉</span><select id="scanModeSelect" class="scan-mode-select"><option value="snap">Snap &amp; Scan</option><option value="auto">Auto Scan</option><option value="live">Live Scanning</option></select></div>
+            <div class="setting-control scan-mode-control"><span>🤳</span><select id="scanModeSelect" class="scan-mode-select"><option value="snap">Snap &amp; Scan</option><option value="auto">Auto Scan</option><option value="live">Live Scanning</option></select></div>
             <div class="setting-control">
                 <span>🔊 Beep Sound</span>
                 <label class="switch"><input type="checkbox" id="beepToggle" checked><span class="slider"></span></label>
@@ -185,8 +203,26 @@
         </div>
         <button class="action-btn" id="startCamBtn" onclick="startCameraScanner()">📷 Start Camera Scanning</button>
         <div class="scanner-view-wrapper" id="scannerWrapper">
+            <div class="camera-switching-overlay" id="cameraSwitchingOverlay" aria-hidden="true">
+                <div class="camera-switching-spinner"></div>
+                <div class="camera-switching-text">Camera Switching</div>
+            </div>
             <div class="low-light-alert-badge" id="lowLightAlertBadge">⚠️ Low Light! Tap Flash ⚡</div><div class="live-status-badge" id="liveStatusBadge"><span class="live-status-dot" id="liveStatusDot"></span><span id="liveStatusText">LIVE</span></div>
             <button class="snap-shutter-btn" id="snapShutterBtn" onpointerdown="captureAndScanCameraSnapshot(event)">📸 Snap & Scan</button>
+            <div class="camera-bottom-controls">
+                <button class="camera-switch-btn" id="switchCameraBtn" onclick="switchCamera()" aria-label="Switch Camera" title="Switch Camera">
+    <svg class="camera-switch-icon" viewBox="0 0 64 64" aria-hidden="true">
+        <path d="M21 17a22 22 0 0 1 34 10" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+        <path d="M55 10v17H38" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M43 47a22 22 0 0 1-34-10" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+        <path d="M9 54V37h17" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+        <rect x="23" y="24" width="18" height="14" rx="4" fill="currentColor"/>
+        <circle cx="32" cy="31" r="5" fill="rgba(0,0,0,.3)"/>
+        <path d="M27 24l2.5-3h5l2.5 3" fill="currentColor"/>
+    </svg>
+</button>
+                <button class="camera-zoom-btn" id="zoomBtn" onclick="cycleCameraZoom()" aria-label="Camera Zoom">1×</button>
+            </div>
             <div class="stop-btn-overlay" id="stopCamOverlayBtn" onclick="stopCameraScanner()">✕</div>
             <div class="flash-btn-overlay" id="flashToggleBtn" onpointerdown="executeInstantTorchToggle(event)">⚡</div>
             <div id="videoContainer" style="width:100%; height:100%;"></div>
@@ -289,6 +325,10 @@
         // If the user manually moves the camera down afterward, the next scan can
         // bring it back up again.
         let liveLastResultScrollY = null;
+        let currentFacingMode = "environment";
+        let cameraZoom = 1;
+        let nativeZoomAvailable = false;
+        let nativeZoomMax = 4;
         window.addEventListener('DOMContentLoaded', (event) => {
             const scanModeSelect = document.getElementById('scanModeSelect');
             if (scanModeSelect) scanModeSelect.addEventListener('change', handleScanModeChange);
@@ -384,7 +424,7 @@
                     canvas.height = Math.max(1, Math.round(video.videoHeight * scale));
 
                     const ctx = canvas.getContext('2d', { willReadFrequently: true });
-                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    drawZoomedVideoFrame(video, ctx, canvas.width, canvas.height);
 
                     if (liveBarcodeDetector) {
                         liveBarcodeDetector.detect(canvas).then(results => {
@@ -437,6 +477,94 @@
             const ov=document.getElementById('uploadLoadingOverlay'),tx=document.getElementById('loadingTextLabel'); if(ov){if(tx)tx.textContent='Scanning...';ov.style.display='flex';setTimeout(()=>{ov.style.display='none';playSuccessBeep();showScanResult(codeData,snap,continuous?'Live_Scan.jpg':'Camera_Auto_Scan.jpg');if(continuous&&videoStream){setTimeout(()=>{lastLiveScanData='';startLiveScanningEngine();updateScanModeUI()},500)}},300)}else{playSuccessBeep();showScanResult(codeData,snap,continuous?'Live_Scan.jpg':'Camera_Auto_Scan.jpg');if(continuous&&videoStream){lastLiveScanData='';startLiveScanningEngine()}}
         }
         function handleScanModeChange(){if(!videoStream){updateLiveScanLayout();updateScanModeUI();return;}stopLiveScanningEngine();if(isAutomaticScanningEnabled())startLiveScanningEngine();updateScanModeUI();}
+
+        function getCameraTrack(){
+            return videoStream && videoStream.getVideoTracks ? videoStream.getVideoTracks()[0] : null;
+        }
+        function updateZoomButton(){
+            const b=document.getElementById('zoomBtn');
+            if(!b) return;
+            const level=Math.max(1,Math.min(4,Number(cameraZoom)||1));
+            b.textContent=level+'×';
+            b.style.fontSize=(0.82 + (level-1)*0.08)+'rem';
+        }
+        function drawZoomedVideoFrame(video,ctx,w,h){
+            const z=Math.max(1,Math.min(4,cameraZoom||1));
+            if(z<=1){ctx.drawImage(video,0,0,w,h);return;}
+            const vw=video.videoWidth,vh=video.videoHeight,sw=vw/z,sh=vh/z;
+            ctx.drawImage(video,(vw-sw)/2,(vh-sh)/2,sw,sh,0,0,w,h);
+        }
+        async function applyCameraZoom(){
+            const video=document.getElementById('scannerVideo');
+            const track=getCameraTrack();
+            let native=false;
+            try{
+                const caps=track && track.getCapabilities ? track.getCapabilities() : {};
+                if(caps.zoom){
+                    nativeZoomAvailable=true;
+                    nativeZoomMax=Math.min(4, Number(caps.zoom.max||4));
+                    const z=Math.max(Number(caps.zoom.min||1),Math.min(nativeZoomMax,cameraZoom));
+                    await track.applyConstraints({advanced:[{zoom:z}]});
+                    native=true;
+                }
+            }catch(e){}
+            if(video) video.style.transform=native?'scale(1)':'scale('+Math.max(1,cameraZoom)+')';
+            updateZoomButton();
+        }
+        async function cycleCameraZoom(){
+            if(!videoStream) return;
+            cameraZoom = cameraZoom>=4 ? 1 : cameraZoom+1;
+            await applyCameraZoom();
+        }
+        async function switchCamera(){
+            if(!videoStream) return;
+
+            const switchingOverlay = document.getElementById('cameraSwitchingOverlay');
+            if (switchingOverlay) switchingOverlay.classList.add('show');
+
+            // Smoothly rotate only the camera-switch icon exactly 180 degrees.
+            const switchIcon = document.querySelector('#switchCameraBtn .camera-switch-icon');
+            if (switchIcon) {
+                switchIcon.classList.remove('is-switching');
+                void switchIcon.offsetWidth; // restart the animation on every tap
+                switchIcon.classList.add('is-switching');
+                setTimeout(() => switchIcon.classList.remove('is-switching'), 700);
+            }
+
+            stopLiveScanningEngine();
+            try{videoStream.getTracks().forEach(t=>t.stop())}catch(e){}
+            videoStream=null;
+            const next=currentFacingMode==='environment'?'user':'environment';
+            try{
+                let stream;
+                try{
+                    stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{exact:next},width:{ideal:1920},height:{ideal:1080}}});
+                }catch(e){
+                    stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:next},width:{ideal:1920},height:{ideal:1080}}});
+                }
+                currentFacingMode=next;
+                videoStream=stream;
+                const video=document.getElementById('scannerVideo');
+                video.srcObject=stream;
+                video.style.transform='scale(1)';
+                await video.play();
+                await applyCameraZoom();
+                startLowLightDetectionEngine();
+                startFocusDetectionEngine();
+                updateSnapButtonMode();
+                if(isAutomaticScanningEnabled()) startLiveScanningEngine();
+                try{
+                    const track=stream.getVideoTracks()[0], caps=track.getCapabilities();
+                    if(caps.focusMode&&caps.focusMode.includes('continuous')) await track.applyConstraints({advanced:[{focusMode:'continuous'}]});
+                    document.getElementById('flashToggleBtn').style.display=caps.torch?'flex':'none';
+                }catch(e){}
+            }catch(e){
+                alert("📷 Unable to switch camera on this device.");
+            } finally {
+                if (switchingOverlay) switchingOverlay.classList.remove('show');
+            }
+        }
+
         async function startCameraScanner() {
             // Each new Live Scanning camera session gets one initial result scroll.
             if (getScanMode() === 'live') { liveFirstResultScrollDone = false; liveLastResultScrollY = null; }
@@ -468,6 +596,9 @@
             }      
           
             try {
+                currentFacingMode = "environment";
+                cameraZoom = 1;
+                nativeZoomAvailable = false;
                 videoStream = await navigator.mediaDevices.getUserMedia({ 
                     video: { 
                     facingMode: { ideal: "environment" }, 
@@ -654,6 +785,7 @@
             
             let container = document.getElementById('videoContainer');
             if(container) container.innerHTML = '';
+            cameraZoom=1; nativeZoomAvailable=false; nativeZoomMax=4; updateZoomButton();
         }
 
         document.addEventListener("visibilitychange", function() {
@@ -711,7 +843,7 @@
             canvas.width = video.videoWidth;
             canvas.height = video.videoHeight;
             let ctx = canvas.getContext("2d", { willReadFrequently: true });
-            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            drawZoomedVideoFrame(video, ctx, canvas.width, canvas.height);
 
             let snapshotDataUrl = canvas.toDataURL('image/jpeg', 0.9);
 
@@ -762,541 +894,98 @@
             }, 50);
         }
         /* 🎯 গ্যালারি ইমেজ স্ক্যানার (রঙিন কোড ডিটেকশনের মাল্টি-লেয়ার ব্যাকআপসহ) */
-        async function scanQRFromImage(event) {
-
-    const file = event.target.files[0];
-    if (!file) return;
-
-    const loading = document.getElementById("uploadLoadingOverlay");
-    const resultPanel = document.getElementById("resultPanel");
-    const previewPanel = document.getElementById("imagePreviewPanel");
-
-    if (loading) loading.style.display = "flex";
-
-    const start = performance.now();
-
-    try {
-
-        // Stop camera
-        try {
-            if (typeof videoStream !== "undefined" && videoStream) {
-                stopCameraScanner();
+        function scanQRFromImage(event) {
+            let file = event.target.files[0]; if (!file) return;
+            // Gallery scans must get the same first-result auto-scroll in Live Scanning
+            // as they do in Auto/Snap mode, even when a previous Live camera scan
+            // already used the one-time scroll.
+            if (isContinuousLiveScanningEnabled()) {
+                liveFirstResultScrollDone = false;
+                liveLastResultScrollY = null;
             }
-        } catch (e) {}
+            document.getElementById("uploadLabel").innerHTML = "📁 Choose QR Image from Gallery";
+            
+            let loadingOverlay = document.getElementById('uploadLoadingOverlay');
+            let loadingText = document.getElementById('loadingTextLabel');
+            if (loadingText) loadingText.innerText = 'Scanning...';
+            if (loadingOverlay) loadingOverlay.style.display = 'flex';
 
-        // Load image
-        const src = await readFileAsDataURL(file);
-        const img = await loadImage(src);
+            if (videoStream) { stopCameraScanner(); }
+            
+            setTimeout(async () => {
+                let reader = new FileReader();
+                reader.onload = async function(e) {
+                    let img = new Image();
+                    img.onload = async function() {
+                        let canvas = document.createElement("canvas");
+                        canvas.width = img.width; canvas.height = img.height;
+                        let ctx = canvas.getContext("2d", { willReadFrequently: true });
+                        ctx.drawImage(img, 0, 0, img.width, img.height);
 
-        let code = null;
+                        let codeData = null;
 
-        // =========================================
-        // 1. FAST NATIVE QR
-        // =========================================
-
-        if ("BarcodeDetector" in window) {
-            try {
-
-                const detector = new BarcodeDetector({
-                    formats: ["qr_code"]
-                });
-
-                const found = await detector.detect(img);
-
-                if (found.length && found[0].rawValue) {
-                    code = found[0].rawValue;
-                }
-
-            } catch (e) {}
-        }
-
-
-        // =========================================
-        // CANVAS
-        // =========================================
-
-        if (!code) {
-
-            const MAX = 1200;
-
-            const scale = Math.min(
-                1,
-                MAX / Math.max(img.width, img.height)
-            );
-
-            const w = Math.max(
-                1,
-                Math.round(img.width * scale)
-            );
-
-            const h = Math.max(
-                1,
-                Math.round(img.height * scale)
-            );
-
-            const pad = 20;
-
-            const canvas = document.createElement("canvas");
-
-            canvas.width = w + pad * 2;
-            canvas.height = h + pad * 2;
-
-            const ctx = canvas.getContext(
-                "2d",
-                { willReadFrequently: true }
-            );
-
-            ctx.fillStyle = "#fff";
-            ctx.fillRect(
-                0,
-                0,
-                canvas.width,
-                canvas.height
-            );
-
-            ctx.drawImage(
-                img,
-                pad,
-                pad,
-                w,
-                h
-            );
-
-
-            // =====================================
-            // GET PIXELS ONLY ONCE
-            // =====================================
-
-            const imageData = ctx.getImageData(
-                0,
-                0,
-                canvas.width,
-                canvas.height
-            );
-
-
-            // =====================================
-            // 2. ORIGINAL jsQR
-            // =====================================
-
-            let result = tryQR(imageData);
-
-            if (result) {
-                code = result.data;
-            }
-
-
-            // =====================================
-            // 3. COLOR CHANNEL
-            // =====================================
-
-            if (!code) {
-
-                const channels = ["red", "green", "blue"];
-
-                for (const channel of channels) {
-
-                    const filtered =
-                        colorChannel(
-                            imageData,
-                            channel
-                        );
-
-                    result = tryQR(filtered);
-
-                    if (result) {
-                        code = result.data;
-                        break;
-                    }
-                }
-            }
-
-
-            // =====================================
-            // 4. SMART CROP
-            // =====================================
-
-            if (!code) {
-
-                const region =
-                    findQRRegion(
-                        imageData
-                    );
-
-                if (region) {
-
-                    const crop =
-                        document.createElement("canvas");
-
-                    crop.width =
-                        region.w;
-
-                    crop.height =
-                        region.h;
-
-                    const cropCtx =
-                        crop.getContext(
-                            "2d",
-                            {
-                                willReadFrequently: true
+                        try {
+                            if ('BarcodeDetector' in window) {
+                                const detector = new BarcodeDetector({ formats: ['qr_code'] });
+                                const results = await detector.detect(img);
+                                if (results.length > 0 && results[0].rawValue) {
+                                    codeData = results[0].rawValue;
+                                }
                             }
-                        );
-
-                    cropCtx.drawImage(
-                        canvas,
-                        region.x,
-                        region.y,
-                        region.w,
-                        region.h,
-                        0,
-                        0,
-                        region.w,
-                        region.h
-                    );
-
-
-                    const cropData =
-                        cropCtx.getImageData(
-                            0,
-                            0,
-                            crop.width,
-                            crop.height
-                        );
-
-
-                    // Crop original
-                    result =
-                        tryQR(
-                            cropData
-                        );
-
-
-                    // Crop color
-                    if (!result) {
-
-                        for (
-                            const channel
-                            of ["red", "green", "blue"]
-                        ) {
-
-                            result =
-                                tryQR(
-                                    colorChannel(
-                                        cropData,
-                                        channel
-                                    )
-                                );
-
-                            if (result) break;
+                        } catch (err) {}
+                        // লেয়ার ১: সরাসরি চেষ্টা
+                        if (!codeData) {
+                            try {
+                                let rawImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                                let code = jsQR(rawImageData.data, rawImageData.width, rawImageData.height, { inversionAttempts: "attemptBoth" });
+                                if (code && code.data) codeData = code.data;
+                            } catch(e) {}
                         }
-                    }
 
+                        // লেয়ার ২: স্মার্ট ফিল্টার দিয়ে রঙিন কোড স্ক্যান
+                        if (!codeData) {
+                            try {
+                                ctx.drawImage(img, 0, 0, img.width, img.height);
+                                processAdvancedSmartFilters(ctx, canvas.width, canvas.height);
+                                let filteredData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                                let codeFiltered = jsQR(filteredData.data, filteredData.width, filteredData.height, { inversionAttempts: "attemptBoth" });
+                                if (codeFiltered && codeFiltered.data) codeData = codeFiltered.data;
+                            } catch(e) {}
+                        }
 
-                    if (result) {
-                        code = result.data;
-                    }
-                }
-            }
+                        // লেয়ার ৩: ইনভার্টেড ফ্লিপ ব্যাকআপ (কালার নেগেটিভ)
+                        if (!codeData) {
+                            try {
+                                ctx.drawImage(img, 0, 0, img.width, img.height);
+                                let rawImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                                let d = rawImageData.data;
+                                for (let i = 0; i < d.length; i += 4) {
+                                    d[i] = 255 - d[i]; d[i+1] = 255 - d[i+1]; d[i+2] = 255 - d[i+2];
+                                }
+                                ctx.putImageData(rawImageData, 0, 0);
+                                let codeInverted = jsQR(rawImageData.data, rawImageData.width, rawImageData.height, { inversionAttempts: "attemptBoth" });
+                                if (codeInverted && codeInverted.data) codeData = codeInverted.data;
+                            } catch(e) {}
+                               }
+      loadingOverlay.style.display = 'none';
+
+                        if (codeData) { 
+                            playSuccessBeep(); 
+                            let finalImgSrc = e.target.result || "";
+                            let finalFileName = file.name || "Scanned_QR.jpg";
+                            showScanResult(codeData.trim(), finalImgSrc, finalFileName);
+                        } else { 
+                            alert("No valid QR code found in this image!"); 
+                            document.getElementById('resultPanel').style.display = 'none'; 
+                            document.getElementById('imagePreviewPanel').style.display = 'none'; 
+                        }
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+                event.target.value = '';
+            }, 50);
         }
-
-
-        // =========================================
-        // FINISH
-        // =========================================
-
-        if (loading) {
-            loading.style.display = "none";
-        }
-
-        const time =
-            Math.round(
-                performance.now() - start
-            );
-
-
-        if (code) {
-
-            console.log(
-                "⚡ QR FOUND:",
-                time + "ms"
-            );
-
-            try {
-                playSuccessBeep();
-            } catch (e) {}
-
-            showScanResult(
-                code.trim(),
-                src,
-                file.name || "Scanned_QR.jpg"
-            );
-
-        } else {
-
-            console.log(
-                "QR NOT FOUND:",
-                time + "ms"
-            );
-
-            alert(
-                "No valid QR code found in this image!"
-            );
-
-            if (resultPanel)
-                resultPanel.style.display = "none";
-
-            if (previewPanel)
-                previewPanel.style.display = "none";
-        }
-
-    } catch (error) {
-
-        console.error(
-            "QR Scan Error:",
-            error
-        );
-
-        if (loading)
-            loading.style.display = "none";
-
-        alert(
-            "Unable to process this image."
-        );
-
-    } finally {
-
-        event.target.value = "";
-    }
-}
-
-
-
-// =============================================
-// jsQR
-// =============================================
-
-function tryQR(data) {
-
-    try {
-
-        const result = jsQR(
-            data.data,
-            data.width,
-            data.height,
-            {
-                inversionAttempts: "attemptBoth"
-            }
-        );
-
-        return result && result.data
-            ? result
-            : null;
-
-    } catch (e) {
-
-        return null;
-    }
-}
-
-
-
-// =============================================
-// COLOR CHANNEL
-// =============================================
-
-function colorChannel(
-    source,
-    channel
-) {
-
-    const output =
-        new ImageData(
-            source.width,
-            source.height
-        );
-
-    const s = source.data;
-    const d = output.data;
-
-    const index =
-        channel === "green"
-            ? 1
-            : channel === "blue"
-                ? 2
-                : 0;
-
-    for (
-        let i = 0;
-        i < s.length;
-        i += 4
-    ) {
-
-        const v =
-            s[i + index];
-
-        d[i] = v;
-        d[i + 1] = v;
-        d[i + 2] = v;
-        d[i + 3] = 255;
-    }
-
-    return output;
-}
-
-
-
-// =============================================
-// FAST QR REGION
-// =============================================
-
-function findQRRegion(data) {
-
-    const w = data.width;
-    const h = data.height;
-    const d = data.data;
-
-    const step = 8;
-
-    let minX = w;
-    let minY = h;
-    let maxX = 0;
-    let maxY = 0;
-
-    let count = 0;
-
-    for (
-        let y = 0;
-        y < h;
-        y += step
-    ) {
-
-        for (
-            let x = 0;
-            x < w;
-            x += step
-        ) {
-
-            const i =
-                (y * w + x) * 4;
-
-            const r = d[i];
-            const g = d[i + 1];
-            const b = d[i + 2];
-
-            const dark =
-                Math.min(r, g, b);
-
-            if (dark > 100) continue;
-
-            minX = Math.min(minX, x);
-            minY = Math.min(minY, y);
-            maxX = Math.max(maxX, x);
-            maxY = Math.max(maxY, y);
-
-            count++;
-
-            if (count > 500) break;
-        }
-
-        if (count > 500) break;
-    }
-
-    if (
-        count < 20 ||
-        maxX - minX < 60 ||
-        maxY - minY < 60
-    ) {
-        return null;
-    }
-
-    const margin =
-        Math.max(
-            maxX - minX,
-            maxY - minY
-        ) * 0.25;
-
-    const x =
-        Math.max(
-            0,
-            Math.floor(minX - margin)
-        );
-
-    const y =
-        Math.max(
-            0,
-            Math.floor(minY - margin)
-        );
-
-    const right =
-        Math.min(
-            w,
-            Math.ceil(maxX + margin)
-        );
-
-    const bottom =
-        Math.min(
-            h,
-            Math.ceil(maxY + margin)
-        );
-
-    return {
-        x,
-        y,
-        w: right - x,
-        h: bottom - y
-    };
-}
-
-
-
-// =============================================
-// FILE → DATA URL
-// =============================================
-
-function readFileAsDataURL(file) {
-
-    return new Promise(
-        (resolve, reject) => {
-
-            const reader =
-                new FileReader();
-
-            reader.onload =
-                () => resolve(
-                    reader.result
-                );
-
-            reader.onerror =
-                reject;
-
-            reader.readAsDataURL(file);
-        }
-    );
-}
-
-
-
-// =============================================
-// DATA URL → IMAGE
-// =============================================
-
-function loadImage(src) {
-
-    return new Promise(
-        (resolve, reject) => {
-
-            const img = new Image();
-
-            img.onload =
-                () => resolve(img);
-
-            img.onerror =
-                reject;
-
-            img.src = src;
-        }
-    );
-}
                 const tagTranslationMap = { "N": "Name", "FN": "Full Name", "TEL": "Telephone", "EMAIL": "Email", "ADR": "Address", "ORG": "Company", "TITLE": "Job Title", "URL": "Website", "NOTE": "Note", "BDAY": "Birthday" };
 
         function parseContactQR(rawText) {
