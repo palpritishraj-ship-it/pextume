@@ -914,16 +914,18 @@
             }, 50);
         }
         /* 🎯 গ্যালারি ইমেজ স্ক্যানার (রঙিন কোড ডিটেকশনের মাল্টি-লেয়ার ব্যাকআপসহ) */
-   async function scanQRFromImage(event) {
+        async function scanQRFromImage(event) {
 
     const file = event.target.files[0];
     if (!file) return;
 
     const loading = document.getElementById("uploadLoadingOverlay");
-    const resultPanel = document.getElementById("resultPanel");
-    const previewPanel = document.getElementById("imagePreviewPanel");
+const loadingText = document.getElementById("loadingTextLabel");
+const resultPanel = document.getElementById("resultPanel");
+const previewPanel = document.getElementById("imagePreviewPanel");
 
-    if (loading) loading.style.display = "flex";
+if (loadingText) loadingText.innerText = "Scanning...";
+if (loading) loading.style.display = "flex";
 
     const start = performance.now();
 
@@ -1448,7 +1450,7 @@ function loadImage(src) {
             img.src = src;
         }
     );
-}     
+}
                 const tagTranslationMap = { "N": "Name", "FN": "Full Name", "TEL": "Telephone", "EMAIL": "Email", "ADR": "Address", "ORG": "Company", "TITLE": "Job Title", "URL": "Website", "NOTE": "Note", "BDAY": "Birthday" };
 
         function parseContactQR(rawText) {
