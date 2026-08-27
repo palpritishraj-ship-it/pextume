@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>QR Code Scanner</title>
-    <meta name="description" content="Scan any QR code instantly with your device camera or upload an image from your gallery. Free, fast, and secure online QR Code Scanner tool by Pextume.">
-    <meta name="keywords" content="QR Code Scanner, Scan QR Code online, Online QR Reader, Camera QR Scanner, QR Code from Gallery, Pextume Scanner, free qr scanner">
+   <title>Free Online QR Code Scanner & Reader - Pextume</title>
+    <meta name="description" content="Scan complex color QR codes instantly with Pextume's free online QR scanner. Live camera scan, image upload, no installation required." />
+            <meta name="keywords" content="QR Code Scanner, Scan QR Code online, Online QR Reader, Camera QR Scanner, QR Code from Gallery, Pextume Scanner, free qr scanner">
 
     <meta property="og:site_name" content="Pextume">
     <meta property="og:title" content="QR Code Scanner">
@@ -111,6 +111,15 @@
         .preview-image { max-width: 130px; max-height: 130px; border-radius: 14px; border: 2px solid var(--primary-green); box-shadow: 0 8px 20px rgba(0, 210, 160, 0.08); object-fit: contain; }
         .preview-filename { font-size: 0.85rem; color: #64748b; margin-top: 12px; font-weight: 500; word-break: break-all; }
         .result-panel { background: var(--light-gray); border: 1.5px solid var(--primary-green); border-radius: 16px; padding: 18px; margin-top: 15px; text-align: left; display: none; }
+        .result-panel { position: relative; }
+        .result-send-btn, .result-share-btn { position:absolute; top:0px; width:44px; height:44px; border:none; border-radius:50%; background:transparent; color:var(--primary-green); display:none; align-items:center; justify-content:center; cursor:pointer; padding:0; box-shadow:none; -webkit-tap-highlight-color:transparent; touch-action:manipulation; }
+        .result-send-btn { right:10px; }
+        .result-share-btn { right:50px; }
+        .result-send-btn:active, .result-share-btn:active { transform:none; }
+        .result-send-btn.visible, .result-share-btn.visible { display:flex; }
+        .result-share-btn svg { width:24px; height:24px; display:block; }
+        .result-share-btn svg { stroke-width:1.35; }
+        .result-send-btn svg { width:27px; height:27px; display:block; }
         .result-text { color: var(--text-main); font-size: 0.95rem; word-break: break-word; white-space: pre-wrap; margin-bottom: 5px; background: #ffffff; padding: 14px; border-radius: 10px; border: 1px solid var(--border-color); max-height: 250px; overflow-y: auto; line-height: 1.6; }
         /* Live Scanning: compact result card so camera + result can fit better on one phone screen. */
         .result-panel.live-compact-result { padding: 11px 12px; margin-top: 10px; border-radius: 14px; }
@@ -240,7 +249,18 @@
             <div class="preview-filename" id="previewFileNameText">filename.png</div>
         </div>
         <div class="result-panel" id="resultPanel">
-            <div class="section-title" style="margin-top:0; color:#c2410c; border-bottom: none; padding-bottom: 0;">✓ Scanned Result:</div>
+            <button class="result-share-btn" id="resultShareBtn" onclick="shareScannedResult(event)" aria-label="Share result" title="Share">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="18" cy="5" r="2.5"></circle><circle cx="6" cy="12" r="2.5"></circle><circle cx="18" cy="19" r="2.5"></circle>
+                    <path d="M8.2 10.8 15.8 6.2M8.2 13.2l7.6 4.6"></path>
+                </svg>
+            </button>
+            <button class="result-send-btn" id="resultSendBtn" onclick="sendScannedResult(event)" aria-label="Send result" title="Send">
+                <svg viewBox="0 0 24 24" fill="white" stroke="var(--primary-green)" stroke-width="1.10" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M4 3.8L21 12 4 20.2 6.7 13.1 14.2 12 6.7 10.9 4 3.8Z"></path>
+                </svg>
+            </button>
+            <div class="section-title" style="margin-top:0; color:#c2410c; border-bottom: none; padding-bottom: 0; padding-right:48px;">✓ Scanned Result:</div>
             <div class="result-text" id="resultText">Result will appear here...</div>
             <button class="action-btn" id="actionBtn" onclick="handleResultAction()">📋 Copy Text to Clipboard</button>
         </div>
@@ -894,98 +914,541 @@
             }, 50);
         }
         /* 🎯 গ্যালারি ইমেজ স্ক্যানার (রঙিন কোড ডিটেকশনের মাল্টি-লেয়ার ব্যাকআপসহ) */
-        function scanQRFromImage(event) {
-            let file = event.target.files[0]; if (!file) return;
-            // Gallery scans must get the same first-result auto-scroll in Live Scanning
-            // as they do in Auto/Snap mode, even when a previous Live camera scan
-            // already used the one-time scroll.
-            if (isContinuousLiveScanningEnabled()) {
-                liveFirstResultScrollDone = false;
-                liveLastResultScrollY = null;
+   async function scanQRFromImage(event) {
+
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const loading = document.getElementById("uploadLoadingOverlay");
+    const resultPanel = document.getElementById("resultPanel");
+    const previewPanel = document.getElementById("imagePreviewPanel");
+
+    if (loading) loading.style.display = "flex";
+
+    const start = performance.now();
+
+    try {
+
+        // Stop camera
+        try {
+            if (typeof videoStream !== "undefined" && videoStream) {
+                stopCameraScanner();
             }
-            document.getElementById("uploadLabel").innerHTML = "📁 Choose QR Image from Gallery";
-            
-            let loadingOverlay = document.getElementById('uploadLoadingOverlay');
-            let loadingText = document.getElementById('loadingTextLabel');
-            if (loadingText) loadingText.innerText = 'Scanning...';
-            if (loadingOverlay) loadingOverlay.style.display = 'flex';
+        } catch (e) {}
 
-            if (videoStream) { stopCameraScanner(); }
-            
-            setTimeout(async () => {
-                let reader = new FileReader();
-                reader.onload = async function(e) {
-                    let img = new Image();
-                    img.onload = async function() {
-                        let canvas = document.createElement("canvas");
-                        canvas.width = img.width; canvas.height = img.height;
-                        let ctx = canvas.getContext("2d", { willReadFrequently: true });
-                        ctx.drawImage(img, 0, 0, img.width, img.height);
+        // Load image
+        const src = await readFileAsDataURL(file);
+        const img = await loadImage(src);
 
-                        let codeData = null;
+        let code = null;
 
-                        try {
-                            if ('BarcodeDetector' in window) {
-                                const detector = new BarcodeDetector({ formats: ['qr_code'] });
-                                const results = await detector.detect(img);
-                                if (results.length > 0 && results[0].rawValue) {
-                                    codeData = results[0].rawValue;
-                                }
-                            }
-                        } catch (err) {}
-                        // লেয়ার ১: সরাসরি চেষ্টা
-                        if (!codeData) {
-                            try {
-                                let rawImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                                let code = jsQR(rawImageData.data, rawImageData.width, rawImageData.height, { inversionAttempts: "attemptBoth" });
-                                if (code && code.data) codeData = code.data;
-                            } catch(e) {}
-                        }
+        // =========================================
+        // 1. FAST NATIVE QR
+        // =========================================
 
-                        // লেয়ার ২: স্মার্ট ফিল্টার দিয়ে রঙিন কোড স্ক্যান
-                        if (!codeData) {
-                            try {
-                                ctx.drawImage(img, 0, 0, img.width, img.height);
-                                processAdvancedSmartFilters(ctx, canvas.width, canvas.height);
-                                let filteredData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                                let codeFiltered = jsQR(filteredData.data, filteredData.width, filteredData.height, { inversionAttempts: "attemptBoth" });
-                                if (codeFiltered && codeFiltered.data) codeData = codeFiltered.data;
-                            } catch(e) {}
-                        }
+        if ("BarcodeDetector" in window) {
+            try {
 
-                        // লেয়ার ৩: ইনভার্টেড ফ্লিপ ব্যাকআপ (কালার নেগেটিভ)
-                        if (!codeData) {
-                            try {
-                                ctx.drawImage(img, 0, 0, img.width, img.height);
-                                let rawImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                                let d = rawImageData.data;
-                                for (let i = 0; i < d.length; i += 4) {
-                                    d[i] = 255 - d[i]; d[i+1] = 255 - d[i+1]; d[i+2] = 255 - d[i+2];
-                                }
-                                ctx.putImageData(rawImageData, 0, 0);
-                                let codeInverted = jsQR(rawImageData.data, rawImageData.width, rawImageData.height, { inversionAttempts: "attemptBoth" });
-                                if (codeInverted && codeInverted.data) codeData = codeInverted.data;
-                            } catch(e) {}
-                               }
-      loadingOverlay.style.display = 'none';
+                const detector = new BarcodeDetector({
+                    formats: ["qr_code"]
+                });
 
-                        if (codeData) { 
-                            playSuccessBeep(); 
-                            let finalImgSrc = e.target.result || "";
-                            let finalFileName = file.name || "Scanned_QR.jpg";
-                            showScanResult(codeData.trim(), finalImgSrc, finalFileName);
-                        } else { 
-                            alert("No valid QR code found in this image!"); 
-                            document.getElementById('resultPanel').style.display = 'none'; 
-                            document.getElementById('imagePreviewPanel').style.display = 'none'; 
-                        }
-                    };
-                    img.src = e.target.result;
-                };
-                reader.readAsDataURL(file);
-                event.target.value = '';
-            }, 50);
+                const found = await detector.detect(img);
+
+                if (found.length && found[0].rawValue) {
+                    code = found[0].rawValue;
+                }
+
+            } catch (e) {}
         }
+
+
+        // =========================================
+        // CANVAS
+        // =========================================
+
+        if (!code) {
+
+            const MAX = 1200;
+
+            const scale = Math.min(
+                1,
+                MAX / Math.max(img.width, img.height)
+            );
+
+            const w = Math.max(
+                1,
+                Math.round(img.width * scale)
+            );
+
+            const h = Math.max(
+                1,
+                Math.round(img.height * scale)
+            );
+
+            const pad = 20;
+
+            const canvas = document.createElement("canvas");
+
+            canvas.width = w + pad * 2;
+            canvas.height = h + pad * 2;
+
+            const ctx = canvas.getContext(
+                "2d",
+                { willReadFrequently: true }
+            );
+
+            ctx.fillStyle = "#fff";
+            ctx.fillRect(
+                0,
+                0,
+                canvas.width,
+                canvas.height
+            );
+
+            ctx.drawImage(
+                img,
+                pad,
+                pad,
+                w,
+                h
+            );
+
+
+            // =====================================
+            // GET PIXELS ONLY ONCE
+            // =====================================
+
+            const imageData = ctx.getImageData(
+                0,
+                0,
+                canvas.width,
+                canvas.height
+            );
+
+
+            // =====================================
+            // 2. ORIGINAL jsQR
+            // =====================================
+
+            let result = tryQR(imageData);
+
+            if (result) {
+                code = result.data;
+            }
+
+
+            // =====================================
+            // 3. COLOR CHANNEL
+            // =====================================
+
+            if (!code) {
+
+                const channels = ["red", "green", "blue"];
+
+                for (const channel of channels) {
+
+                    const filtered =
+                        colorChannel(
+                            imageData,
+                            channel
+                        );
+
+                    result = tryQR(filtered);
+
+                    if (result) {
+                        code = result.data;
+                        break;
+                    }
+                }
+            }
+
+
+            // =====================================
+            // 4. SMART CROP
+            // =====================================
+
+            if (!code) {
+
+                const region =
+                    findQRRegion(
+                        imageData
+                    );
+
+                if (region) {
+
+                    const crop =
+                        document.createElement("canvas");
+
+                    crop.width =
+                        region.w;
+
+                    crop.height =
+                        region.h;
+
+                    const cropCtx =
+                        crop.getContext(
+                            "2d",
+                            {
+                                willReadFrequently: true
+                            }
+                        );
+
+                    cropCtx.drawImage(
+                        canvas,
+                        region.x,
+                        region.y,
+                        region.w,
+                        region.h,
+                        0,
+                        0,
+                        region.w,
+                        region.h
+                    );
+
+
+                    const cropData =
+                        cropCtx.getImageData(
+                            0,
+                            0,
+                            crop.width,
+                            crop.height
+                        );
+
+
+                    // Crop original
+                    result =
+                        tryQR(
+                            cropData
+                        );
+
+
+                    // Crop color
+                    if (!result) {
+
+                        for (
+                            const channel
+                            of ["red", "green", "blue"]
+                        ) {
+
+                            result =
+                                tryQR(
+                                    colorChannel(
+                                        cropData,
+                                        channel
+                                    )
+                                );
+
+                            if (result) break;
+                        }
+                    }
+
+
+                    if (result) {
+                        code = result.data;
+                    }
+                }
+            }
+        }
+
+
+        // =========================================
+        // FINISH
+        // =========================================
+
+        if (loading) {
+            loading.style.display = "none";
+        }
+
+        const time =
+            Math.round(
+                performance.now() - start
+            );
+
+
+        if (code) {
+
+            console.log(
+                "⚡ QR FOUND:",
+                time + "ms"
+            );
+
+            try {
+                playSuccessBeep();
+            } catch (e) {}
+
+            showScanResult(
+                code.trim(),
+                src,
+                file.name || "Scanned_QR.jpg"
+            );
+
+        } else {
+
+            console.log(
+                "QR NOT FOUND:",
+                time + "ms"
+            );
+
+            alert(
+                "No valid QR code found in this image!"
+            );
+
+            if (resultPanel)
+                resultPanel.style.display = "none";
+
+            if (previewPanel)
+                previewPanel.style.display = "none";
+        }
+
+    } catch (error) {
+
+        console.error(
+            "QR Scan Error:",
+            error
+        );
+
+        if (loading)
+            loading.style.display = "none";
+
+        alert(
+            "Unable to process this image."
+        );
+
+    } finally {
+
+        event.target.value = "";
+    }
+}
+
+
+
+// =============================================
+// jsQR
+// =============================================
+
+function tryQR(data) {
+
+    try {
+
+        const result = jsQR(
+            data.data,
+            data.width,
+            data.height,
+            {
+                inversionAttempts: "attemptBoth"
+            }
+        );
+
+        return result && result.data
+            ? result
+            : null;
+
+    } catch (e) {
+
+        return null;
+    }
+}
+
+
+
+// =============================================
+// COLOR CHANNEL
+// =============================================
+
+function colorChannel(
+    source,
+    channel
+) {
+
+    const output =
+        new ImageData(
+            source.width,
+            source.height
+        );
+
+    const s = source.data;
+    const d = output.data;
+
+    const index =
+        channel === "green"
+            ? 1
+            : channel === "blue"
+                ? 2
+                : 0;
+
+    for (
+        let i = 0;
+        i < s.length;
+        i += 4
+    ) {
+
+        const v =
+            s[i + index];
+
+        d[i] = v;
+        d[i + 1] = v;
+        d[i + 2] = v;
+        d[i + 3] = 255;
+    }
+
+    return output;
+}
+
+
+
+// =============================================
+// FAST QR REGION
+// =============================================
+
+function findQRRegion(data) {
+
+    const w = data.width;
+    const h = data.height;
+    const d = data.data;
+
+    const step = 8;
+
+    let minX = w;
+    let minY = h;
+    let maxX = 0;
+    let maxY = 0;
+
+    let count = 0;
+
+    for (
+        let y = 0;
+        y < h;
+        y += step
+    ) {
+
+        for (
+            let x = 0;
+            x < w;
+            x += step
+        ) {
+
+            const i =
+                (y * w + x) * 4;
+
+            const r = d[i];
+            const g = d[i + 1];
+            const b = d[i + 2];
+
+            const dark =
+                Math.min(r, g, b);
+
+            if (dark > 100) continue;
+
+            minX = Math.min(minX, x);
+            minY = Math.min(minY, y);
+            maxX = Math.max(maxX, x);
+            maxY = Math.max(maxY, y);
+
+            count++;
+
+            if (count > 500) break;
+        }
+
+        if (count > 500) break;
+    }
+
+    if (
+        count < 20 ||
+        maxX - minX < 60 ||
+        maxY - minY < 60
+    ) {
+        return null;
+    }
+
+    const margin =
+        Math.max(
+            maxX - minX,
+            maxY - minY
+        ) * 0.25;
+
+    const x =
+        Math.max(
+            0,
+            Math.floor(minX - margin)
+        );
+
+    const y =
+        Math.max(
+            0,
+            Math.floor(minY - margin)
+        );
+
+    const right =
+        Math.min(
+            w,
+            Math.ceil(maxX + margin)
+        );
+
+    const bottom =
+        Math.min(
+            h,
+            Math.ceil(maxY + margin)
+        );
+
+    return {
+        x,
+        y,
+        w: right - x,
+        h: bottom - y
+    };
+}
+
+
+
+// =============================================
+// FILE → DATA URL
+// =============================================
+
+function readFileAsDataURL(file) {
+
+    return new Promise(
+        (resolve, reject) => {
+
+            const reader =
+                new FileReader();
+
+            reader.onload =
+                () => resolve(
+                    reader.result
+                );
+
+            reader.onerror =
+                reject;
+
+            reader.readAsDataURL(file);
+        }
+    );
+}
+
+
+
+// =============================================
+// DATA URL → IMAGE
+// =============================================
+
+function loadImage(src) {
+
+    return new Promise(
+        (resolve, reject) => {
+
+            const img = new Image();
+
+            img.onload =
+                () => resolve(img);
+
+            img.onerror =
+                reject;
+
+            img.src = src;
+        }
+    );
+}     
                 const tagTranslationMap = { "N": "Name", "FN": "Full Name", "TEL": "Telephone", "EMAIL": "Email", "ADR": "Address", "ORG": "Company", "TITLE": "Job Title", "URL": "Website", "NOTE": "Note", "BDAY": "Birthday" };
 
         function parseContactQR(rawText) {
@@ -1232,6 +1695,25 @@ return titleHtml + data;
             }
             
             const actionBtn = document.getElementById('actionBtn');
+            const sendBtn = document.getElementById('resultSendBtn');
+            const shareBtn = document.getElementById('resultShareBtn');
+            const lowerRaw = rawDataForClipboard.toLowerCase();
+            const canSend = lowerRaw.startsWith('mailto:') || lowerRaw.startsWith('sms:') || lowerRaw.startsWith('smsto:');
+            if (shareBtn) {
+                // Share is available for every scanned result.
+                // Mail/SMS: Share stays on the left and Send stays on the right.
+                // Other results: Share moves into the Send button's exact position.
+                shareBtn.classList.add('visible');
+                shareBtn.style.right = canSend ? '50px' : '10px';
+                shareBtn.title = 'Share result';
+                shareBtn.setAttribute('aria-label', 'Share result');
+            }
+            if (sendBtn) {
+                sendBtn.classList.toggle('visible', canSend);
+                sendBtn.style.right = '10px';
+                sendBtn.title = lowerRaw.startsWith('mailto:') ? 'Send Email' : 'Send Message';
+                sendBtn.setAttribute('aria-label', sendBtn.title);
+            }
             actionBtn.innerText = "📋 Copy Text to Clipboard";
             actionBtn.style.background = "#475569";
             actionBtn.style.color = "#ffffff";
@@ -1269,6 +1751,156 @@ return titleHtml + data;
         }
     }
 }
+        async function shareScannedResult(event) {
+            if (event) event.stopPropagation();
+            const resultEl = document.getElementById('resultText');
+            const baseShareText = resultEl ? resultEl.innerText.trim() : (rawDataForClipboard || '').trim();
+            // When sharing the result image, do NOT put the website URL in the
+            // share text. A URL there can trigger an OG preview (e.g. WhatsApp),
+            // while the same URL is already printed inside the shared result image.
+            // This prevents the website preview/card and the footer URL from
+            // appearing twice. If file sharing is unavailable, use a text fallback
+            // that includes the URL so apps without an OG preview still receive it.
+            const shareTextWithAttribution = baseShareText
+                ? `${baseShareText}\n\nScanned by\nPextume QR Code Scanner\nhttps://pextume.in/qr-scan.html`
+                : 'Scanned by\nPextume QR Code Scanner\nhttps://pextume.in/qr-scan.html';
+            const shareTextFallback = baseShareText
+                ? `${baseShareText}\n\nScanned by\nPextume QR Code Scanner\nhttps://pextume.in/qr-scan.html`
+                : 'Scanned by\nPextume QR Code Scanner\nhttps://pextume.in/qr-scan.html';
+            if (!baseShareText && !rawDataForClipboard) return;
+
+            // Share the result as an image so the receiver sees the same visual
+            // formatting as the result box: blue headings, black labels/details,
+            // separate lines and the same spacing. Android's native share sheet
+            // will then offer compatible apps such as WhatsApp, Facebook,
+            // Telegram, Messenger, etc.
+            if (navigator.share && resultEl) {
+                try {
+                    const shareFile = await createResultShareImage(resultEl);
+                    if (shareFile && navigator.canShare && navigator.canShare({ files: [shareFile] })) {
+                        await navigator.share({
+                            files: [shareFile],
+                            title: 'Scanned QR Result',
+                            text: shareTextWithAttribution
+                        });
+                        return;
+                    }
+                    // Some browsers expose navigator.share but do not support
+                    // sharing files. In that case use the native share sheet
+                    // with the result text instead of copying automatically.
+                    await navigator.share({ title: 'Scanned QR Result', text: shareTextFallback });
+                    return;
+                } catch (err) {
+                    if (err && err.name !== 'AbortError') console.log('Share error:', err);
+                    return;
+                }
+            }
+
+            // No native share sheet: do not silently copy. Tell the user why.
+            alert('Sharing is not supported on this browser.');
+        }
+
+        async function createResultShareImage(resultEl) {
+            try {
+                const width = 900;
+                const padding = 48;
+                const contentWidth = width - (padding * 2);
+                const measuredHeight = Math.max(resultEl.scrollHeight, resultEl.offsetHeight, 120);
+                const footerHeight = 175;
+                const height = Math.min(Math.max(measuredHeight + (padding * 2) + footerHeight, 330), 3200);
+
+                const clone = resultEl.cloneNode(true);
+                clone.removeAttribute('id');
+                clone.style.cssText = `width:${contentWidth}px; max-height:none; overflow:visible; background:#ffffff; color:#0f172a; padding:0; margin:0; border:0; border-radius:0; font-family:Poppins, Arial, sans-serif; font-size:30px; line-height:1.6; word-break:break-word; white-space:pre-wrap;`;
+
+                // Do not change the result formatting. The shared image should
+                // match the result box, with the footer added separately below.
+                const wrapper = document.createElement('div');
+                wrapper.setAttribute('xmlns', 'http://www.w3.org/1999/xhtml');
+                wrapper.style.cssText = `width:${contentWidth}px; padding:0; margin:0; background:#ffffff; color:#0f172a; font-family:Poppins, Arial, sans-serif;`;
+                wrapper.appendChild(clone);
+
+                const serialized = new XMLSerializer().serializeToString(wrapper);
+                const contentHeight = height - (padding * 2) - footerHeight;
+                const svg = `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xhtml="http://www.w3.org/1999/xhtml" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
+  <rect width="100%" height="100%" fill="#ffffff"/>
+  <rect x="12" y="12" width="${width - 24}" height="${height - 24}" rx="28" fill="#ffffff" stroke="#00d2a0" stroke-width="3"/>
+  <foreignObject x="${padding}" y="${padding}" width="${contentWidth}" height="${contentHeight}">${serialized}</foreignObject>
+</svg>`;
+
+                const blob = new Blob([svg], { type: 'image/svg+xml;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                try {
+                    const img = new Image();
+                    img.decoding = 'async';
+                    img.src = url;
+                    await new Promise((resolve, reject) => { img.onload = resolve; img.onerror = reject; });
+
+                    const scale = Math.min(window.devicePixelRatio || 1, 2);
+                    const canvas = document.createElement('canvas');
+                    canvas.width = width * scale;
+                    canvas.height = height * scale;
+                    const ctx = canvas.getContext('2d');
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+                    // Add the share footer directly to the PNG canvas. This avoids
+                    // Android/browser foreignObject rendering issues and guarantees
+                    // the footer is part of every shared result image.
+                    const S = scale;
+                    const footerTop = (height - footerHeight + 10) * S;
+                    ctx.strokeStyle = '#e2e8f0';
+                    ctx.lineWidth = 2 * S;
+                    ctx.beginPath();
+                    ctx.moveTo(padding * S, footerTop);
+                    ctx.lineTo((width - padding) * S, footerTop);
+                    ctx.stroke();
+
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.font = `500 ${21 * S}px Arial, sans-serif`;
+                    ctx.fillStyle = '#475569';
+                    ctx.fillText('Scanned by', (width / 2) * S, (height - 112) * S);
+
+                    ctx.font = `600 ${22 * S}px Arial, sans-serif`;
+                    ctx.fillStyle = '#0f172a';
+                    ctx.fillText('Pextume QR Code Scanner', (width / 2) * S, (height - 78) * S);
+
+                    ctx.font = `400 ${20 * S}px Arial, sans-serif`;
+                    ctx.fillStyle = '#0284c7';
+                    ctx.fillText('https://pextume.in/qr-scan.html', (width / 2) * S, (height - 40) * S);
+
+                    const pngBlob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png', 1));
+                    if (!pngBlob) return null;
+                    return new File([pngBlob], 'Scanned_QR_Result.png', { type: 'image/png' });
+                } finally { URL.revokeObjectURL(url); }
+            } catch (err) {
+                console.log('Share image creation error:', err);
+                return null;
+            }
+        }
+
+        function sendScannedResult(event) {
+            if (event) event.stopPropagation();
+            const raw = (rawDataForClipboard || '').trim();
+            if (!raw) return;
+            const lower = raw.toLowerCase();
+
+            if (lower.startsWith('mailto:')) {
+                // Keep the original mailto payload so To/Subject/Body are preserved.
+                window.location.href = raw;
+                return;
+            }
+
+            if (lower.startsWith('sms:') || lower.startsWith('smsto:')) {
+                // Normalize SMSTO: to the standard SMS URI supported by Android.
+                const smsUri = raw.replace(/^smsto:/i, 'sms:');
+                window.location.href = smsUri;
+            }
+        }
+
         function handleResultAction() {
             if (!rawDataForClipboard) return;
             navigator.clipboard.writeText(rawDataForClipboard).then(() => {
