@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>QR Code Scanner</title>
-    <meta name="description" content="Scan any QR code instantly with your device camera or upload an image from your gallery. Free, fast, and secure online QR Code Scanner tool by Pextume.">
-    <meta name="keywords" content="QR Code Scanner, Scan QR Code online, Online QR Reader, Camera QR Scanner, QR Code from Gallery, Pextume Scanner, free qr scanner">
+   <title>Free Online QR Code Scanner & Reader - Pextume</title>
+    <meta name="description" content="Scan complex color QR codes instantly with Pextume's free online QR scanner. Live camera scan, image upload, no installation required." />
+            <meta name="keywords" content="QR Code Scanner, Scan QR Code online, Online QR Reader, Camera QR Scanner, QR Code from Gallery, Pextume Scanner, free qr scanner">
 
     <meta property="og:site_name" content="Pextume">
     <meta property="og:title" content="QR Code Scanner">
@@ -73,6 +73,12 @@
         input:checked + .slider { background-color: var(--btn-green); }
         input:checked + .slider:before { transform: translateX(20px); }
         
+
+        .camera-switching-overlay { position:absolute; inset:0; z-index:5; display:none; align-items:center; justify-content:center; flex-direction:column; gap:14px; background:#000; color:#fff; pointer-events:none; }
+        .camera-switching-overlay.show { display:flex; }
+        .camera-switching-spinner { width:38px; height:38px; border:4px solid rgba(255,255,255,.28); border-top-color:#fff; border-radius:50%; animation:cameraSwitchLoading .75s linear infinite; }
+        .camera-switching-text { font-size:.95rem; font-weight:700; letter-spacing:.3px; }
+        @keyframes cameraSwitchLoading { to { transform:rotate(360deg); } }
         .scanner-view-wrapper { position: relative; width: 100%; max-width: 330px; height: 330px; margin: 10px auto 10px auto; border-radius: 20px; overflow: hidden; background: #000; border: 3.5px solid var(--primary-green); box-shadow: 0 15px 35px rgba(0, 210, 160, 0.15); display: none; }
         #scannerVideo { width: 100%; height: 100%; object-fit: cover; }
         
@@ -105,6 +111,15 @@
         .preview-image { max-width: 130px; max-height: 130px; border-radius: 14px; border: 2px solid var(--primary-green); box-shadow: 0 8px 20px rgba(0, 210, 160, 0.08); object-fit: contain; }
         .preview-filename { font-size: 0.85rem; color: #64748b; margin-top: 12px; font-weight: 500; word-break: break-all; }
         .result-panel { background: var(--light-gray); border: 1.5px solid var(--primary-green); border-radius: 16px; padding: 18px; margin-top: 15px; text-align: left; display: none; }
+        .result-panel { position: relative; }
+        .result-send-btn, .result-share-btn { position:absolute; top:0px; width:44px; height:44px; border:none; border-radius:50%; background:transparent; color:var(--primary-green); display:none; align-items:center; justify-content:center; cursor:pointer; padding:0; box-shadow:none; -webkit-tap-highlight-color:transparent; touch-action:manipulation; }
+        .result-send-btn { right:10px; }
+        .result-share-btn { right:50px; }
+        .result-send-btn:active, .result-share-btn:active { transform:none; }
+        .result-send-btn.visible, .result-share-btn.visible { display:flex; }
+        .result-share-btn svg { width:24px; height:24px; display:block; }
+        .result-share-btn svg { stroke-width:1.35; }
+        .result-send-btn svg { width:27px; height:27px; display:block; }
         .result-text { color: var(--text-main); font-size: 0.95rem; word-break: break-word; white-space: pre-wrap; margin-bottom: 5px; background: #ffffff; padding: 14px; border-radius: 10px; border: 1px solid var(--border-color); max-height: 250px; overflow-y: auto; line-height: 1.6; }
         /* Live Scanning: compact result card so camera + result can fit better on one phone screen. */
         .result-panel.live-compact-result { padding: 11px 12px; margin-top: 10px; border-radius: 14px; }
@@ -118,6 +133,10 @@
         .spinner-circle-logo { width: 44px; height: 44px; border: 4px solid #f1f5f9; border-top: 4px solid var(--btn-green); border-radius: 50%; animation: spinCircular 0.8s linear infinite; }
         @keyframes spinCircular { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         .loading-text-label { font-size: 0.95rem; font-weight: 600; color: var(--text-main); letter-spacing: 0.3px; text-transform: uppercase; }
+        /* During camera Snap/Auto scanning, reuse the original loading card inside the camera box. */
+        #scannerWrapper .upload-loading-overlay.camera-scan-loading { position:absolute; inset:0; width:100%; height:100%; background:#000; z-index:1000; display:none; align-items:center; justify-content:center; }
+        #scannerWrapper .upload-loading-overlay.camera-scan-loading .loading-spinner-card { transform:translateZ(0); will-change:transform; }
+#scannerWrapper .upload-loading-overlay.live-camera-scan-loading { position:absolute; inset:0; width:100%; height:100%; background:transparent; z-index:1000; display:none; align-items:center; justify-content:center; pointer-events:none; }
         
         .history-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.04); backdrop-filter: blur(0px); z-index: 100000; display: none; align-items: center; justify-content: center; padding: 16px; }
         .history-modal-content { background: #ffffff; width: 100%; max-width: 440px; border-radius: 28px; padding: 22px; box-shadow: 0 25px 55px rgba(15, 23, 25, 0.15); display: flex; flex-direction: column; max-height: 75vh; margin-top: 45px; border: 2.5px solid var(--primary-green); }
@@ -180,11 +199,6 @@
         .camera-switch-icon.is-switching { animation: cameraSwitchSpin .62s cubic-bezier(.22,.61,.36,1) 1; transform-origin: 50% 50%; }
         .camera-switch-btn{padding:0}
 
-        /* Camera switch: reveal the new camera feed from the center without a black flash */
-        .camera-switch-reveal-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2;clip-path:circle(0% at 50% 50%);-webkit-clip-path:circle(0% at 50% 50%);}
-        .camera-switch-reveal-video.is-revealing{animation:cameraCenterReveal .48s cubic-bezier(.22,.61,.36,1) forwards;}
-        @keyframes cameraCenterReveal{from{clip-path:circle(0% at 50% 50%);-webkit-clip-path:circle(0% at 50% 50%)}to{clip-path:circle(100% at 50% 50%);-webkit-clip-path:circle(100% at 50% 50%)}}
-
 </style>
 </head>
 <body>
@@ -202,6 +216,10 @@
         </div>
         <button class="action-btn" id="startCamBtn" onclick="startCameraScanner()">📷 Start Camera Scanning</button>
         <div class="scanner-view-wrapper" id="scannerWrapper">
+            <div class="camera-switching-overlay" id="cameraSwitchingOverlay" aria-hidden="true">
+                <div class="camera-switching-spinner"></div>
+                <div class="camera-switching-text">Camera Switching</div>
+            </div>
             <div class="low-light-alert-badge" id="lowLightAlertBadge">⚠️ Low Light! Tap Flash ⚡</div><div class="live-status-badge" id="liveStatusBadge"><span class="live-status-dot" id="liveStatusDot"></span><span id="liveStatusText">LIVE</span></div>
             <button class="snap-shutter-btn" id="snapShutterBtn" onpointerdown="captureAndScanCameraSnapshot(event)">📸 Snap & Scan</button>
             <div class="camera-bottom-controls">
@@ -235,7 +253,18 @@
             <div class="preview-filename" id="previewFileNameText">filename.png</div>
         </div>
         <div class="result-panel" id="resultPanel">
-            <div class="section-title" style="margin-top:0; color:#c2410c; border-bottom: none; padding-bottom: 0;">✓ Scanned Result:</div>
+            <button class="result-share-btn" id="resultShareBtn" onclick="shareScannedResult(event)" aria-label="Share result" title="Share">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="18" cy="5" r="2.5"></circle><circle cx="6" cy="12" r="2.5"></circle><circle cx="18" cy="19" r="2.5"></circle>
+                    <path d="M8.2 10.8 15.8 6.2M8.2 13.2l7.6 4.6"></path>
+                </svg>
+            </button>
+            <button class="result-send-btn" id="resultSendBtn" onclick="sendScannedResult(event)" aria-label="Send result" title="Send">
+                <svg viewBox="0 0 24 24" fill="white" stroke="var(--primary-green)" stroke-width="1.10" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M4 3.8L21 12 4 20.2 6.7 13.1 14.2 12 6.7 10.9 4 3.8Z"></path>
+                </svg>
+            </button>
+            <div class="section-title" style="margin-top:0; color:#c2410c; border-bottom: none; padding-bottom: 0; padding-right:48px;">✓ Scanned Result:</div>
             <div class="result-text" id="resultText">Result will appear here...</div>
             <button class="action-btn" id="actionBtn" onclick="handleResultAction()">📋 Copy Text to Clipboard</button>
         </div>
@@ -468,8 +497,31 @@
             lastLiveScanData=codeData; lastLiveScanTime=now; liveScanBusy=false; try{if(navigator.vibrate)navigator.vibrate(180)}catch(e){}
             const video=document.getElementById('scannerVideo'); let snap=null; try{if(video&&video.videoWidth){const c=document.createElement('canvas');c.width=video.videoWidth;c.height=video.videoHeight;c.getContext('2d').drawImage(video,0,0,c.width,c.height);snap=c.toDataURL('image/jpeg',.88)}}catch(e){}
             const continuous=isContinuousLiveScanningEnabled();
-            if(!continuous){stopLiveScanningEngine();try{if(videoStream)videoStream.getTracks().forEach(t=>t.stop())}catch(e){} videoStream=null;if(lowLightCheckInterval){clearInterval(lowLightCheckInterval);lowLightCheckInterval=null}if(focusCheckInterval){clearInterval(focusCheckInterval);focusCheckInterval=null}document.getElementById('scannerWrapper').style.display='none';document.getElementById('startCamBtn').style.display='block';document.getElementById('flashToggleBtn').style.display='none';updateScanModeUI()}
-            const ov=document.getElementById('uploadLoadingOverlay'),tx=document.getElementById('loadingTextLabel'); if(ov){if(tx)tx.textContent='Scanning...';ov.style.display='flex';setTimeout(()=>{ov.style.display='none';playSuccessBeep();showScanResult(codeData,snap,continuous?'Live_Scan.jpg':'Camera_Auto_Scan.jpg');if(continuous&&videoStream){setTimeout(()=>{lastLiveScanData='';startLiveScanningEngine();updateScanModeUI()},500)}},300)}else{playSuccessBeep();showScanResult(codeData,snap,continuous?'Live_Scan.jpg':'Camera_Auto_Scan.jpg');if(continuous&&videoStream){lastLiveScanData='';startLiveScanningEngine()}}
+            if(!continuous){
+                stopLiveScanningEngine();
+                try{if(videoStream)videoStream.getTracks().forEach(t=>t.stop())}catch(e){}
+                videoStream=null;
+                if(lowLightCheckInterval){clearInterval(lowLightCheckInterval);lowLightCheckInterval=null}
+                if(focusCheckInterval){clearInterval(focusCheckInterval);focusCheckInterval=null}
+                try{document.getElementById('videoContainer').innerHTML='';}catch(e){}
+                try{document.getElementById('flashToggleBtn').style.display='none';}catch(e){}
+            }
+            const ov=showCameraScanLoading(continuous);
+            if(ov){
+                setTimeout(()=>{
+                    hideCameraScanLoading(ov);
+                    if(!continuous){
+                        try{document.getElementById('scannerWrapper').style.display='none';document.getElementById('startCamBtn').style.display='block';}catch(e){}
+                    }
+                    playSuccessBeep();
+                    showScanResult(codeData,snap,continuous?'Live_Scan.jpg':'Camera_Auto_Scan.jpg');
+                    if(continuous&&videoStream){setTimeout(()=>{lastLiveScanData='';startLiveScanningEngine();updateScanModeUI()},500)}
+                },300);
+            }else{
+                playSuccessBeep();
+                showScanResult(codeData,snap,continuous?'Live_Scan.jpg':'Camera_Auto_Scan.jpg');
+                if(continuous&&videoStream){lastLiveScanData='';startLiveScanningEngine()}
+            }
         }
         function handleScanModeChange(){if(!videoStream){updateLiveScanLayout();updateScanModeUI();return;}stopLiveScanningEngine();if(isAutomaticScanningEnabled())startLiveScanningEngine();updateScanModeUI();}
 
@@ -514,59 +566,35 @@
         async function switchCamera(){
             if(!videoStream) return;
 
+            const switchingOverlay = document.getElementById('cameraSwitchingOverlay');
+            if (switchingOverlay) switchingOverlay.classList.add('show');
+
             // Smoothly rotate only the camera-switch icon exactly 180 degrees.
             const switchIcon = document.querySelector('#switchCameraBtn .camera-switch-icon');
             if (switchIcon) {
                 switchIcon.classList.remove('is-switching');
-                void switchIcon.offsetWidth;
+                void switchIcon.offsetWidth; // restart the animation on every tap
                 switchIcon.classList.add('is-switching');
                 setTimeout(() => switchIcon.classList.remove('is-switching'), 700);
             }
 
             stopLiveScanningEngine();
-            const oldStream = videoStream;
+            try{videoStream.getTracks().forEach(t=>t.stop())}catch(e){}
+            videoStream=null;
             const next=currentFacingMode==='environment'?'user':'environment';
-            const video=document.getElementById('scannerVideo');
-            const container=document.getElementById('videoContainer');
             try{
-                // Open the new camera FIRST. The old camera stays visible underneath,
-                // so there is no black screen during switching.
                 let stream;
                 try{
                     stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{exact:next},width:{ideal:1920},height:{ideal:1080}}});
                 }catch(e){
-                    // Some phones do not allow two camera streams at once.
-                    // Only in that case stop the old stream and retry with a flexible constraint.
-                    try{ oldStream.getTracks().forEach(t=>t.stop()); }catch(_){}
-                    videoStream=null;
-                    stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:next},width:{ideal:1280},height:{ideal:720}}});
+                    stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:next},width:{ideal:1920},height:{ideal:1080}}});
                 }
-
-                const revealVideo=document.createElement('video');
-                revealVideo.className='camera-switch-reveal-video';
-                revealVideo.autoplay=true; revealVideo.muted=true; revealVideo.playsInline=true;
-                revealVideo.srcObject=stream;
-                container.appendChild(revealVideo);
-                await revealVideo.play();
-
-                // Wait briefly for the first real camera frame.
-                await new Promise(resolve=>{
-                    if(revealVideo.readyState>=2) requestAnimationFrame(resolve);
-                    else revealVideo.addEventListener('loadeddata',()=>requestAnimationFrame(resolve),{once:true});
-                    setTimeout(resolve,1200);
-                });
-
                 currentFacingMode=next;
                 videoStream=stream;
-                video.style.transform='scale(1)';
-                revealVideo.classList.add('is-revealing');
-
-                await new Promise(resolve=>setTimeout(resolve,500));
+                const video=document.getElementById('scannerVideo');
                 video.srcObject=stream;
                 video.style.transform='scale(1)';
-                revealVideo.remove();
-                try{oldStream.getTracks().forEach(t=>t.stop())}catch(e){}
-
+                await video.play();
                 await applyCameraZoom();
                 startLowLightDetectionEngine();
                 startFocusDetectionEngine();
@@ -578,13 +606,9 @@
                     document.getElementById('flashToggleBtn').style.display=caps.torch?'flex':'none';
                 }catch(e){}
             }catch(e){
-                try{
-                    const fallback=document.querySelector('.camera-switch-reveal-video');
-                    if(fallback) { const st=fallback.srcObject; fallback.remove(); if(st) st.getTracks().forEach(t=>t.stop()); }
-                }catch(_){}
-                // Keep the current camera alive whenever possible; do not show a failure alert.
-                videoStream = oldStream || videoStream;
-                console.warn('Camera switch failed:', e);
+                alert("📷 Unable to switch camera on this device.");
+            } finally {
+                if (switchingOverlay) switchingOverlay.classList.remove('show');
             }
         }
 
@@ -848,6 +872,27 @@
                 ctx.putImageData(imgData, 0, 0);
             } catch(e) {}
         }                   
+        
+        function showCameraScanLoading(liveMode=false){
+            const wrapper=document.getElementById("scannerWrapper");
+            const overlay=document.getElementById("uploadLoadingOverlay");
+            const text=document.getElementById("loadingTextLabel");
+            if(!wrapper||!overlay) return null;
+            if(text) text.textContent="Scanning...";
+            if(!overlay.dataset.originalParent) overlay.dataset.originalParent="body";
+            overlay.classList.remove("camera-scan-loading","live-camera-scan-loading");
+            overlay.classList.add(liveMode ? "live-camera-scan-loading" : "camera-scan-loading");
+            wrapper.appendChild(overlay);
+            overlay.style.display="flex";
+            return overlay;
+        }
+        function hideCameraScanLoading(overlay){
+            if(!overlay) return;
+            overlay.style.display="none";
+            overlay.classList.remove("camera-scan-loading","live-camera-scan-loading");
+            document.body.appendChild(overlay);
+        }
+
         function captureAndScanCameraSnapshot(event) {
             event.preventDefault();
             if (isAutomaticScanningEnabled()) return;
@@ -857,10 +902,7 @@
                 return;
             }
 
-            let loadingOverlay = document.getElementById('uploadLoadingOverlay'); 
-            let loadingText = document.getElementById('loadingTextLabel');
-            if (loadingText) loadingText.innerText = "Scanning...";
-            if (loadingOverlay) loadingOverlay.style.display = 'flex'; 
+            let loadingOverlay = showCameraScanLoading();
 
             let canvas = document.createElement("canvas");
             canvas.width = video.videoWidth;
@@ -870,11 +912,12 @@
 
             let snapshotDataUrl = canvas.toDataURL('image/jpeg', 0.9);
 
-            // Match Live Scan behavior: freeze/stop the camera immediately after
-            // capturing the frame, then do the QR processing while the scan
-            // animation runs. This prevents camera rendering from competing
-            // with the spinner on slower phones.
-            stopCameraScanner();
+            // Freeze the camera preview on a black camera box while the original
+            // scanning animation runs. Keep the camera box itself visible.
+            try { stopLiveScanningEngine(); } catch(e) {}
+            try { if(videoStream) videoStream.getTracks().forEach(t => t.stop()); } catch(e) {}
+            videoStream = null;
+            try { video.style.visibility = 'hidden'; } catch(e) {}
 
             setTimeout(async () => {
                 let codeData = null;
@@ -906,7 +949,8 @@
                     } catch(e) {}
                 }
 
-                if(loadingOverlay) loadingOverlay.style.display = 'none';
+                hideCameraScanLoading(loadingOverlay);
+                try { document.getElementById('scannerWrapper').style.display='none'; document.getElementById('startCamBtn').style.display='block'; } catch(e) {}
 
                 if (codeData) {
                     playSuccessBeep();
@@ -928,8 +972,10 @@
             }
             document.getElementById("uploadLabel").innerHTML = "📁 Choose QR Image from Gallery";
             
-            let loadingOverlay = document.getElementById('uploadLoadingOverlay'); 
-            loadingOverlay.style.display = 'flex'; 
+            let loadingOverlay = document.getElementById('uploadLoadingOverlay');
+            let loadingText = document.getElementById('loadingTextLabel');
+            if (loadingText) loadingText.innerText = 'Scanning...';
+            if (loadingOverlay) loadingOverlay.style.display = 'flex';
 
             if (videoStream) { stopCameraScanner(); }
             
@@ -1253,6 +1299,25 @@ return titleHtml + data;
             }
             
             const actionBtn = document.getElementById('actionBtn');
+            const sendBtn = document.getElementById('resultSendBtn');
+            const shareBtn = document.getElementById('resultShareBtn');
+            const lowerRaw = rawDataForClipboard.toLowerCase();
+            const canSend = lowerRaw.startsWith('mailto:') || lowerRaw.startsWith('sms:') || lowerRaw.startsWith('smsto:');
+            if (shareBtn) {
+                // Share is available for every scanned result.
+                // Mail/SMS: Share stays on the left and Send stays on the right.
+                // Other results: Share moves into the Send button's exact position.
+                shareBtn.classList.add('visible');
+                shareBtn.style.right = canSend ? '50px' : '10px';
+                shareBtn.title = 'Share result';
+                shareBtn.setAttribute('aria-label', 'Share result');
+            }
+            if (sendBtn) {
+                sendBtn.classList.toggle('visible', canSend);
+                sendBtn.style.right = '10px';
+                sendBtn.title = lowerRaw.startsWith('mailto:') ? 'Send Email' : 'Send Message';
+                sendBtn.setAttribute('aria-label', sendBtn.title);
+            }
             actionBtn.innerText = "📋 Copy Text to Clipboard";
             actionBtn.style.background = "#475569";
             actionBtn.style.color = "#ffffff";
@@ -1290,6 +1355,156 @@ return titleHtml + data;
         }
     }
 }
+        async function shareScannedResult(event) {
+            if (event) event.stopPropagation();
+            const resultEl = document.getElementById('resultText');
+            const baseShareText = resultEl ? resultEl.innerText.trim() : (rawDataForClipboard || '').trim();
+            // When sharing the result image, do NOT put the website URL in the
+            // share text. A URL there can trigger an OG preview (e.g. WhatsApp),
+            // while the same URL is already printed inside the shared result image.
+            // This prevents the website preview/card and the footer URL from
+            // appearing twice. If file sharing is unavailable, use a text fallback
+            // that includes the URL so apps without an OG preview still receive it.
+            const shareTextWithAttribution = baseShareText
+                ? `${baseShareText}\n\nScanned by\nPextume QR Code Scanner\nhttps://pextume.in/qr-scan.html`
+                : 'Scanned by\nPextume QR Code Scanner\nhttps://pextume.in/qr-scan.html';
+            const shareTextFallback = baseShareText
+                ? `${baseShareText}\n\nScanned by\nPextume QR Code Scanner\nhttps://pextume.in/qr-scan.html`
+                : 'Scanned by\nPextume QR Code Scanner\nhttps://pextume.in/qr-scan.html';
+            if (!baseShareText && !rawDataForClipboard) return;
+
+            // Share the result as an image so the receiver sees the same visual
+            // formatting as the result box: blue headings, black labels/details,
+            // separate lines and the same spacing. Android's native share sheet
+            // will then offer compatible apps such as WhatsApp, Facebook,
+            // Telegram, Messenger, etc.
+            if (navigator.share && resultEl) {
+                try {
+                    const shareFile = await createResultShareImage(resultEl);
+                    if (shareFile && navigator.canShare && navigator.canShare({ files: [shareFile] })) {
+                        await navigator.share({
+                            files: [shareFile],
+                            title: 'Scanned QR Result',
+                            text: shareTextWithAttribution
+                        });
+                        return;
+                    }
+                    // Some browsers expose navigator.share but do not support
+                    // sharing files. In that case use the native share sheet
+                    // with the result text instead of copying automatically.
+                    await navigator.share({ title: 'Scanned QR Result', text: shareTextFallback });
+                    return;
+                } catch (err) {
+                    if (err && err.name !== 'AbortError') console.log('Share error:', err);
+                    return;
+                }
+            }
+
+            // No native share sheet: do not silently copy. Tell the user why.
+            alert('Sharing is not supported on this browser.');
+        }
+
+        async function createResultShareImage(resultEl) {
+            try {
+                const width = 900;
+                const padding = 48;
+                const contentWidth = width - (padding * 2);
+                const measuredHeight = Math.max(resultEl.scrollHeight, resultEl.offsetHeight, 120);
+                const footerHeight = 175;
+                const height = Math.min(Math.max(measuredHeight + (padding * 2) + footerHeight, 330), 3200);
+
+                const clone = resultEl.cloneNode(true);
+                clone.removeAttribute('id');
+                clone.style.cssText = `width:${contentWidth}px; max-height:none; overflow:visible; background:#ffffff; color:#0f172a; padding:0; margin:0; border:0; border-radius:0; font-family:Poppins, Arial, sans-serif; font-size:30px; line-height:1.6; word-break:break-word; white-space:pre-wrap;`;
+
+                // Do not change the result formatting. The shared image should
+                // match the result box, with the footer added separately below.
+                const wrapper = document.createElement('div');
+                wrapper.setAttribute('xmlns', 'http://www.w3.org/1999/xhtml');
+                wrapper.style.cssText = `width:${contentWidth}px; padding:0; margin:0; background:#ffffff; color:#0f172a; font-family:Poppins, Arial, sans-serif;`;
+                wrapper.appendChild(clone);
+
+                const serialized = new XMLSerializer().serializeToString(wrapper);
+                const contentHeight = height - (padding * 2) - footerHeight;
+                const svg = `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xhtml="http://www.w3.org/1999/xhtml" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
+  <rect width="100%" height="100%" fill="#ffffff"/>
+  <rect x="12" y="12" width="${width - 24}" height="${height - 24}" rx="28" fill="#ffffff" stroke="#00d2a0" stroke-width="3"/>
+  <foreignObject x="${padding}" y="${padding}" width="${contentWidth}" height="${contentHeight}">${serialized}</foreignObject>
+</svg>`;
+
+                const blob = new Blob([svg], { type: 'image/svg+xml;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                try {
+                    const img = new Image();
+                    img.decoding = 'async';
+                    img.src = url;
+                    await new Promise((resolve, reject) => { img.onload = resolve; img.onerror = reject; });
+
+                    const scale = Math.min(window.devicePixelRatio || 1, 2);
+                    const canvas = document.createElement('canvas');
+                    canvas.width = width * scale;
+                    canvas.height = height * scale;
+                    const ctx = canvas.getContext('2d');
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+                    // Add the share footer directly to the PNG canvas. This avoids
+                    // Android/browser foreignObject rendering issues and guarantees
+                    // the footer is part of every shared result image.
+                    const S = scale;
+                    const footerTop = (height - footerHeight + 10) * S;
+                    ctx.strokeStyle = '#e2e8f0';
+                    ctx.lineWidth = 2 * S;
+                    ctx.beginPath();
+                    ctx.moveTo(padding * S, footerTop);
+                    ctx.lineTo((width - padding) * S, footerTop);
+                    ctx.stroke();
+
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.font = `500 ${21 * S}px Arial, sans-serif`;
+                    ctx.fillStyle = '#475569';
+                    ctx.fillText('Scanned by', (width / 2) * S, (height - 112) * S);
+
+                    ctx.font = `600 ${22 * S}px Arial, sans-serif`;
+                    ctx.fillStyle = '#0f172a';
+                    ctx.fillText('Pextume QR Code Scanner', (width / 2) * S, (height - 78) * S);
+
+                    ctx.font = `400 ${20 * S}px Arial, sans-serif`;
+                    ctx.fillStyle = '#0284c7';
+                    ctx.fillText('https://pextume.in/qr-scan.html', (width / 2) * S, (height - 40) * S);
+
+                    const pngBlob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png', 1));
+                    if (!pngBlob) return null;
+                    return new File([pngBlob], 'Scanned_QR_Result.png', { type: 'image/png' });
+                } finally { URL.revokeObjectURL(url); }
+            } catch (err) {
+                console.log('Share image creation error:', err);
+                return null;
+            }
+        }
+
+        function sendScannedResult(event) {
+            if (event) event.stopPropagation();
+            const raw = (rawDataForClipboard || '').trim();
+            if (!raw) return;
+            const lower = raw.toLowerCase();
+
+            if (lower.startsWith('mailto:')) {
+                // Keep the original mailto payload so To/Subject/Body are preserved.
+                window.location.href = raw;
+                return;
+            }
+
+            if (lower.startsWith('sms:') || lower.startsWith('smsto:')) {
+                // Normalize SMSTO: to the standard SMS URI supported by Android.
+                const smsUri = raw.replace(/^smsto:/i, 'sms:');
+                window.location.href = smsUri;
+            }
+        }
+
         function handleResultAction() {
             if (!rawDataForClipboard) return;
             navigator.clipboard.writeText(rawDataForClipboard).then(() => {
