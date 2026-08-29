@@ -1312,25 +1312,19 @@ return titleHtml + data;
             if (event) event.stopPropagation();
             const resultEl = document.getElementById('resultText');
             const baseShareText = resultEl ? resultEl.innerText.trim() : (rawDataForClipboard || '').trim();
-            // When sharing the result image, do NOT put the website URL in the
-            // share text. A URL there can trigger an OG preview (e.g. WhatsApp),
-            // while the same URL is already printed inside the shared result image.
-            // This prevents the website preview/card and the footer URL from
-            // appearing twice. If file sharing is unavailable, use a text fallback
-            // that includes the URL so apps without an OG preview still receive it.
-            // Put Pextume's own URL first in the shared payload. WhatsApp and
-            // similar apps generally choose the first web URL when deciding which
-            // Open Graph preview card to generate. Camera scans can themselves
-            // contain a URL (for example, a product/website link), so putting the
-            // Pextume URL first makes the shared camera result use Pextume's
-            // OG title + image consistently, just like the gallery result.
+            // Keep the Pextume URL OUT of the visible text body.
+            // The Web Share API has a separate `url` field, allowing compatible
+            // apps to generate Pextume's OG preview while the visible Pextume
+            // link stays at the bottom of the message.
+            // This also prevents a scanned website URL from becoming the OG
+            // preview instead of Pextume's own preview.
             const pextumeShareUrl = 'https://pextume.in/qr-scan.html';
             const shareTextWithAttribution = baseShareText
-                ? `${pextumeShareUrl}\n\n${baseShareText}\n\nScanned by\nPextume QR Code Scanner`
-                : `${pextumeShareUrl}\n\nScanned by\nPextume QR Code Scanner`;
+                ? `${baseShareText}\n\nScanned by\nPextume QR Code Scanner`
+                : 'Scanned by\nPextume QR Code Scanner';
             const shareTextFallback = baseShareText
-                ? `${pextumeShareUrl}\n\n${baseShareText}\n\nScanned by\nPextume QR Code Scanner`
-                : `${pextumeShareUrl}\n\nScanned by\nPextume QR Code Scanner`;
+                ? `${baseShareText}\n\nScanned by\nPextume QR Code Scanner\n${pextumeShareUrl}`
+                : `Scanned by\nPextume QR Code Scanner\n${pextumeShareUrl}`;
             if (!baseShareText && !rawDataForClipboard) return;
 
             // Share the result as an image so the receiver sees the same visual
@@ -1345,7 +1339,8 @@ return titleHtml + data;
                         await navigator.share({
                             files: [shareFile],
                             title: 'Scanned QR Result',
-                            text: shareTextWithAttribution
+                            text: shareTextWithAttribution,
+                            url: pextumeShareUrl
                         });
                         return;
                     }
