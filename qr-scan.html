@@ -914,7 +914,7 @@
             }, 50);
         }
         /* 🎯 গ্যালারি ইমেজ স্ক্যানার (রঙিন কোড ডিটেকশনের মাল্টি-লেয়ার ব্যাকআপসহ) */
-        async function scanQRFromImage(event) {
+     async function scanQRFromImage(event) {
 
     const file = event.target.files[0];
     if (!file) return;
@@ -1455,7 +1455,7 @@ function loadImage(src) {
         }
     );
 }
-
+   
                 const tagTranslationMap = { "N": "Name", "FN": "Full Name", "TEL": "Telephone", "EMAIL": "Email", "ADR": "Address", "ORG": "Company", "TITLE": "Job Title", "URL": "Website", "NOTE": "Note", "BDAY": "Birthday" };
 
         function parseContactQR(rawText) {
@@ -1769,11 +1769,11 @@ return titleHtml + data;
             // appearing twice. If file sharing is unavailable, use a text fallback
             // that includes the URL so apps without an OG preview still receive it.
             const shareTextWithAttribution = baseShareText
-                ? `${baseShareText}\n\nScanned by\nPextume QR Code Scanner\nhttps://pextume.in/qr-scan.html`
-                : 'Scanned by\nPextume QR Code Scanner\nhttps://pextume.in/qr-scan.html';
+                ? `${baseShareText}\n\nScanned by\nPextume QR Code Scanner\nPextume.in/qr-scan.html`
+                : 'Scanned by\nPextume QR Code Scanner\nPextume.in/qr-scan.html';
             const shareTextFallback = baseShareText
-                ? `${baseShareText}\n\nScanned by\nPextume QR Code Scanner\nhttps://pextume.in/qr-scan.html`
-                : 'Scanned by\nPextume QR Code Scanner\nhttps://pextume.in/qr-scan.html';
+                ? `${baseShareText}\n\nScanned by\nPextume QR Code Scanner\nPextume.in/qr-scan.html`
+                : 'Scanned by\nPextume QR Code Scanner\nPextume.in/qr-scan.html';
             if (!baseShareText && !rawDataForClipboard) return;
 
             // Share the result as an image so the receiver sees the same visual
@@ -1869,6 +1869,7 @@ return titleHtml + data;
                     ctx.textBaseline = 'middle';
                     ctx.font = `500 ${21 * S}px Arial, sans-serif`;
                     ctx.fillStyle = '#475569';
+                    ctx.textAlign = 'center';
                     ctx.fillText('Scanned by', (width / 2) * S, (height - 112) * S);
 
                     ctx.font = `600 ${22 * S}px Arial, sans-serif`;
@@ -1877,7 +1878,7 @@ return titleHtml + data;
 
                     ctx.font = `400 ${20 * S}px Arial, sans-serif`;
                     ctx.fillStyle = '#0284c7';
-                    ctx.fillText('https://pextume.in/qr-scan.html', (width / 2) * S, (height - 40) * S);
+                    ctx.fillText('Pextume.in/qr-scan.html', (width / 2) * S, (height - 40) * S);
 
                     const pngBlob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png', 1));
                     if (!pngBlob) return null;
