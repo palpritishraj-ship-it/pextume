@@ -914,98 +914,548 @@
             }, 50);
         }
         /* 🎯 গ্যালারি ইমেজ স্ক্যানার (রঙিন কোড ডিটেকশনের মাল্টি-লেয়ার ব্যাকআপসহ) */
-        function scanQRFromImage(event) {
-            let file = event.target.files[0]; if (!file) return;
-            // Gallery scans must get the same first-result auto-scroll in Live Scanning
-            // as they do in Auto/Snap mode, even when a previous Live camera scan
-            // already used the one-time scroll.
-            if (isContinuousLiveScanningEnabled()) {
-                liveFirstResultScrollDone = false;
-                liveLastResultScrollY = null;
+   async function scanQRFromImage(event) {
+
+    const file = event.target.files[0];
+    if (!file) return;
+// Gallery scan-এর পর Result Box আবার উপর দিকে scroll করবে
+if (isContinuousLiveScanningEnabled()) {
+    liveFirstResultScrollDone = false;
+    liveLastResultScrollY = null;
+}
+    const loading = document.getElementById("uploadLoadingOverlay");
+const loadingText = document.getElementById("loadingTextLabel");
+const resultPanel = document.getElementById("resultPanel");
+const previewPanel = document.getElementById("imagePreviewPanel");
+
+if (loadingText) loadingText.innerText = "Scanning...";
+if (loading) loading.style.display = "flex";
+
+    const start = performance.now();
+
+    try {
+
+        // Stop camera
+        try {
+            if (typeof videoStream !== "undefined" && videoStream) {
+                stopCameraScanner();
             }
-            document.getElementById("uploadLabel").innerHTML = "📁 Choose QR Image from Gallery";
-            
-            let loadingOverlay = document.getElementById('uploadLoadingOverlay');
-            let loadingText = document.getElementById('loadingTextLabel');
-            if (loadingText) loadingText.innerText = 'Scanning...';
-            if (loadingOverlay) loadingOverlay.style.display = 'flex';
+        } catch (e) {}
 
-            if (videoStream) { stopCameraScanner(); }
-            
-            setTimeout(async () => {
-                let reader = new FileReader();
-                reader.onload = async function(e) {
-                    let img = new Image();
-                    img.onload = async function() {
-                        let canvas = document.createElement("canvas");
-                        canvas.width = img.width; canvas.height = img.height;
-                        let ctx = canvas.getContext("2d", { willReadFrequently: true });
-                        ctx.drawImage(img, 0, 0, img.width, img.height);
+        // Load image
+        const src = await readFileAsDataURL(file);
+        const img = await loadImage(src);
 
-                        let codeData = null;
+        let code = null;
 
-                        try {
-                            if ('BarcodeDetector' in window) {
-                                const detector = new BarcodeDetector({ formats: ['qr_code'] });
-                                const results = await detector.detect(img);
-                                if (results.length > 0 && results[0].rawValue) {
-                                    codeData = results[0].rawValue;
-                                }
-                            }
-                        } catch (err) {}
-                        // লেয়ার ১: সরাসরি চেষ্টা
-                        if (!codeData) {
-                            try {
-                                let rawImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                                let code = jsQR(rawImageData.data, rawImageData.width, rawImageData.height, { inversionAttempts: "attemptBoth" });
-                                if (code && code.data) codeData = code.data;
-                            } catch(e) {}
-                        }
+        // =========================================
+        // 1. FAST NATIVE QR
+        // =========================================
 
-                        // লেয়ার ২: স্মার্ট ফিল্টার দিয়ে রঙিন কোড স্ক্যান
-                        if (!codeData) {
-                            try {
-                                ctx.drawImage(img, 0, 0, img.width, img.height);
-                                processAdvancedSmartFilters(ctx, canvas.width, canvas.height);
-                                let filteredData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                                let codeFiltered = jsQR(filteredData.data, filteredData.width, filteredData.height, { inversionAttempts: "attemptBoth" });
-                                if (codeFiltered && codeFiltered.data) codeData = codeFiltered.data;
-                            } catch(e) {}
-                        }
+        if ("BarcodeDetector" in window) {
+            try {
 
-                        // লেয়ার ৩: ইনভার্টেড ফ্লিপ ব্যাকআপ (কালার নেগেটিভ)
-                        if (!codeData) {
-                            try {
-                                ctx.drawImage(img, 0, 0, img.width, img.height);
-                                let rawImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                                let d = rawImageData.data;
-                                for (let i = 0; i < d.length; i += 4) {
-                                    d[i] = 255 - d[i]; d[i+1] = 255 - d[i+1]; d[i+2] = 255 - d[i+2];
-                                }
-                                ctx.putImageData(rawImageData, 0, 0);
-                                let codeInverted = jsQR(rawImageData.data, rawImageData.width, rawImageData.height, { inversionAttempts: "attemptBoth" });
-                                if (codeInverted && codeInverted.data) codeData = codeInverted.data;
-                            } catch(e) {}
-                               }
-      loadingOverlay.style.display = 'none';
+                const detector = new BarcodeDetector({
+                    formats: ["qr_code"]
+                });
 
-                        if (codeData) { 
-                            playSuccessBeep(); 
-                            let finalImgSrc = e.target.result || "";
-                            let finalFileName = file.name || "Scanned_QR.jpg";
-                            showScanResult(codeData.trim(), finalImgSrc, finalFileName);
-                        } else { 
-                            alert("No valid QR code found in this image!"); 
-                            document.getElementById('resultPanel').style.display = 'none'; 
-                            document.getElementById('imagePreviewPanel').style.display = 'none'; 
-                        }
-                    };
-                    img.src = e.target.result;
-                };
-                reader.readAsDataURL(file);
-                event.target.value = '';
-            }, 50);
+                const found = await detector.detect(img);
+
+                if (found.length && found[0].rawValue) {
+                    code = found[0].rawValue;
+                }
+
+            } catch (e) {}
         }
+
+
+        // =========================================
+        // CANVAS
+        // =========================================
+
+        if (!code) {
+
+            const MAX = 1200;
+
+            const scale = Math.min(
+                1,
+                MAX / Math.max(img.width, img.height)
+            );
+
+            const w = Math.max(
+                1,
+                Math.round(img.width * scale)
+            );
+
+            const h = Math.max(
+                1,
+                Math.round(img.height * scale)
+            );
+
+            const pad = 20;
+
+            const canvas = document.createElement("canvas");
+
+            canvas.width = w + pad * 2;
+            canvas.height = h + pad * 2;
+
+            const ctx = canvas.getContext(
+                "2d",
+                { willReadFrequently: true }
+            );
+
+            ctx.fillStyle = "#fff";
+            ctx.fillRect(
+                0,
+                0,
+                canvas.width,
+                canvas.height
+            );
+
+            ctx.drawImage(
+                img,
+                pad,
+                pad,
+                w,
+                h
+            );
+
+
+            // =====================================
+            // GET PIXELS ONLY ONCE
+            // =====================================
+
+            const imageData = ctx.getImageData(
+                0,
+                0,
+                canvas.width,
+                canvas.height
+            );
+
+
+            // =====================================
+            // 2. ORIGINAL jsQR
+            // =====================================
+
+            let result = tryQR(imageData);
+
+            if (result) {
+                code = result.data;
+            }
+
+
+            // =====================================
+            // 3. COLOR CHANNEL
+            // =====================================
+
+            if (!code) {
+
+                const channels = ["red", "green", "blue"];
+
+                for (const channel of channels) {
+
+                    const filtered =
+                        colorChannel(
+                            imageData,
+                            channel
+                        );
+
+                    result = tryQR(filtered);
+
+                    if (result) {
+                        code = result.data;
+                        break;
+                    }
+                }
+            }
+
+
+            // =====================================
+            // 4. SMART CROP
+            // =====================================
+
+            if (!code) {
+
+                const region =
+                    findQRRegion(
+                        imageData
+                    );
+
+                if (region) {
+
+                    const crop =
+                        document.createElement("canvas");
+
+                    crop.width =
+                        region.w;
+
+                    crop.height =
+                        region.h;
+
+                    const cropCtx =
+                        crop.getContext(
+                            "2d",
+                            {
+                                willReadFrequently: true
+                            }
+                        );
+
+                    cropCtx.drawImage(
+                        canvas,
+                        region.x,
+                        region.y,
+                        region.w,
+                        region.h,
+                        0,
+                        0,
+                        region.w,
+                        region.h
+                    );
+
+
+                    const cropData =
+                        cropCtx.getImageData(
+                            0,
+                            0,
+                            crop.width,
+                            crop.height
+                        );
+
+
+                    // Crop original
+                    result =
+                        tryQR(
+                            cropData
+                        );
+
+
+                    // Crop color
+                    if (!result) {
+
+                        for (
+                            const channel
+                            of ["red", "green", "blue"]
+                        ) {
+
+                            result =
+                                tryQR(
+                                    colorChannel(
+                                        cropData,
+                                        channel
+                                    )
+                                );
+
+                            if (result) break;
+                        }
+                    }
+
+
+                    if (result) {
+                        code = result.data;
+                    }
+                }
+            }
+        }
+
+
+        // =========================================
+        // FINISH
+        // =========================================
+
+        if (loading) {
+            loading.style.display = "none";
+        }
+
+        const time =
+            Math.round(
+                performance.now() - start
+            );
+
+
+        if (code) {
+
+            console.log(
+                "⚡ QR FOUND:",
+                time + "ms"
+            );
+
+            try {
+                playSuccessBeep();
+            } catch (e) {}
+
+            showScanResult(
+                code.trim(),
+                src,
+                file.name || "Scanned_QR.jpg"
+            );
+
+        } else {
+
+            console.log(
+                "QR NOT FOUND:",
+                time + "ms"
+            );
+
+            alert(
+                "No valid QR code found in this image!"
+            );
+
+            if (resultPanel)
+                resultPanel.style.display = "none";
+
+            if (previewPanel)
+                previewPanel.style.display = "none";
+        }
+
+    } catch (error) {
+
+        console.error(
+            "QR Scan Error:",
+            error
+        );
+
+        if (loading)
+            loading.style.display = "none";
+
+        alert(
+            "Unable to process this image."
+        );
+
+    } finally {
+
+        event.target.value = "";
+    }
+}
+
+
+
+// =============================================
+// jsQR
+// =============================================
+
+function tryQR(data) {
+
+    try {
+
+        const result = jsQR(
+            data.data,
+            data.width,
+            data.height,
+            {
+                inversionAttempts: "attemptBoth"
+            }
+        );
+
+        return result && result.data
+            ? result
+            : null;
+
+    } catch (e) {
+
+        return null;
+    }
+}
+
+
+
+// =============================================
+// COLOR CHANNEL
+// =============================================
+
+function colorChannel(
+    source,
+    channel
+) {
+
+    const output =
+        new ImageData(
+            source.width,
+            source.height
+        );
+
+    const s = source.data;
+    const d = output.data;
+
+    const index =
+        channel === "green"
+            ? 1
+            : channel === "blue"
+                ? 2
+                : 0;
+
+    for (
+        let i = 0;
+        i < s.length;
+        i += 4
+    ) {
+
+        const v =
+            s[i + index];
+
+        d[i] = v;
+        d[i + 1] = v;
+        d[i + 2] = v;
+        d[i + 3] = 255;
+    }
+
+    return output;
+}
+
+
+
+// =============================================
+// FAST QR REGION
+// =============================================
+
+function findQRRegion(data) {
+
+    const w = data.width;
+    const h = data.height;
+    const d = data.data;
+
+    const step = 8;
+
+    let minX = w;
+    let minY = h;
+    let maxX = 0;
+    let maxY = 0;
+
+    let count = 0;
+
+    for (
+        let y = 0;
+        y < h;
+        y += step
+    ) {
+
+        for (
+            let x = 0;
+            x < w;
+            x += step
+        ) {
+
+            const i =
+                (y * w + x) * 4;
+
+            const r = d[i];
+            const g = d[i + 1];
+            const b = d[i + 2];
+
+            const dark =
+                Math.min(r, g, b);
+
+            if (dark > 100) continue;
+
+            minX = Math.min(minX, x);
+            minY = Math.min(minY, y);
+            maxX = Math.max(maxX, x);
+            maxY = Math.max(maxY, y);
+
+            count++;
+
+            if (count > 500) break;
+        }
+
+        if (count > 500) break;
+    }
+
+    if (
+        count < 20 ||
+        maxX - minX < 60 ||
+        maxY - minY < 60
+    ) {
+        return null;
+    }
+
+    const margin =
+        Math.max(
+            maxX - minX,
+            maxY - minY
+        ) * 0.25;
+
+    const x =
+        Math.max(
+            0,
+            Math.floor(minX - margin)
+        );
+
+    const y =
+        Math.max(
+            0,
+            Math.floor(minY - margin)
+        );
+
+    const right =
+        Math.min(
+            w,
+            Math.ceil(maxX + margin)
+        );
+
+    const bottom =
+        Math.min(
+            h,
+            Math.ceil(maxY + margin)
+        );
+
+    return {
+        x,
+        y,
+        w: right - x,
+        h: bottom - y
+    };
+}
+
+
+
+// =============================================
+// FILE → DATA URL
+// =============================================
+
+function readFileAsDataURL(file) {
+
+    return new Promise(
+        (resolve, reject) => {
+
+            const reader =
+                new FileReader();
+
+            reader.onload =
+                () => resolve(
+                    reader.result
+                );
+
+            reader.onerror =
+                reject;
+
+            reader.readAsDataURL(file);
+        }
+    );
+}
+
+
+
+// =============================================
+// DATA URL → IMAGE
+// =============================================
+
+function loadImage(src) {
+
+    return new Promise(
+        (resolve, reject) => {
+
+            const img = new Image();
+
+            img.onload =
+                () => resolve(img);
+
+            img.onerror =
+                reject;
+
+            img.src = src;
+        }
+    );
+}
+     
                 const tagTranslationMap = { "N": "Name", "FN": "Full Name", "TEL": "Telephone", "EMAIL": "Email", "ADR": "Address", "ORG": "Company", "TITLE": "Job Title", "URL": "Website", "NOTE": "Note", "BDAY": "Birthday" };
 
         function parseContactQR(rawText) {
@@ -1312,19 +1762,18 @@ return titleHtml + data;
             if (event) event.stopPropagation();
             const resultEl = document.getElementById('resultText');
             const baseShareText = resultEl ? resultEl.innerText.trim() : (rawDataForClipboard || '').trim();
-            // Keep the Pextume URL OUT of the visible text body.
-            // The Web Share API has a separate `url` field, allowing compatible
-            // apps to generate Pextume's OG preview while the visible Pextume
-            // link stays at the bottom of the message.
-            // This also prevents a scanned website URL from becoming the OG
-            // preview instead of Pextume's own preview.
-            const pextumeShareUrl = 'https://pextume.in/qr-scan.html';
+            // When sharing the result image, do NOT put the website URL in the
+            // share text. A URL there can trigger an OG preview (e.g. WhatsApp),
+            // while the same URL is already printed inside the shared result image.
+            // This prevents the website preview/card and the footer URL from
+            // appearing twice. If file sharing is unavailable, use a text fallback
+            // that includes the URL so apps without an OG preview still receive it.
             const shareTextWithAttribution = baseShareText
-                ? `${baseShareText}\n\nScanned by\nPextume QR Code Scanner`
-                : 'Scanned by\nPextume QR Code Scanner';
+                ? `${baseShareText}\n\nScanned by\nPextume.in/qr-scan.html`
+                : 'Scanned by\nPextume.in/qr-scan.html';
             const shareTextFallback = baseShareText
-                ? `${baseShareText}\n\nScanned by\nPextume QR Code Scanner\n${pextumeShareUrl}`
-                : `Scanned by\nPextume QR Code Scanner\n${pextumeShareUrl}`;
+                ? `${baseShareText}\n\nScanned by\nPextume.in/qr-scan.html`
+                : 'Scanned by\nPextume.in/qr-scan.html';
             if (!baseShareText && !rawDataForClipboard) return;
 
             // Share the result as an image so the receiver sees the same visual
@@ -1339,8 +1788,7 @@ return titleHtml + data;
                         await navigator.share({
                             files: [shareFile],
                             title: 'Scanned QR Result',
-                            text: shareTextWithAttribution,
-                            url: pextumeShareUrl
+                            text: shareTextWithAttribution
                         });
                         return;
                     }
@@ -1424,12 +1872,8 @@ return titleHtml + data;
                     ctx.fillText('Scanned by', (width / 2) * S, (height - 112) * S);
 
                     ctx.font = `600 ${22 * S}px Arial, sans-serif`;
-                    ctx.fillStyle = '#0f172a';
-                    ctx.fillText('Pextume QR Code Scanner', (width / 2) * S, (height - 78) * S);
-
-                    ctx.font = `400 ${20 * S}px Arial, sans-serif`;
                     ctx.fillStyle = '#0284c7';
-                    ctx.fillText('https://pextume.in/qr-scan.html', (width / 2) * S, (height - 40) * S);
+                    ctx.fillText('Pextume.in/qr-scan.html', (width / 2) * S, (height - 72) * S);
 
                     const pngBlob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png', 1));
                     if (!pngBlob) return null;
