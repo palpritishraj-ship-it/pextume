@@ -50,7 +50,22 @@
     .brand-logo { width: 120px; height: auto; display: block; filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3)); }
     .top-menu-wrapper-fixed { position: fixed; top: 10px; right: 20px; z-index: 2600000; }
     
-    .app-container { width: 100%; max-width: 420px; display: flex; flex-direction: column; gap: 10px; text-align: center; box-sizing: border-box; margin-top: 20px; flex: none; background: #ffffff; padding: 25px; border-radius: 24px; box-shadow: 0 10px 30px rgba(234, 179, 8, 0.08); border: 1.5px solid #fef08a; }
+     .app-container { 
+        width: 100%; 
+        max-width: 400px; 
+        min-width: 0;
+        display: flex; 
+        flex-direction: column; 
+        gap: 10px; 
+        text-align: center; 
+        box-sizing: border-box; 
+        margin: 20px auto 0 auto; 
+        background: #ffffff; 
+        padding: 20px; 
+        border-radius: 24px; 
+        box-shadow: 0 10px 30px rgba(234, 179, 8, 0.08); 
+        border: 1.5px solid #fef08a; 
+    }
     h2 { color: #a16207; font-family: 'Montserrat', sans-serif; font-size: 26px; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
     
     .type-selector {
@@ -429,6 +444,15 @@ html{scroll-padding-bottom:45vh}
         .file-upload-btn .custom-logo-icon{width:17px;height:17px;vertical-align:-4px;margin-right:5px;}
         .design-download-btn .custom-download-icon{width:15px;height:15px;vertical-align:-3px;margin-right:4px;}
         #downloadQRBtn .custom-download-icon{width:18px;height:18px;vertical-align:-4px;margin-right:5px;}
+    @media (max-width: 420px) {
+        .app-container {
+            width: 92% !important;
+            padding: 15px !important;
+        }
+        .qr-design-grid {
+            grid-template-columns: 1fr !important; /* ছোট মোবাইলে একদম সিঙ্গেল কলামে ফিক্সড দেখাবে */
+        }
+    }
 </style>
 
 <style>
