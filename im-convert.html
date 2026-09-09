@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+       <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <!-- ১. ডাইনামিক এসইও টাইটেল ও ডেসক্রিপশন (আইডি সহ) -->
+    <title id="pageTitle">Image Converter & Resizer - Pextume</title>
+    <meta id="pageDesc" name="description" content="Convert, compress, and resize images instantly right inside your browser with zero server lag. No sign-up required.">
+    <meta name="keywords" content="Image Converter, JPG to PNG, WebP Converter, Free Image Resizer, Pextume Utilities">
+
+    <!-- ২. সোশ্যাল মিডিয়া শেয়ারিং (Open Graph) ট্যাগ -->
+    <meta property="og:site_name" content="Pextume">
+    <meta property="og:title" id="ogTitle" content="Image Converter & Resizer - Pextume">
+    <meta property="og:description" id="ogDesc" content="Convert, compress, and resize images instantly right inside your browser with zero server lag.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://pextume.in/im-convert.html">
+
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Pextume" />
+ 
+    <link rel="manifest" href="/site.webmanifest" />
+  
+   <link rel="canonical" href="https://pextume.in/im-convert.html"/>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet"> 
+
+    <!-- Extra image-format encoders -->
+    <script src="https://cdn.jsdelivr.net/npm/utif@3.1.0/UTIF.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ag-psd@31.2.0/dist/bundle.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gif.js@0.2.0/dist/gif.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+</head>  
+<body>  
+
+    <div class="main-fixed-header"><div class="top-header"></div></div>
+    <div class="logo-box"><img src="logo.png" alt="Pextume Logo" class="brand-logo"></div>
+
+    <!-- Dashboard Wrapper -->
+    <div class="dashboard-wrapper">
+        <div class="dashboard-header-card">
+      <h2>Image Converter <span style="font-family: serif; font-style: italic; font-weight: normal; color: inherit;">&amp;</span> Resizer</h2> 
+            <p>Convert, compress, and resize images instantly right inside your browser with zero server lag.</p>
+        </div>
+
+        <div class="workspace-grid">
+            <!-- Left Card: Inputs & Controls -->
+            <div class="control-card">
+                <div class="card-step-title">01. Upload Media</div>
+                <div class="file-upload-box">  
+                    <label for="imageUpload" id="imageUploadLabel" class="custom-file-label">
+                        <span class="upload-icon">📂</span>
+                        <span class="upload-text">Tap to Select Image</span>
+                    </label>  
+                    <input type="file" id="imageUpload" accept="image/*" onchange="handleImageUpload(event)">  
+                </div>  
+
+                <div class="card-step-title">02. Target Format</div>
+                <select id="targetFormat" class="modern-select" onchange="previewProcessedImage(); updateConversionInfo()">  
+                    <option value="jpg">JPG / JPEG Format</option>
+                    <option value="png">PNG Format</option>
+                    <option value="webp">WebP Format</option>
+                    <option value="avif">AVIF Format</option>
+                    <option value="bmp">BMP Format</option>
+                    <option value="gif">GIF Format</option>
+                    <option value="ico">ICO / Icon Format</option>
+                    <option value="eps">EPS Format</option>
+                    <option value="ps">PS / PostScript Format</option>
+                    <option value="psd">PSD / Photoshop Format</option>
+                    <option value="tiff">TIFF Format</option>
+                    <option value="odg">ODG / OpenDocument Drawing Format</option>
+                </select>  
+
+                <div class="card-step-title">03. Resize & Quality</div>
+                <div class="input-group-row">
+                    <label>New Width (px):</label>
+                    <input type="number" id="resizeWidth" class="modern-input" placeholder="Original" oninput="previewProcessedImage()">
+                </div>
+
+                <div class="input-group-row">
+                    <label>Quality: <span id="qualityVal">90</span>%</label>
+                    <input type="range" id="imageQuality" class="modern-range" min="10" max="100" value="90" oninput="document.getElementById('qualityVal').innerText=this.value; previewProcessedImage();">
+                </div>
+            </div>
+
+            <!-- Right Card: Live Preview & Action -->
+            <div class="preview-card">
+                <div class="card-step-title">Live Preview</div>
+                <div class="preview-stage">  
+                    <img id="imagePreview" class="preview-img-tag" alt="Preview">
+                    <div id="previewPlaceholder" class="preview-placeholder-text">
+                        <span>🖼️</span>
+                        <p>No image loaded yet</p>
+                    </div>
+                </div>
+
+                <div id="conversionInfo" class="conversion-info"></div>
+
+                <button id="downloadBtn" class="mega-action-btn" onclick="downloadProcessedImage()" style="display:none;">
+                    <span>📥 Download Result</span>
+                </button>  
+            </div>
+        </div>
+    </div>  
+
+    <!-- Footer Section -->
+        <!-- Footer Section -->
+    <footer class="pextume-premium-footer">
+        <div class="footer-grid-layout">
+            <div class="footer-column-box">
+                <h3 class="footer-brand-title">PEXTUME</h3>
+                <p class="footer-brand-desc">A premium secure subsystem of the Pextume Utility Network, dedicated to producing fast, open-source, and hardware-accelerated productivity web tools.</p>
+            </div>
+            <div class="footer-column-box">
+                <h3>User Support</h3>
+                <ul class="footer-links-list">
+                    <li><a onclick="openInfoPopupModal('how-to-use')">📖 How to Use</a></li>
+                    <li><a onclick="openInfoPopupModal('faq')">❓ FAQ Guide</a></li>
+                    <li><a onclick="openInfoPopupModal('contact')">📧 Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-column-box">
+                <h3>Legal Bureau</h3>
+                <ul class="footer-links-list">
+                    <li><a onclick="openInfoPopupModal('privacy')">🛡️ Privacy Policy</a></li>
+                    <li><a onclick="openInfoPopupModal('terms')">📝 Terms of Service</a></li>
+                    <li><a onclick="openInfoPopupModal('disclaimer')">⚖️ Disclaimer</a></li>
+                </ul>
+            </div>
+        </div>
+        <hr class="footer-divider-line">
+        <div class="footer-bottom-copyright-bar">© 2026 Pextume Utility Network. All Rights Reserved.</div>
+    </footer>
+
+    <!-- Info Popup Modal Component -->
+    <div class="info-popup-modal" id="infoPopupModal" onclick="closeInfoPopupModal()">
+        <div class="info-popup-content-card" onclick="event.stopPropagation()">
+            <div class="history-modal-header">
+                <div class="history-modal-title" id="infoModalTitle">Document Panel</div>
+                <div class="history-close-btn" onclick="closeInfoPopupModal()">&times;</div>
+            </div>
+            <div class="info-popup-body-scroller" id="infoModalBodyContent"></div>
+        </div>
+    </div>
+
+    <!-- Top Menu Button -->
+    <div class="top-menu-wrapper-fixed" id="menuBtnWrapper">
+        <div onclick="event.stopPropagation(); document.getElementById('sideMenu').style.transform='translateX(0)'" style="cursor:pointer; font-size: 24px; font-weight: 300; color: #9d174d; background: none; border: none; line-height: 1; padding: 4px;">☰</div>
+    </div>
+    
+    <!-- Side Menu -->
+    <div id="sideMenu">
+        <a href="javascript:void(0)" onclick="document.getElementById('sideMenu').style.transform='translateX(100%)'" style="position:absolute; top:20px; right:25px; font-size:40px; color:#ef4444; text-decoration:none; z-index:10;">&times;</a>
+        <div style="width: 270px; padding-top: 100px; display: flex; flex-direction: column; white-space: nowrap;">
+            <div style="padding: 0 30px 15px 0; text-align: right; color: #9d174d; font-family: sans-serif; font-size: 14px; font-weight: bold; letter-spacing: 2px; opacity: 0.9; text-transform: uppercase;">Other Tools</div>
+            <a href="qr-scan.html" style="padding:18px 30px; text-decoration:none; font-size:18px; color:var(--text-main); font-family:sans-serif; border-bottom:1px solid rgba(0,0,0,0.05); text-align:right; letter-spacing:1px; font-weight: 600;">QR Scanner</a>
+        </div>
+    </div>
+</body>
+</html>
+
+<style>
+    :root {
+        --bg-color: #fff1f2; 
+        --text-main: #1e293b;
+        --text-muted: #64748b;
+        --btn-pink: #ec4899; 
+        --btn-pink-hover: #db2777;
+        --title-pink: #9d174d;
+        --card-bg: #ffffff;
+        --border-pink: #fce7f3;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
+    html, body { overflow-x: hidden; width: 100%; max-width: 100%; }
+    body {
+        background-color: var(--bg-color); color: var(--text-main); min-height: 100vh; margin: 0;
+        display: flex; flex-direction: column; align-items: center; justify-content: start;
+        padding: 90px 15px 0px 15px; box-sizing: border-box;
+    }
+    .main-fixed-header { position: fixed; top: 0; left: 0; width: 100%; height: 54px; background-color: #fdf2f8; z-index: 2500000; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02); }
+    .top-header { width: 100%; height: 100%; background: linear-gradient(to right, rgba(236, 72, 153, 1) 0%, rgba(251, 207, 232, 0.7) 40%, rgba(255, 255, 255, 0) 85%); pointer-events: none; }
+    .logo-box { position: fixed; top: 6px; left: 8px; z-index: 2600000; background: #000000; padding: 5px 8px; border-radius: 12px; display: inline-block; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25); border: 1px solid rgba(236, 72, 153, 0.5); }
+    .brand-logo { width: 120px; height: auto; display: block; filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3)); }
+    .top-menu-wrapper-fixed { position: fixed; top: 10px; right: 20px; z-index: 2600000; }
+    
+    .dashboard-wrapper { width: 100%; max-width: 600px; display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; }
+    
+    .dashboard-header-card {
+        background: var(--card-bg); padding: 20px; border-radius: 20px; text-align: center;
+        border: 1.5px solid var(--border-pink); box-shadow: 0 8px 25px rgba(236, 72, 153, 0.06);
+    }
+    .dashboard-header-card h2 { color: var(--title-pink); font-family: 'Montserrat', sans-serif; font-size: 24px; text-transform: uppercase; margin-bottom: 5px; letter-spacing: 0.5px; }
+    .dashboard-header-card p { font-size: 0.85rem; color: var(--text-muted); text-align: center; }
+
+    .workspace-grid { display: flex; flex-direction: column; gap: 15px; }
+    
+    .control-card, .preview-card {
+        background: var(--card-bg); padding: 20px; border-radius: 20px;
+        border: 1.5px solid var(--border-pink); box-shadow: 0 8px 25px rgba(236, 72, 153, 0.06);
+    }
+
+    .card-step-title {
+        font-size: 11px; color: var(--title-pink); text-transform: uppercase;
+        font-weight: 700; letter-spacing: 1px; margin-bottom: 10px; border-bottom: 1.5px solid var(--border-pink); padding-bottom: 4px;
+    }
+
+    .file-upload-box { position: relative; margin-bottom: 15px; }
+    .custom-file-label {
+        display: flex; align-items: center; justify-content: center; gap: 10px;
+        background: #fff1f2; border: 2px dashed var(--btn-pink); padding: 15px;
+        border-radius: 14px; cursor: pointer; transition: all 0.2s ease;
+    }
+    .custom-file-label:hover { background: #fdf2f8; }
+    .upload-icon { font-size: 20px; }
+    .upload-text { font-size: 0.9rem; font-weight: 600; color: var(--text-main); }
+    .file-upload-box input[type="file"] { position: absolute; left: 0; top: 0; opacity: 0; width: 100%; height: 100%; cursor: pointer; }
+
+    .modern-select, .modern-input {
+        width: 100%; padding: 11px 14px; background: #fff1f2; border: 1.5px solid var(--border-pink);
+        border-radius: 12px; font-size: 0.9rem; color: var(--text-main); outline: none; margin-bottom: 12px; font-family: 'Poppins', sans-serif;
+    }
+    .modern-select:focus, .modern-input:focus { border-color: var(--btn-pink); background: #fff; box-shadow: 0 0 10px rgba(236, 72, 153, 0.15); }
+
+    .input-group-row { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
+    .input-group-row label { font-size: 0.82rem; font-weight: 600; color: #475569; }
+
+    .modern-range { width: 100%; accent-color: var(--btn-pink); margin-top: 5px; }
+
+    .preview-stage {
+        background: #fff1f2; border: 2px solid var(--border-pink); border-radius: 16px;
+        min-height: 180px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; margin-bottom: 15px; padding: 10px;
+    }
+    .preview-img-tag { max-width: 100%; max-height: 200px; display: none; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    .preview-placeholder-text { text-align: center; color: #94a3b8; }
+    .preview-placeholder-text span { font-size: 32px; display: block; margin-bottom: 5px; }
+    .preview-placeholder-text p { font-size: 0.85rem; text-align: center; color: #94a3b8; }
+
+    .conversion-info {
+        display: none;
+        text-align: center;
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: var(--title-pink);
+        margin: -5px 0 12px 0;
+        letter-spacing: 0.4px;
+    }
+
+    .mega-action-btn {
+        background: var(--btn-pink); color: white; border: none; padding: 14px; font-size: 1rem;
+        font-weight: 600; border-radius: 14px; cursor: pointer; width: 100%;
+        transition: all 0.2s ease; outline: none; box-shadow: 0 5px 15px rgba(236, 72, 153, 0.3);
+    }
+    .mega-action-btn:hover { background: var(--btn-pink-hover); }
+    .mega-action-btn:active { transform: scale(0.98); }
+
+    .pextume-premium-footer { background: #fff1f2; color: var(--text-muted); width: 100%; max-width: 100%; padding: 25px 0px 30px 0px; text-align: left !important; margin-top: 20px; border-top: 1.5px solid var(--border-pink); }
+    .footer-grid-layout { width: 100%; max-width: 420px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; justify-content: start; align-items: start; }
+    .footer-column-box { width: 100%; text-align: left !important; }
+    .footer-column-box h3 { color: var(--text-main); font-family: 'Montserrat', sans-serif; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; display: inline-block; width: auto; position: relative; text-decoration: underline; text-decoration-color: var(--btn-pink); text-decoration-thickness: 2.5px; text-underline-offset: 5px; }
+    .footer-brand-title { color: var(--title-pink) !important; font-size: 18px !important; font-weight: 700; text-decoration: none !important; margin-bottom: 6px !important; display: inline-block; }
+    .footer-brand-desc { font-size: 0.86rem; line-height: 1.5; color: var(--text-muted); text-align: left; }
+    .footer-links-list { list-style: none; display: flex; flex-direction: column; gap: 8px; align-items: start; }
+    .footer-links-list li { width: 100%; text-align: left; }
+    .footer-links-list li a { color: #475569 !important; text-decoration: none !important; font-size: 0.88rem; font-weight: 600; cursor: pointer; display: inline-block; }
+    .footer-divider-line { width: 100%; max-width: 420px; margin: 25px auto 15px auto; border: 0; border-top: 1.5px solid var(--border-pink); }
+    .footer-bottom-copyright-bar { width: 100%; max-width: 420px; margin: 0 auto; text-align: center; font-size: 0.82rem; color: #94a3b8; font-weight: 500; letter-spacing: 0.2px; white-space: nowrap !important; display: block; }
+
+    #sideMenu {
+        position: fixed; z-index: 2700000; top: 0; bottom: 0; right: 0; width: 270px; height: 100%;
+        background: rgba(255, 241, 242, 0.99); transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border-top-left-radius: 35px; border-bottom-left-radius: 35px; border-left: 2px solid #fbcfe8;
+        box-shadow: -15px 0 40px rgba(0,0,0,0.12); overflow-y: auto; display: flex; flex-direction: column;
+    }
+    #sideMenu::-webkit-scrollbar { display: none; }
+    /* Info Popup Modal CSS */
+    .history-modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px dashed var(--border-pink); padding-bottom: 12px; }
+    .history-modal-title { font-size: 1.15rem; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 8px; }
+    .history-close-btn { font-size: 20px; color: #64748b; cursor: pointer; background: #fdf2f8; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; transition: background 0.2s, color 0.2s; outline: none; }
+    .history-close-btn:hover { color: var(--text-main); background: #fce7f3; }
+    
+    .info-popup-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(3px); z-index: 3000000; display: none; align-items: center; justify-content: center; padding: 16px; }
+    .info-popup-content-card { background: #ffffff; width: 100%; max-width: 440px; border-radius: 28px; padding: 22px; box-shadow: 0 25px 60px rgba(15, 23, 25, 0.15); border: 2.5px solid var(--btn-pink); display: flex; flex-direction: column; max-height: 75vh; }
+    .info-popup-body-scroller { flex: 1; overflow-y: auto; margin: 12px 0; padding-right: 4px; text-align: left; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+    .info-popup-body-scroller::-webkit-scrollbar { display: none; }
+    .info-popup-body-scroller h4 { color: var(--text-main); font-size: 1rem; margin: 16px 0 6px 0; font-weight: 600; }
+    .info-popup-body-scroller p { font-size: 0.86rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 12px; text-align: left; }
+</style>
+
+<script>  
+       // পেজ লোড হওয়ার সময় URL থেকে ?to=format ধরে ড্রপডাউন ও এসইও অটো-সেট করার ফাংশন
+    window.addEventListener('DOMContentLoaded', () => {
+        const urlParams = new URLSearchParams(window.URLSearchParams ? window.location.search : window.location.search);
+        const formatParam = urlParams.get('to'); // যেমন: ?to=png বা ?to=webp
+        
+        if (formatParam) {
+            const targetSelect = document.getElementById('targetFormat');
+            // চেক করা ফরম্যাটটি আমাদের ড্রপডাউনে আছে কি না
+            let optionExists = Array.from(targetSelect.options).some(option => option.value === formatParam);
+            
+            if (optionExists) {
+                targetSelect.value = formatParam; // ড্রপডাউনে অটো সিলেক্ট হয়ে যাবে
+            }
+        }
+        
+        // পেজ লোড হওয়ার সাথে সাথেই এসইও টাইটেল ও কনভার্শন ইনফো আপডেট করে নেবে
+        updateSEOOnFormatChange();
+        if (typeof updateConversionInfo === 'function') {
+            updateConversionInfo();
+        }
+    });
+   
+    let uploadedImageObj = null;
+    let uploadedFileExtension = "";
+
+    function getFileExtension(filename) {
+        const parts = filename.toLowerCase().split(".");
+        return parts.length > 1 ? parts.pop() : "image";
+    }
+
+    function formatLabel(ext) {
+        const map = {
+            jpg: "JPG", jpeg: "JPG", png: "PNG", webp: "WebP", avif: "AVIF",
+            bmp: "BMP", gif: "GIF", ico: "ICO", eps: "EPS", ps: "PS",
+            psd: "PSD", tiff: "TIFF", tif: "TIFF", odg: "ODG", odd: "ODG"
+        };
+        return map[ext] || ext.toUpperCase();
+    }
+
+        function updateConversionInfo() {
+        const info = document.getElementById("conversionInfo");
+        const target = document.getElementById("targetFormat");
+        if (!info || !target || !uploadedFileExtension) return;
+
+        info.innerText = `${formatLabel(uploadedFileExtension)} to `${formatLabel(target.value)}`;
+        info.style.display = "block";
+
+        // এই লাইনটা এখানে বসিয়ে দিবে 👇
+        updateSEOOnFormatChange();
+    }
+
+    function handleImageUpload(event) {
+        let file = event.target.files[0];
+        if (!file) return;
+        uploadedFileExtension = getFileExtension(file.name);
+        document.getElementById("imageUploadLabel").querySelector(".upload-text").innerText = "✓ Image Loaded Successfully";
+        let reader = new FileReader();
+        reader.onload = function(e) {
+            uploadedImageObj = new Image();
+            uploadedImageObj.onload = function() {
+                previewProcessedImage();
+            };
+            uploadedImageObj.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function getOutputCanvas() {
+        if (!uploadedImageObj) return null;
+
+        let canvas = document.createElement("canvas");
+        let ctx = canvas.getContext("2d", { willReadFrequently: true });
+
+        let width = uploadedImageObj.width;
+        let height = uploadedImageObj.height;
+        let customWidth = parseInt(document.getElementById("resizeWidth").value);
+
+        if (customWidth && customWidth > 0) {
+            height = Math.max(1, Math.round((height * customWidth) / width));
+            width = customWidth;
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+
+        // White background for formats that do not support transparency.
+        let format = document.getElementById("targetFormat").value;
+        if (["jpg", "bmp", "eps", "ps", "ico"].includes(format)) {
+            ctx.fillStyle = "#ffffff";
+            ctx.fillRect(0, 0, width, height);
+        }
+
+        ctx.drawImage(uploadedImageObj, 0, 0, width, height);
+        return canvas;
+    }
+
+    function canvasToBlob(canvas, mime, quality) {
+        return new Promise((resolve, reject) => {
+            canvas.toBlob(blob => {
+                if (blob) resolve(blob);
+                else reject(new Error("This browser does not support " + mime));
+            }, mime, quality);
+        });
+    }
+
+    function arrayBufferToBlob(buffer, mime) {
+        return new Blob([buffer], { type: mime });
+    }
+
+    function canvasToBMP(canvas) {
+        const ctx = canvas.getContext("2d", { willReadFrequently: true });
+        const w = canvas.width, h = canvas.height;
+        const rgba = ctx.getImageData(0, 0, w, h).data;
+        const rowSize = Math.floor((24 * w + 31) / 32) * 4;
+        const pixelSize = rowSize * h;
+        const fileSize = 54 + pixelSize;
+        const buffer = new ArrayBuffer(fileSize);
+        const view = new DataView(buffer);
+
+        view.setUint8(0, 0x42);
+        view.setUint8(1, 0x4D);
+        view.setUint32(2, fileSize, true);
+        view.setUint32(10, 54, true);
+        view.setUint32(14, 40, true);
+        view.setInt32(18, w, true);
+        view.setInt32(22, h, true);
+        view.setUint16(26, 1, true);
+        view.setUint16(28, 24, true);
+        view.setUint32(34, pixelSize, true);
+
+        let pos = 54;
+        const padding = rowSize - w * 3;
+
+        for (let y = h - 1; y >= 0; y--) {
+            for (let x = 0; x < w; x++) {
+                const i = (y * w + x) * 4;
+                view.setUint8(pos++, rgba[i + 2]);
+                view.setUint8(pos++, rgba[i + 1]);
+                view.setUint8(pos++, rgba[i]);
+            }
+            for (let p = 0; p < padding; p++) view.setUint8(pos++, 0);
+        }
+
+        return new Blob([buffer], { type: "image/bmp" });
+    }
+
+    async function canvasToICO(canvas) {
+        // ICO containing a PNG image. Works well for modern Windows/icon viewers.
+        const pngBlob = await canvasToBlob(canvas, "image/png");
+        const pngBuffer = await pngBlob.arrayBuffer();
+        const png = new Uint8Array(pngBuffer);
+
+        const headerSize = 6;
+        const entrySize = 16;
+        const buffer = new ArrayBuffer(headerSize + entrySize + png.length);
+        const view = new DataView(buffer);
+
+        view.setUint16(0, 0, true);       // reserved
+        view.setUint16(2, 1, true);       // type: icon
+        view.setUint16(4, 1, true);       // one image
+
+        const w = canvas.width >= 256 ? 0 : canvas.width;
+        const h = canvas.height >= 256 ? 0 : canvas.height;
+        view.setUint8(6, w);
+        view.setUint8(7, h);
+        view.setUint8(8, 0);
+        view.setUint8(9, 0);
+        view.setUint16(10, 1, true);
+        view.setUint16(12, 32, true);
+        view.setUint32(14, png.length, true);
+        view.setUint32(18, headerSize + entrySize, true);
+
+        new Uint8Array(buffer, headerSize + entrySize).set(png);
+        return new Blob([buffer], { type: "image/x-icon" });
+    }
+
+    function canvasToPostScript(canvas, eps = false) {
+        const ctx = canvas.getContext("2d", { willReadFrequently: true });
+        const w = canvas.width, h = canvas.height;
+        const data = ctx.getImageData(0, 0, w, h).data;
+
+        // EPS/PS stores RGB data as hexadecimal. Keep lines manageable.
+        let hex = "";
+        for (let y = h - 1; y >= 0; y--) {
+            let line = "";
+            for (let x = 0; x < w; x++) {
+                const i = (y * w + x) * 4;
+                line += data[i].toString(16).padStart(2, "0");
+                line += data[i + 1].toString(16).padStart(2, "0");
+                line += data[i + 2].toString(16).padStart(2, "0");
+                if (line.length >= 240) {
+                    hex += line + "\n";
+                    line = "";
+                }
+            }
+            if (line) hex += line + "\n";
+        }
+
+        const header = eps
+            ? `%!PS-Adobe-3.0 EPSF-3.0
+%%BoundingBox: 0 0 ${w} ${h}
+%%Creator: Pextume Image Converter
+%%LanguageLevel: 2
+%%EndComments
+`
+            : `%!PS-Adobe-3.0
+%%Pages: 1
+%%BoundingBox: 0 0 ${w} ${h}
+%%Creator: Pextume Image Converter
+%%EndComments
+%%Page: 1 1
+`;
+
+        const body = `/picstr ${w * 3} string def
+${w} ${h} 8
+[${w} 0 0 -${h} 0 ${h}]
+{currentfile picstr readhexstring pop} false 3 colorimage
+${hex}
+showpage
+%%EOF
+`;
+
+        return new Blob([header, body], { type: eps ? "application/postscript" : "application/postscript" });
+    }
+
+    async function canvasToPSD(canvas) {
+        if (!window.agPsd || !window.agPsd.writePsd) {
+            throw new Error("PSD encoder could not be loaded.");
+        }
+
+        const psd = {
+            width: canvas.width,
+            height: canvas.height,
+            children: [{
+                name: "Pextume Image",
+                canvas: canvas
+            }]
+        };
+
+        const buffer = window.agPsd.writePsd(psd, { generateThumbnail: true });
+        return new Blob([buffer], { type: "image/vnd.adobe.photoshop" });
+    }
+
+    async function canvasToTIFF(canvas) {
+        if (!window.UTIF || !UTIF.encodeImage) {
+            throw new Error("TIFF encoder could not be loaded.");
+        }
+
+        const ctx = canvas.getContext("2d", { willReadFrequently: true });
+        const rgba = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+        const buffer = UTIF.encodeImage(rgba, canvas.width, canvas.height);
+        return new Blob([buffer], { type: "image/tiff" });
+    }
+
+    async function canvasToGIF(canvas) {
+        if (!window.GIF) throw new Error("GIF encoder could not be loaded.");
+
+        return new Promise((resolve, reject) => {
+            const gif = new GIF({
+                workers: 2,
+                quality: 10,
+                width: canvas.width,
+                height: canvas.height,
+                workerScript: "https://cdn.jsdelivr.net/npm/gif.js@0.2.0/dist/gif.worker.js"
+            });
+
+            gif.addFrame(canvas, { copy: true, delay: 0 });
+            gif.on("finished", blob => resolve(blob));
+            gif.on("abort", () => reject(new Error("GIF encoding was cancelled.")));
+            gif.render();
+        });
+    }
+
+    async function canvasToODG(canvas) {
+        if (!window.JSZip) throw new Error("ODG encoder could not be loaded.");
+
+        // The requested "ODD" is not a standard image extension; ODG is the
+        // standard OpenDocument Drawing extension, so this option creates ODG.
+        const zip = new JSZip();
+        zip.file("mimetype", "application/vnd.oasis.opendocument.graphics");
+
+        const pngBlob = await canvasToBlob(canvas, "image/png");
+        const pngData = await pngBlob.arrayBuffer();
+        zip.folder("Pictures").file("image.png", pngData);
+
+        const content = `<?xml version="1.0" encoding="UTF-8"?>
+<office:document-content
+ xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0"
+ xmlns:draw="urn:oasis:names:tc:opendocument:xmlns:drawing:1.0"
+ xmlns:xlink="http://www.w3.org/1999/xlink"
+ xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0"
+ xmlns:svg="urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0"
+ office:version="1.3">
+ <office:body>
+  <office:drawing>
+   <draw:page draw:name="Page 1">
+    <draw:frame svg:x="0cm" svg:y="0cm" svg:width="${Math.max(1, canvas.width / 96 * 2.54)}cm" svg:height="${Math.max(1, canvas.height / 96 * 2.54)}cm">
+     <draw:image xlink:href="Pictures/image.png" xlink:type="simple" xlink:show="embed" xlink:actuate="onLoad"/>
+    </draw:frame>
+   </draw:page>
+  </office:drawing>
+ </office:body>
+</office:document-content>`;
+
+        const styles = `<?xml version="1.0" encoding="UTF-8"?>
+<office:document-styles xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" office:version="1.3">
+ <office:styles/>
+</office:document-styles>`;
+
+        const manifest = `<?xml version="1.0" encoding="UTF-8"?>
+<manifest:manifest xmlns:manifest="urn:oasis:names:tc:opendocument:xmlns:manifest:1.0" manifest:version="1.3">
+ <manifest:file-entry manifest:full-path="/" manifest:media-type="application/vnd.oasis.opendocument.graphics"/>
+ <manifest:file-entry manifest:full-path="content.xml" manifest:media-type="text/xml"/>
+ <manifest:file-entry manifest:full-path="styles.xml" manifest:media-type="text/xml"/>
+ <manifest:file-entry manifest:full-path="Pictures/image.png" manifest:media-type="image/png"/>
+</manifest:manifest>`;
+
+        zip.file("content.xml", content);
+        zip.file("styles.xml", styles);
+        zip.folder("META-INF").file("manifest.xml", manifest);
+
+        return await zip.generateAsync({
+            type: "blob",
+            mimeType: "application/vnd.oasis.opendocument.graphics"
+        });
+    }
+
+    function previewProcessedImage() {
+        if (!uploadedImageObj) return;
+
+        // Preview always uses a browser-safe PNG representation.
+        const canvas = getOutputCanvas();
+        if (!canvas) return;
+
+        const dataUrl = canvas.toDataURL("image/png");
+        const previewImg = document.getElementById("imagePreview");
+        const placeholder = document.getElementById("previewPlaceholder");
+
+        previewImg.src = dataUrl;
+        previewImg.style.display = "block";
+        placeholder.style.display = "none";
+
+        // Download option and conversion label appear only after a photo is loaded.
+        document.getElementById("downloadBtn").style.display = "block";
+        updateConversionInfo();
+    }
+
+    async function downloadProcessedImage() {
+        if (!uploadedImageObj) {
+            alert("Please select an image first!");
+            return;
+        }
+
+        const canvas = getOutputCanvas();
+        const format = document.getElementById("targetFormat").value;
+        const quality = parseInt(document.getElementById("imageQuality").value) / 100;
+
+        let blob;
+        let ext;
+
+        try {
+            if (format === "jpg") {
+                blob = await canvasToBlob(canvas, "image/jpeg", quality);
+                ext = "jpg";
+            } else if (format === "png") {
+                blob = await canvasToBlob(canvas, "image/png");
+                ext = "png";
+            } else if (format === "webp") {
+                blob = await canvasToBlob(canvas, "image/webp", quality);
+                ext = "webp";
+            } else if (format === "avif") {
+                blob = await canvasToBlob(canvas, "image/avif", quality);
+                ext = "avif";
+            } else if (format === "bmp") {
+                blob = canvasToBMP(canvas);
+                ext = "bmp";
+            } else if (format === "gif") {
+                blob = await canvasToGIF(canvas);
+                ext = "gif";
+            } else if (format === "ico") {
+                blob = await canvasToICO(canvas);
+                ext = "ico";
+            } else if (format === "eps") {
+                blob = canvasToPostScript(canvas, true);
+                ext = "eps";
+            } else if (format === "ps") {
+                blob = canvasToPostScript(canvas, false);
+                ext = "ps";
+            } else if (format === "psd") {
+                blob = await canvasToPSD(canvas);
+                ext = "psd";
+            } else if (format === "tiff") {
+                blob = await canvasToTIFF(canvas);
+                ext = "tiff";
+            } else if (format === "odg") {
+                blob = await canvasToODG(canvas);
+                ext = "odg";
+            }
+
+            const url = URL.createObjectURL(blob);
+            const downloadLink = document.createElement("a");
+            downloadLink.href = url;
+            downloadLink.download = `pextume-converted.${ext}`;
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            downloadLink.remove();
+
+            setTimeout(() => URL.revokeObjectURL(url), 1000);
+        } catch (error) {
+            console.error(error);
+            if (format === "avif") {
+                alert("AVIF conversion is not supported by this browser. Please try Chrome/Edge or another browser with AVIF canvas encoding support.");
+            } else {
+                alert("Could not create the selected format. Please try again.");
+            }
+        }
+    }
+
+       // Footer Info Popups Database & Functions
+    const infoDatabasePack = {
+        "how-to-use": { 
+            title: "📖 How to Use", 
+            body: "<h4>1. Upload Your Image</h4><p>Tap on the 'Tap to Select Image' box or drag and drop any photo from your device gallery.</p><h4>2. Select Target Format</h4><p>Choose your desired output format from the dropdown menu (e.g., JPG, PNG, WebP, AVIF, PSD, TIFF, etc.). The page SEO and titles will adapt automatically!</p><h4>3. Resize & Adjust Quality</h4><p>Optionally enter a custom width in pixels or adjust the compression quality slider to get the exact file size you need.</p><h4>4. Instant Download</h4><p>View the live preview and tap the 'Download Result' button to save the converted file directly from your browser with zero server lag.</p>" 
+        },
+        "faq": { 
+            title: "❓ FAQ Guide", 
+            body: "<h4>Q: Is my image uploaded to any server?</h4><p>No! Pextume Image Converter operates entirely client-side using advanced browser APIs. Your files never leave your device, ensuring 100% privacy and blazing-fast processing.</p><h4>Q: Which formats are supported?</h4><p>We support a wide range of raster and vector formats including JPG, PNG, WebP, AVIF, BMP, GIF, ICO, EPS, PS, PSD, TIFF, and ODG.</p><h4>Q: Is it completely free to use?</h4><p>Yes, all Pextume utility tools are 100% free with zero sign-up walls.</p>" 
+        },
+        "contact": { 
+            title: "📧 Contact Us", 
+            body: "<h4>Feedback & Bug Reports</h4><p>Have technical feedback, feature requests, or discovered a bug? We are always listening to fine-tune our utilities. Drop an official communication line at:</p><p style='padding:0px; margin:10px 0;'><a href='mailto:support@pextume.in?subject=Pextume%20Image%20Converter%20Support' style='font-weight:600; color:var(--btn-pink); background:#fff1f2; padding:10px; border-radius:10px; border:1px solid var(--border-pink); display:inline-block; text-decoration:none !important;'>support@pextume.in</a></p>" 
+        },
+        "privacy": { 
+            title: "🛡️ Privacy Policy", 
+            body: "<h4>Zero Data Retention</h4><p>Pextume Utility Network values your privacy above all. <b>Pextume never collects, transmits, or stores your uploaded images or conversion files on any remote server.</b> All computations occur entirely on your client device browser.</p>" 
+        },
+        "terms": { 
+            title: "📝 Terms of Service", 
+            body: "<h4>1. Acceptance of Terms</h4><p>By accessing or using the Pextume Image Converter, you agree to be bound by these Terms of Service. If you do not agree, you must immediately discontinue use of this tool.</p><h4>2. 'As-Is' Basis</h4><p>This web utility is provided strictly on an <b>'as-is' and 'as-available' basis without warranties of any kind</b>, either express or implied.</p>" 
+        },
+        "disclaimer": { 
+            title: "⚖️ Disclaimer", 
+            body: "<h4>1. Absolute Limitation of Liability</h4><p><b>Under no circumstances shall Pextume Network or its developers be held liable for any direct, indirect, incidental, or consequential damages arising out of or related to image processing or converted file outputs.</b></p><p>Encountered an issue? Report it to us at support@pextume.in</p>"   
+        }
+    };
+
+    function openInfoPopupModal(docId) { 
+        let data = infoDatabasePack[docId]; 
+        if(data) { 
+            document.getElementById('infoModalTitle').innerText = data.title; 
+            document.getElementById('infoModalBodyContent').innerHTML = data.body; 
+            document.getElementById('infoPopupModal').style.display = 'flex'; 
+        } 
+    }
+
+    function closeInfoPopupModal() { 
+        document.getElementById('infoPopupModal').style.display = 'none'; 
+    }
+    
+    document.addEventListener('click', function(event) { 
+        var sideMenu = document.getElementById('sideMenu'); 
+        var menuBtn = document.getElementById('menuBtnWrapper'); 
+        if (sideMenu && !sideMenu.contains(event.target) && !menuBtn.contains(event.target)) { 
+            sideMenu.style.transform = 'translateX(100%)'; 
+        } 
+    });
+    // এসইও-ফ্রেন্ডলি ইউজার সার্চ কিওয়ার্ড অনুযায়ী ডাইনামিক টাইটেল ও ডেসক্রিপশন আপডেট করার ফাংশন
+    function updateSEOOnFormatChange() {
+        const format = document.getElementById('targetFormat').value;
+        const titleTag = document.getElementById('pageTitle');
+        const descTag = document.getElementById('pageDesc');
+        const ogTitleTag = document.getElementById('ogTitle');
+        const ogDescTag = document.getElementById('ogDesc');
+
+        const seoData = {
+            jpg: {
+                title: "Convert to JPG/JPEG Online Free | Fast Image Converter - Pextume",
+                desc: "Convert your images to JPG/JPEG format instantly online for free. Fast, secure, and processed locally in your browser."
+            },
+            png: {
+                title: "Convert to PNG Online Free | Transparent Image Converter - Pextume",
+                desc: "Easily convert your images to lossless PNG format online with transparent background support. No sign-up required."
+            },
+            webp: {
+                title: "Convert to WebP Online Free | Compress & Convert - Pextume",
+                desc: "Convert heavy images to WebP format online for faster website loading and superior compression. 100% free."
+            },
+            avif: {
+                title: "Convert to AVIF Online Free | Next-Gen Image Converter - Pextume",
+                desc: "Convert your photos to high-compression AVIF format online safely inside your browser with zero server uploads."
+            },
+            bmp: {
+                title: "Convert to BMP Online Free | Bitmap Image Tool - Pextume",
+                desc: "Quickly convert any image format to uncompressed BMP bitmap files securely and for free."
+            },
+            gif: {
+                title: "Convert to GIF Online Free | Instant Image Converter - Pextume",
+                desc: "Turn your images into GIF format instantly with local browser processing and zero server lag."
+            },
+            ico: {
+                title: "Image to ICO Converter Online Free | Favicon Maker - Pextume",
+                desc: "Create website favicons and desktop app ICO icons from your images instantly and securely."
+            },
+            eps: {
+                title: "Convert to EPS Online Free | Vector File Converter - Pextume",
+                desc: "Generate vector-ready EPS files from your raster images locally in seconds on Pextume."
+            },
+            ps: {
+                title: "Convert to PostScript (PS) Online Free - Pextume",
+                desc: "Convert any image format into standard PostScript (PS) files easily without installing software."
+            },
+            psd: {
+                title: "Convert to PSD Online Free | Photoshop Converter - Pextume",
+                desc: "Export your images into Adobe Photoshop (PSD) format locally with Pextume Image Studio."
+            },
+            tiff: {
+                title: "Convert to TIFF Online Free | High-Res Converter - Pextume",
+                desc: "Convert your photos into high-resolution uncompressed TIFF format securely inside your browser."
+            },
+            odg: {
+                title: "Convert to ODG Online Free | OpenDocument Converter - Pextume",
+                desc: "Package your images into OpenDocument Drawing (ODG) vector format instantly for free."
+            }
+        };
+
+        if (seoData[format]) {
+            titleTag.innerText = seoData[format].title;
+            descTag.setAttribute("content", seoData[format].desc);
+            if (ogTitleTag) ogTitleTag.setAttribute("content", seoData[format].title);
+            if (ogDescTag) ogDescTag.setAttribute("content", seoData[format].desc);
+        }
+    }
+</script>
+</html>
