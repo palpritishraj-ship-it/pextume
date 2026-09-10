@@ -4,18 +4,16 @@
        <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     
-    <!-- ১. ডাইনামিক এসইও টাইটেল ও ডেসক্রিপশন (আইডি সহ) -->
-    <title id="pageTitle">Image Converter & Resizer - Pextume</title>
-    <meta id="pageDesc" name="description" content="Convert, compress, and resize images instantly right inside your browser with zero server lag. No sign-up required.">
-    <meta name="keywords" content="Image Converter, JPG to PNG, WebP Converter, Free Image Resizer, Pextume Utilities">
+      <title>Free Online Image Converter & Resizer - Pextume</title>
+    <meta name="description" content="Convert, compress, and resize images instantly online right inside your browser with zero server lag. Support JPG, PNG, WebP, AVIF, PSD, TIFF & more. 100% Free & Secure."/>
+    <meta name="keywords" content="Image Converter, Free Image Resizer, JPG to PNG Converter, WebP Converter, Pextume Utilities">
 
-    <!-- ২. সোশ্যাল মিডিয়া শেয়ারিং (Open Graph) ট্যাগ -->
-    <meta property="og:site_name" content="Pextume">
-    <meta property="og:title" id="ogTitle" content="Image Converter & Resizer - Pextume">
-    <meta property="og:description" id="ogDesc" content="Convert, compress, and resize images instantly right inside your browser with zero server lag.">
+  <meta property="og:site_name" content="Pextume">
+    <meta property="og:title" content="Image Converter & Resizer">
+    <meta property="og:description" content="Convert, compress, and resize images instantly online right inside your browser with zero server lag.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://pextume.in/im-convert.html">
-
+    <meta property="og:url" content="https://pextume.in/im-convert.html"> 
+  
     <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="shortcut icon" href="/favicon.ico" />
@@ -59,7 +57,7 @@
 
                 <div class="card-step-title">02. Target Format</div>
                 <select id="targetFormat" class="modern-select" onchange="previewProcessedImage(); updateConversionInfo()">  
-                    <option value="jpg">JPG / JPEG Format</option>
+              <option value="jpg" selected>JPG / JPEG Format</option>      
                     <option value="png">PNG Format</option>
                     <option value="webp">WebP Format</option>
                     <option value="avif">AVIF Format</option>
@@ -291,28 +289,7 @@
 </style>
 
 <script>  
-       // পেজ লোড হওয়ার সময় URL থেকে ?to=format ধরে ড্রপডাউন ও এসইও অটো-সেট করার ফাংশন
-    window.addEventListener('DOMContentLoaded', () => {
-        const urlParams = new URLSearchParams(window.URLSearchParams ? window.location.search : window.location.search);
-        const formatParam = urlParams.get('to'); // যেমন: ?to=png বা ?to=webp
-        
-        if (formatParam) {
-            const targetSelect = document.getElementById('targetFormat');
-            // চেক করা ফরম্যাটটি আমাদের ড্রপডাউনে আছে কি না
-            let optionExists = Array.from(targetSelect.options).some(option => option.value === formatParam);
-            
-            if (optionExists) {
-                targetSelect.value = formatParam; // ড্রপডাউনে অটো সিলেক্ট হয়ে যাবে
-            }
-        }
-        
-        // পেজ লোড হওয়ার সাথে সাথেই এসইও টাইটেল ও কনভার্শন ইনফো আপডেট করে নেবে
-        updateSEOOnFormatChange();
-        if (typeof updateConversionInfo === 'function') {
-            updateConversionInfo();
-        }
-    });
-   
+       
     let uploadedImageObj = null;
     let uploadedFileExtension = "";
 
@@ -330,16 +307,14 @@
         return map[ext] || ext.toUpperCase();
     }
 
-            function updateConversionInfo() {
+             function updateConversionInfo() {
         const info = document.getElementById("conversionInfo");
         const target = document.getElementById("targetFormat");
         if (!info || !target || !uploadedFileExtension) return;
 
-        info.innerText = `${formatLabel(uploadedFileExtension)} to${formatLabel(target.value)}`;
+        info.innerText = `${formatLabel(uploadedFileExtension)} to ${formatLabel(target.value)}`;
         info.style.display = "block";
-
-        updateSEOOnFormatChange();
-    }
+    }   
 
     function handleImageUpload(event) {
         let file = event.target.files[0];
@@ -756,71 +731,6 @@ showpage
             sideMenu.style.transform = 'translateX(100%)'; 
         } 
     });
-    // এসইও-ফ্রেন্ডলি ইউজার সার্চ কিওয়ার্ড অনুযায়ী ডাইনামিক টাইটেল ও ডেসক্রিপশন আপডেট করার ফাংশন
-    function updateSEOOnFormatChange() {
-        const format = document.getElementById('targetFormat').value;
-        const titleTag = document.getElementById('pageTitle');
-        const descTag = document.getElementById('pageDesc');
-        const ogTitleTag = document.getElementById('ogTitle');
-        const ogDescTag = document.getElementById('ogDesc');
-
-        const seoData = {
-            jpg: {
-                title: "Convert to JPG/JPEG Online Free | Fast Image Converter - Pextume",
-                desc: "Convert your images to JPG/JPEG format instantly online for free. Fast, secure, and processed locally in your browser."
-            },
-            png: {
-                title: "Convert to PNG Online Free | Transparent Image Converter - Pextume",
-                desc: "Easily convert your images to lossless PNG format online with transparent background support. No sign-up required."
-            },
-            webp: {
-                title: "Convert to WebP Online Free | Compress & Convert - Pextume",
-                desc: "Convert heavy images to WebP format online for faster website loading and superior compression. 100% free."
-            },
-            avif: {
-                title: "Convert to AVIF Online Free | Next-Gen Image Converter - Pextume",
-                desc: "Convert your photos to high-compression AVIF format online safely inside your browser with zero server uploads."
-            },
-            bmp: {
-                title: "Convert to BMP Online Free | Bitmap Image Tool - Pextume",
-                desc: "Quickly convert any image format to uncompressed BMP bitmap files securely and for free."
-            },
-            gif: {
-                title: "Convert to GIF Online Free | Instant Image Converter - Pextume",
-                desc: "Turn your images into GIF format instantly with local browser processing and zero server lag."
-            },
-            ico: {
-                title: "Image to ICO Converter Online Free | Favicon Maker - Pextume",
-                desc: "Create website favicons and desktop app ICO icons from your images instantly and securely."
-            },
-            eps: {
-                title: "Convert to EPS Online Free | Vector File Converter - Pextume",
-                desc: "Generate vector-ready EPS files from your raster images locally in seconds on Pextume."
-            },
-            ps: {
-                title: "Convert to PostScript (PS) Online Free - Pextume",
-                desc: "Convert any image format into standard PostScript (PS) files easily without installing software."
-            },
-            psd: {
-                title: "Convert to PSD Online Free | Photoshop Converter - Pextume",
-                desc: "Export your images into Adobe Photoshop (PSD) format locally with Pextume Image Studio."
-            },
-            tiff: {
-                title: "Convert to TIFF Online Free | High-Res Converter - Pextume",
-                desc: "Convert your photos into high-resolution uncompressed TIFF format securely inside your browser."
-            },
-            odg: {
-                title: "Convert to ODG Online Free | OpenDocument Converter - Pextume",
-                desc: "Package your images into OpenDocument Drawing (ODG) vector format instantly for free."
-            }
-        };
-
-        if (seoData[format]) {
-            titleTag.innerText = seoData[format].title;
-            descTag.setAttribute("content", seoData[format].desc);
-            if (ogTitleTag) ogTitleTag.setAttribute("content", seoData[format].title);
-            if (ogDescTag) ogDescTag.setAttribute("content", seoData[format].desc);
-        }
-    }
+    
 </script>
 </html>
