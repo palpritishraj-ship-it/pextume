@@ -182,7 +182,13 @@
     .main-fixed-header { position: fixed; top: 0; left: 0; width: 100%; height: 54px; background-color: #fdf2f8; z-index: 2500000; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02); }
     .top-header { width: 100%; height: 100%; background: linear-gradient(to right, rgba(236, 72, 153, 1) 0%, rgba(251, 207, 232, 0.7) 40%, rgba(255, 255, 255, 0) 85%); pointer-events: none; }
     .logo-box { position: fixed; top: 6px; left: 8px; z-index: 2600000; background: #000000; padding: 5px 8px; border-radius: 12px; display: inline-block; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25); border: 1px solid rgba(236, 72, 153, 0.5); }
-    .brand-logo { width: 120px; height: auto; display: block; filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3)); }
+   .brand-logo { 
+    width: 120px; 
+    height: 38px; /* লোগোর একটি নির্দিষ্ট অ্যাসপেক্ট রেশিও হাইট ফিক্সড করে দেওয়া হলো */
+    object-fit: contain; 
+    display: block; 
+    filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3)); 
+}
     .top-menu-wrapper-fixed { position: fixed; top: 10px; right: 20px; z-index: 2600000; }
     
     .dashboard-wrapper { width: 100%; max-width: 600px; display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; }

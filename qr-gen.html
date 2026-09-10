@@ -60,6 +60,14 @@
     }
     .type-selector:focus { border-color: var(--btn-yellow); box-shadow: 0 0 10px rgba(234, 179, 8, 0.2); }
 
+        /* কিবোর্ড ওপেন হলে ফোকাসড ইনপুট যেন উপরে লুকিয়ে না যায় */
+    html {
+        scroll-padding-bottom: 50vh;
+    }
+    input:focus, textarea:focus, select:focus {
+        scroll-margin-top: 90px;
+    }
+    
     .section-title {
         text-align: left; font-size: 11px; color: #a16207; text-transform: uppercase;
         margin: 20px 0 8px 0; font-weight: 600; letter-spacing: 1px;
@@ -744,7 +752,9 @@ html{scroll-padding-bottom:45vh}
         <a href="javascript:void(0)" onclick="document.getElementById('sideMenu').style.transform='translateX(100%)'" style="position:absolute; top:20px; right:25px; font-size:40px; color:#ef4444; text-decoration:none; z-index:10;">&times;</a>
         <div style="width: 270px; padding-top: 100px; display: flex; flex-direction: column; white-space: nowrap;">
             <div style="padding: 0 30px 15px 0; text-align: right; color: #854d0e; font-family: sans-serif; font-size: 14px; font-weight: bold; letter-spacing: 2px; opacity: 0.9; text-transform: uppercase;">Other Tools</div>
-            <a href="qr-scan.html" style="padding:18px 30px; text-decoration:none; font-size:18px; color:var(--text-main); font-family:sans-serif; border-bottom:1px solid rgba(0,0,0,0.05); text-align:right; letter-spacing:1px; font-weight: 600;">QR Scanner</a>
+            <a href="qr-scan.html" style="padding:18px 30px; text-decoration:none; font-size:18px; color:var(--text-main); font-family:sans-serif; border-bottom:1px solid rgba(0,0,0,0.05); text-align:right; letter-spacing:1px; font-weight: 600;">QR Code Scanner</a>
+      <a href="text-checker.html" style="padding:18px 30px; text-decoration:none; font-size:18px; color:var(--text-main); font-family:sans-serif; border-bottom:1px solid rgba(0,0,0,0.05); text-align:right; letter-spacing:1px; font-weight: 600;">Smart Text Checker</a>
+         <a href="im-convert.html" style="padding:18px 30px; text-decoration:none; font-size:18px; color:var(--text-main); font-family:sans-serif; border-bottom:1px solid rgba(0,0,0,0.05); text-align:right; letter-spacing:1px; font-weight: 600;">Image Converter</a>
         </div>
     </div>
 
@@ -1467,4 +1477,32 @@ document.addEventListener('click',function(e){
         const menu=document.getElementById("whatsappCountryMenu");
         if(menu && menu.classList.contains("open")) requestAnimationFrame(positionWhatsAppCountryMenu);
     }, true);
+
+    // কিবোর্ড ওপেন হলে ইনপুট বক্স ভিজিবল রাখার স্মার্ট ফিক্স
+    function keepActiveInputVisible(el) {
+        if (!el || !el.closest) return;
+        setTimeout(() => {
+            const vv = window.visualViewport;
+            const viewportHeight = vv ? vv.height : window.innerHeight;
+            const rect = el.getBoundingClientRect();
+            const topSafe = 70; // হেডার বা লোগোর নিচে নিরাপদ দূরত্ব
+            const bottomSafe = 30; // কিবোর্ডের উপরে নিরাপদ দূরত্ব
+            
+            if (rect.bottom > viewportHeight - bottomSafe) {
+                window.scrollBy({ top: rect.bottom - (viewportHeight - bottomSafe), behavior: 'smooth' });
+            } else if (rect.top < topSafe) {
+                window.scrollBy({ top: rect.top - topSafe, behavior: 'smooth' });
+            }
+        }, 300);
+    }
+
+    // সমস্ত ইনপুট ও টেক্সটবক্সে ফোকাস ইভেন্ট বাইন্ড করা
+    document.addEventListener('DOMContentLoaded', () => {
+        const allInputs = document.querySelectorAll('input, textarea, select');
+        allInputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                keepActiveInputVisible(input);
+            });
+        });
+    });
 </script>
