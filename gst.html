@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    
+  <title>Professional GST Calculator India | CGST, SGST & IGST Calculator - Pextume</title>
+    <meta name="description" content="Free online GST calculator for India. Instantly calculate Goods and Services Tax with accurate CGST, SGST, and IGST breakdowns, download invoices, and save calculation history.">
+    <meta name="keywords" content="GST Calculator India, Online GST Tax Tool, CGST SGST Calculator, IGST Calculator Online, Business Tax Tools, Pextume Utilities">
+
+<meta property="og:site_name" content="Pextume">
+<meta property="og:title" content="Professional GST Calculator">
+<meta property="og:description" content="Professional GST Calculator with CGST/SGST bifurcation by Pextume.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://pextume.in/">
+
+<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="shortcut icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<meta name="apple-mobile-web-app-title" content="Pextume" />
+
+<link rel="manifest" href="/site.webmanifest" />
+<link rel="canonical" href="https://pextume.in/"/>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Pextume",
+  "alternateName": ["Pextume GST", "Pextume.in"], 
+  "url": "https://pextume.in/"
+}
+</script>
+
+    <style>
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: 'Segoe UI', Roboto, sans-serif; 
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body { 
+            background: #0f172a; 
+            color: white; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            min-height: 100vh; 
+            padding: 20px; 
+            padding-top: 90px; 
+            scroll-behavior: smooth;
+        }
+
+        .top-navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 65px;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            z-index: 9999;
+            border-bottom: 1px solid rgba(16, 185, 129, 0.15);
+        }
+
+        .brand-logo {
+            width: 130px;     
+            height: auto;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .brand-logo:hover {
+            transform: scale(1.05);
+        }
+
+        .menu-icon-btn {
+            cursor: pointer; 
+            font-size: 32px; 
+            color: #10b981; 
+            background: none; 
+            border: none; 
+            line-height: 1; 
+            text-shadow: 0 0 12px rgba(16, 185, 129, 0.7); 
+            padding: 5px;
+        }
+
+        .page-header-section {
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            margin-bottom: 25px;
+            padding: 0 10px;
+        }
+
+        h2 { 
+            color: #10b981; 
+            font-size: 1.8rem; 
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 800;
+        }
+
+        .india-badge {
+            font-size: 0.8rem;
+            color: #64748b; 
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            font-weight: 700;
+        }
+
+        .flag-saffron { color: #ff9933; }
+        .flag-white { color: #e2e8f0; text-shadow: 0 0 5px rgba(255,255,255,0.3); }
+        .flag-green { color: #138808; }
+
+        .page-desc {
+            color: #94a3b8;
+            font-size: 0.92rem;
+            line-height: 1.6;
+        }
+
+        .container { 
+            background: transparent; 
+            padding: 0; 
+            width: 100%; 
+            max-width: 420px; 
+            text-align: center;
+            border: none; 
+            box-shadow: none;
+            margin-bottom: 25px; 
+        }
+
+        .calc-card {
+            background: #1e293b;
+            padding: 25px;
+            border-radius: 30px;
+            border: 1px solid #10b981;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .toggle-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .toggle-label {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            font-weight: 600;
+        }
+
+        .history-btn {
+            background: transparent;
+            border: none;
+            color: #10b981;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .history-btn:hover {
+            color: #34d399;
+        }
+
+        .tax-type-container {
+            display: flex;
+            background: #0f172a;
+            border-radius: 10px;
+            padding: 4px;
+            margin-bottom: 18px;
+            border: 1px solid #334155;
+            width: 100%;
+        }
+
+        .tax-type-tab {
+            flex: 1;
+            padding: 8px 4px;
+            font-size: 0.78rem;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 8px;
+            color: #94a3b8;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .tax-type-tab.active {
+            background: #10b981;
+            color: #fff;
+        }
+
+        .input-group { text-align: left; margin-bottom: 15px; }
+        label { display: block; margin-bottom: 6px; color: #94a3b8; font-size: 0.8rem; font-weight: 600; }
+
+        input { 
+            width: 100%; 
+            padding: 12px 14px; 
+            border-radius: 12px; 
+            border: 1px solid #334155; 
+            background: #0f172a; 
+            color: white; 
+            outline: none; 
+            font-size: 1.05rem; 
+            transition: border-color 0.2s ease;
+        }
+
+        input:focus { 
+            border-color: #10b981; 
+        }
+
+        .slab-buttons {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 15px;
+        }
+
+        .slab-btn {
+            flex: 1;
+            padding: 8px 2px;
+            font-size: 0.75rem;
+            background: #0f172a;
+            border: 1px solid #334155;
+            color: #94a3b8;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 600;
+        }
+
+        .slab-btn.active, .slab-btn:hover {
+            background: rgba(16, 185, 129, 0.15);
+            color: #10b981;
+            border-color: #10b981;
+        }
+
+        .btn-group { display: flex; gap: 10px; margin-top: 15px; }
+
+        button.calc-btn { 
+            flex: 1;
+            padding: 14px 5px; 
+            border-radius: 12px; 
+            border: none; 
+            color: white; 
+            font-weight: bold; 
+            font-size: 0.8rem; 
+            cursor: pointer; 
+            transition: all 0.2s; 
+            text-transform: uppercase;
+            background: #10b981; 
+            outline: none;
+        }
+
+        button.calc-btn:active { transform: scale(0.95); opacity: 0.9; }
+
+        .result-box { 
+            margin-top: 20px; 
+            padding: 18px; 
+            background: rgba(16, 185, 129, 0.05); 
+            border-radius: 20px; 
+            display: none; 
+            border: 1px solid #10b981; 
+            text-align: left;
+        }
+
+        .result-header {
+            text-align: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(16, 185, 129, 0.2);
+            padding-bottom: 10px;
+        }
+
+        .result-box p.title { font-size: 0.75rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
+        .result-box h3 { font-size: 1.8rem; color: #fff; margin-top: 2px; }
+
+        .details { 
+            font-size: 0.88rem; 
+            color: #cbd5e1;
+            line-height: 1.9;
+        }
+
+        .details div {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+            padding: 3px 0;
+        }
+
+        .details span { color: #fff; font-weight: 600; }
+        .sub-detail { font-size: 0.8rem; color: #94a3b8; padding-left: 10px; }
+
+        .action-btns {
+            display: flex;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .secondary-btn {
+            flex: 1;
+            background: transparent;
+            border: 1px solid #10b981;
+            color: #10b981;
+            padding: 8px 4px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: 0.2s;
+        }
+
+        .secondary-btn:hover {
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .footer { 
+            margin-top: 20px; 
+            font-size: 0.78rem; 
+            color: #64748b; 
+            text-align: center;
+        }
+
+        .info-plain-section {
+            width: 100%;
+            max-width: 420px;
+            padding: 15px 10px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .info-plain-section p {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .section-title-line {
+            color: #94a3b8;
+            font-size: 0.92rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 4px;
+        }
+
+        .section-title-line::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 1.5px;
+            background-color: #10b981;
+            opacity: 0.7;
+        }
+
+        .section-title-plain {
+            color: #10b981;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .info-links {
+            list-style: none;
+            margin-bottom: 25px;
+        }
+
+        .info-links li {
+            margin: 10px 0;
+        }
+
+        .info-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            font-size: 0.92rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: color 0.2s;
+            cursor: pointer;
+        }
+
+        .info-links a:hover {
+            color: #10b981;
+        }
+
+        .network-footer {
+            font-size: 0.80rem;
+            color: #475569;
+            text-align: center;
+            margin-top: 10px;
+            letter-spacing: 0.5px;
+            white-space: nowrap; 
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(5px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: #1e293b;
+            border: 1px solid #10b981;
+            padding: 25px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 400px;
+            text-align: left;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            animation: scaleUp 0.3s ease;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-content h3 {
+            color: #10b981;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+        }
+
+        .modal-content p {
+            color: #cbd5e1;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .modal-content a {
+            color: #10b981;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .modal-close-btn {
+            width: 100%;
+            padding: 10px;
+            background: #10b981;
+            border: none;
+            color: white;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            text-transform: uppercase;
+            margin-top: 10px;
+        }
+
+        .history-header-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .history-info-icon {
+            background: transparent;
+            border: none;
+            color: #10b981;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 0;
+            line-height: 1;
+            transition: transform 0.2s;
+        }
+
+        .history-info-icon:hover {
+            transform: scale(1.15);
+        }
+
+        .history-item {
+            background: #0f172a;
+            padding: 14px;
+            border-radius: 14px;
+            margin-bottom: 12px;
+            border: 1px solid #334155;
+            font-size: 0.85rem;
+            position: relative;
+        }
+
+        .history-line {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            padding-right: 20px;
+        }
+
+        .history-date-time {
+            font-size: 0.75rem;
+            color: #64748b;
+            margin-top: 6px;
+            border-top: 1px dashed rgba(255,255,255,0.06);
+            padding-top: 6px;
+        }
+
+        .history-menu-btn {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 2px 8px;
+        }
+
+        .history-menu-btn:hover {
+            color: #10b981;
+        }
+
+        .history-dropdown {
+            position: absolute;
+            right: 15px;
+            top: 38px;
+            background: #1e293b;
+            border: 1px solid #10b981;
+            border-radius: 10px;
+            display: none;
+            flex-direction: column;
+            z-index: 10;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.6);
+            min-width: 120px;
+        }
+
+        .history-dropdown button {
+            background: transparent;
+            border: none;
+            color: #cbd5e1;
+            padding: 9px 14px;
+            text-align: left;
+            font-size: 0.82rem;
+            cursor: pointer;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .history-dropdown button:hover {
+            background: rgba(16, 185, 129, 0.15);
+            color: #10b981;
+        }
+
+        @keyframes scaleUp {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-navbar">
+        <img src="logo.png" alt="Logo" class="brand-logo">
+        <div class="menu-icon-btn" onclick="event.stopPropagation(); document.getElementById('sideMenu').style.transform='translateX(0)'">
+            ⋮
+        </div>
+    </div>
+        <div class="page-header-section">
+        <h2>GST Calculator</h2>
+        <div class="india-badge"><span style="color: #64748b;">FOR</span> <span class="flag-saffron">IN</span><span class="flag-white">D</span><span class="flag-green">IA</span></div>
+        <p class="page-desc">Calculate Goods and Services Tax instantly with accurate CGST, SGST, and IGST breakdowns for Indian businesses and daily needs.</p>
+    </div>
+
+    <div class="container">
+        <div class="calc-card">
+            <div class="toggle-header-row">
+                <span class="toggle-label">Tax type</span>
+                <button class="history-btn" onclick="openHistoryModal()">🕒 History</button>
+            </div>
+
+            <div class="tax-type-container">
+                <div class="tax-type-tab active" id="tabIntra" onclick="setTaxType('intra')">Intra-State (CGST + SGST)</div>
+                <div class="tax-type-tab" id="tabInter" onclick="setTaxType('inter')">Inter-State (IGST)</div>
+            </div>
+
+            <div class="input-group">
+                <label>Amount (₹)</label>
+                <input type="text" id="amt" inputmode="numeric" placeholder="e.g. 10,000" oninput="handleInput(this)">
+            </div>
+
+            <div class="slab-buttons">
+                <button class="slab-btn" onclick="setGstRate(5)">5%</button>
+                <button class="slab-btn" onclick="setGstRate(12)">12%</button>
+                <button class="slab-btn" onclick="setGstRate(18)">18%</button>
+                <button class="slab-btn" onclick="setGstRate(28)">28%</button>
+            </div>
+
+            <div class="input-group">
+                <label>Custom GST Rate (%)</label>
+                <input type="number" id="gstRate" placeholder="e.g. 18" oninput="clearSlabSelection(); hideResult()">
+            </div>
+
+            <div class="btn-group">
+                <button class="calc-btn" onclick="calculate(true)">+ Add GST</button>
+                <button class="calc-btn" onclick="calculate(false)">- Remove GST</button>
+            </div>
+
+            <div class="result-box" id="res">
+                <div class="result-header">
+                    <p class="title" id="res_title">Total Invoice Value</p>
+                    <h3 id="total_val">₹0</h3>
+                </div>
+                
+                <div class="details" id="breakdown_details">
+                    <div><span>Base Amount:</span> <span id="base_val">₹0</span></div>
+                    <div><span>Total GST:</span> <span id="gst_val">₹0</span></div>
+                    <div id="tax_split_1" class="sub-detail">↳ CGST: <span id="cgst_val">₹0</span></div>
+                    <div id="tax_split_2" class="sub-detail">↳ SGST: <span id="sgst_val">₹0</span></div>
+                    <div><span>Net Payable:</span> <span id="net_val">₹0</span></div>
+                </div>
+
+                <div class="action-btns">
+                    <button class="secondary-btn" onclick="copyResult()">📋 Copy</button>
+                    <button class="secondary-btn" onclick="downloadInvoice()">📥 Download</button>
+                    <button class="secondary-btn" onclick="resetCalculator()">🔄 Reset</button>
+                </div>
+            </div>
+
+            <div class="footer">
+                💡 Tap (⋮) to explore other tools
+            </div>
+        </div>
+    </div>
+
+    <div class="info-plain-section">
+        <h3 class="section-title-plain">Pextume</h3>
+        <p>
+            A premium secure subsystem of the Pextume Utility Network, dedicated to producing fast, open-source, and hardware-accelerated productivity web tools.
+        </p>
+
+        <div class="section-title-line">User Support</div>
+        <ul class="info-links">
+            <li><a onclick="openModal('howToUseModal')">📖 How to Use</a></li>
+            <li><a onclick="openModal('faqModal')">❓ FAQ Guide</a></li>
+            <li><a onclick="openModal('contactModal')">📧 Contact Us</a></li>
+        </ul>
+
+        <div class="section-title-line">Legal Bureau</div>
+        <ul class="info-links" style="margin-bottom: 0;">
+            <li><a onclick="openModal('privacyModal')">🛡️ Privacy Policy</a></li>
+            <li><a onclick="openModal('termsModal')">📝 Terms of Service</a></li>
+            <li><a onclick="openModal('disclaimerModal')">⚖️ Disclaimer</a></li>
+        </ul>
+    </div>
+
+    <div class="network-footer">
+        © 2026 Pextume Utility Network. All Rights Reserved.
+    </div>
+
+    <div class="modal-overlay" id="historyModal" onclick="closeModal('historyModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <h3 style="margin-bottom: 0;">Calculation History</h3>
+                <button class="history-info-icon" onclick="openModal('historyInfoModal')" title="Storage Info">🛡️</button>
+            </div>
+            <div id="historyList" style="margin-bottom: 15px;">
+                <p style="color: #64748b; text-align: center;">No recent history found.</p>
+            </div>
+            <button class="secondary-btn" style="width:100%; margin-bottom: 10px; padding: 10px;" onclick="clearHistory()">Clear History</button>
+            <button class="modal-close-btn" onclick="closeModal('historyModal')">Close</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="historyInfoModal" onclick="closeModal('historyInfoModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h3>Storage Information</h3>
+            <p>All calculation histories are securely stored in your browser's local storage.<br><br>
+            If you clear your browser storage or cache data, these history records will be permanently deleted.</p>
+            <button class="modal-close-btn" onclick="closeModal('historyInfoModal')">Got it</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="howToUseModal" onclick="closeModal('howToUseModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h3>How to Use</h3>
+            <p>1. Enter your principal amount in Rupees (₹).<br>
+            2. Select a quick slab button (5%, 12%, 18%, 28%) or type a custom rate.<br>
+            3. Click <b>+ Add GST</b> to calculate inclusive price or <b>- Remove GST</b> to extract base price.</p>
+            <button class="modal-close-btn" onclick="closeModal('howToUseModal')">Close</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="faqModal" onclick="closeModal('faqModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h3>FAQ Guide</h3>
+            <p><b>Q: Are CGST and SGST always equal?</b><br>Yes, for intra-state transactions, total GST is divided equally (50-50%) between Central and State governments.</p>
+            <p><b>Q: Is this tool accurate for business?</b><br>Yes, it uses standard financial rounding for exact tax splitting.</p>
+            <button class="modal-close-btn" onclick="closeModal('faqModal')">Close</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="contactModal" onclick="closeModal('contactModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h3>Contact Us</h3>
+            <p>For any queries, issues, or bug reports, please reach out to our support team at:<br><br>
+            👉 <a href="mailto:Support@pextume.in">Support@pextume.in</a></p>
+            <button class="modal-close-btn" onclick="closeModal('contactModal')">Close</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="privacyModal" onclick="closeModal('privacyModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h3>Privacy Policy</h3>
+            <p>Pextume respects your privacy. All calculations are performed directly within your device browser. We do not store or track your financial amounts.</p>
+            <button class="modal-close-btn" onclick="closeModal('privacyModal')">Close</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="termsModal" onclick="closeModal('termsModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h3>Terms of Service</h3>
+            <p>Pextume provides utility tools for calculation purposes only. Users are advised to verify financial computations for official tax filings and GST returns.</p>
+            <button class="modal-close-btn" onclick="closeModal('termsModal')">Close</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="disclaimerModal" onclick="closeModal('disclaimerModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h3>Disclaimer</h3>
+            <p>The calculations provided are estimates based on standard Indian GST laws. Pextume is not liable for any discrepancies in commercial or official tax documentation.</p>
+            <button class="modal-close-btn" onclick="closeModal('disclaimerModal')">Close</button>
+        </div>
+    </div>
+        <script>
+        let currentTaxType = 'intra';
+
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function openHistoryModal() {
+            renderHistory();
+            openModal('historyModal');
+        }
+
+        function setTaxType(type) {
+            currentTaxType = type;
+            document.getElementById('tabIntra').classList.toggle('active', type === 'intra');
+            document.getElementById('tabInter').classList.toggle('active', type === 'inter');
+            
+            let resBox = document.getElementById('res');
+            if (resBox.style.display === 'block') {
+                calculate(lastIsAdd);
+            }
+        }
+
+        function setGstRate(rate) {
+            document.getElementById('gstRate').value = rate;
+            document.querySelectorAll('.slab-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.innerText.includes(rate)) {
+                    btn.classList.add('active');
+                }
+            });
+            hideResult();
+        }
+
+        function clearSlabSelection() {
+            document.querySelectorAll('.slab-btn').forEach(btn => btn.classList.remove('active'));
+        }
+
+        function hideResult() {
+            document.getElementById('res').style.display = 'none';
+        }
+
+        function handleInput(input) {
+            hideResult();
+            let value = input.value.replace(/[^0-9.]/g, ''); 
+            if(value !== '') {
+                let parts = value.split('.');
+                if(parts.length > 2) parts.pop();
+                let integerPart = Number(parts[0]).toLocaleString('en-IN');
+                input.value = parts.length > 1 ? integerPart + '.' + parts[1] : integerPart;
+            } else {
+                input.value = '';
+            }
+        }
+
+        let lastIsAdd = true;
+
+        function calculate(isAdd) {
+            lastIsAdd = isAdd;
+            let amtRaw = document.getElementById('amt').value.replace(/,/g, '');
+            let amount = parseFloat(amtRaw);
+            let rate = parseFloat(document.getElementById('gstRate').value);
+
+            if (amount > 0 && !isNaN(rate)) {
+                let basePrice, gst, total;
+                
+                if(isAdd) {
+                    basePrice = amount;
+                    gst = (basePrice * rate) / 100;
+                    total = basePrice + gst;
+                    document.getElementById('res_title').innerText = "Total Invoice Value (Incl. GST)";
+                } else {
+                    total = amount;
+                    basePrice = total / (1 + (rate / 100));
+                    gst = total - basePrice;
+                    document.getElementById('res_title').innerText = "Base Price (Excl. GST)";
+                }
+
+                document.getElementById('res').style.display = 'block';
+                document.getElementById('total_val').innerText = "₹" + total.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                document.getElementById('base_val').innerText = "₹" + basePrice.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                document.getElementById('gst_val').innerText = "₹" + gst.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                document.getElementById('net_val').innerText = "₹" + total.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+
+                let split1 = document.getElementById('tax_split_1');
+                let split2 = document.getElementById('tax_split_2');
+
+                if (currentTaxType === 'intra') {
+                    let halfGst = gst / 2;
+                    let halfRate = (rate / 2).toFixed(2).replace(/\.00$/, '');
+                    split1.style.display = 'flex';
+                    split2.style.display = 'flex';
+                    split1.innerHTML = `↳ CGST (${halfRate}%): <span>₹${halfGst.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>`;
+                    split2.innerHTML = `↳ SGST (${halfRate}%): <span>₹${halfGst.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>`;
+                } else {
+                    split1.style.display = 'flex';
+                    split2.style.display = 'none';
+                    split1.innerHTML = `↳ IGST (${rate}%): <span>₹${gst.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>`;
+                }
+
+                let now = new Date();
+                let dateStr = now.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+                let timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+
+                saveToHistory({
+                    base: basePrice.toLocaleString('en-IN', {minimumFractionDigits: 2}),
+                    gst: gst.toLocaleString('en-IN', {minimumFractionDigits: 2}),
+                    total: total.toLocaleString('en-IN', {minimumFractionDigits: 2}),
+                    rate: rate,
+                    type: currentTaxType === 'intra' ? 'CGST + SGST' : 'IGST',
+                    dateTime: `${dateStr}, ${timeStr}`
+                });
+
+            } else {
+                alert("Please enter a valid amount and select/enter a GST rate.");
+            }
+        }
+
+        function saveToHistory(record) {
+            let history = JSON.parse(localStorage.getItem('pextume_gst_history')) || [];
+            history.unshift(record);
+            if (history.length > 10) history.pop();
+            localStorage.setItem('pextume_gst_history', JSON.stringify(history));
+        }
+
+        function renderHistory() {
+            let history = JSON.parse(localStorage.getItem('pextume_gst_history')) || [];
+            let listDiv = document.getElementById('historyList');
+            if (history.length === 0) {
+                listDiv.innerHTML = '<p style="color: #64748b; text-align: center;">No recent history found.</p>';
+                return;
+            }
+            let html = '';
+            history.forEach((item, index) => {
+                html += `<div class="history-item">
+                    <button class="history-menu-btn" onclick="toggleHistoryMenu(event, ${index})">⋮</button>
+                    <div class="history-line"><span style="color:#94a3b8;">Base Amount:</span> <b style="color:#fff;">₹${item.base}</b></div>
+                    <div class="history-line"><span style="color:#94a3b8;">Tax Rate:</span> <b style="color:#fff;">${item.rate}% (${item.type})</b></div>
+                    <div class="history-line"><span style="color:#94a3b8;">Total Tax (GST):</span> <b style="color:#fff;">₹${item.gst}</b></div>
+                    <div class="history-line" style="margin-bottom:0; border-top: 1px dashed rgba(255,255,255,0.08); padding-top: 6px;"><span style="color:#10b981; font-weight:bold;">Net Payable:</span> <span style="color:#10b981; font-weight:bold;">₹${item.total}</span></div>
+                    <div class="history-date-time">📅 ${item.dateTime || 'Recent'}</div>
+                    <div class="history-dropdown" id="dropdown_${index}">
+                        <button onclick="downloadSpecificInvoice('${item.base}', '${item.rate}', '${item.type}', '${item.gst}', '${item.total}')">📥 Download</button>
+                        <button onclick="copySpecificHistory('${item.base}', '${item.rate}', '${item.type}', '${item.gst}', '${item.total}')">📋 Copy</button>
+                        <button onclick="deleteHistoryItem(${index})">🗑️ Delete</button>
+                    </div>
+                </div>`;
+            });
+            listDiv.innerHTML = html;
+        }
+
+        function toggleHistoryMenu(event, index) {
+            event.stopPropagation();
+            let dropdown = document.getElementById(`dropdown_${index}`);
+            let isOpen = dropdown.style.display === 'flex';
+            
+            document.querySelectorAll('.history-dropdown').forEach(el => el.style.display = 'none');
+            
+            if (!isOpen) {
+                dropdown.style.display = 'flex';
+            }
+        }
+
+        document.addEventListener('click', function() {
+            document.querySelectorAll('.history-dropdown').forEach(el => el.style.display = 'none');
+        });
+
+        function deleteHistoryItem(index) {
+            let history = JSON.parse(localStorage.getItem('pextume_gst_history')) || [];
+            history.splice(index, 1);
+            localStorage.setItem('pextume_gst_history', JSON.stringify(history));
+            renderHistory();
+        }
+
+        function clearHistory() {
+            localStorage.removeItem('pextume_gst_history');
+            renderHistory();
+        }
+
+        function copyResult() {
+            let total = document.getElementById('total_val').innerText;
+            let base = document.getElementById('base_val').innerText;
+            let gst = document.getElementById('gst_val').innerText;
+            let rate = document.getElementById('gstRate').value;
+            let typeText = currentTaxType === 'intra' ? 'CGST + SGST' : 'IGST';
+
+            let textToCopy = `--- GST Calculation Summary (Pextume) ---\n` +
+                             `Base Amount: ${base}\n` +
+                             `GST Rate: ${rate}% (${typeText})\n` +
+                             `Total GST: ${gst}\n` +
+                             `Net Payable: ${total}\n` +
+                             `Calculated via Pextume.in`;
+
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                alert("Calculation summary copied to clipboard!");
+            });
+        }
+
+        function copySpecificHistory(base, rate, type, gst, total) {
+            let textToCopy = `--- GST Calculation Summary (Pextume) ---\n` +
+                             `Base Amount: ₹${base}\n` +
+                             `GST Rate: ${rate}% (${type})\n` +
+                             `Total GST: ₹${gst}\n` +
+                             `Net Payable: ₹${total}\n` +
+                             `Calculated via Pextume.in`;
+
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                alert("History summary copied to clipboard!");
+            });
+        }
+
+        function downloadInvoice() {
+            let total = document.getElementById('total_val').innerText;
+            let base = document.getElementById('base_val').innerText;
+            let gst = document.getElementById('gst_val').innerText;
+            let rate = document.getElementById('gstRate').value;
+            let typeText = currentTaxType === 'intra' ? 'CGST + SGST' : 'IGST';
+            triggerPrintWindow(base, rate, typeText, gst, total);
+        }
+
+        function downloadSpecificInvoice(base, rate, type, gst, total) {
+            triggerPrintWindow('₹' + base, rate, type, '₹' + gst, '₹' + total);
+        }
+
+        function triggerPrintWindow(base, rate, typeText, gst, total) {
+            let invoiceWindow = window.open('', '_PRINTER', 'width=700,height=800');
+            invoiceWindow.document.write(`
+                <html>
+                <head>
+                    <title>GST Invoice Summary - Pextume</title>
+                    <style>
+                        body { 
+                            font-family: 'Segoe UI', Arial, sans-serif; 
+                            background: #fff; 
+                            margin: 0; 
+                            display: flex; 
+                            justify-content: center; 
+                            align-items: center; 
+                            height: 100vh; 
+                        }
+                        .box { 
+                            border: 2px solid #10b981; 
+                            padding: 50px 35px; 
+                            border-radius: 20px; 
+                            width: 360px; 
+                            background: #fff;
+                            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+                        }
+                        h2 { color: #10b981; text-align: center; margin-bottom: 5px; font-size: 24px; letter-spacing: 2px; }
+                        .sub { text-align: center; font-size: 13px; color: #666; margin-bottom: 35px; }
+                        .row { display: flex; justify-content: space-between; margin: 18px 0; border-bottom: 1px dashed #e2e8f0; padding-bottom: 12px; font-size: 15px; color: #334155; }
+                        .total { font-size: 20px; font-weight: bold; color: #0f172a; margin-top: 30px; border-top: 2px solid #10b981; padding-top: 15px; }
+                        .footer { text-align: center; margin-top: 40px; font-size: 12px; color: #94a3b8; letter-spacing: 0.5px; }
+                    </style>
+                </head>
+                <body>
+                    <div class="box">
+                        <h2>INVOICE</h2>
+                        <div class="sub">GST Calculation Summary</div>
+                        <div class="row"><span>Base Amount:</span> <b>${base}</b></div>
+                        <div class="row"><span>Tax Rate:</span> <b>${rate}% (${typeText})</b></div>
+                        <div class="row"><span>Total Tax:</span> <b>${gst}</b></div>
+                        <div class="row total"><span>Net Payable:</span> <span>${total}</span></div>
+                        <div class="footer">Generated via Pextume GST Calculator</div>
+                    </div>
+                    <script>
+                        window.print();
+                    <\/script>
+                </body>
+                </html>
+            `);
+            invoiceWindow.document.close();
+        }
+
+        function resetCalculator() {
+            document.getElementById('amt').value = '';
+            document.getElementById('gstRate').value = '';
+            clearSlabSelection();
+            hideResult();
+        }
+    </script>
+
+    <!-- সাইড মেনু -->
+    <div id="sideMenu" style="height:100%; width:270px; position:fixed; z-index:100000; top:0; right:0; background: rgba(15, 23, 42, 0.98); transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); border-top-left-radius: 35px; border-bottom-left-radius: 35px; border-left: 2px solid #10b981; box-shadow: -10px 0 30px rgba(0,0,0,0.5); will-change: transform; overflow-x:hidden; overflow-y:auto;">
+        
+        <a href="javascript:void(0)" onclick="document.getElementById('sideMenu').style.transform='translateX(100%)'" 
+           style="position:absolute; top:20px; right:25px; font-size:40px; color:#ff4757; text-decoration:none; font-family:sans-serif; -webkit-tap-highlight-color:transparent;">&times;</a>
+        
+        <div style="width: 270px; padding-top: 80px; padding-bottom: 40px; display: flex; flex-direction: column;">
+            
+            <div style="padding: 0 30px 10px 0; text-align: right; color: #10b981; font-family: sans-serif; font-size: 13px; font-weight: bold; letter-spacing: 2px; text-shadow: 0 0 8px rgba(16, 185, 129, 0.5); text-transform: uppercase;">
+                Other Tools
+            </div>
+
+            <a href="age.html" style="padding:15px 30px; text-decoration:none; font-size:16px; color:#fff; border-bottom:1px solid rgba(255,255,255,0.05); text-align: right;">Age calculator</a>
+            <a href="electric.html" style="padding:15px 30px; text-decoration:none; font-size:16px; color:#fff; border-bottom:1px solid rgba(255,255,255,0.05); text-align: right;">Electric calculator</a>
+            <a href="day.html" style="padding:15px 30px; text-decoration:none; font-size:16px; color:#fff; border-bottom:1px solid rgba(255,255,255,0.05); text-align: right;">Day counter</a>
+            <a href="emi.html" style="padding:15px 30px; text-decoration:none; font-size:16px; color:#fff; border-bottom:1px solid rgba(255,255,255,0.05); text-align: right;">Emi calculator</a>
+            <a href="date.html" style="padding:15px 30px; text-decoration:none; font-size:16px; color:#fff; border-bottom:1px solid rgba(255,255,255,0.05); text-align: right;">Date calculator</a>
+            <a href="text-checker.html" style="padding:15px 30px; text-decoration:none; font-size:16px; color:#6ae0ff; border-bottom:1px solid rgba(255,255,255,0.05); text-align: right;">Smart Text checker</a>
+            <a href="qr-scan.html" style="padding:15px 30px; text-decoration:none; font-size:16px; color:#40ffb6; border-bottom:1px solid rgba(255,255,255,0.05); text-align: right;">QR Code scanner</a>
+
+            <div style="padding: 20px 30px 10px 0; text-align: right; color: #10b981; font-size: 13px; font-weight: bold; letter-spacing: 2px; text-transform: uppercase;">
+                Support & Info
+            </div>
+
+            <a href="mailto:Support@pextume.in" style="padding:12px 30px; text-decoration:none; font-size:15px; color:#cbd5e1; border-bottom:1px solid rgba(255,255,255,0.05); text-align: right;">📧 User Support</a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('click', function(event) {
+            var sideMenu = document.getElementById('sideMenu');
+            var topNavbar = document.querySelector('.top-navbar');
+            
+            if (!sideMenu.contains(event.target) && !topNavbar.contains(event.target)) {
+                sideMenu.style.transform = 'translateX(100%)';
+            }
+        });
+    </script>
+</body>
+</html>
