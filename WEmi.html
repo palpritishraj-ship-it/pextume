@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    
+  <title>Advanced EMI Calculator - Calculate Home, Car & Personal Loan Instantly</title>
+  <meta name="description" content="Calculate your loan EMI instantly with Pextume. A fast and reliable monthly installment calculator for home, car, and personal loans.">
+  <meta name="keywords" content="EMI Calculator, Loan Calculator, Monthly Installment, Monthly EMI, Pextume">
+ 
+<meta property="og:site_name" content="Pextume">
+<meta property="og:title" content="Advanced EMI Calculator">
+<meta property="og:description" content="Calculate your loan EMI instantly with Pextume.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://pextume.in/emi.html">
+
+<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="shortcut icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<meta name="apple-mobile-web-app-title" content="Pextume" />
+
+<link rel="manifest" href="/site.webmanifest" />
+<link rel="canonical" href="https://pextume.in/emi.html"/>  
+
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('pextume_theme');
+            if (savedTheme === 'light') {
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+        })();
+    </script>
+
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #ffffff;
+            --card-bg: #1e293b;
+            --border-color: #4f46e5;
+            --label-color: #94a3b8;
+            --input-bg: #0f172a;
+            --input-border: #334155;
+            --input-text: #ffffff;
+            --btn-bg: #4f46e5;
+            --btn-hover: #4338ca;
+            --clear-bg: #334155;
+            --clear-text: #64748b;
+            --result-bg: rgba(79, 70, 229, 0.15);
+            --details-text: #cbd5e1;
+            --navbar-bg: rgba(15, 23, 42, 0.85);
+            --modal-bg: #1e293b;
+            --logo-wrap-bg: transparent;
+            --logo-wrap-border: transparent;
+            --accent-color: #4f46e5;
+            --sun-btn-bg: rgba(79, 70, 229, 0.15);
+        }
+
+        [data-theme="light"] {
+            --bg-color: #f8fafc;
+            --text-color: #0f172a;
+            --card-bg: #ffffff;
+            --border-color: #4f46e5;
+            --label-color: #475569;
+            --input-bg: #f1f5f9;
+            --input-border: #cbd5e1;
+            --input-text: #0f172a;
+            --btn-bg: #4f46e5;
+            --btn-hover: #4338ca;
+            --clear-bg: #e2e8f0;
+            --clear-text: #475569;
+            --result-bg: rgba(79, 70, 229, 0.08);
+            --details-text: #334155;
+            --navbar-bg: rgba(248, 250, 252, 0.95);
+            --modal-bg: #ffffff;
+            --logo-wrap-bg: #0f172a;
+            --logo-wrap-border: #334155;
+            --accent-color: #4f46e5;
+            --sun-btn-bg: #e2e8f0;
+        }
+
+        .theme-transition *, .theme-transition *:before, .theme-transition *:after {
+            transition: none !important;
+        }
+
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body { 
+            background: var(--bg-color) !important; 
+            color: var(--text-color); 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            min-height: 100vh; 
+            padding: 20px; 
+            padding-top: 90px; 
+        }
+
+        .top-navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 65px;
+            background: var(--navbar-bg);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            z-index: 9999;
+            border-bottom: 1px solid rgba(79, 70, 229, 0.15);
+        }
+
+        .logo-container {
+            background: var(--logo-wrap-bg);
+            border: 1px solid var(--logo-wrap-border);
+            padding: 4px 6px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            margin-left: -6px; 
+        }
+
+        .brand-logo {
+            width: 130px;     
+            height: auto;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .brand-logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-right-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* চাঁদ ও সূর্য বাটনটি ছোট করা হলো (34px) */
+        .theme-toggle-btn {
+            background: var(--sun-btn-bg);
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            font-size: 15px;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .theme-toggle-btn:hover {
+            opacity: 0.85;
+        }
+
+        .menu-icon-btn {
+            cursor: pointer; 
+            font-size: 32px; 
+            color: var(--accent-color); 
+            background: none; 
+            border: none; 
+            line-height: 1; 
+            text-shadow: 0 0 12px rgba(79, 70, 229, 0.4); 
+            padding: 5px;
+        }
+
+        .page-header-section {
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            margin-bottom: 25px;
+            padding: 0 10px;
+        }
+
+        h2 { 
+            color: var(--accent-color); 
+            font-size: 1.8rem; 
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .page-desc {
+            color: var(--label-color);
+            font-size: 0.92rem;
+            line-height: 1.6;
+        }
+
+        .container { 
+            background: var(--card-bg); 
+            padding: 10px 25px 25px 25px; 
+            border-radius: 35px 0px 35px 0px; 
+            width: 100%; 
+            max-width: 400px; 
+            text-align: center;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            margin-bottom: 25px; 
+        }
+
+        .toggle-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .history-btn {
+            background: transparent;
+            border: none;
+            color: var(--accent-color);
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-right: -4px;
+        }
+
+        .history-btn:hover {
+            opacity: 0.8;
+        }
+
+        .input-group { text-align: left; margin-bottom: 12px; }
+        label { display: block; margin-bottom: 5px; color: var(--label-color); font-size: 0.85rem; }
+
+        input { 
+            width: 100%; 
+            padding: 12px; 
+            border-radius: 12px; 
+            border: 1px solid var(--input-border); 
+            background: var(--input-bg); 
+            color: var(--input-text); 
+            outline: none; 
+            font-size: 1rem; 
+        }
+
+        input:focus { border-color: var(--accent-color); }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            width: 100%;
+        }
+
+        button { 
+            padding: 15px; 
+            border-radius: 15px; 
+            border: none; 
+            color: white; 
+            font-weight: bold; 
+            font-size: 1.05rem; 
+            cursor: pointer; 
+            transition: all 0.2s; 
+            text-transform: uppercase;
+        }
+
+        #calcBtn {
+            flex: 2; 
+            background: var(--btn-bg); 
+        }
+
+        #calcBtn:active { transform: scale(0.96); background: var(--btn-hover); }
+
+        #clearBtn {
+            flex: 1; 
+            background: var(--clear-bg);
+            color: var(--clear-text); 
+            border: 1px solid var(--input-border);
+        }
+
+        #clearBtn.active-state {
+            color: var(--text-color) !important; 
+            border-color: var(--accent-color);
+        }
+
+        #clearBtn:active { transform: scale(0.96); }
+
+        .result-box { 
+            margin-top: 20px; 
+            padding: 20px; 
+            background: var(--result-bg); 
+            border-radius: 20px; 
+            display: none; 
+            border: 1px solid var(--border-color);
+        }
+
+        .result-box p.title { font-size: 0.85rem; color: var(--label-color); margin-bottom: 5px; }
+        .result-box h3 { font-size: 2.1rem; color: var(--text-color); margin-bottom: 15px; }
+
+        .details { 
+            text-align: left; 
+            border-top: 1px solid rgba(79, 70, 229, 0.2); 
+            padding-top: 12px;
+            font-size: 0.85rem; 
+            color: var(--details-text);
+            line-height: 1.8;
+        }
+
+        .details span { float: right; color: var(--text-color); font-weight: bold; }
+
+        .action-btns {
+            display: flex;
+            gap: 6px;
+            margin-top: 15px;
+        }
+
+        .secondary-btn {
+            flex: 1;
+            background: transparent;
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            padding: 8px 2px;
+            border-radius: 10px;
+            font-size: 0.72rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: 0.2s;
+        }
+
+        .secondary-btn:hover {
+            background: rgba(79, 70, 229, 0.15);
+        }
+
+        .footer { 
+            margin-top: 20px; 
+            font-size: 0.8rem; 
+            color: var(--label-color); 
+            text-align: center;
+        }
+
+        .info-plain-section {
+            width: 100%;
+            max-width: 400px;
+            padding: 10px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .info-plain-section p {
+            color: var(--label-color);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .section-title-line {
+            color: var(--label-color);
+            font-size: 0.92rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 4px;
+        }
+
+        .section-title-line::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 1.5px;
+            background-color: var(--accent-color);
+            opacity: 0.7;
+        }
+
+        .section-title-plain {
+            color: var(--accent-color); 
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .info-links {
+            list-style: none;
+            margin-bottom: 25px;
+        }
+
+        .info-links li {
+            margin: 10px 0;
+        }
+
+        .info-links a {
+            color: var(--details-text);
+            text-decoration: none;
+            font-size: 0.92rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .info-links a:hover {
+            color: var(--accent-color); 
+        }
+
+        .network-footer {
+            font-size: 0.80rem;
+            color: var(--label-color);
+            text-align: center;
+            margin-top: 10px;
+            letter-spacing: 0.5px;
+            white-space: nowrap; 
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(5px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: var(--modal-bg);
+            border: 1px solid var(--border-color);
+            padding: 25px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 400px;
+            text-align: left;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-content h3 {
+            color: var(--accent-color); 
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+        }
+
+        .modal-content p {
+            color: var(--details-text);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .modal-content a {
+            color: var(--accent-color); 
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .modal-close-btn {
+            width: 100%;
+            padding: 10px;
+            background: var(--btn-bg);
+            border: none;
+            color: white;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            text-transform: uppercase;
+            margin-top: 10px;
+        }
+
+        .history-item {
+            background: var(--input-bg);
+            padding: 12px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            border: 1px solid var(--input-border);
+            font-size: 0.85rem;
+            position: relative;
+        }
+
+        .history-line {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 4px;
+            padding-right: 20px;
+        }
+
+        .history-date-time {
+            font-size: 0.72rem;
+            color: var(--label-color);
+            margin-top: 5px;
+            border-top: 1px dashed var(--input-border);
+            padding-top: 5px;
+        }
+
+        .history-menu-btn {
+            position: absolute;
+            right: 8px;
+            top: 8px;
+            background: transparent;
+            border: none;
+            color: var(--label-color);
+            font-size: 18px;
+            cursor: pointer;
+            padding: 2px 6px;
+        }
+
+        .history-dropdown {
+            position: absolute;
+            right: 15px;
+            top: 35px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            display: none;
+            flex-direction: column;
+            z-index: 10;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+            min-width: 110px;
+        }
+
+        .history-dropdown button {
+            background: transparent;
+            border: none;
+            color: var(--text-color);
+            padding: 8px 12px;
+            text-align: left;
+            font-size: 0.8rem;
+            cursor: pointer;
+            border-bottom: 1px solid var(--input-border);
+        }
+
+        .history-dropdown button:hover {
+            background: rgba(79, 70, 229, 0.15);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-navbar">
+        <div class="logo-container">
+            <img src="logo.png" alt="Logo" class="brand-logo">
+        </div>
+        <div class="nav-right-actions">
+            <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" title="Toggle Theme">🌙</button>
+            <div class="menu-icon-btn" onclick="event.stopPropagation(); document.getElementById('sideMenu').style.transform='translateX(0)'">
+                ⋮
+            </div>
+        </div>
+    </div>
+    
+    <div class="page-header-section">
+        <h2>EMI Calculator</h2>
+        <p class="page-desc">Calculate your loan EMI, total interest, and monthly installments instantly for home, car, and personal loans.</p>
+    </div>
+
+    <div class="container">
+        <div class="toggle-header-row">
+            <span style="font-size: 0.8rem; color: var(--label-color); font-weight: 600;">Loan Details</span>
+            <button class="history-btn" onclick="openHistoryModal()">🕒 HISTORY</button>
+        </div>
+
+        <div class="input-group">
+            <label>Price / Loan Amount (₹)</label>
+            <input type="text" id="p" inputmode="numeric" placeholder="e.g. 50,000" oninput="handleInput(this); checkInputs();">
+        </div>
+
+        <div class="input-group">
+            <label>Down Payment (₹)</label>
+            <input type="text" id="dp" inputmode="numeric" placeholder="e.g. 10,000" oninput="handleInput(this); checkInputs();">
+        </div>
+
+        <div class="input-group">
+            <label>Annual Interest Rate (%)</label>
+            <input type="number" id="r" placeholder="e.g. 12" step="0.1" oninput="hideResult(); checkInputs();">
+        </div>
+
+        <div class="input-group">
+            <label>Tenure (Months)</label>
+            <input type="number" id="n" placeholder="e.g. 12" oninput="hideResult(); checkInputs();">
+        </div>
+
+        <div class="btn-group">
+            <button id="calcBtn" onclick="calculate()">Calculate</button>
+            <button id="clearBtn" onclick="clearFields(event)">Clear</button>
+        </div>
+
+        <div class="result-box" id="res">
+            <p class="title">Monthly Installment (EMI)</p>
+            <h3 id="emi">₹0</h3>
+            
+            <div class="details">
+                <p>Actual Loan Amount: <span id="p_val">₹0</span></p>
+                <p>Total Interest: <span id="i_val">₹0</span></p>
+                <p>Total Payment: <span id="t_val">₹0</span></p>
+            </div>
+
+            <div class="action-btns">
+                <button class="secondary-btn" onclick="copyResult()">📋 Copy</button>
+                <button class="secondary-btn" onclick="downloadInvoice()">📥 Download</button>
+                <button class="secondary-btn" onclick="resetCalculator()">🔄 Reset</button>
+            </div>
+        </div>
+
+        <div class="footer">
+            💡 Tap (⋮) to explore other tools
+        </div>
+    </div>
+
+    <div class="info-plain-section">
+        <h3 class="section-title-plain">Pextume</h3>
+        <p>
+            A premium secure subsystem of the Pextume Utility Network, dedicated to producing fast, open-source, and hardware-accelerated productivity web tools.
+        </p>
+
+        <div class="section-title-line">User Support</div>
+        <ul class="info-links">
+            <li><a onclick="openModal('howToUseModal')">📖 How to Use</a></li>
+            <li><a onclick="openModal('faqModal')">❓ FAQ Guide</a></li>
+            <li><a onclick="openModal('contactModal')">📧 Contact Us</a></li>
+        </ul>
+
+        <div class="section-title-line">Legal Bureau</div>
+        <ul class="info-links" style="margin-bottom: 0;">
+            <li><a onclick="openModal('privacyModal')">🛡️ Privacy Policy</a></li>
+            <li><a onclick="openModal('termsModal')">📝 Terms of Service</a></li>
+            <li><a onclick="openModal('disclaimerModal')">⚖️ Disclaimer</a></li>
+        </ul>
+    </div>
+
+    <div class="network-footer">
+        © 2026 Pextume Utility Network. All Rights Reserved.
+    </div>
+
+    <div class="modal-overlay" id="historyModal" onclick="closeModal('historyModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <h3 style="margin-bottom: 0;">Calculation History</h3>
+                <button onclick="openModal('historyInfoModal')" style="background:transparent; border:none; color:var(--accent-color); font-size:16px; cursor:pointer;" title="Storage Info">🛡️</button>
+            </div>
+            <div id="historyList" style="margin-bottom: 15px; max-height: 250px; overflow-y: auto;">
+                <p style="color: var(--label-color); text-align: center;">No recent history found.</p>
+            </div>
+            <button class="secondary-btn" style="width:100%; margin-bottom: 8px; padding: 10px;" onclick="clearHistory()">Clear History</button>
+            <button class="modal-close-btn" onclick="closeModal('historyModal')">Close</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="historyInfoModal" onclick="closeModal('historyInfoModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h3>Storage Information</h3>
+            <p>All calculation histories are securely stored in your browser's local storage.<br><br>If you clear your browser storage or cache data, these history records will be permanently deleted.</p>
+            <button class="modal-close-btn" onclick="closeModal('historyInfoModal')">Got it</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="howToUseModal" onclick="closeModal('howToUseModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h3>How to Use</h3>
+            <p>1. Enter your loan amount and down payment in Rupees (₹).<br>2. Enter annual interest rate percentage and tenure in months.<br>3. Click <b>Calculate</b> to view your monthly EMI and breakdown.</p>
+            <button class="modal-close-btn" onclick="closeModal('howToUseModal')">Close</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="faqModal" onclick="closeModal('faqModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h3>FAQ Guide</h3>
+            <p><b>Q: How is EMI calculated?</b><br>EMI is calculated using standard reducing balance loan formula considering principal, interest rate, and tenure.</p>
+            <button class="modal-close-btn" onclick="closeModal('faqModal')">Close</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="contactModal" onclick="closeModal('contactModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h3>Contact Us</h3>
+            <p>For any queries, issues, or bug reports, please reach out to our support team at:<br><br>👉 <a href="mailto:Support@pextume.in">Support@pextume.in</a></p>
+            <button class="modal-close-btn" onclick="closeModal('contactModal')">Close</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="privacyModal" onclick="closeModal('privacyModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h3>Privacy Policy</h3>
+            <p>Pextume respects your privacy. All calculations are performed directly within your device browser. We do not store or track your financial amounts.</p>
+            <button class="modal-close-btn" onclick="closeModal('privacyModal')">Close</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="termsModal" onclick="closeModal('termsModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h3>Terms of Service</h3>
+            <p>Pextume provides utility tools for calculation purposes only. Users are advised to verify financial computations before taking loans.</p>
+            <button class="modal-close-btn" onclick="closeModal('termsModal')">Close</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="disclaimerModal" onclick="closeModal('disclaimerModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h3>Disclaimer</h3>
+            <p>The calculations provided are estimates based on standard financial formulas. Pextume is not liable for any financial discrepancies.</p>
+            <button class="modal-close-btn" onclick="closeModal('disclaimerModal')">Close</button>
+        </div>
+    </div>
+        <div id="sideMenu" style="height:100%; width:270px; position:fixed; z-index:100000; top:0; right:0; background: var(--card-bg); transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); border-top-left-radius: 35px; border-bottom-left-radius: 35px; border-left: 2px solid var(--accent-color); box-shadow: -10px 0 30px rgba(0,0,0,0.3); will-change: transform; overflow-x:hidden; overflow-y:auto;">
+        
+        <a href="javascript:void(0)" onclick="document.getElementById('sideMenu').style.transform='translateX(100%)'" 
+           style="position:absolute; top:20px; right:25px; font-size:40px; color:#ff4757; text-decoration:none; font-family:sans-serif;">&times;</a>
+        
+        <div style="width: 270px; padding-top: 80px; padding-bottom: 40px; display: flex; flex-direction: column;">
+            
+            <div style="padding: 0 30px 15px 0; text-align: right; color: var(--accent-color); font-family: sans-serif; font-size: 14px; font-weight: bold; letter-spacing: 2px; text-transform: uppercase;">
+                Other Tools
+            </div>
+
+            <a href="age.html" style="padding:18px 30px; text-decoration:none; font-size:18px; color:var(--text-color); border-bottom:1px solid rgba(129,140,248,0.1); text-align: right; letter-spacing: 1px;">Age calculator</a>
+            <a href="electric.html" style="padding:18px 30px; text-decoration:none; font-size:18px; color:var(--text-color); border-bottom:1px solid rgba(129,140,248,0.1); text-align: right; letter-spacing: 1px;">Electric calculator</a>
+            <a href="day.html" style="padding:18px 30px; text-decoration:none; font-size:18px; color:var(--text-color); border-bottom:1px solid rgba(129,140,248,0.1); text-align: right; letter-spacing: 1px;">Day counter</a>
+            <a href="index.html" style="padding:18px 30px; text-decoration:none; font-size:18px; color:var(--text-color); border-bottom:1px solid rgba(129,140,248,0.1); text-align: right; letter-spacing: 1px;">Gst calculator</a>
+            <a href="date.html" style="padding:18px 30px; text-decoration:none; font-size:18px; color:var(--text-color); border-bottom:1px solid rgba(129,140,248,0.1); text-align: right; letter-spacing: 1px;">Date calculator</a>
+            <a href="text-checker.html" style="padding:18px 30px; text-decoration:none; font-size:18px; color:#6ae0ff; border-bottom:1px solid rgba(129,140,248,0.1); text-align: right; letter-spacing: 1px;">Smart Text checker</a>
+            <a href="qr-scan.html" style="padding:18px 30px; text-decoration:none; font-size:18px; color:#40ffb6; border-bottom:1px solid rgba(129,140,248,0.1); text-align: right; letter-spacing: 1px;">QR Code scanner</a>            
+        </div>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            const htmlTag = document.documentElement;
+            const themeBtn = document.getElementById('themeToggleBtn');
+            
+            htmlTag.classList.add('theme-transition');
+
+            if (htmlTag.getAttribute('data-theme') === 'light') {
+                htmlTag.removeAttribute('data-theme');
+                localStorage.setItem('pextume_theme', 'dark');
+                themeBtn.innerText = '🌙';
+            } else {
+                htmlTag.setAttribute('data-theme', 'light');
+                localStorage.setItem('pextume_theme', 'light');
+                themeBtn.innerText = '☀️';
+            }
+
+            setTimeout(() => {
+                htmlTag.classList.remove('theme-transition');
+            }, 300);
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('pextume_theme');
+            const themeBtn = document.getElementById('themeToggleBtn');
+            if (savedTheme === 'light') {
+                themeBtn.innerText = '☀️';
+            } else {
+                themeBtn.innerText = '🌙';
+            }
+        });
+
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function openHistoryModal() {
+            renderHistory();
+            openModal('historyModal');
+        }
+
+        function hideResult() {
+            document.getElementById('res').style.display = 'none';
+        }
+
+        function handleInput(input) {
+            hideResult();
+            let value = input.value.replace(/[^0-9]/g, ''); 
+            
+            if(value !== '') {
+                input.value = Number(value).toLocaleString('en-IN');
+            } else {
+                input.value = '';
+            }
+        }
+
+        function checkInputs() {
+            const p = document.getElementById('p').value;
+            const dp = document.getElementById('dp').value;
+            const r = document.getElementById('r').value;
+            const n = document.getElementById('n').value;
+            const clearBtn = document.getElementById('clearBtn');
+
+            if (p !== '' || dp !== '' || r !== '' || n !== '') {
+                clearBtn.classList.add('active-state');
+            } else {
+                clearBtn.classList.remove('active-state');
+            }
+        }
+
+        function clearFields(event) {
+            if (event) {
+                event.preventDefault(); 
+            }
+            document.activeElement.blur(); 
+
+            document.getElementById('p').value = '';
+            document.getElementById('dp').value = '';
+            document.getElementById('r').value = '';
+            document.getElementById('n').value = '';
+            hideResult();
+            checkInputs(); 
+        }
+
+        function resetCalculator() {
+            clearFields();
+        }
+
+        function calculate() {
+            let pRaw = document.getElementById('p').value.replace(/,/g, '');
+            let dpRaw = document.getElementById('dp').value.replace(/,/g, '') || "0";
+            
+            let Price = parseFloat(pRaw);
+            let DP = parseFloat(dpRaw);
+            let R = parseFloat(document.getElementById('r').value);
+            let N = parseFloat(document.getElementById('n').value);
+
+            let P = Price - DP;
+
+            if (P > 0 && R > 0 && N > 0) {
+                let r = R / 12 / 100;
+                let x = Math.pow(1 + r, N);
+                let emi = (P * r * x) / (x - 1);
+                
+                let totalPayment = emi * N;
+                let totalInterest = totalPayment - P;
+
+                document.getElementById('res').style.display = 'block';
+                
+                document.getElementById('emi').innerText = "₹" + Math.round(emi).toLocaleString('en-IN');
+                document.getElementById('p_val').innerText = "₹" + P.toLocaleString('en-IN', {maximumFractionDigits: 2});
+                document.getElementById('i_val').innerText = "₹" + Math.round(totalInterest).toLocaleString('en-IN');
+                document.getElementById('t_val').innerText = "₹" + Math.round(totalPayment).toLocaleString('en-IN');
+
+                let now = new Date();
+                let dateStr = now.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+                let timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+
+                saveToHistory({
+                    loanAmt: P.toLocaleString('en-IN', {maximumFractionDigits: 2}),
+                    rate: R,
+                    tenure: N,
+                    interest: Math.round(totalInterest).toLocaleString('en-IN'),
+                    emi: Math.round(emi).toLocaleString('en-IN'),
+                    dateTime: `${dateStr}, ${timeStr}`
+                });
+
+            } else if (P <= 0 && Price > 0) {
+                alert("Down payment cannot be equal or more than the price!");
+            } else {
+                alert("Please enter valid details");
+            }
+        }
+
+        function saveToHistory(record) {
+            let history = JSON.parse(localStorage.getItem('pextume_emi_history')) || [];
+            history.unshift(record);
+            if (history.length > 10) history.pop();
+            localStorage.setItem('pextume_emi_history', JSON.stringify(history));
+        }
+
+        function renderHistory() {
+            let history = JSON.parse(localStorage.getItem('pextume_emi_history')) || [];
+            let listDiv = document.getElementById('historyList');
+            if (history.length === 0) {
+                listDiv.innerHTML = '<p style="color: var(--label-color); text-align: center;">No recent history found.</p>';
+                return;
+            }
+            let html = '';
+            history.forEach((item, index) => {
+                html += `<div class="history-item">
+                    <button class="history-menu-btn" onclick="toggleHistoryMenu(event, ${index})">⋮</button>
+                    <div class="history-line"><span style="color:var(--label-color);">Loan Amount:</span> <b style="color:var(--text-color);">₹${item.loanAmt}</b></div>
+                    <div class="history-line"><span style="color:var(--label-color);">Interest & Tenure:</span> <b style="color:var(--text-color);">${item.rate}% (${item.tenure}m)</b></div>
+                    <div class="history-line"><span style="color:var(--label-color);">Total Interest:</span> <b style="color:var(--text-color);">₹${item.interest}</b></div>
+                    <div class="history-line" style="margin-bottom:0; border-top: 1px dashed var(--input-border); padding-top: 5px;"><span style="color:var(--accent-color); font-weight:bold;">Monthly EMI:</span> <span style="color:var(--accent-color); font-weight:bold;">₹${item.emi}</span></div>
+                    <div class="history-date-time">📅 ${item.dateTime || 'Recent'}</div>
+                    <div class="history-dropdown" id="dropdown_${index}">
+                        <button onclick="downloadSpecificInvoice('${item.loanAmt}', '${item.rate}', '${item.tenure}', '${item.interest}', '${item.emi}')">📥 Download</button>
+                        <button onclick="copySpecificHistory('${item.loanAmt}', '${item.rate}', '${item.tenure}', '${item.interest}', '${item.emi}')">📋 Copy</button>
+                        <button onclick="deleteHistoryItem(${index})">🗑️ Delete</button>
+                    </div>
+                </div>`;
+            });
+            listDiv.innerHTML = html;
+        }
+
+        function toggleHistoryMenu(event, index) {
+            event.stopPropagation();
+            let dropdown = document.getElementById(`dropdown_${index}`);
+            let isOpen = dropdown.style.display === 'flex';
+            document.querySelectorAll('.history-dropdown').forEach(el => el.style.display = 'none');
+            if (!isOpen) {
+                dropdown.style.display = 'flex';
+            }
+        }
+
+        document.addEventListener('click', function() {
+            document.querySelectorAll('.history-dropdown').forEach(el => el.style.display = 'none');
+        });
+
+        function deleteHistoryItem(index) {
+            let history = JSON.parse(localStorage.getItem('pextume_emi_history')) || [];
+            history.splice(index, 1);
+            localStorage.setItem('pextume_emi_history', JSON.stringify(history));
+            renderHistory();
+        }
+
+        function clearHistory() {
+            localStorage.removeItem('pextume_emi_history');
+            renderHistory();
+        }
+
+        function copyResult() {
+            let emi = document.getElementById('emi').innerText;
+            let p_val = document.getElementById('p_val').innerText;
+            let i_val = document.getElementById('i_val').innerText;
+            let t_val = document.getElementById('t_val').innerText;
+
+            let textToCopy = `--- EMI Calculation Summary (Pextume) ---\n` +
+                             `Loan Amount: ${p_val}\n` +
+                             `Total Interest: ${i_val}\n` +
+                             `Total Payment: ${t_val}\n` +
+                             `Monthly EMI: ${emi}\n` +
+                             `Calculated via Pextume.in`;
+
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                alert("EMI summary copied to clipboard!");
+            });
+        }
+
+        function copySpecificHistory(loanAmt, rate, tenure, interest, emi) {
+            let textToCopy = `--- EMI Calculation Summary (Pextume) ---\n` +
+                             `Loan Amount: ₹${loanAmt}\n` +
+                             `Interest: ${rate}% (${tenure} months)\n` +
+                             `Total Interest: ₹${interest}\n` +
+                             `Monthly EMI: ₹${emi}\n` +
+                             `Calculated via Pextume.in`;
+
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                alert("History summary copied to clipboard!");
+            });
+        }
+
+        function downloadInvoice() {
+            let emi = document.getElementById('emi').innerText;
+            let p_val = document.getElementById('p_val').innerText;
+            let i_val = document.getElementById('i_val').innerText;
+            let t_val = document.getElementById('t_val').innerText;
+            triggerPrintWindow(p_val, i_val, t_val, emi);
+        }
+
+        function downloadSpecificInvoice(loanAmt, rate, tenure, interest, emi) {
+            let totalPay = (parseFloat(loanAmt.replace(/,/g, '')) + parseFloat(interest.replace(/,/g, ''))).toLocaleString('en-IN', {maximumFractionDigits: 2});
+            triggerPrintWindow('₹' + loanAmt, '₹' + interest, '₹' + totalPay, '₹' + emi);
+        }
+
+        function triggerPrintWindow(loanAmt, interest, totalPay, emi) {
+            let invoiceWindow = window.open('', '_PRINTER', 'width=700,height=800');
+            invoiceWindow.document.write(`
+                <html>
+                <head>
+                    <title>EMI Invoice Summary - Pextume</title>
+                    <style>
+                        body { font-family: 'Segoe UI', Arial, sans-serif; background: #fff; margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; }
+                        .box { border: 2px solid #4f46e5; padding: 45px 30px; border-radius: 20px; width: 360px; background: #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+                        h2 { color: #4f46e5; text-align: center; margin-bottom: 5px; font-size: 24px; letter-spacing: 2px; }
+                        .sub { text-align: center; font-size: 13px; color: #666; margin-bottom: 30px; }
+                        .row { display: flex; justify-content: space-between; margin: 15px 0; border-bottom: 1px dashed #e2e8f0; padding-bottom: 10px; font-size: 15px; color: #334155; }
+                        .total { font-size: 18px; font-weight: bold; color: #0f172a; margin-top: 25px; border-top: 2px solid #4f46e5; padding-top: 12px; }
+                        .footer { text-align: center; margin-top: 30px; font-size: 12px; color: #94a3b8; }
+                    </style>
+                </head>
+                <body>
+                    <div class="box">
+                        <h2>INVOICE</h2>
+                        <div class="sub">EMI Calculation Summary</div>
+                        <div class="row"><span>Loan Amount:</span> <b>${loanAmt}</b></div>
+                        <div class="row"><span>Total Interest:</span> <b>${interest}</b></div>
+                        <div class="row"><span>Total Payment:</span> <b>${totalPay}</b></div>
+                        <div class="row total"><span>Monthly EMI:</span> <span>${emi}</span></div>
+                        <div class="footer">Generated via Pextume EMI Calculator</div>
+                    </div>
+                    <script>window.print();<\/script>
+                </body>
+                </html>
+            `);
+            invoiceWindow.document.close();
+        }
+
+        document.addEventListener('click', function(event) {
+            var sideMenu = document.getElementById('sideMenu');
+            var topNavbar = document.querySelector('.top-navbar');
+            
+            if (!sideMenu.contains(event.target) && !topNavbar.contains(event.target)) {
+                sideMenu.style.transform = 'translateX(100%)';
+            }
+        });
+    </script>
+</body>
+</html>
