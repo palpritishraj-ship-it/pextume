@@ -2,78 +2,137 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Day Counter</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    
+  <title>Day Counter - Find Out What Day It Will Be After X Days </title>
  <meta name="description" content="Find out exactly what day it will be after any number of days. A fast and accurate Day Counter tool by Pextume.">
  <meta name="keywords" content="Day Counter,Future Day Calculator, Day Finder, Day Calculator, What day is it after 25 days, Pextume">
   
-
 <meta property="og:site_name" content="Pextume">
 <meta property="og:title" content="Day Counter">
 <meta property="og:description" content="Find out exactly what day it will be after any number of days.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://pextume.in/day.html">
 
-
 <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <link rel="shortcut icon" href="/favicon.ico" />
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-<meta name="apple-mobile-web-app-title" content="Pextume " />
+<meta name="apple-mobile-web-app-title" content="Pextume" />
 
 <link rel="manifest" href="/site.webmanifest" />
-
 <link rel="canonical" href="https://pextume.in/day.html"/>
+
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-   
 
     <style>
-        body { 
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
             font-family: 'Poppins', sans-serif; 
-            text-align: center; 
-            background-color: #121212; 
-            color: white;
-            margin: 0;
-            padding: 20px; /* সুন্দর চারিদিকের স্পেসিং এর জন্য ২০ পিক্সেল করলাম */
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body { 
+            background: #121212; 
+            color: white; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            min-height: 100vh; 
+            padding: 20px; 
+            padding-top: 90px; 
+            scroll-behavior: smooth;
+        }
+
+        .top-navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 65px;
+            background: rgba(18, 18, 18, 0.85);
+            backdrop-filter: blur(10px);
             display: flex;
-            flex-direction: column; /* ফুটার নিচে সোজা নামানোর জন্য */
-            justify-content: center;
-            align-items: center; /* এটি ওপর-নিচ থেকে মাঝখানে আনবে */
-            min-height: 100dvh;  /* মোবাইলের জন্য ডাইনামিক হাইট */
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            z-index: 9999;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.15);
+        }
+
+        .brand-logo {
+            width: 130px;     
+            height: auto;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .brand-logo:hover {
+            transform: scale(1.05);
+        }
+
+        .menu-icon-btn {
+            cursor: pointer; 
+            font-size: 32px; 
+            color: #FFD700; 
+            background: none; 
+            border: none; 
+            line-height: 1; 
+            text-shadow: 0 0 12px rgba(255, 215, 0, 0.7); 
+            padding: 5px;
+            outline: none;
+        }
+
+        .page-header-section {
+            width: 100%;
+            max-width: 340px;
+            text-align: center;
+            margin-bottom: 25px;
+            padding: 0 10px;
+        }
+
+        h2 { 
+            color: #FFD700; 
+            font-family: 'Montserrat', sans-serif; 
+            font-size: 26px; 
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            text-shadow: 0 0 1px rgba(255, 215, 0, 0.3);
+        }
+
+        .page-desc {
+            color: #aaa;
+            font-size: 0.9rem;
+            line-height: 1.6;
         }
 
         .card { 
             background: #1e1e1e; 
             padding: 25px; 
             border-radius: 20px; 
-            display: inline-block; 
-            width: 90%; /* মোবাইলে দুইপাশে একটু জায়গা রাখার জন্য */
-            max-width: 320px; 
-            margin: 0; /* margin-top সরিয়ে দিলাম যাতে মাঝে বসতে পারে */
-            /* ১ পিক্সেল কার্ড আউটলাইন */
+            width: 100%; 
+            max-width: 340px; 
             border: 1.5px solid rgba(255, 215, 0, 0.2); 
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             box-sizing: border-box;
-            margin-bottom: 20px; /* ফুটার থেকে কার্ডের সুন্দর গ্যাপ রাখার জন্য */
+            margin-bottom: 25px; 
+            text-align: left;
         }
 
-        /* ২৬ পিক্সেল গ্লোয়িং হেডিং */
-        h2 { 
-            color: #FFD700; 
-            font-family: 'Montserrat', sans-serif; 
-            font-size: 26px; 
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 1.2px;
-            text-shadow: 0 0 1px rgba(255, 215, 0, 0.3);
+        p.field-label { 
+            font-size: 13px; 
+            color: #bbb; 
+            margin-top: 15px; 
+            margin-bottom: 5px;
+            text-align: left; 
         }
-
-        p { font-size: 13px; color: #bbb; margin-top: 15px; text-align: left; }
         
-        /* ১.৫ পিক্সেল ইনপুট বর্ডার */
         input, select { 
             padding: 10px; 
-            margin: 5px 0 12px 0; 
+            margin: 0 0 12px 0; 
             font-size: 15px; 
             border-radius: 8px; 
             border: 1.5px solid transparent; 
@@ -83,12 +142,11 @@
             box-sizing: border-box;
             outline: none;
             transition: all 0.3s ease;
-            -webkit-tap-highlight-color: transparent;
         }
 
         input:focus, select:focus { 
-            border: 1.5px solid #FFD700; 
-            box-shadow: 0 0 8px rgba(255, 215, 0, 0.4);
+            border: 1.5px solid rgba(255, 215, 0, 0.5); 
+            box-shadow: 0 0 6px rgba(255, 215, 0, 0.2);
         }
 
         button { 
@@ -105,7 +163,6 @@
             transition: background 0.4s ease, transform 0.2s ease;
             box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
             outline: none; 
-            -webkit-tap-highlight-color: transparent; 
         }
 
         button:active {
@@ -113,14 +170,14 @@
             transform: scale(0.97);
         }
 
-        /* গ্লোয়িং রেজাল্ট টেক্সট */
         #result { 
             font-weight: bold; 
             color: #00ffcc; 
-            font-size: 22px; 
-            margin-top: 25px;
-            min-height: 35px;
-            text-shadow: 0 0 8px rgba(0, 255, 204, 0.4), 0 0 15px rgba(0, 255, 204, 0.2);
+            font-size: 20px; 
+            margin-top: 20px;
+            text-align: center;
+            min-height: 30px;
+            text-shadow: 0 0 8px rgba(0, 255, 204, 0.4);
         }
 
         .footer {
@@ -128,135 +185,334 @@
             font-size: 11px;
             color: #777;
             letter-spacing: 1px;
-        }
-  
-        .top-header {
-            position: fixed;
-            top: 15px;
-            left: 8px;
-            z-index: 9999;
+            text-align: center;
         }
 
-        .brand-logo {
-            width: 140px;
-            height: auto;
-            display: block;
+        .info-plain-section {
+            width: 100%;
+            max-width: 340px;
+            padding: 10px;
+            margin-bottom: 20px;
+            text-align: left;
         }
 
-        /* নেটওয়ার্ক ফুটারের নিখুঁত সাইজ ও নো-র‍্যাপ স্টাইল */
+        .info-plain-section p {
+            color: #bbb;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .section-title-line {
+            color: #bbb;
+            font-size: 0.92rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 4px;
+        }
+
+        .section-title-line::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 1.5px;
+            background-color: #FFD700;
+            opacity: 0.7;
+        }
+
+        .section-title-plain {
+            color: #FFD700; 
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .info-links {
+            list-style: none;
+            margin-bottom: 25px;
+            padding: 0;
+        }
+
+        .info-links li {
+            margin: 10px 0;
+        }
+
+        .info-links a {
+            color: #ccc;
+            text-decoration: none;
+            font-size: 0.92rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .info-links a:hover {
+            color: #FFD700; 
+        }
+
         .network-footer {
             font-size: 0.75rem;
             color: #777777;
             text-align: center;
-            margin-top: 15px;
+            margin-top: 10px;
             letter-spacing: 0.5px;
-            white-space: nowrap; /* মোবাইলে লেখা যাতে না ভাঙে তার লক ট্রিক */
+            white-space: nowrap; 
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(18, 18, 18, 0.85);
+            backdrop-filter: blur(5px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: #1e1e1e;
+            border: 1.5px solid rgba(255, 215, 0, 0.3);
+            padding: 25px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 340px;
+            text-align: left;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-content h3 {
+            color: #FFD700; 
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+        }
+
+        .modal-content p {
+            color: #bbb;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .modal-content a {
+            color: #FFD700; 
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .modal-close-btn {
+            width: 100%;
+            padding: 10px;
+            background: #FFD700;
+            border: none;
+            color: #000;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            text-transform: uppercase;
+            margin-top: 10px;
+            outline: none;
         }
     </style>
 </head>
 <body>
- <div class="top-header">
+
+    <div class="top-navbar">
         <img src="logo.png" alt="PEXTUME Logo" class="brand-logo">
+        <div class="menu-icon-btn" onclick="event.stopPropagation(); document.getElementById('sideMenu').style.transform='translateX(0)'">
+            ⋮
+        </div>
+    </div>
+    
+    <div class="page-header-section">
+        <h2>Day Counter</h2>
+        <p class="page-desc">Find out exactly what day it will be after any number of days instantly.</p>
     </div>
 
-    <div class="container">
+    <div class="card">
+        <p class="field-label">Select Current Day:</p>
+        <select id="startDay" onchange="clearResult()">
+            <option value="Sunday">Sunday</option>
+            <option value="Monday">Monday</option>
+            <option value="Tuesday">Tuesday</option>
+            <option value="Wednesday">Wednesday</option>
+            <option value="Thursday">Thursday</option>
+            <option value="Friday">Friday</option>
+            <option value="Saturday">Saturday</option>
+        </select>
+
+        <p class="field-label">How many days to add?</p>
+        <input type="number" id="daysCount" value="20" oninput="clearResult()">
+        
+        <button onclick="calculateDay()">Calculate Result</button>
+
+        <div id="result"></div>
+
+        <div class="footer">💡 Tap (⋮) to explore other tools</div>
+    </div>
+
+    <div class="info-plain-section">
+        <h3 class="section-title-plain">Pextume</h3>
+        <p>
+            A premium secure subsystem of the Pextume Utility Network, dedicated to producing fast, open-source, and hardware-accelerated productivity web tools.
+        </p>
+
+        <div class="section-title-line">User Support</div>
+        <ul class="info-links">
+            <li><a onclick="openModal('howToUseModal')">📖 How to Use</a></li>
+            <li><a onclick="openModal('faqModal')">❓ FAQ Guide</a></li>
+            <li><a onclick="openModal('contactModal')">📧 Contact Us</a></li>
+        </ul>
+
+        <div class="section-title-line">Legal Bureau</div>
+        <ul class="info-links" style="margin-bottom: 0;">
+            <li><a onclick="openModal('privacyModal')">🛡️ Privacy Policy</a></li>
+            <li><a onclick="openModal('termsModal')">📝 Terms of Service</a></li>
+            <li><a onclick="openModal('disclaimerModal')">⚖️ Disclaimer</a></li>
+        </ul>
+    </div>
+
+    <div class="network-footer">
+        © 2026 Pextume Utility Network. All Rights Reserved.
+    </div>
+
+    <div class="modal-overlay" id="howToUseModal" onclick="closeModal('howToUseModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h3>How to Use</h3>
+            <p>1. Select your current day from the dropdown menu.<br>
+            2. Enter the number of days you want to add.<br>
+            3. Click <b>Calculate Result</b> to find the exact future day.</p>
+            <button class="modal-close-btn" onclick="closeModal('howToUseModal')">Close</button>
         </div>
+    </div>
 
-<div class="card">
-    <h2>Day Counter</h2>
-    
-    <p>Select Current Day:</p>
-    <select id="startDay" onchange="clearResult()">
-        <option value="Sunday">Sunday</option>
-        <option value="Monday">Monday</option>
-        <option value="Tuesday">Tuesday</option>
-        <option value="Wednesday">Wednesday</option>
-        <option value="Thursday">Thursday</option>
-        <option value="Friday">Friday</option>
-        <option value="Saturday">Saturday</option>
-    </select>
+    <div class="modal-overlay" id="faqModal" onclick="closeModal('faqModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h3>FAQ Guide</h3>
+            <p><b>Q: How does the Day Counter work?</b><br>It calculates the weekday offset using modular arithmetic based on a 7-day weekly cycle.</p>
+            <button class="modal-close-btn" onclick="closeModal('faqModal')">Close</button>
+        </div>
+    </div>
 
-    <p>How many days to add?</p>
-    <input type="number" id="daysCount" value="20" oninput="clearResult()">
-    
-    <button onclick="calculateDay()">Calculate Result</button>
+    <div class="modal-overlay" id="contactModal" onclick="closeModal('contactModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h3>Contact Us</h3>
+            <p>For any queries, issues, or bug reports, please reach out to our support team at:<br><br>
+            👉 <a href="mailto:Support@pextume.in">Support@pextume.in</a></p>
+            <button class="modal-close-btn" onclick="closeModal('contactModal')">Close</button>
+        </div>
+    </div>
 
-    <div id="result"></div>
+    <div class="modal-overlay" id="privacyModal" onclick="closeModal('privacyModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h3>Privacy Policy</h3>
+            <p>Pextume respects your privacy. All calculations are performed directly within your device browser. We do not store or track your inputs.</p>
+            <button class="modal-close-btn" onclick="closeModal('privacyModal')">Close</button>
+        </div>
+    </div>
 
-    <div class="footer">💡 Tap (⋮) to explore other tools</div>
-</div>
+    <div class="modal-overlay" id="termsModal" onclick="closeModal('termsModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h3>Terms of Service</h3>
+            <p>Pextume provides utility tools for calculation purposes only.</p>
+            <button class="modal-close-btn" onclick="closeModal('termsModal')">Close</button>
+        </div>
+    </div>
 
-<!-- মেইন কার্ডের ঠিক নিচে সোজা সেন্টারে ফুটার যোগ করা হলো ভাই -->
-<div class="network-footer">
-    © 2026 Pextume Utility Network. All Rights Reserved.
-</div>
+    <div class="modal-overlay" id="disclaimerModal" onclick="closeModal('disclaimerModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h3>Disclaimer</h3>
+            <p>The calculations provided are estimates based on standard calendar calculations. Pextume is not liable for any discrepancies.</p>
+            <button class="modal-close-btn" onclick="closeModal('disclaimerModal')">Close</button>
+        </div>
+    </div>
+        <!-- সাইড মেনু (অন্যান্য টুলের মতো পারফেক্ট প্যাডিং ও স্পেস অ্যাডজাস্ট করা হলো) -->
+    <div id="sideMenu" style="height:100%; width:270px; position:fixed; z-index:100000; top:0; right:0; background: #1e1e1e; transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); border-top-left-radius: 35px; border-bottom-left-radius: 35px; border-left: 2px solid #FFD700; box-shadow: -10px 0 30px rgba(0,0,0,0.6); will-change: transform; overflow-x:hidden; overflow-y:auto;">
+        
+        <a href="javascript:void(0)" onclick="document.getElementById('sideMenu').style.transform='translateX(100%)'" 
+           style="position:absolute; top:20px; right:25px; font-size:40px; color:#ff4757; text-decoration:none; font-family:sans-serif; outline: none;">&times;</a>
+        
+        <div style="width: 270px; padding-top: 80px; padding-bottom: 40px; display: flex; flex-direction: column;">
+            
+            <div style="padding: 0 30px 15px 0; text-align: right; color: #FFD700; font-family: sans-serif; font-size: 14px; font-weight: bold; letter-spacing: 2px; text-transform: uppercase;">
+                Other Tools
+            </div>
 
-<script>
-    function clearResult() {
-        document.getElementById("result").innerText = "";
-    }
+            <a href="age.html" style="padding:15px 30px; text-decoration:none; font-size:18px; color:#fff; border-bottom:1px solid rgba(255,255,255,0.05); text-align: right; letter-spacing: 1px;">Age calculator</a>
+            <a href="electric.html" style="padding:15px 30px; text-decoration:none; font-size:18px; color:#fff; border-bottom:1px solid rgba(255,255,255,0.05); text-align: right; letter-spacing: 1px;">Electric calculator</a>
+            <a href="index.html" style="padding:15px 30px; text-decoration:none; font-size:18px; color:#fff; border-bottom:1px solid rgba(255,255,255,0.05); text-align: right; letter-spacing: 1px;">Gst calculator</a>
+            <a href="emi.html" style="padding:15px 30px; text-decoration:none; font-size:18px; color:#fff; border-bottom:1px solid rgba(255,255,255,0.05); text-align: right; letter-spacing: 1px;">Emi calculator</a>
+            <a href="date.html" style="padding:15px 30px; text-decoration:none; font-size:18px; color:#fff; border-bottom:1px solid rgba(255,255,255,0.05); text-align: right; letter-spacing: 1px;">Date calculator</a>
+              <a href="text-checker.html" style="padding:18px 30px; text-decoration:none; font-size:18px; color:var(--text-color); border-bottom:1px solid rgba(16,185,129,0.1); text-align: right; letter-spacing: 1px;">Smart Text checker</a>
+            <a href="qr-scan.html" style="padding:18px 30px; text-decoration:none; font-size:18px; color:var(--text-color); border-bottom:1px solid rgba(16,185,129,0.1); text-align: right; letter-spacing: 1px;">QR Code scanner</a>           
+         <a href="qr-gen.html" style="padding:18px 30px; text-decoration:none; font-size:18px; color:var(--text-color); border-bottom:1px solid rgba(16,185,129,0.1); text-align: right; letter-spacing: 1px;">QR Code Generator</a>
+         <a href="im-convert.html" style="padding:18px 30px; text-decoration:none; font-size:18px; color:var(--text-color); border-bottom:1px solid rgba(16,185,129,0.1); text-align: right; letter-spacing: 1px;">Image Converter</a>
+        </div>
+    </div>
 
-    function calculateDay() {
-        const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-        const startDaySelect = document.getElementById("startDay");
-        const daysCountInput = document.getElementById("daysCount");
-        const resultDiv = document.getElementById("result");
-
-        const currentDayName = startDaySelect.value;
-        const daysValue = daysCountInput.value;
-
-        if (daysValue === "") {
-            resultDiv.innerText = "Enter a number!";
-            return;
+    <script>
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
         }
 
-        const daysToAdd = parseInt(daysValue);
-        const currentIndex = daysOfWeek.indexOf(currentDayName);
-        
-        let futureIndex = (currentIndex + daysToAdd) % 7;
-        if (futureIndex < 0) futureIndex += 7;
-
-        const finalDay = daysOfWeek[futureIndex];
-        resultDiv.innerText = "It will be: " + finalDay;
-    }    
-</script>
-<div id="menuBtnWrapper" style="position: fixed; top: 35px; right: 36px; z-index: 99999;">
-    <div onclick="event.stopPropagation(); document.getElementById('sideMenu').style.transform='translateX(0)'" 
-         style="cursor:pointer; font-size:35px; color:#ffcc00; background:none; border:none; line-height:0.6; -webkit-tap-highlight-color:transparent; text-shadow: 0 0 12px rgba(255, 204, 0, 0.7); padding: 5px;">
-        ⋮
-    </div>
-</div>
-
-<div id="sideMenu" style="height:100%; width:270px; position:fixed; z-index:100000; top:0; right:0; background: rgba(18, 18, 18, 0.98); transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); border-top-left-radius: 35px; border-bottom-left-radius: 35px; border-left: 2px solid #ffcc00; box-shadow: -10px 0 30px rgba(0,0,0,0.6); will-change: transform; overflow-x:hidden;">
-    
-    <a href="javascript:void(0)" onclick="document.getElementById('sideMenu').style.transform='translateX(100%)'" 
-       style="position:absolute; top:20px; right:25px; font-size:40px; color:#ff4757; text-decoration:none; font-family:sans-serif; -webkit-tap-highlight-color: transparent;">&times;</a>
-    
-    <div style="width: 270px; padding-top: 100px; display: flex; flex-direction: column; white-space: nowrap;">
-        
-        <div style="padding: 0 30px 15px 0; text-align: right; color: #ffcc00; font-family: sans-serif; font-size: 14px; font-weight: bold; letter-spacing: 2px; text-shadow: 0 0 8px rgba(255, 204, 0, 0.5); opacity: 0.8; text-transform: uppercase;">
-            Other Tools
-        </div>
-
-        <a href="age.html" style="padding:18px 30px; text-decoration:none; font-size:18px; color:#fff; font-family:sans-serif; border-bottom:1px solid rgba(255,255,255,0.05); text-align: right; letter-spacing: 1px; -webkit-tap-highlight-color: transparent;">Age calculator</a>
-        <a href="electric.html" style="padding:18px 30px; text-decoration:none; font-size:18px; color:#fff; font-family:sans-serif; border-bottom:1px solid rgba(255,255,255,0.05); text-align: right; letter-spacing: 1px; -webkit-tap-highlight-color: transparent;">Electric calculator</a>
-        
-        <a href="emi.html" style="padding:18px 30px; text-decoration:none; font-size:18px; color:#fff; font-family:sans-serif; border-bottom:1px solid rgba(255,255,255,0.05); text-align: right; letter-spacing: 1px; -webkit-tap-highlight-color: transparent;">Emi calculator</a>
-   <a href="date.html" style="padding:18px 30px; text-decoration:none; font-size:18px; color:#fff; font-family:sans-serif; border-bottom:1px solid rgba(255,255,255,0.05); text-align: right; letter-spacing: 1px; -webkit-tap-highlight-color: transparent;">Date calculator</a>
-    <a href="text-checker.html" style="padding:18px 30px; text-decoration:none; font-size:18px; color:#6ae0ff; font-family:sans-serif; border-bottom:1px solid rgba(255,255,255,0.05); text-align: right; letter-spacing: 1px; -webkit-tap-highlight-color:transparent;">Smart Text Checker</a>
-           <a href="qr-scan.html" style="padding:18px 30px; text-decoration:none; font-size:18px; color:#40ffb6; font-family:sans-serif; border-bottom:1px solid rgba(255,255,255,0.05); text-align: right; letter-spacing: 1px; -webkit-tap-highlight-color:transparent;">QR Code scanner</a>
-    </div>
-</div>
-
-<script>
-    document.addEventListener('click', function(event) {
-        var sideMenu = document.getElementById('sideMenu');
-        var menuBtn = document.getElementById('menuBtnWrapper');
-        
-        if (!sideMenu.contains(event.target) && !menuBtn.contains(event.target)) {
-            sideMenu.style.transform = 'translateX(100%)';
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
         }
-    });
-</script>
+
+        function clearResult() {
+            document.getElementById("result").innerText = "";
+        }
+
+        function calculateDay() {
+            const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            const startDaySelect = document.getElementById("startDay");
+            const daysCountInput = document.getElementById("daysCount");
+            const resultDiv = document.getElementById("result");
+
+            const currentDayName = startDaySelect.value;
+            const daysValue = daysCountInput.value;
+
+            if (daysValue === "") {
+                resultDiv.innerText = "Enter a number!";
+                return;
+            }
+
+            const daysToAdd = parseInt(daysValue);
+            const currentIndex = daysOfWeek.indexOf(currentDayName);
+            
+            let futureIndex = (currentIndex + daysToAdd) % 7;
+            if (futureIndex < 0) futureIndex += 7;
+
+            const finalDay = daysOfWeek[futureIndex];
+            resultDiv.innerText = "It will be: " + finalDay;
+        }    
+
+        document.addEventListener('click', function(event) {
+            var sideMenu = document.getElementById('sideMenu');
+            var topNavbar = document.querySelector('.top-navbar');
+            
+            if (!sideMenu.contains(event.target) && !topNavbar.contains(event.target)) {
+                sideMenu.style.transform = 'translateX(100%)';
+            }
+        });
+    </script>
 </body>
 </html>
