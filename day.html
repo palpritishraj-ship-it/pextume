@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     
-  <title>Day Counter - Find Out What Day It Will Be After X Days </title>
- <meta name="description" content="Find out exactly what day it will be after any number of days. A fast and accurate Day Counter tool by Pextume.">
- <meta name="keywords" content="Day Counter,Future Day Calculator, Day Finder, Day Calculator, What day is it after 25 days, Pextume">
+  <title>Day Counter | Calculate Future & Past Days - Pextume</title>
+ <meta name="description" content="Find out what day it was or will be after any number of days. A fast and accurate Day Counter and past date finder tool by Pextume.">
+ <meta name="keywords" content="Day Counter, Future Day Calculator, Past Day Calculator, Day Finder, Day Calculator, Pextume">
   
 <meta property="og:site_name" content="Pextume">
 <meta property="og:title" content="Day Counter">
-<meta property="og:description" content="Find out exactly what day it will be after any number of days.">
+<meta property="og:description" content="Find out what day it was or will be after any number of days.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://pextume.in/day.html">
 
@@ -109,17 +109,47 @@
             line-height: 1.6;
         }
 
+        /* চার কোণা চ্যাপ্টা অংশটি আরেকটু বড় (30px) করা হলো এবং বর্ডার স্পষ্টভাবে রাখার ব্যবস্থা করা হলো */
         .card { 
             background: #1e1e1e; 
             padding: 25px; 
-            border-radius: 20px; 
             width: 100%; 
             max-width: 340px; 
-            border: 1.5px solid rgba(255, 215, 0, 0.2); 
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             box-sizing: border-box;
             margin-bottom: 25px; 
             text-align: left;
+            position: relative;
+            clip-path: polygon(
+                35px 0%, 
+                calc(100% - 35px) 0%, 
+                100% 35px, 
+                100% calc(100% - 35px), 
+                calc(100% - 35px) 100%, 
+                35px 100%, 
+                0% calc(100% - 35px), 
+                0% 35px
+            );
+        }
+
+        /* কার্ডের চারপাশে নিখুঁত হলুদ বর্ডার দেওয়ার জন্য এই কন্টেইনার */
+        .card-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 340px;
+            margin-bottom: 25px;
+            background: rgba(255, 215, 0, 0.2);
+            padding: 1.5px; /* বর্ডারের পুরুত্ব */
+            clip-path: polygon(
+                35px 0%, 
+                calc(100% - 35px) 0%, 
+                100% 35px, 
+                100% calc(100% - 35px), 
+                calc(100% - 35px) 100%, 
+                35px 100%, 
+                0% calc(100% - 35px), 
+                0% 35px
+            );
         }
 
         p.field-label { 
@@ -344,29 +374,38 @@
     
     <div class="page-header-section">
         <h2>Day Counter</h2>
-        <p class="page-desc">Find out exactly what day it will be after any number of days instantly.</p>
+        <p class="page-desc">Find out what day it was or will be after any number of days instantly.</p>
     </div>
 
-    <div class="card">
-        <p class="field-label">Select Current Day:</p>
-        <select id="startDay" onchange="clearResult()">
-            <option value="Sunday">Sunday</option>
-            <option value="Monday">Monday</option>
-            <option value="Tuesday">Tuesday</option>
-            <option value="Wednesday">Wednesday</option>
-            <option value="Thursday">Thursday</option>
-            <option value="Friday">Friday</option>
-            <option value="Saturday">Saturday</option>
-        </select>
+    <!-- কার্ড র‍্যাপার ব্যবহার করায় এখন চারপাশে স্পষ্ট হলুদ বর্ডার এবং বড় চ্যাপ্টা কোণা দেখাবে -->
+    <div class="card-wrapper">
+        <div class="card">
+            <p class="field-label">Select Day Direction:</p>
+            <select id="calcType" onchange="clearResult()">
+                <option value="after">After (Future)</option>
+                <option value="before">Before (Past)</option>
+            </select>
 
-        <p class="field-label">How many days to add?</p>
-        <input type="number" id="daysCount" value="20" oninput="clearResult()">
-        
-        <button onclick="calculateDay()">Calculate Result</button>
+            <p class="field-label">Select Current Day:</p>
+            <select id="startDay" onchange="clearResult()">
+                <option value="Sunday">Sunday</option>
+                <option value="Monday">Monday</option>
+                <option value="Tuesday">Tuesday</option>
+                <option value="Wednesday">Wednesday</option>
+                <option value="Thursday">Thursday</option>
+                <option value="Friday">Friday</option>
+                <option value="Saturday">Saturday</option>
+            </select>
 
-        <div id="result"></div>
+            <p class="field-label">Number of Days:</p>
+            <input type="number" id="daysCount" value="20" oninput="clearResult()">
+            
+            <button onclick="calculateDay()">Calculate Result</button>
 
-        <div class="footer">💡 Tap (⋮) to explore other tools</div>
+            <div id="result"></div>
+
+            <div class="footer">💡 Tap (⋮) to explore other tools</div>
+        </div>
     </div>
 
     <div class="info-plain-section">
@@ -397,9 +436,9 @@
     <div class="modal-overlay" id="howToUseModal" onclick="closeModal('howToUseModal')">
         <div class="modal-content" onclick="event.stopPropagation()">
             <h3>How to Use</h3>
-            <p>1. Select your current day from the dropdown menu.<br>
-            2. Enter the number of days you want to add.<br>
-            3. Click <b>Calculate Result</b> to find the exact future day.</p>
+            <p>1. Choose whether you want to calculate for a future date (After) or a past date (Before).<br>
+            2. Select your reference day from the dropdown menu.<br>
+            3. Enter the number of days and click <b>Calculate Result</b>.</p>
             <button class="modal-close-btn" onclick="closeModal('howToUseModal')">Close</button>
         </div>
     </div>
@@ -407,7 +446,7 @@
     <div class="modal-overlay" id="faqModal" onclick="closeModal('faqModal')">
         <div class="modal-content" onclick="event.stopPropagation()">
             <h3>FAQ Guide</h3>
-            <p><b>Q: How does the Day Counter work?</b><br>It calculates the weekday offset using modular arithmetic based on a 7-day weekly cycle.</p>
+            <p><b>Q: How does past and future calculation work?</b><br>It shifts the weekday index forward for future dates and backward for past dates using a 7-day weekly cycle.</p>
             <button class="modal-close-btn" onclick="closeModal('faqModal')">Close</button>
         </div>
     </div>
@@ -444,8 +483,7 @@
             <button class="modal-close-btn" onclick="closeModal('disclaimerModal')">Close</button>
         </div>
     </div>
-        <!-- সাইড মেনু (অন্যান্য টুলের মতো পারফেক্ট প্যাডিং ও স্পেস অ্যাডজাস্ট করা হলো) -->
-    <div id="sideMenu" style="height:100%; width:270px; position:fixed; z-index:100000; top:0; right:0; background: #1e1e1e; transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); border-top-left-radius: 35px; border-bottom-left-radius: 35px; border-left: 2px solid #FFD700; box-shadow: -10px 0 30px rgba(0,0,0,0.6); will-change: transform; overflow-x:hidden; overflow-y:auto;">
+        <div id="sideMenu" style="height:100%; width:270px; position:fixed; z-index:100000; top:0; right:0; background: #1e1e1e; transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); border-top-left-radius: 35px; border-bottom-left-radius: 35px; border-left: 2px solid #FFD700; box-shadow: -10px 0 30px rgba(0,0,0,0.6); will-change: transform; overflow-x:hidden; overflow-y:auto;">
         
         <a href="javascript:void(0)" onclick="document.getElementById('sideMenu').style.transform='translateX(100%)'" 
            style="position:absolute; top:20px; right:25px; font-size:40px; color:#ff4757; text-decoration:none; font-family:sans-serif; outline: none;">&times;</a>
@@ -483,6 +521,7 @@
 
         function calculateDay() {
             const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            const calcType = document.getElementById("calcType").value;
             const startDaySelect = document.getElementById("startDay");
             const daysCountInput = document.getElementById("daysCount");
             const resultDiv = document.getElementById("result");
@@ -498,11 +537,16 @@
             const daysToAdd = parseInt(daysValue);
             const currentIndex = daysOfWeek.indexOf(currentDayName);
             
-            let futureIndex = (currentIndex + daysToAdd) % 7;
-            if (futureIndex < 0) futureIndex += 7;
+            let futureIndex;
+            if (calcType === 'after') {
+                futureIndex = (currentIndex + daysToAdd) % 7;
+            } else {
+                futureIndex = (currentIndex - (daysToAdd % 7)) % 7;
+                if (futureIndex < 0) futureIndex += 7;
+            }
 
             const finalDay = daysOfWeek[futureIndex];
-            resultDiv.innerText = "It will be: " + finalDay;
+            resultDiv.innerText = (calcType === 'after' ? "It will be: " : "It was: ") + finalDay;
         }    
 
         document.addEventListener('click', function(event) {
