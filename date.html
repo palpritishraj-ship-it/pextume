@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Date Calculator</title>
+    <title>Date Duration Calculator - Pextume</title>
  <meta name="description" content="Calculate the exact duration between two dates in years, months, and days. Free, fast, and accurate Date Calculator tool by Pextume.">
  <meta name="keywords" content="date calculator, days between dates, duration calculator, date difference, time between dates,year to year calculator,pextume">
 
@@ -28,52 +28,92 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Poppins:wght@400;600&display=swap');
 
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: 'Poppins', sans-serif; 
+            -webkit-tap-highlight-color: transparent;
+        }
+
         body {
-            font-family: 'Poppins', sans-serif;
             background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
             min-height: 100vh;
             margin: 0;
             display: flex;
             flex-direction: column; 
-            justify-content: center; 
-            align-items: center; 
+            align-items: center;
             color: #fff;
-            padding: 80px 20px 40px 20px; 
+            padding: 20px;
+            padding-top: 90px; 
             overflow-x: hidden;
-            -webkit-tap-highlight-color: transparent;
             box-sizing: border-box;
+            scroll-behavior: smooth;
         }
-        .container {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(15px);
-            padding: 35px;
-            border-radius: 25px;
-            text-align: center;
+
+        .top-navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 65px;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            z-index: 9999;
+            border-bottom: 1px solid rgba(0, 242, 255, 0.15);
+        }
+
+        .brand-logo {
+            width: 130px;     
+            height: auto;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .brand-logo:hover {
+            transform: scale(1.05);
+        }
+
+        .menu-icon-btn {
+            cursor: pointer; 
+            font-size: 32px; 
+            color: #00f2ff; 
+            background: none; 
+            border: none; 
+            line-height: 1; 
+            text-shadow: 0 0 12px rgba(0, 242, 255, 0.7); 
+            padding: 5px;
+            outline: none;
+        }
+
+        .page-header-section {
             width: 100%;
             max-width: 420px;
-            border: 2px solid rgba(0, 242, 255, 0.3);
-            box-shadow: 0 0 30px rgba(0, 242, 255, 0.2);
-            position: relative;
-            overflow: hidden; 
-            margin-bottom: 25px; 
-            box-sizing: border-box;
+            text-align: center;
+            margin-bottom: 25px;
+            padding: 0 10px;
         }
 
         h1 {
             font-family: 'Orbitron', sans-serif;
-            font-size: 24px;
+            font-size: 26px;
             color: #00f2ff;
             text-transform: uppercase;
             letter-spacing: 2px;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             text-shadow: 0 0 10px rgba(0, 242, 255, 0.6);
         }
 
         p.subtitle {
             color: #ccc;
             font-size: 14px;
-            margin-bottom: 25px;
+            margin-bottom: 0;
             letter-spacing: 0.5px;
+            line-height: 1.6;
         }
 
         .section-title {
@@ -85,12 +125,29 @@
             font-weight: 600;
             letter-spacing: 1px;
         }
+
+        /* সুন্দর ও পাতলা সফট থ্রি-ডি শ্যাডো যুক্ত বক্স */
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            padding: 35px;
+            border-radius: 25px;
+            text-align: center;
+            width: 100%;
+            max-width: 420px;
+            border: 2px solid rgba(0, 242, 255, 0.3);
+            position: relative;
+            overflow: hidden; 
+            margin-bottom: 25px; 
+            box-sizing: border-box;
+            box-shadow: 0 8px 0 rgba(0, 242, 255, 0.2), 0 12px 25px rgba(0, 242, 255, 0.25);
+        }
         
         .input-box {
             display: flex;
             flex-direction: column;
             gap: 15px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             background: rgba(0, 0, 0, 0.2);
             padding: 15px;
             border-radius: 15px;
@@ -142,12 +199,12 @@
 
         #calcBtn {
             width: 100%;
-            padding: 15px;
+            padding: 14px;
             background: linear-gradient(45deg, #00f2ff, #0072ff);
             color: white;
             border: none;
             border-radius: 12px;
-            font-size: 20px;
+            font-size: 18px;
             font-weight: bold;
             cursor: pointer;
             transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -187,7 +244,6 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        /* ডট সোজা ও মোবাইলে একদম নিখুঁত সেন্টারে লক রাখার সিএসএস ভাই */
         .total-stat {
             display: flex;
             align-items: center;
@@ -229,39 +285,169 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .top-header { position: fixed; top: 15px; left: 8px; z-index: 9999; }
-        .brand-logo { width: 140px; height: auto; }
         .footer { margin-top: 30px; font-size: 12px; color: #888; }
 
-        #sideMenu {
-            height:100%; width:270px; position:fixed; z-index:100000; top:0; right:0; 
-            background: rgba(15, 23, 42, 0.98); transform: translateX(100%); 
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
-            border-top-left-radius: 35px; border-bottom-left-radius: 35px; 
-            border-left: 1.5px solid #00f2ff; box-shadow: -10px 0 30px rgba(0,0,0,0.6); 
-            will-change: transform; overflow-x:hidden;
+        .info-plain-section {
+            width: 100%;
+            max-width: 420px;
+            padding: 15px 10px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .info-plain-section p {
+            color: #ccc;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .section-title-line {
+            color: #aaa;
+            font-size: 0.92rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 4px;
+        }
+
+        .section-title-line::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 1.5px;
+            background-color: #00f2ff;
+            opacity: 0.7;
+        }
+
+        .section-title-plain {
+            color: #00f2ff;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .info-links {
+            list-style: none;
+            margin-bottom: 25px;
+            padding: 0;
+        }
+
+        .info-links li {
+            margin: 10px 0;
+        }
+
+        .info-links a {
+            color: #ddd;
+            text-decoration: none;
+            font-size: 0.92rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .info-links a:hover {
+            color: #00f2ff;
         }
 
         .network-footer {
             font-size: 0.75rem;
             color: #777777; 
             text-align: center;
-            margin-top: 15px;
+            margin-top: 10px;
             letter-spacing: 0.5px;
             white-space: nowrap; 
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(5px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: #16213e;
+            border: 1.5px solid rgba(0, 242, 255, 0.4);
+            padding: 25px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 400px;
+            text-align: left;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-content h3 {
+            color: #00f2ff;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+        }
+
+        .modal-content p {
+            color: #ccc;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .modal-content a {
+            color: #00f2ff;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .modal-close-btn {
+            width: 100%;
+            padding: 10px;
+            background: linear-gradient(45deg, #00f2ff, #0072ff);
+            border: none;
+            color: white;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            text-transform: uppercase;
+            margin-top: 10px;
+            outline: none;
         }
     </style>
 </head>
 <body>
 
-    <div class="top-header">
+    <!-- ট্রান্সপারেন্ট টপ নবার যেখানে লোগো এবং থ্রি-ডট বাটন রাখা হয়েছে -->
+    <div class="top-navbar">
         <img src="logo.png" alt="Logo" class="brand-logo">
+        <div class="menu-icon-btn" onclick="event.stopPropagation(); document.getElementById('sideMenu').style.transform='translateX(0)'">
+            ⋮
+        </div>
+    </div>
+
+    <div class="page-header-section">
+        <h1>Date Calculator</h1>
+        <p class="subtitle">Calculate duration between two custom dates</p>
     </div>
 
     <div class="container">
-        <h1>Date calculator</h1>
-        <p class="subtitle">Calculate duration between two custom dates</p>
-
         <div class="section-title">From (Start Date)</div>
        
         <div class="input-box">
@@ -336,27 +522,103 @@
         <div class="footer">💡 Tap (⋮) to explore other tools</div>
     </div>
 
+    <!-- একদম নিচে Pextume এবং লিগাল পার্ট -->
+    <div class="info-plain-section">
+        <h3 class="section-title-plain">Pextume</h3>
+        <p>
+            A premium secure subsystem of the Pextume Utility Network, dedicated to producing fast, open-source, and hardware-accelerated productivity web tools.
+        </p>
+
+        <div class="section-title-line">User Support</div>
+        <ul class="info-links">
+            <li><a onclick="openModal('howToUseModal')">📖 How to Use</a></li>
+            <li><a onclick="openModal('faqModal')">❓ FAQ Guide</a></li>
+            <li><a onclick="openModal('contactModal')">📧 Contact Us</a></li>
+        </ul>
+
+        <div class="section-title-line">Legal Bureau</div>
+        <ul class="info-links" style="margin-bottom: 0;">
+            <li><a onclick="openModal('privacyModal')">🛡️ Privacy Policy</a></li>
+            <li><a onclick="openModal('termsModal')">📝 Terms of Service</a></li>
+            <li><a onclick="openModal('disclaimerModal')">⚖️ Disclaimer</a></li>
+        </ul>
+    </div>
+
     <div class="network-footer">
         © 2026 Pextume Utility Network. All Rights Reserved.
     </div>
 
-    <div id="menuBtnWrapper" style="position: fixed; top: 5px; right: 30px; z-index: 99999;">
-        <div onclick="event.stopPropagation(); document.getElementById('sideMenu').style.transform='translateX(0)'" 
-             style="cursor:pointer; font-size:35px; color:#00f2ff; text-shadow: 0 0 12px rgba(0, 242, 255, 0.7); padding: 5px;">⋮</div>
+    <!-- Modals -->
+    <div class="modal-overlay" id="howToUseModal" onclick="closeModal('howToUseModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h3>How to Use</h3>
+            <p>1. Select the start date (Month, Date, Year).<br>
+            2. Select the end date.<br>
+            3. Click <b>Calculate Difference</b> to see the exact duration, total months, weeks, days, and calendars!</p>
+            <button class="modal-close-btn" onclick="closeModal('howToUseModal')">Close</button>
+        </div>
     </div>
 
-    <div id="sideMenu">
+    <div class="modal-overlay" id="faqModal" onclick="closeModal('faqModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h3>FAQ Guide</h3>
+            <p><b>Q: Can I calculate future dates?</b><br>Yes, you can calculate the duration between any past, present, or future dates.</p>
+            <button class="modal-close-btn" onclick="closeModal('faqModal')">Close</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="contactModal" onclick="closeModal('contactModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h3>Contact Us</h3>
+            <p>For any queries, issues, or bug reports, please reach out to our support team at:<br><br>
+            👉 <a href="mailto:Support@pextume.in">Support@pextume.in</a></p>
+            <button class="modal-close-btn" onclick="closeModal('contactModal')">Close</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="privacyModal" onclick="closeModal('privacyModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h3>Privacy Policy</h3>
+            <p>Pextume respects your privacy. All calculations are performed directly within your device browser. We do not store or track your personal details.</p>
+            <button class="modal-close-btn" onclick="closeModal('privacyModal')">Close</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="termsModal" onclick="closeModal('termsModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h3>Terms of Service</h3>
+            <p>Pextume provides utility tools for calculation purposes only.</p>
+            <button class="modal-close-btn" onclick="closeModal('termsModal')">Close</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="disclaimerModal" onclick="closeModal('disclaimerModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h3>Disclaimer</h3>
+            <p>The calculations provided are estimates based on standard calendar calculations. Pextume is not liable for any discrepancies.</p>
+            <button class="modal-close-btn" onclick="closeModal('disclaimerModal')">Close</button>
+        </div>
+    </div>
+        <div id="sideMenu" style="height:100%; width:270px; position:fixed; z-index:100000; top:0; right:0; background: rgba(15, 23, 42, 0.98); transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); border-top-left-radius: 35px; border-bottom-left-radius: 35px; border-left: 1.5px solid #00f2ff; box-shadow: -10px 0 30px rgba(0,0,0,0.6); will-change: transform; overflow-x:hidden; overflow-y:auto;">
+        
         <a href="javascript:void(0)" onclick="document.getElementById('sideMenu').style.transform='translateX(100%)'" 
-           style="position:absolute; top:20px; right:25px; font-size:40px; color:#ff4757; text-decoration:none;">&times;</a>
-        <div style="padding-top: 80px; display: flex; flex-direction: column; white-space: nowrap;">
-            <div style="padding: 0 30px 15px 0; text-align: right; color: #00f2ff; font-size: 14px; font-weight: bold; text-transform: uppercase;">Other Tools</div>
-            <a href="age.html" style="padding:18px 30px; text-decoration:none; font-size:18px; color:#fff; font-family:sans-serif; border-bottom:1px solid rgba(255,255,255,0.05); text-align: right; letter-spacing: 1px; -webkit-tap-highlight-color:transparent;">Age calculator</a>
-            <a href="electric.html" style="padding:18px 30px; color:#fff; text-decoration:none; border-bottom:1px solid rgba(255,255,255,0.05); text-align: right;">Electric Calculator</a>
-            <a href="day.html" style="padding:18px 30px; color:#fff; text-decoration:none; border-bottom:1px solid rgba(255,255,255,0.05); text-align: right;">Day counter</a>
-            <a href="https://pextume.in/" style="padding:18px 30px; color:#fff; text-decoration:none; border-bottom:1px solid rgba(255,255,255,0.05); text-align: right;">GST Calculator</a>
-            <a href="emi.html" style="padding:18px 30px; color:#fff; text-decoration:none; border-bottom:1px solid rgba(255,255,255,0.05); text-align: right;">EMI Calculator</a>
-        <a href="text-checker.html" style="padding:18px 30px; text-decoration:none; font-size:18px; color:#6ae0ff; font-family:sans-serif; border-bottom:1px solid rgba(255,255,255,0.05); text-align: right; letter-spacing: 1px; -webkit-tap-highlight-color:transparent;">Smart Text Checker</a>
-           <a href="qr-scan.html" style="padding:18px 30px; text-decoration:none; font-size:18px; color:#40ffb6; font-family:sans-serif; border-bottom:1px solid rgba(255,255,255,0.05); text-align: right; letter-spacing: 1px; -webkit-tap-highlight-color:transparent;">QR Code scanner</a>
+           style="position:absolute; top:20px; right:25px; font-size:40px; color:#ff4757; text-decoration:none; font-family:sans-serif; outline:none;">&times;</a>
+        
+        <div style="width: 270px; padding-top: 80px; padding-bottom: 40px; display: flex; flex-direction: column;">
+            
+            <div style="padding: 0 30px 15px 0; text-align: right; color: #00f2ff; font-family: sans-serif; font-size: 14px; font-weight: bold; letter-spacing: 2px; text-transform: uppercase;">
+                Other Tools
+            </div>
+
+            <a href="age.html" style="padding:15px 30px; text-decoration:none; font-size:18px; color:#fff; border-bottom:1px solid rgba(255,255,255,0.05); text-align: right; letter-spacing: 1px;">Age calculator</a>
+            <a href="electric.html" style="padding:15px 30px; text-decoration:none; font-size:18px; color:#fff; border-bottom:1px solid rgba(255,255,255,0.05); text-align: right; letter-spacing: 1px;">Electric calculator</a>
+            <a href="day.html" style="padding:15px 30px; text-decoration:none; font-size:18px; color:#fff; border-bottom:1px solid rgba(255,255,255,0.05); text-align: right; letter-spacing: 1px;">Day counter</a>
+            <a href="index.html" style="padding:15px 30px; text-decoration:none; font-size:18px; color:#fff; border-bottom:1px solid rgba(255,255,255,0.05); text-align: right; letter-spacing: 1px;">Gst calculator</a>
+            <a href="emi.html" style="padding:15px 30px; text-decoration:none; font-size:18px; color:#fff; border-bottom:1px solid rgba(255,255,255,0.05); text-align: right; letter-spacing: 1px;">Emi calculator</a>
+               <a href="text-checker.html" style="padding:18px 30px; text-decoration:none; font-size:18px; color:var(--text-color); border-bottom:1px solid rgba(16,185,129,0.1); text-align: right; letter-spacing: 1px;">Smart Text checker</a>
+            <a href="qr-scan.html" style="padding:18px 30px; text-decoration:none; font-size:18px; color:var(--text-color); border-bottom:1px solid rgba(16,185,129,0.1); text-align: right; letter-spacing: 1px;">QR Code scanner</a>           
+         <a href="qr-gen.html" style="padding:18px 30px; text-decoration:none; font-size:18px; color:var(--text-color); border-bottom:1px solid rgba(16,185,129,0.1); text-align: right; letter-spacing: 1px;">QR Code Generator</a>
+         <a href="im-convert.html" style="padding:18px 30px; text-decoration:none; font-size:18px; color:var(--text-color); border-bottom:1px solid rgba(16,185,129,0.1); text-align: right; letter-spacing: 1px;">Image Converter</a>
         </div>
     </div>
 
@@ -366,6 +628,14 @@
         let lastM1 = "", lastY1 = "", lastD1 = "";
         let lastM2 = "", lastY2 = "", lastD2 = "";
         let isCalculated = false;
+
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
 
         function updateDays(mId, yId, dId) {
             const m = parseInt(document.getElementById(mId).value);
@@ -454,7 +724,7 @@
             document.getElementById('totalWeeks').innerHTML = `🔹 Total Weeks: <b>${totalWeeks.toLocaleString()}</b>`;
             document.getElementById('totalDays').innerHTML = `🔹 Total Days: <b>${totalDays.toLocaleString()}</b>`;      
 
-  drawCalendar(y1, document.getElementById('m1').value, document.getElementById('d1').value, 'head1', 'grid1');
+            drawCalendar(y1, document.getElementById('m1').value, document.getElementById('d1').value, 'head1', 'grid1');
             drawCalendar(y2, document.getElementById('m2').value, document.getElementById('d2').value, 'head2', 'grid2');
             
             lastM1 = document.getElementById('m1').value; lastY1 = document.getElementById('y1').value; lastD1 = document.getElementById('d1').value;
@@ -483,11 +753,12 @@
 
         document.addEventListener('click', function(event) {
             var sideMenu = document.getElementById('sideMenu');
-            var menuBtn = document.getElementById('menuBtnWrapper');
-            if (!sideMenu.contains(event.target) && !menuBtn.contains(event.target)) {
+            var topNavbar = document.querySelector('.top-navbar');
+            
+            if (!sideMenu.contains(event.target) && !topNavbar.contains(event.target)) {
                 sideMenu.style.transform = 'translateX(100%)';
             }
         });
     </script>
 </body>
-</html>          
+</html>
