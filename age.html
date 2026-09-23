@@ -600,6 +600,34 @@
             margin-top: 10px;
             outline: none;
         }
+  .promo-btn {
+    display: block;
+    width: 100%;
+    max-width: 420px;
+    margin: 10px auto 25px auto;
+    padding: 15px;
+    background: rgba(0, 242, 255, 0.05);
+    color: #00f2ff;
+    text-align: center;
+    text-decoration: none;
+    border: 2px solid rgba(0, 242, 255, 0.5);
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    box-shadow: 0 5px 15px rgba(0, 242, 255, 0.1);
+    
+    /* এটি মোবাইলের ডিফল্ট ট্যাপ হাইলাইট বন্ধ করে দেবে */
+    -webkit-tap-highlight-color: transparent; 
+}
+
+.promo-btn:hover {
+    background: rgba(0, 242, 255, 0.15);
+    border-color: #00f2ff;
+}
+
+.promo-btn:active {
+    background: rgba(0, 242, 255, 0.05) !important;
+}
     </style>
 </head>
 <body>
@@ -699,6 +727,9 @@
         <div class="footer">💡 Tap (⋮) to explore other tools</div>
     </div>
 
+  <!-- Promo Button -->
+<a href="https://pextume.in/date.html" class="promo-btn">Calculate Date & Time</a>
+   
     <div class="info-plain-section">
         <h3 class="section-title-plain">Pextume</h3>
         <p>

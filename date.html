@@ -2,32 +2,30 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advance Date Duration Calculator - Pextume</title>
-<meta name="description" content="Calculate the exact duration between two dates in years, months, and days. Free, fast, and accurate Date Calculator tool by Pextume.">
-<meta name="keywords" content="year to year calculator, date calculator, calculate years from date, year and month calculator, daycalculator, calculate number of years, year period calculator, future date, year calculation, 2022 to 2026 how many years, date difference, duration calculator, pextume">
-
-
-<meta property="og:site_name" content="Pextume">
-<meta property="og:title" content="Date Calculator">
-<meta property="og:description" content="Calculate the exact duration between two dates in years, months, and days.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <title>Date & Time Calculator | Free Duration & Target Date Tool - Pextume</title>
+    <meta name="description" content="Calculate exact date and time duration, add or subtract periods, and track live clocks. Fast, free, and accurate online calculator by Pextume.">
+<meta name="keywords" content="date calculator, date duration calculator, time difference calculator, add subtract dates, date and time calculator, Pextume">
+   
+   <meta property="og:site_name" content="Pextume">
+<meta property="og:title" content="Date & Time Calculator">
+<meta property="og:description" content="Calculate exact date and time duration.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://pextume.in/date.html">
 
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Pextume" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="canonical" href="https://pextume.in/date.html"/>
 
-<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
-<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-<link rel="shortcut icon" href="/favicon.ico" />
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-<meta name="apple-mobile-web-app-title" content="Pextume " />
-
-<link rel="manifest" href="/site.webmanifest" />
-
-<link rel="canonical" href="https://pextume.in/date.html"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Poppins:wght@400;600&display=block" rel="stylesheet">
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Poppins:wght@400;600&display=swap');
-
         * { 
             margin: 0; 
             padding: 0; 
@@ -49,6 +47,12 @@
             overflow-x: hidden;
             box-sizing: border-box;
             scroll-behavior: smooth;
+            animation: pageFadeIn 0.4s ease-in forwards;
+        }
+
+        @keyframes pageFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         .top-navbar {
@@ -67,16 +71,8 @@
             border-bottom: 1px solid rgba(0, 242, 255, 0.15);
         }
 
-        .brand-logo {
-            width: 130px;     
-            height: auto;
-            display: block;
-            transition: transform 0.3s ease;
-        }
-
-        .brand-logo:hover {
-            transform: scale(1.05);
-        }
+        .brand-logo { width: 130px; height: auto; display: block; transition: transform 0.3s ease; }
+        .brand-logo:hover { transform: scale(1.05); }
 
         .menu-icon-btn {
             cursor: pointer; 
@@ -94,7 +90,7 @@
             width: 100%;
             max-width: 420px;
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             padding: 0 10px;
         }
 
@@ -108,13 +104,78 @@
             text-shadow: 0 0 10px rgba(0, 242, 255, 0.6);
         }
 
-        p.subtitle {
-            color: #ccc;
-            font-size: 14px;
-            margin-bottom: 0;
-            letter-spacing: 0.5px;
-            line-height: 1.6;
+        p.subtitle { color: #ccc; font-size: 14px; margin-bottom: 0; letter-spacing: 0.5px; line-height: 1.6; }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            padding: 10px 20px 20px 20px; 
+            border-radius: 25px;
+            text-align: center;
+            width: 100%;
+            max-width: 420px;
+            border: 2px solid rgba(0, 242, 255, 0.3);
+            position: relative;
+            margin-bottom: 25px; 
+            box-shadow: 0 8px 0 rgba(0, 242, 255, 0.2), 0 12px 25px rgba(0, 242, 255, 0.25);
         }
+
+        .tab-container {
+            display: flex;
+            margin-top: 15px; 
+            margin-bottom: 25px;
+            padding: 0;
+            width: 100%;
+            position: relative;
+        }
+
+        .tab-container::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.15);
+            z-index: 1;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 6px 2px 8px 2px; 
+            background: transparent;
+            color: #94a3b8;
+            border: none;
+            font-size: 11px; 
+            white-space: nowrap; 
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            outline: none;
+            position: relative;
+            z-index: 2;
+        }
+
+        .tab-btn.active {
+            color: #00f2ff;
+            text-shadow: 0 0 5px rgba(0, 242, 255, 0.4);
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 2px;
+            background: #00f2ff;
+            box-shadow: 0 0 8px #00f2ff;
+        }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeInTabs 0.4s ease-out; }
+
+        @keyframes fadeInTabs { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         .section-title {
             text-align: left;
@@ -125,123 +186,83 @@
             font-weight: 600;
             letter-spacing: 1px;
         }
-
-        /* সুন্দর ও পাতলা সফট থ্রি-ডি শ্যাডো যুক্ত বক্স */
-        .container {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(15px);
-            padding: 35px;
-            border-radius: 25px;
-            text-align: center;
-            width: 100%;
-            max-width: 420px;
-            border: 2px solid rgba(0, 242, 255, 0.3);
-            position: relative;
-            overflow: hidden; 
-            margin-bottom: 25px; 
-            box-sizing: border-box;
-            box-shadow: 0 8px 0 rgba(0, 242, 255, 0.2), 0 12px 25px rgba(0, 242, 255, 0.25);
-        }
         
         .input-box {
             display: flex;
             flex-direction: column;
             gap: 15px;
-            margin-bottom: 20px;
+            margin-bottom: 15px; 
             background: rgba(0, 0, 0, 0.2);
             padding: 15px;
             border-radius: 15px;
+            transition: opacity 0.3s ease;
         }
 
-        .row {
-            display: flex;
-            gap: 8px;
-            width: 100%;
-        }
+        .row { display: flex; gap: 8px; width: 100%; }
 
-        .input-group {
-            text-align: left;
-        }
+        .input-group { text-align: left; }
         .input-group label {
-            display: block;
-            font-size: 11px;
-            color: #00f2ff;
-            margin-bottom: 6px;
-            font-weight: 600;
-        }
-
-        select, input, button {
-            outline: none !important;
+            display: block; font-size: 11px; color: #00f2ff; margin-bottom: 6px; font-weight: 600; white-space: nowrap;
         }
 
         select, input {
-            width: 100%;
-            padding: 12px 6px;
-            background: rgba(0, 0, 0, 0.3);
-            border: 2px solid rgba(0, 242, 255, 0.3);
-            border-radius: 12px;
-            font-size: 15px;
-            color: #fff;
-            cursor: pointer;
-            box-sizing: border-box;
-            transition: 0.3s;
-        }
-        input[type="number"] {
-            text-align: center;
-            padding: 12px 10px;
-        }
-        select:focus, input:focus {
-            border-color: #00f2ff;
-            box-shadow: 0 0 15px rgba(0, 242, 255, 0.6);
-            background: rgba(0, 0, 0, 0.4);
-            transform: scale(1.02);
+            width: 100%; padding: 12px 6px; background: rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(0, 242, 255, 0.3); border-radius: 12px;
+            font-size: 15px; color: #fff; cursor: pointer; box-sizing: border-box; transition: 0.3s;
+            outline: none;
         }
 
-        #calcBtn {
+        input:disabled, select:disabled {
+            background: rgba(0, 0, 0, 0.5); 
+            border-color: rgba(255, 255, 255, 0.1); 
+            color: rgba(255, 255, 255, 0.4) !important;
+            -webkit-text-fill-color: rgba(255, 255, 255, 0.4) !important; 
+            cursor: not-allowed;
+            opacity: 1; 
+        }
+
+        input[type="number"] { text-align: center; padding: 12px 10px; }
+        select:focus, input:focus {
+            border-color: #00f2ff; box-shadow: 0 0 15px rgba(0, 242, 255, 0.6);
+            background: rgba(0, 0, 0, 0.4); transform: scale(1.02);
+        }
+
+             #calcBtn, #calcAddBtn, #calcTimeBtn {
             width: 100%;
-            padding: 14px;
+            margin: 10px auto 0 auto; 
+            display: block;
+            padding: 15px 15px;
             background: linear-gradient(45deg, #00f2ff, #0072ff);
             color: white;
             border: none;
             border-radius: 12px;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: background 0.3s ease, box-shadow 0.3s ease;
             box-shadow: 0 5px 15px rgba(0, 114, 255, 0.4);
+            outline: none;
         }
         
-        #calcBtn:hover, .btn-active {
-            transform: translateY(-3px);
+        #calcBtn:hover, #calcBtn.btn-active, 
+        #calcAddBtn:hover, #calcAddBtn.btn-active, 
+        #calcTimeBtn:hover, #calcTimeBtn.btn-active {
             box-shadow: 0 10px 25px rgba(0, 114, 255, 0.7);
             background: linear-gradient(45deg, #0072ff, #00f2ff) !important;
         }
 
-        #calcBtn:active {
-            transform: scale(0.96);
+        #calcBtn:active, #calcAddBtn:active, #calcTimeBtn:active { 
+            background: linear-gradient(45deg, #0072ff, #00f2ff) !important;
+            box-shadow: 0 5px 15px rgba(0, 114, 255, 0.4);
         }
+        .result-box { display: none; margin-top: 25px; animation: fadeInTabs 0.8s ease-out; }
 
-        #result-box {
-            display: none;
-            margin-top: 25px;
-            animation: fadeIn 0.8s ease-out;
-        }
-
-        .highlight {
-            color: #00f2ff;
-            font-weight: bold;
-            font-size: 24px;
-            text-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
-        }
+        .highlight { color: #00f2ff; font-weight: bold; font-size: 22px; text-shadow: 0 0 10px rgba(0, 242, 255, 0.5); }
+        .highlight-large { color: #00f2ff; font-weight: bold; font-size: 24px; text-shadow: 0 0 12px rgba(0, 242, 255, 0.6); line-height: 1.6; }
 
         .extra-info {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 15px;
-            border-radius: 15px;
-            margin-top: 20px;
-            font-size: 15px;
-            color: #ddd;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.3); padding: 15px; border-radius: 15px;
+          margin: 20px 15px 0 15px; font-size: 15px; color: #ddd; border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .total-stat {
@@ -257,184 +278,71 @@
         }
 
         .calendar-wrap {
-            margin-top: 15px;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 12px;
-            border-radius: 15px;
-            border: 1px solid rgba(0, 242, 255, 0.2);
+            margin: 15px 15px 0 15px; background: rgba(255, 255, 255, 0.05); padding: 12px;
+            border-radius: 15px; border: 1px solid rgba(0, 242, 255, 0.2);
         }
-        .cal-head {
-            font-family: 'Orbitron', sans-serif;
-            color: #00f2ff;
-            font-size: 12px;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-        }
-        .cal-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 4px;
-            font-size: 11px;
-        }
+        .cal-head { font-family: 'Orbitron', sans-serif; color: #00f2ff; font-size: 12px; margin-bottom: 10px; text-transform: uppercase; }
+        .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; font-size: 11px; }
         .cal-label { color: #ffd700; font-weight: bold; }
         .cal-date { padding: 6px 0; border-radius: 6px; color: #ccc; }
         .is-selected { background: #00f2ff; color: #000; font-weight: bold; box-shadow: 0 0 8px #00f2ff; }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        .footer { margin-top: 15px; font-size: 12px; color: #888; }
+        .info-plain-section { width: 100%; max-width: 420px; padding: 15px 10px; margin-bottom: 20px; text-align: left; }
+        .info-plain-section p { color: #ccc; font-size: 0.9rem; line-height: 1.6; margin-bottom: 20px; }
+        .section-title-line { color: #aaa; font-size: 0.92rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; position: relative; display: inline-block; padding-bottom: 4px; }
+        .section-title-line::after { content: ''; position: absolute; left: 0; bottom: 0; width: 100%; height: 1.5px; background-color: #00f2ff; opacity: 0.7; }
+        .section-title-plain { color: #00f2ff; font-size: 1.1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+        .info-links { list-style: none; margin-bottom: 25px; padding: 0; }
+        .info-links li { margin: 10px 0; }
+        .info-links a { color: #ddd; text-decoration: none; font-size: 0.92rem; font-weight: 500; display: flex; align-items: center; gap: 10px; cursor: pointer; }
+        .info-links a:hover { color: #00f2ff; }
+        .network-footer { font-size: 0.75rem; color: #777777; text-align: center; margin-top: 10px; letter-spacing: 0.5px; white-space: nowrap; }
 
-        .footer { margin-top: 30px; font-size: 12px; color: #888; }
+        /* আপডেট: Live Clock অ্যানিমেশন ও কালার */
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+        .live-indicator { font-weight: bold; }
+        .live-indicator .text { color: #fff; font-style: italic; }
+        .is-blinking { animation: pulse 1.5s infinite; }
 
-        .info-plain-section {
-            width: 100%;
-            max-width: 420px;
-            padding: 15px 10px;
-            margin-bottom: 20px;
-            text-align: left;
-        }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(5px); display: none; justify-content: center; align-items: center; z-index: 99999; padding: 20px; }
+        .modal-content { background: #16213e; border: 1.5px solid rgba(0, 242, 255, 0.4); padding: 25px; border-radius: 20px; width: 100%; max-width: 400px; text-align: left; box-shadow: 0 10px 30px rgba(0,0,0,0.6); max-height: 80vh; overflow-y: auto; }
+        .modal-content h3 { color: #00f2ff; margin-bottom: 15px; font-size: 1.2rem; text-transform: uppercase; }
+        .modal-content p { color: #ccc; font-size: 0.9rem; line-height: 1.6; margin-bottom: 15px; text-align: left; }
+        .modal-content a { color: #00f2ff; font-weight: bold; text-decoration: none; }
+        .modal-close-btn { width: 100%; padding: 10px; background: linear-gradient(45deg, #00f2ff, #0072ff); border: none; color: white; font-weight: bold; border-radius: 10px; cursor: pointer; text-transform: uppercase; margin-top: 10px; outline: none; }
+   .promo-btn {
+    display: block;
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto 25px auto;
+    padding: 15px;
+    background: rgba(0, 242, 255, 0.05);
+    color: #00f2ff;
+    text-align: center;
+    text-decoration: none;
+    border: 2px solid rgba(0, 242, 255, 0.5);
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    box-shadow: 0 5px 15px rgba(0, 242, 255, 0.1);
+    
+    /* এটি মোবাইলের ডিফল্ট ট্যাপ হাইলাইট বন্ধ করে দেবে */
+    -webkit-tap-highlight-color: transparent; 
+}
 
-        .info-plain-section p {
-            color: #ccc;
-            font-size: 0.9rem;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
+.promo-btn:hover {
+    background: rgba(0, 242, 255, 0.15);
+    border-color: #00f2ff;
+}
 
-        .section-title-line {
-            color: #aaa;
-            font-size: 0.92rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 12px;
-            position: relative;
-            display: inline-block;
-            padding-bottom: 4px;
-        }
-
-        .section-title-line::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            width: 100%;
-            height: 1.5px;
-            background-color: #00f2ff;
-            opacity: 0.7;
-        }
-
-        .section-title-plain {
-            color: #00f2ff;
-            font-size: 1.1rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 8px;
-        }
-
-        .info-links {
-            list-style: none;
-            margin-bottom: 25px;
-            padding: 0;
-        }
-
-        .info-links li {
-            margin: 10px 0;
-        }
-
-        .info-links a {
-            color: #ddd;
-            text-decoration: none;
-            font-size: 0.92rem;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-        }
-
-        .info-links a:hover {
-            color: #00f2ff;
-        }
-
-        .network-footer {
-            font-size: 0.75rem;
-            color: #777777; 
-            text-align: center;
-            margin-top: 10px;
-            letter-spacing: 0.5px;
-            white-space: nowrap; 
-        }
-
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(15, 23, 42, 0.85);
-            backdrop-filter: blur(5px);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 99999;
-            padding: 20px;
-        }
-
-        .modal-content {
-            background: #16213e;
-            border: 1.5px solid rgba(0, 242, 255, 0.4);
-            padding: 25px;
-            border-radius: 20px;
-            width: 100%;
-            max-width: 400px;
-            text-align: left;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-
-        .modal-content h3 {
-            color: #00f2ff;
-            margin-bottom: 15px;
-            font-size: 1.2rem;
-            text-transform: uppercase;
-        }
-
-        .modal-content p {
-            color: #ccc;
-            font-size: 0.9rem;
-            line-height: 1.6;
-            margin-bottom: 15px;
-            text-align: left;
-        }
-
-        .modal-content a {
-            color: #00f2ff;
-            font-weight: bold;
-            text-decoration: none;
-        }
-
-        .modal-close-btn {
-            width: 100%;
-            padding: 10px;
-            background: linear-gradient(45deg, #00f2ff, #0072ff);
-            border: none;
-            color: white;
-            font-weight: bold;
-            border-radius: 10px;
-            cursor: pointer;
-            text-transform: uppercase;
-            margin-top: 10px;
-            outline: none;
-        }
-    </style>
+.promo-btn:active {
+    background: rgba(0, 242, 255, 0.05) !important;
+}
+       </style>
 </head>
 <body>
 
-    <!-- ট্রান্সপারেন্ট টপ নবার যেখানে লোগো এবং থ্রি-ডট বাটন রাখা হয়েছে -->
     <div class="top-navbar">
         <img src="logo.png" alt="Logo" class="brand-logo">
         <div class="menu-icon-btn" onclick="event.stopPropagation(); document.getElementById('sideMenu').style.transform='translateX(0)'">
@@ -443,91 +351,283 @@
     </div>
 
     <div class="page-header-section">
-        <h1>Date Duration Calculator</h1>
-        <p class="subtitle">Calculate duration between two custom dates</p>
+        <h1>Date & Time Calculator</h1>
+        <p class="subtitle">Calculate date & time duration, or find future & past dates</p>
     </div>
 
     <div class="container">
-        <div class="section-title">From (Start Date)</div>
-       
-        <div class="input-box">
-            <div class="row">
-                <div class="input-group" style="flex: 1.8;">
-                    <label>Month</label>
-                    <select id="m1" onchange="updateDays('m1','y1','d1'); handleValueChange();">
-                        <option value="1">January</option><option value="2">February</option>
-                        <option value="3">March</option><option value="4">April</option>
-                        <option value="5">May</option><option value="6">June</option>
-                        <option value="7">July</option><option value="8">August</option>
-                        <option value="9">September</option><option value="10">October</option>
-                        <option value="11">November</option><option value="12">December</option>
-                    </select>
+        
+        <div class="tab-container">
+            <button class="tab-btn active" onclick="switchTab('diff')">Date Duration</button>
+            <button class="tab-btn" onclick="switchTab('addsub')">Add / Subtract</button>
+            <button class="tab-btn" onclick="switchTab('time')">Time Duration</button>
+        </div          
+        <!-- TAB 1: Date Difference -->
+        <div id="tab-diff" class="tab-content active">
+            <div class="section-title">From (Start Date)</div>
+            <div class="input-box">
+                <div class="row">
+                    <div class="input-group" style="flex: 1.8;">
+                        <label>Month</label>
+                        <select id="m1" onchange="updateDays('m1','y1','d1'); handleValueChangeDiff();">
+                            <option value="1">Jan</option><option value="2">Feb</option><option value="3">Mar</option>
+                            <option value="4">Apr</option><option value="5">May</option><option value="6">Jun</option>
+                            <option value="7">Jul</option><option value="8">Aug</option><option value="9">Sep</option>
+                            <option value="10">Oct</option><option value="11">Nov</option><option value="12">Dec</option>
+                        </select>
+                    </div>
+                    <div class="input-group" style="flex: 1;">
+                        <label>Date</label><select id="d1" onchange="handleValueChangeDiff();"></select>
+                    </div>
+                    <div class="input-group" style="flex: 1.4;">
+                        <label>Year</label>
+                        <input type="number" id="y1" placeholder="YYYY" oninput="updateDays('m1','y1','d1'); handleValueChangeDiff();">
+                    </div>
                 </div>
-                <div class="input-group" style="flex: 1;">
-                    <label>Date</label>
-                    <select id="d1" onchange="handleValueChange();"></select>
+            </div>
+
+            <div class="section-title">To (End Date)</div>
+            <div class="input-box">
+                <div class="row">
+                    <div class="input-group" style="flex: 1.8;">
+                        <label>Month</label>
+                        <select id="m2" onchange="updateDays('m2','y2','d2'); handleValueChangeDiff();">
+                            <option value="1">Jan</option><option value="2">Feb</option><option value="3">Mar</option>
+                            <option value="4">Apr</option><option value="5">May</option><option value="6">Jun</option>
+                            <option value="7">Jul</option><option value="8">Aug</option><option value="9">Sep</option>
+                            <option value="10">Oct</option><option value="11">Nov</option><option value="12">Dec</option>
+                        </select>
+                    </div>
+                    <div class="input-group" style="flex: 1;">
+                        <label>Date</label><select id="d2" onchange="handleValueChangeDiff();"></select>
+                    </div>
+                    <div class="input-group" style="flex: 1.4;">
+                        <label>Year</label>
+                        <input type="number" id="y2" placeholder="YYYY" oninput="updateDays('m2','y2','d2'); handleValueChangeDiff();">
+                    </div>
                 </div>
-                <div class="input-group" style="flex: 1.4;">
-                    <label>Year</label>
-                    <input type="number" id="y1" placeholder="YYYY" oninput="updateDays('m1','y1','d1'); handleValueChange();">
+            </div>
+
+            <button id="calcBtn" onclick="calculateDifference()">Calculate Difference</button>
+
+            <div id="result-box-diff" class="result-box">
+                <div id="output-diff"></div>
+                <div class="extra-info">
+                    <span class="total-stat" id="totalMonths"></span>
+                    <span class="total-stat" id="totalWeeks"></span>
+                    <span class="total-stat" id="totalDays"></span>
                 </div>
+
+                <div class="calendar-wrap"><div class="cal-head" id="head1">Start Date</div><div class="cal-grid" id="grid1"></div></div>
+                <div class="calendar-wrap" style="margin-top: 10px;"><div class="cal-head" id="head2">End Date</div><div class="cal-grid" id="grid2"></div></div>
             </div>
         </div>
 
-        <div class="section-title">To (End Date)</div>
-        <div class="input-box">
-            <div class="row">
-                <div class="input-group" style="flex: 1.8;">
-                    <label>Month</label>
-                    <select id="m2" onchange="updateDays('m2','y2','d2'); handleValueChange();">
-                        <option value="1">January</option><option value="2">February</option>
-                        <option value="3">March</option><option value="4">April</option>
-                        <option value="5">May</option><option value="6">June</option>
-                        <option value="7">July</option><option value="8">August</option>
-                        <option value="9">September</option><option value="10">October</option>
-                        <option value="11">November</option><option value="12">December</option>
-                    </select>
+        <!-- TAB 2: Add / Subtract -->
+        <div id="tab-addsub" class="tab-content">
+            <div class="section-title">Start Date</div>
+            <div class="input-box">
+                <div class="row">
+                    <div class="input-group" style="flex: 1.8;">
+                        <label>Month</label>
+                        <select id="m3" onchange="updateDays('m3','y3','d3'); handleValueChangeAdd();">
+                            <option value="1">Jan</option><option value="2">Feb</option><option value="3">Mar</option>
+                            <option value="4">Apr</option><option value="5">May</option><option value="6">Jun</option>
+                            <option value="7">Jul</option><option value="8">Aug</option><option value="9">Sep</option>
+                            <option value="10">Oct</option><option value="11">Nov</option><option value="12">Dec</option>
+                        </select>
+                    </div>
+                    <div class="input-group" style="flex: 1;">
+                        <label>Date</label><select id="d3" onchange="handleValueChangeAdd();"></select>
+                    </div>
+                    <div class="input-group" style="flex: 1.4;">
+                        <label>Year</label>
+                        <input type="number" id="y3" placeholder="YYYY" oninput="updateDays('m3','y3','d3'); handleValueChangeAdd();">
+                    </div>
                 </div>
-                <div class="input-group" style="flex: 1;">
-                    <label>Date</label>
-                    <select id="d2" onchange="handleValueChange();"></select>
+            </div>
+
+            <div class="section-title">Add / Subtract Period</div>
+            <div class="input-box">
+                <div class="row" style="margin-bottom:12px;">
+                    <div class="input-group" style="flex: 1;">
+                        <label>Action</label>
+                        <select id="operation" onchange="handleValueChangeAdd();">
+                            <option value="add">Add Period (+)</option>
+                            <option value="sub">Subtract Period (-)</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="input-group" style="flex: 1.4;">
-                    <label>Year</label>
-                    <input type="number" id="y2" placeholder="YYYY" oninput="updateDays('m2','y2','d2'); handleValueChange();">
+                <div class="row" style="margin-bottom:10px;">
+                    <div class="input-group"><label>Years</label><input type="number" id="addY" placeholder="0" min="0" oninput="handleValueChangeAdd()"></div>
+                    <div class="input-group"><label>Months</label><input type="number" id="addM" placeholder="0" min="0" oninput="handleValueChangeAdd()"></div>
+                </div>
+                <div class="row">
+                    <div class="input-group"><label>Weeks</label><input type="number" id="addW" placeholder="0" min="0" oninput="handleValueChangeAdd()"></div>
+                    <div class="input-group"><label>Days</label><input type="number" id="addD" placeholder="0" min="0" oninput="handleValueChangeAdd()"></div>
+                </div>
+            </div>
+
+            <button id="calcAddBtn" onclick="calculateTargetDate()">Find Date</button>
+
+            <div id="result-box-add" class="result-box">
+                <div id="output-add"></div>
+                <div class="calendar-wrap" style="margin-top: 20px;">
+                    <div class="cal-head" id="head-add">Target Date</div>
+                    <div class="cal-grid" id="grid-add"></div>
                 </div>
             </div>
         </div>
-
-        <button id="calcBtn" onclick="calculateDifference()">Calculate Difference</button>
-
-        <div id="result-box">
-            <div id="output"></div>
-            <div class="extra-info">
-                <span class="total-stat" id="totalMonths"></span>
-                <span class="total-stat" id="totalWeeks"></span>
-                <span class="total-stat" id="totalDays"></span>
+                <!-- TAB 3: Time Calculator -->
+        <div id="tab-time" class="tab-content">
+            
+            <div class="row" style="justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <span class="section-title" style="margin:0;">Time Format Options</span>
+                <label style="font-size: 11px; color:#94a3b8; display:flex; align-items:center; gap:5px;">
+                    Format:
+                    <select id="timeFormat" onchange="changeTimeFormat()" style="width:auto; padding:4px 8px; font-size:12px; border-radius:8px;">
+                        <option value="12">12-Hour</option>
+                        <option value="24">24-Hour</option>
+                    </select>
+                </label>
             </div>
 
-            <div class="calendar-wrap">
-                <div class="cal-head" id="head1">Start Date</div>
-                <div class="cal-grid" id="grid1"></div>
+            <!-- Start Time Setup -->
+            <div class="section-title" style="display: flex; justify-content: space-between; align-items: center;">
+                <span>From (Start Date & Time)</span>
+                <label style="font-size: 11px; display: flex; align-items: center; gap: 5px; cursor: pointer; text-transform: none;">
+                    <input type="checkbox" id="liveStartToggle" onchange="handleLiveStart()" style="width: 14px; height: 14px; margin:0;"> 
+                    <span id="startLiveLabel" class="live-indicator">🔴 <span class="text">Live Clock</span></span>
+                </label>
             </div>
-            <div class="calendar-wrap" style="margin-top: 10px;">
-                <div class="cal-head" id="head2">End Date</div>
-                <div class="cal-grid" id="grid2"></div>
+
+            <div class="input-box" id="startTimeBox">
+                <div class="row">
+                    <div class="input-group" style="flex: 1.8;">
+                        <label>Month</label>
+                        <select id="m4" onchange="updateDays('m4','y4','d4'); handleValueChangeTime();">
+                            <option value="1">Jan</option><option value="2">Feb</option><option value="3">Mar</option>
+                            <option value="4">Apr</option><option value="5">May</option><option value="6">Jun</option>
+                            <option value="7">Jul</option><option value="8">Aug</option><option value="9">Sep</option>
+                            <option value="10">Oct</option><option value="11">Nov</option><option value="12">Dec</option>
+                        </select>
+                    </div>
+                    <div class="input-group" style="flex: 1;">
+                        <label>Date</label><select id="d4" onchange="handleValueChangeTime();"></select>
+                    </div>
+                    <div class="input-group" style="flex: 1.4;">
+                        <label>Year</label>
+                        <input type="number" id="y4" placeholder="YYYY" oninput="updateDays('m4','y4','d4'); handleValueChangeTime();">
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 5px;">
+                    <div class="input-group" style="flex: 1;">
+                        <label>Hour</label>
+                        <select id="th1" onchange="handleValueChangeTime();"></select>
+                    </div>
+                    <div class="input-group" style="flex: 1;">
+                        <label>Min</label>
+                        <input type="number" id="tm1" placeholder="00" min="0" max="59" oninput="handleValueChangeTime();">
+                    </div>
+                    <div class="input-group" style="flex: 1;">
+                        <label>Sec</label>
+                        <input type="number" id="ts1" placeholder="00" min="0" max="59" oninput="handleValueChangeTime();">
+                    </div>
+                    <div class="input-group" id="tp1_wrap" style="flex: 1;">
+                        <label>AM/PM</label>
+                        <select id="tp1" onchange="handleValueChangeTime();">
+                            <option value="AM">AM</option>
+                            <option value="PM">PM</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- End Time Setup -->
+            <div class="section-title" style="display: flex; justify-content: space-between; align-items: center;">
+                <span>To (End Date & Time)</span>
+                <label style="font-size: 11px; display: flex; align-items: center; gap: 5px; cursor: pointer; text-transform: none;">
+                    <input type="checkbox" id="liveEndToggle" checked onchange="handleLiveEnd()" style="width: 14px; height: 14px; margin:0;"> 
+                    <span id="endLiveLabel" class="live-indicator is-blinking">🔴 <span class="text">Live Clock</span></span>
+                </label>
+            </div>
+
+            <div class="input-box" id="endTimeBox">
+                <div class="row">
+                    <div class="input-group" style="flex: 1.8;">
+                        <label>Month</label>
+                        <select id="m5" onchange="updateDays('m5','y5','d5'); handleValueChangeTime();">
+                            <option value="1">Jan</option><option value="2">Feb</option><option value="3">Mar</option>
+                            <option value="4">Apr</option><option value="5">May</option><option value="6">Jun</option>
+                            <option value="7">Jul</option><option value="8">Aug</option><option value="9">Sep</option>
+                            <option value="10">Oct</option><option value="11">Nov</option><option value="12">Dec</option>
+                        </select>
+                    </div>
+                    <div class="input-group" style="flex: 1;">
+                        <label>Date</label><select id="d5" onchange="handleValueChangeTime();"></select>
+                    </div>
+                    <div class="input-group" style="flex: 1.4;">
+                        <label>Year</label>
+                        <input type="number" id="y5" placeholder="YYYY" oninput="updateDays('m5','y5','d5'); handleValueChangeTime();">
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 5px;">
+                    <div class="input-group" style="flex: 1;">
+                        <label>Hour</label>
+                        <select id="th2" onchange="handleValueChangeTime();"></select>
+                    </div>
+                    <div class="input-group" style="flex: 1;">
+                        <label>Min</label>
+                        <input type="number" id="tm2" placeholder="00" min="0" max="59" oninput="handleValueChangeTime();">
+                    </div>
+                    <div class="input-group" style="flex: 1;">
+                        <label>Sec</label>
+                        <input type="number" id="ts2" placeholder="00" min="0" max="59" oninput="handleValueChangeTime();">
+                    </div>
+                    <div class="input-group" id="tp2_wrap" style="flex: 1;">
+                        <label>AM/PM</label>
+                        <select id="tp2" onchange="handleValueChangeTime();">
+                            <option value="AM">AM</option>
+                            <option value="PM" selected>PM</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <button id="calcTimeBtn" onclick="calculateTimeDifference(false)">Calculate Duration</button>
+
+            <!-- Time Tab Result Box -->
+            <div id="result-box-time" class="result-box">
+                <div id="output-time"></div>
+                
+                <div class="extra-info" id="extra-info-time" style="display:none;">
+                    <span class="total-stat" id="totalMonthsTime"></span>
+                    <span class="total-stat" id="totalWeeksTime"></span>
+                    <span class="total-stat" id="totalDaysTime"></span>
+                    <span class="total-stat" id="totalHoursTime"></span>
+                    <span class="total-stat" id="totalMinsTime"></span>
+                    <span class="total-stat" id="totalSecsTime"></span>
+                </div>
+
+                <div class="calendar-wrap" id="cal-wrap-time1" style="display:none;">
+                    <div class="cal-head" id="head-time1">Start Date</div>
+                    <div class="cal-grid" id="grid-time1"></div>
+                </div>
+                <div class="calendar-wrap" id="cal-wrap-time2" style="margin-top: 10px; display:none;">
+                    <div class="cal-head" id="head-time2">End Date</div>
+                    <div class="cal-grid" id="grid-time2"></div>
+                </div>
             </div>
         </div>
 
         <div class="footer">💡 Tap (⋮) to explore other tools</div>
     </div>
-
-    <!-- একদম নিচে Pextume এবং লিগাল পার্ট -->
+<!-- Promo Button -->
+<a href="https://pextume.in/age.html" class="promo-btn">Calculate your Age</a>
+    <!-- Pextume Info Section -->
     <div class="info-plain-section">
         <h3 class="section-title-plain">Pextume</h3>
-        <p>
-            A premium secure subsystem of the Pextume Utility Network, dedicated to producing fast, open-source, and hardware-accelerated productivity web tools.
-        </p>
+        <p>A premium secure subsystem of the Pextume Utility Network, dedicated to producing fast, open-source, and hardware-accelerated productivity web tools.</p>
 
         <div class="section-title-line">User Support</div>
         <ul class="info-links">
@@ -544,63 +644,56 @@
         </ul>
     </div>
 
-    <div class="network-footer">
-        © 2026 Pextume Utility Network. All Rights Reserved.
-    </div>
+    <div class="network-footer">© 2026 Pextume Utility Network. All Rights Reserved.</div>
 
     <!-- Modals -->
     <div class="modal-overlay" id="howToUseModal" onclick="closeModal('howToUseModal')">
         <div class="modal-content" onclick="event.stopPropagation()">
             <h3>How to Use</h3>
-            <p>1. Select the start date (Month, Date, Year).<br>
-            2. Select the end date.<br>
-            3. Click <b>Calculate Difference</b> to see the exact duration, total months, weeks, days, and calendars!</p>
+            <p><b>Date Duration:</b> Select Start & End dates to find exact duration.<br><br>
+            <b>Add/Subtract Date:</b> Choose a start date, input years/months/days, select Add(+) or Subtract(-), and find your future or past target date.<br><br>
+            <b>Time Duration:</b> Calculate exact duration between two precise dates and times (including seconds). Supports 12/24 Hr format & Live Clocks.</p>
             <button class="modal-close-btn" onclick="closeModal('howToUseModal')">Close</button>
         </div>
     </div>
-
     <div class="modal-overlay" id="faqModal" onclick="closeModal('faqModal')">
         <div class="modal-content" onclick="event.stopPropagation()">
             <h3>FAQ Guide</h3>
-            <p><b>Q: Can I calculate future dates?</b><br>Yes, you can calculate the duration between any past, present, or future dates.</p>
+            <p><b>Q: Does it support leap years?</b><br>Yes! It automatically adjusts for leap years and correct days in each month for flawless accuracy.</p>
+            <p><b>Q: Can I use live time tracking?</b><br>Yes! You can enable the Live Clock toggle in the Time Duration tab to track exact real-time seconds.</p>
+            
             <button class="modal-close-btn" onclick="closeModal('faqModal')">Close</button>
         </div>
     </div>
-
     <div class="modal-overlay" id="contactModal" onclick="closeModal('contactModal')">
         <div class="modal-content" onclick="event.stopPropagation()">
             <h3>Contact Us</h3>
-            <p>For any queries, issues, or bug reports, please reach out to our support team at:<br><br>
-            👉 <a href="mailto:Support@pextume.in">Support@pextume.in</a></p>
+            <p>Reach out to our support team at:<br><br>👉 <a href="mailto:Support@pextume.in">Support@pextume.in</a></p>
             <button class="modal-close-btn" onclick="closeModal('contactModal')">Close</button>
         </div>
     </div>
-
     <div class="modal-overlay" id="privacyModal" onclick="closeModal('privacyModal')">
         <div class="modal-content" onclick="event.stopPropagation()">
             <h3>Privacy Policy</h3>
-            <p>Pextume respects your privacy. All calculations are performed directly within your device browser. We do not store or track your personal details.</p>
+            <p>All calculations are done securely inside your browser. We never track or store your input data.</p>
             <button class="modal-close-btn" onclick="closeModal('privacyModal')">Close</button>
         </div>
     </div>
-
     <div class="modal-overlay" id="termsModal" onclick="closeModal('termsModal')">
         <div class="modal-content" onclick="event.stopPropagation()">
             <h3>Terms of Service</h3>
-            <p>Pextume provides utility tools for calculation purposes only.</p>
+            <p>Pextume provides fast utility tools. Designed for informational and productivity purposes.</p>
             <button class="modal-close-btn" onclick="closeModal('termsModal')">Close</button>
         </div>
     </div>
-
     <div class="modal-overlay" id="disclaimerModal" onclick="closeModal('disclaimerModal')">
         <div class="modal-content" onclick="event.stopPropagation()">
             <h3>Disclaimer</h3>
-            <p>The calculations provided are estimates based on standard calendar calculations. Pextume is not liable for any discrepancies.</p>
+            <p>Calculations use standard Gregorian calendar logic. We do our best to ensure precision.</p>
             <button class="modal-close-btn" onclick="closeModal('disclaimerModal')">Close</button>
         </div>
     </div>
-        <div id="sideMenu" style="height:100%; width:270px; position:fixed; z-index:100000; top:0; right:0; background: rgba(15, 23, 42, 0.98); transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); border-top-left-radius: 35px; border-bottom-left-radius: 35px; border-left: 1.5px solid #00f2ff; box-shadow: -10px 0 30px rgba(0,0,0,0.6); will-change: transform; overflow-x:hidden; overflow-y:auto;">
-        
+           <div id="sideMenu" style="height:100%; width:270px; position:fixed; z-index:100000; top:0; right:0; background: rgba(15, 23, 42, 0.98); transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); border-top-left-radius: 35px; border-bottom-left-radius: 35px; border-left: 1.5px solid #00f2ff; box-shadow: -10px 0 30px rgba(0,0,0,0.6); will-change: transform; overflow-x:hidden; overflow-y:auto;">
         <a href="javascript:void(0)" onclick="document.getElementById('sideMenu').style.transform='translateX(100%)'" 
            style="position:absolute; top:20px; right:25px; font-size:40px; color:#ff4757; text-decoration:none; font-family:sans-serif; outline:none;">&times;</a>
         
@@ -610,31 +703,39 @@
                 Other Tools
             </div>
 
-            <a href="age.html" style="padding:15px 30px; text-decoration:none; font-size:18px; color:#fff; border-bottom:1px solid rgba(255,255,255,0.05); text-align: right; letter-spacing: 1px;">Age calculator</a>
-            <a href="electric.html" style="padding:15px 30px; text-decoration:none; font-size:18px; color:#fff; border-bottom:1px solid rgba(255,255,255,0.05); text-align: right; letter-spacing: 1px;">Electric calculator</a>
             <a href="day.html" style="padding:15px 30px; text-decoration:none; font-size:18px; color:#fff; border-bottom:1px solid rgba(255,255,255,0.05); text-align: right; letter-spacing: 1px;">Day counter</a>
+            <a href="electric.html" style="padding:15px 30px; text-decoration:none; font-size:18px; color:#fff; border-bottom:1px solid rgba(255,255,255,0.05); text-align: right; letter-spacing: 1px;">Electric calculator</a>            
             <a href="index.html" style="padding:15px 30px; text-decoration:none; font-size:18px; color:#fff; border-bottom:1px solid rgba(255,255,255,0.05); text-align: right; letter-spacing: 1px;">Gst calculator</a>
             <a href="emi.html" style="padding:15px 30px; text-decoration:none; font-size:18px; color:#fff; border-bottom:1px solid rgba(255,255,255,0.05); text-align: right; letter-spacing: 1px;">Emi calculator</a>
                <a href="text-checker.html" style="padding:18px 30px; text-decoration:none; font-size:18px; color:var(--text-color); border-bottom:1px solid rgba(16,185,129,0.1); text-align: right; letter-spacing: 1px;">Smart Text checker</a>
             <a href="qr-scan.html" style="padding:18px 30px; text-decoration:none; font-size:18px; color:var(--text-color); border-bottom:1px solid rgba(16,185,129,0.1); text-align: right; letter-spacing: 1px;">QR Code scanner</a>           
          <a href="qr-gen.html" style="padding:18px 30px; text-decoration:none; font-size:18px; color:var(--text-color); border-bottom:1px solid rgba(16,185,129,0.1); text-align: right; letter-spacing: 1px;">QR Code Generator</a>
          <a href="im-convert.html" style="padding:18px 30px; text-decoration:none; font-size:18px; color:var(--text-color); border-bottom:1px solid rgba(16,185,129,0.1); text-align: right; letter-spacing: 1px;">Image Converter</a>
+        <a href="age.html" style="padding:15px 30px; text-decoration:none; font-size:18px; color:#fff; border-bottom:1px solid rgba(255,255,255,0.05); text-align: right; letter-spacing: 1px;">Age calculator</a>
         </div>
     </div>
 
-    <script>
-        const mainBtn = document.getElementById('calcBtn');
 
-        let lastM1 = "", lastY1 = "", lastD1 = "";
-        let lastM2 = "", lastY2 = "", lastD2 = "";
-        let isCalculated = false;
+           <script>
+        const btnDiff = document.getElementById('calcBtn');
+        const btnAdd = document.getElementById('calcAddBtn');
+        const btnTime = document.getElementById('calcTimeBtn');
+        let isCalculatedDiff = false, isCalculatedAdd = false, isCalculatedTime = false;
+        let liveTimeInterval;
+        
+        let lastRealDay = new Date().getDate();
 
-        function openModal(modalId) {
-            document.getElementById(modalId).style.display = 'flex';
-        }
+        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            document.getElementById('tab-' + tabId).classList.add('active');
+            
+            if (tabId === 'diff') document.querySelector('.tab-btn:nth-child(1)').classList.add('active');
+            else if (tabId === 'addsub') document.querySelector('.tab-btn:nth-child(2)').classList.add('active');
+            else if (tabId === 'time') document.querySelector('.tab-btn:nth-child(3)').classList.add('active');
         }
 
         function updateDays(mId, yId, dId) {
@@ -654,52 +755,255 @@
             else dSel.value = 1;
         }
 
-        function handleValueChange() {
-            if (!isCalculated) return; 
-
-            const currentM1 = document.getElementById('m1').value;
-            const currentY1 = document.getElementById('y1').value;
-            const currentD1 = document.getElementById('d1').value;
-            const currentM2 = document.getElementById('m2').value;
-            const currentY2 = document.getElementById('y2').value;
-            const currentD2 = document.getElementById('d2').value;
-
-            if (lastM1 !== currentM1 || lastY1 !== currentY1 || lastD1 !== currentD1 ||
-                lastM2 !== currentM2 || lastY2 !== currentY2 || lastD2 !== currentD2) {
-                
-                document.getElementById('result-box').style.display = 'none'; 
-                mainBtn.classList.remove('btn-active'); 
-                isCalculated = false; 
+        function populateHours(selectId, format) {
+            let selectObj = document.getElementById(selectId);
+            selectObj.innerHTML = '';
+            if(format === 24) {
+                for(let i=0; i<=23; i++) {
+                    let opt = document.createElement('option');
+                    opt.value = i; opt.text = i < 10 ? '0'+i : i;
+                    selectObj.appendChild(opt);
+                }
+            } else {
+                for(let i=1; i<=12; i++) {
+                    let opt = document.createElement('option');
+                    opt.value = i; opt.text = i < 10 ? '0'+i : i;
+                    selectObj.appendChild(opt);
+                }
             }
         }
 
-        const today = new Date();
-        document.getElementById('y2').value = today.getFullYear();
-        document.getElementById('m2').value = today.getMonth() + 1;
-        updateDays('m1','y1','d1');
-        updateDays('m2','y2','d2');
-        document.getElementById('d2').value = today.getDate();
+        function changeTimeFormat() {
+            let format = document.getElementById('timeFormat').value;
+            let tp1Wrap = document.getElementById('tp1_wrap');
+            let tp2Wrap = document.getElementById('tp2_wrap');
 
+            if (format === '24') {
+                tp1Wrap.style.display = 'none';
+                tp2Wrap.style.display = 'none';
+                populateHours('th1', 24);
+                populateHours('th2', 24);
+            } else {
+                tp1Wrap.style.display = 'block';
+                tp2Wrap.style.display = 'block';
+                populateHours('th1', 12);
+                populateHours('th2', 12);
+            }
+            
+            let startLive = document.getElementById('liveStartToggle').checked;
+            let endLive = document.getElementById('liveEndToggle').checked;
+            
+            if(!startLive) document.getElementById('th1').value = format === '24' ? '12' : '12';
+            if(!endLive) document.getElementById('th2').value = format === '24' ? '12' : '12';
+            
+            if(startLive || endLive) updateLiveClocks();
+            handleValueChangeTime();
+        }
+
+        function initApp() {
+            const today = new Date();
+            lastRealDay = today.getDate(); 
+            
+            document.getElementById('y2').value = today.getFullYear();
+            document.getElementById('m2').value = today.getMonth() + 1;
+            document.getElementById('y3').value = today.getFullYear();
+            document.getElementById('m3').value = today.getMonth() + 1;
+            
+            document.getElementById('y4').value = today.getFullYear();
+            document.getElementById('m4').value = today.getMonth() + 1;
+            document.getElementById('y5').value = today.getFullYear();
+            document.getElementById('m5').value = today.getMonth() + 1;
+            
+            updateDays('m1','y1','d1');
+            updateDays('m2','y2','d2');
+            updateDays('m3','y3','d3');
+            updateDays('m4','y4','d4');
+            updateDays('m5','y5','d5'); 
+            
+            document.getElementById('d2').value = today.getDate();
+            document.getElementById('d3').value = today.getDate();
+            document.getElementById('d4').value = today.getDate();
+            document.getElementById('d5').value = today.getDate();
+
+            populateHours('th1', 12);
+            populateHours('th2', 12);
+            
+            document.getElementById('th1').value = '12';
+            document.getElementById('tm1').value = '0';
+            document.getElementById('ts1').value = '0';
+            document.getElementById('tp1').value = 'AM';
+
+            handleLiveStart(); 
+            handleLiveEnd(); 
+        }
+
+        function handleLiveStart() {
+            let isLive = document.getElementById('liveStartToggle').checked;
+            // ডেট ইনপুটগুলো সরিয়ে দেওয়া হলো যাতে লাইভ চলাকালীন ডেট চেঞ্জ করা যায়
+            let timeInputs = ['th1', 'tm1', 'ts1', 'tp1']; 
+            let label = document.getElementById('startLiveLabel');
+            
+            timeInputs.forEach(id => {
+                let el = document.getElementById(id);
+                if(el) el.disabled = isLive;
+            });
+
+            if (isLive) {
+                label.classList.add('is-blinking');
+                updateLiveClocks(); 
+            } else {
+                label.classList.remove('is-blinking');
+            }
+            manageInterval();
+            toggleCalcTimeBtnVisibility();
+        }
+
+        function handleLiveEnd() {
+            let isLive = document.getElementById('liveEndToggle').checked;
+            // ডেট ইনপুটগুলো সরিয়ে দেওয়া হলো যাতে লাইভ চলাকালীন ডেট চেঞ্জ করা যায়
+            let timeInputs = ['th2', 'tm2', 'ts2', 'tp2']; 
+            let label = document.getElementById('endLiveLabel');
+            
+            timeInputs.forEach(id => {
+                let el = document.getElementById(id);
+                if(el) el.disabled = isLive;
+            });
+
+            if (isLive) {
+                label.classList.add('is-blinking');
+                updateLiveClocks(); 
+            } else {
+                label.classList.remove('is-blinking');
+            }
+            manageInterval();
+            toggleCalcTimeBtnVisibility();
+        }
+
+        function toggleCalcTimeBtnVisibility() {
+            let startLive = document.getElementById('liveStartToggle').checked;
+            let endLive = document.getElementById('liveEndToggle').checked;
+            
+            if (isCalculatedTime && (startLive || endLive)) {
+                btnTime.style.display = 'none';
+            } else {
+                btnTime.style.display = 'block';
+            }
+        }
+
+        function manageInterval() {
+            let startLive = document.getElementById('liveStartToggle').checked;
+            let endLive = document.getElementById('liveEndToggle').checked;
+            
+            if (startLive || endLive) {
+                if (!liveTimeInterval) liveTimeInterval = setInterval(updateLiveClocks, 1000);
+            } else {
+                if (liveTimeInterval) {
+                    clearInterval(liveTimeInterval);
+                    liveTimeInterval = null;
+                }
+            }
+        }
+
+        function incrementDate(yId, mId, dId) {
+            let y = parseInt(document.getElementById(yId).value);
+            let m = parseInt(document.getElementById(mId).value);
+            let d = parseInt(document.getElementById(dId).value);
+            
+            let dt = new Date(y, m - 1, d);
+            dt.setDate(dt.getDate() + 1); 
+            
+            document.getElementById(yId).value = dt.getFullYear();
+            document.getElementById(mId).value = dt.getMonth() + 1;
+            updateDays(mId, yId, dId); 
+            document.getElementById(dId).value = dt.getDate();
+        }
+
+        function updateLiveClocks() {
+            let now = new Date();
+            let startLive = document.getElementById('liveStartToggle').checked;
+            let endLive = document.getElementById('liveEndToggle').checked;
+            let format = document.getElementById('timeFormat').value;
+
+            let currentRealDay = now.getDate();
+            if (lastRealDay !== currentRealDay) {
+                if (startLive) incrementDate('y4', 'm4', 'd4');
+                if (endLive) incrementDate('y5', 'm5', 'd5');
+                lastRealDay = currentRealDay; 
+            }
+
+            if (startLive) {
+                let h = now.getHours();
+                if(format === '24') {
+                    document.getElementById('th1').value = h;
+                } else {
+                    let ampm = h >= 12 ? 'PM' : 'AM';
+                    let h12 = h % 12;
+                    h12 = h12 ? h12 : 12;
+                    document.getElementById('th1').value = h12;
+                    document.getElementById('tp1').value = ampm;
+                }
+                document.getElementById('tm1').value = now.getMinutes();
+                document.getElementById('ts1').value = now.getSeconds();
+            }
+
+            if (endLive) {
+                let h = now.getHours();
+                if(format === '24') {
+                    document.getElementById('th2').value = h;
+                } else {
+                    let ampm = h >= 12 ? 'PM' : 'AM';
+                    let h12 = h % 12;
+                    h12 = h12 ? h12 : 12;
+                    document.getElementById('th2').value = h12;
+                    document.getElementById('tp2').value = ampm;
+                }
+                document.getElementById('tm2').value = now.getMinutes();
+                document.getElementById('ts2').value = now.getSeconds();
+            }
+
+            if(isCalculatedTime && (startLive || endLive)) calculateTimeDifference(true);
+        }
+
+        function handleValueChangeDiff() {
+            if(isCalculatedDiff) {
+                document.getElementById('result-box-diff').style.display = 'none';
+                btnDiff.classList.remove('btn-active');
+                isCalculatedDiff = false;
+            }
+        }
+        function handleValueChangeAdd() {
+            if(isCalculatedAdd) {
+                document.getElementById('result-box-add').style.display = 'none';
+                btnAdd.classList.remove('btn-active');
+                isCalculatedAdd = false;
+            }
+        }
+        function handleValueChangeTime() {
+            let startLive = document.getElementById('liveStartToggle').checked;
+            let endLive = document.getElementById('liveEndToggle').checked;
+            
+            if(isCalculatedTime && !startLive && !endLive) {
+                document.getElementById('result-box-time').style.display = 'none';
+                btnTime.style.display = 'block'; 
+                btnTime.classList.remove('btn-active');
+                isCalculatedTime = false;
+            }
+        }
+                // --- TAB 1: Calculate Difference ---
         function calculateDifference() {
             const y1 = parseInt(document.getElementById('y1').value);
             const y2 = parseInt(document.getElementById('y2').value);
 
-            if(!y1 || !y2) { 
-                alert("Please enter valid years."); 
-                return; 
-            }
+            if(!y1 || !y2) { alert("Please enter valid years."); return; }
 
             const dt1 = new Date(y1, document.getElementById('m1').value - 1, document.getElementById('d1').value);
             const dt2 = new Date(y2, document.getElementById('m2').value - 1, document.getElementById('d2').value);
 
-            if(dt1 > dt2) { 
-                alert("Start date cannot be after end date!"); 
-                return; 
-            }
+            if(dt1 > dt2) { alert("Start date cannot be after end date!"); return; }
 
-            mainBtn.classList.remove('btn-active');
-            void mainBtn.offsetWidth; 
-            mainBtn.classList.add('btn-active');
+            btnDiff.classList.remove('btn-active');
+            void btnDiff.offsetWidth; 
+            btnDiff.classList.add('btn-active');
 
             let years = dt2.getFullYear() - dt1.getFullYear();
             let months = dt2.getMonth() - dt1.getMonth();
@@ -709,13 +1013,10 @@
                 months--;
                 days += new Date(dt2.getFullYear(), dt2.getMonth(), 0).getDate();
             }
-            if(months < 0) {
-                years--;
-                months += 12;
-            }
+            if(months < 0) { years--; months += 12; }
 
-            document.getElementById('result-box').style.display = 'block';
-            document.getElementById('output').innerHTML = `Duration is <br><span class="highlight">${years}</span> Years, <span class="highlight">${months}</span> Months, <span class="highlight">${days}</span> Days`;
+            document.getElementById('result-box-diff').style.display = 'block';
+            document.getElementById('output-diff').innerHTML = `Duration is <br><span class="highlight">${years}</span> Years, <span class="highlight">${months}</span> Months, <span class="highlight">${days}</span> Days`;
             
             const totalDays = Math.floor((dt2 - dt1) / 86400000);
             const totalWeeks = Math.floor(totalDays / 7);
@@ -726,10 +1027,159 @@
 
             drawCalendar(y1, document.getElementById('m1').value, document.getElementById('d1').value, 'head1', 'grid1');
             drawCalendar(y2, document.getElementById('m2').value, document.getElementById('d2').value, 'head2', 'grid2');
+            isCalculatedDiff = true; 
+        }
+
+        // --- TAB 2: Calculate Add / Subtract Target Date ---
+        function calculateTargetDate() {
+            const y3 = parseInt(document.getElementById('y3').value);
+            if(!y3) { alert("Please enter a valid start year."); return; }
+
+            const m3 = parseInt(document.getElementById('m3').value);
+            const d3 = parseInt(document.getElementById('d3').value);
             
-            lastM1 = document.getElementById('m1').value; lastY1 = document.getElementById('y1').value; lastD1 = document.getElementById('d1').value;
-            lastM2 = document.getElementById('m2').value; lastY2 = document.getElementById('y2').value; lastD2 = document.getElementById('d2').value;
-            isCalculated = true; 
+            const op = document.getElementById('operation').value;
+            const mult = (op === 'add') ? 1 : -1;
+            
+            const addY = parseInt(document.getElementById('addY').value) || 0;
+            const addM = parseInt(document.getElementById('addM').value) || 0;
+            const addW = parseInt(document.getElementById('addW').value) || 0;
+            const addD = parseInt(document.getElementById('addD').value) || 0;
+
+            if(addY === 0 && addM === 0 && addW === 0 && addD === 0) {
+                alert("Please enter a duration to add or subtract."); return;
+            }
+
+            btnAdd.classList.remove('btn-active');
+            void btnAdd.offsetWidth; 
+            btnAdd.classList.add('btn-active');
+
+            let targetYear = y3 + (addY * mult);
+            let targetMonth = (m3 - 1) + (addM * mult);
+            
+            let maxDaysInTarget = new Date(targetYear, targetMonth + 1, 0).getDate();
+            let targetDay = Math.min(d3, maxDaysInTarget);
+            
+            let targetDate = new Date(targetYear, targetMonth, targetDay);
+            
+            let extraDays = (addW * 7) + addD;
+            targetDate.setDate(targetDate.getDate() + (extraDays * mult));
+
+            const daysArr = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+            const monthsArr = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+            
+            const textResult = `<span style="font-size:15px;color:#ccc; display:block; margin-bottom:8px;">Target Date is:</span> 
+            ${daysArr[targetDate.getDay()]},<br><span class="highlight-large">${targetDate.getDate()} ${monthsArr[targetDate.getMonth()]} ${targetDate.getFullYear()}</span>`;
+
+            document.getElementById('result-box-add').style.display = 'block';
+            document.getElementById('output-add').innerHTML = textResult;
+            
+            drawCalendar(targetDate.getFullYear(), targetDate.getMonth() + 1, targetDate.getDate(), 'head-add', 'grid-add');
+            isCalculatedAdd = true;
+        }
+
+        // --- TAB 3: Calculate Exact Time Difference ---
+        function calculateTimeDifference(isLiveTick = false) {
+            let y1 = parseInt(document.getElementById('y4').value);
+            let mo1 = parseInt(document.getElementById('m4').value) - 1; 
+            let d1 = parseInt(document.getElementById('d4').value);
+            
+            let y2 = parseInt(document.getElementById('y5').value);
+            let mo2 = parseInt(document.getElementById('m5').value) - 1; 
+            let d2 = parseInt(document.getElementById('d5').value);
+
+            if(!y1 || !y2) { if(!isLiveTick) alert("Please enter valid years."); return; }
+
+            let format = document.getElementById('timeFormat').value;
+
+            let h1 = parseInt(document.getElementById('th1').value);
+            let mi1 = parseInt(document.getElementById('tm1').value) || 0;
+            let s1 = parseInt(document.getElementById('ts1').value) || 0;
+
+            let h2 = parseInt(document.getElementById('th2').value);
+            let mi2 = parseInt(document.getElementById('tm2').value) || 0;
+            let s2 = parseInt(document.getElementById('ts2').value) || 0;
+
+            if (mi1 < 0 || mi1 > 59 || mi2 < 0 || mi2 > 59 || s1 < 0 || s1 > 59 || s2 < 0 || s2 > 59) {
+                if(!isLiveTick) alert("Please enter valid minutes and seconds (0 to 59)."); return;
+            }
+
+            if(format === '12') {
+                let p1 = document.getElementById('tp1').value;
+                let p2 = document.getElementById('tp2').value;
+                if(h1 === 12) h1 = (p1 === 'AM') ? 0 : 12; else if (p1 === 'PM') h1 += 12;
+                if(h2 === 12) h2 = (p2 === 'AM') ? 0 : 12; else if (p2 === 'PM') h2 += 12;
+            }
+
+            let dt1 = new Date(y1, mo1, d1, h1, mi1, s1);
+            let dt2 = new Date(y2, mo2, d2, h2, mi2, s2);
+
+            if(dt1 > dt2) { 
+                if(isLiveTick) {
+                    document.getElementById('output-time').innerHTML = `<span style="font-size:14px;color:#ff4757; display:block; margin-bottom:10px;">Start Time is in the future!</span>`;
+                    document.getElementById('extra-info-time').style.display = 'none';
+                    document.getElementById('cal-wrap-time1').style.display = 'none';
+                    document.getElementById('cal-wrap-time2').style.display = 'none';
+                } else {
+                    alert("Start Time cannot be after End Time!"); 
+                }
+                return; 
+            }
+
+            let diffYears = y2 - y1;
+            let diffMonths = mo2 - mo1;
+            let diffDays = d2 - d1;
+            let diffHours = h2 - h1;
+            let diffMinutes = mi2 - mi1;
+            let diffSeconds = s2 - s1;
+
+            if (diffSeconds < 0) { diffSeconds += 60; diffMinutes--; }
+            if (diffMinutes < 0) { diffMinutes += 60; diffHours--; }
+            if (diffHours < 0) { diffHours += 24; diffDays--; }
+            if (diffDays < 0) {
+                let prevMonth = mo2 - 1;
+                let prevYear = y2;
+                if (prevMonth < 0) { prevMonth = 11; prevYear--; }
+                let daysInPrevMonth = new Date(prevYear, prevMonth + 1, 0).getDate();
+                diffDays += daysInPrevMonth;
+                diffMonths--;
+            }
+            if (diffMonths < 0) { diffMonths += 12; diffYears--; }
+
+            let timeDiffMs = dt2.getTime() - dt1.getTime();
+            let totalDays = Math.floor(timeDiffMs / (1000 * 60 * 60 * 24));
+            let totalWeeks = Math.floor(totalDays / 7);
+            let totalHours = Math.floor(timeDiffMs / (1000 * 60 * 60));
+            let totalMins = Math.floor(timeDiffMs / (1000 * 60));
+            let totalSecs = Math.floor(timeDiffMs / 1000);
+
+            if(!isLiveTick) {
+                btnTime.classList.remove('btn-active');
+                void btnTime.offsetWidth; 
+                btnTime.classList.add('btn-active');
+            }
+
+            document.getElementById('result-box-time').style.display = 'block';
+            document.getElementById('output-time').innerHTML = `<span style="font-size:14px;color:#ccc; display:block; margin-bottom:10px;">Exact Duration is:</span> 
+            <span class="highlight-large">${diffYears}</span> Y, <span class="highlight-large">${diffMonths}</span> M, <span class="highlight-large">${diffDays}</span> D<br><br>
+            <span class="highlight-large">${diffHours}</span> Hr, <span class="highlight-large">${diffMinutes}</span> Min, <span class="highlight-large">${diffSeconds}</span> Sec`;
+            
+            document.getElementById('extra-info-time').style.display = 'block';
+            document.getElementById('totalMonthsTime').innerHTML = `🔹 Total Months: <b>${(diffYears * 12) + diffMonths}</b>`;
+            document.getElementById('totalWeeksTime').innerHTML = `🔹 Total Weeks: <b>${totalWeeks.toLocaleString()}</b>`;
+            document.getElementById('totalDaysTime').innerHTML = `🔹 Total Days: <b>${totalDays.toLocaleString()}</b>`;
+            document.getElementById('totalHoursTime').innerHTML = `🔹 Total Hours: <b>${totalHours.toLocaleString()}</b>`;
+            document.getElementById('totalMinsTime').innerHTML = `🔹 Total Mins: <b>${totalMins.toLocaleString()}</b>`;
+            document.getElementById('totalSecsTime').innerHTML = `🔹 Total Secs: <b>${totalSecs.toLocaleString()}</b>`;
+
+            document.getElementById('cal-wrap-time1').style.display = 'block';
+            document.getElementById('cal-wrap-time2').style.display = 'block';
+            
+            drawCalendar(y1, mo1 + 1, d1, 'head-time1', 'grid-time1');
+            drawCalendar(y2, mo2 + 1, d2, 'head-time2', 'grid-time2');
+
+            isCalculatedTime = true;
+            toggleCalcTimeBtnVisibility(); 
         }
 
         function drawCalendar(y, m, d, hId, gId) {
@@ -751,14 +1201,15 @@
             }
         }
 
-        document.addEventListener('click', function(event) {
+        document.addEventListener('click', function(e) {
             var sideMenu = document.getElementById('sideMenu');
             var topNavbar = document.querySelector('.top-navbar');
-            
-            if (!sideMenu.contains(event.target) && !topNavbar.contains(event.target)) {
+            if (!sideMenu.contains(e.target) && !topNavbar.contains(e.target)) {
                 sideMenu.style.transform = 'translateX(100%)';
             }
         });
+
+        window.onload = initApp;
     </script>
 </body>
 </html>
