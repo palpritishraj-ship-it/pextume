@@ -234,7 +234,7 @@
             background: rgba(0, 0, 0, 0.4);
         }
 
-        button {
+                button {
             width: 100%;
             padding: 14px;
             background: linear-gradient(45deg, #00f2ff, #0072ff);
@@ -244,20 +244,23 @@
             font-size: 18px;
             font-weight: bold;
             cursor: pointer;
-            transition: 0.3s;
+            transition: background 0.3s ease, box-shadow 0.3s ease;
             box-shadow: 0 5px 15px rgba(0, 114, 255, 0.4);
+            outline: none;
         }
         
         button:hover, .btn-active {
-            transform: translateY(-3px);
+            transform: none !important;
             box-shadow: 0 10px 25px rgba(0, 114, 255, 0.7);
-            background: linear-gradient(45deg, #0072ff, #00f2ff);
+            background: linear-gradient(45deg, #0072ff, #00f2ff) !important;
         }
 
         button:active {
-            transform: scale(0.96);
+            transform: none !important;
+            background: linear-gradient(45deg, #0072ff, #00f2ff) !important;
+            box-shadow: 0 5px 15px rgba(0, 114, 255, 0.4);
         }
-
+       
         #result-box {
             display: none;
             margin-top: 25px;
@@ -805,28 +808,27 @@
             <button class="modal-close-btn" onclick="closeModal('disclaimerModal')">Close</button>
         </div>
     </div>
-      <div id="sideMenu" style="height:100%; width:270px; position:fixed; z-index:100000; top:0; right:0; background: rgba(15, 23, 42, 0.98); transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); border-top-left-radius: 35px; border-bottom-left-radius: 35px; border-left: 1.5px solid #00f2ff; box-shadow: -10px 0 30px rgba(0,0,0,0.6); will-change: transform; overflow-x:hidden; overflow-y:auto;">
+       <div id="sideMenu" style="height:100%; width:270px; position:fixed; z-index:100000; top:0; right:0; background: rgba(15, 23, 42, 0.98); transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); border-top-left-radius: 35px; border-bottom-left-radius: 35px; border-left: 1.5px solid #00f2ff; box-shadow: -10px 0 30px rgba(0,0,0,0.6); will-change: transform; overflow-x:hidden; overflow-y:auto;">
         
         <a href="javascript:void(0)" onclick="document.getElementById('sideMenu').style.transform='translateX(100%)'" 
            style="position:absolute; top:20px; right:25px; font-size:40px; color:#ff4757; text-decoration:none; font-family:sans-serif; outline:none;">&times;</a>
         
-        <div style="width: 270px; padding-top: 80px; padding-bottom: 40px; display: flex; flex-direction: column;">
+        <div style="width: 270px; padding-top: 80px; padding-bottom: 40px; display: flex; flex-direction: column; white-space: nowrap;">
             
-            <div style="padding: 0 30px 15px 0; text-align: right; color: #00f2ff; font-family: sans-serif; font-size: 14px; font-weight: bold; letter-spacing: 2px; text-transform: uppercase;">
+            <div style="padding: 0 25px 15px 0; text-align: right; color: #00f2ff; font-family: sans-serif; font-size: 14px; font-weight: bold; letter-spacing: 2px; text-transform: uppercase;">
                 Other Tools
             </div>
-
-            <a href="electric.html" style="padding:15px 30px; text-decoration:none; font-size:18px; color:#fff; border-bottom:1px solid rgba(255,255,255,0.05); text-align: right; letter-spacing: 1px;">Electric calculator</a>
-            <a href="day.html" style="padding:15px 30px; text-decoration:none; font-size:18px; color:#fff; border-bottom:1px solid rgba(255,255,255,0.05); text-align: right; letter-spacing: 1px;">Day counter</a>
-            <a href="index.html" style="padding:15px 30px; text-decoration:none; font-size:18px; color:#fff; border-bottom:1px solid rgba(255,255,255,0.05); text-align: right; letter-spacing: 1px;">Gst calculator</a>
-            <a href="emi.html" style="padding:15px 30px; text-decoration:none; font-size:18px; color:#fff; border-bottom:1px solid rgba(255,255,255,0.05); text-align: right; letter-spacing: 1px;">Emi calculator</a>
-            <a href="date.html" style="padding:15px 30px; text-decoration:none; font-size:18px; color:#fff; border-bottom:1px solid rgba(255,255,255,0.05); text-align: right; letter-spacing: 1px;">Date calculator</a>
-             <a href="text-checker.html" style="padding:18px 30px; text-decoration:none; font-size:18px; color:var(--text-color); border-bottom:1px solid rgba(16,185,129,0.1); text-align: right; letter-spacing: 1px;">Smart Text checker</a>
-            <a href="qr-scan.html" style="padding:18px 30px; text-decoration:none; font-size:18px; color:var(--text-color); border-bottom:1px solid rgba(16,185,129,0.1); text-align: right; letter-spacing: 1px;">QR Code scanner</a>           
-         <a href="qr-gen.html" style="padding:18px 30px; text-decoration:none; font-size:18px; color:var(--text-color); border-bottom:1px solid rgba(16,185,129,0.1); text-align: right; letter-spacing: 1px;">QR Code Generator</a>
-         <a href="im-convert.html" style="padding:18px 30px; text-decoration:none; font-size:18px; color:var(--text-color); border-bottom:1px solid rgba(16,185,129,0.1); text-align: right; letter-spacing: 1px;">Image Converter</a>
+            <a href="index.html" style="padding:13px 27px; text-decoration:none; font-size:17px; color:var(--text-color); border-bottom:1px solid rgba(16,185,129,0.1); text-align: right; letter-spacing: 1px;">Gst calculator</a>
+            <a href="electric.html" style="padding:13px 27px; text-decoration:none; font-size:17px; color:var(--text-color); border-bottom:1px solid rgba(16,185,129,0.1); text-align: right; letter-spacing: 1px;">Electric calculator</a>
+            <a href="day.html" style="padding:13px 27px; text-decoration:none; font-size:17px; color:var(--text-color); border-bottom:1px solid rgba(16,185,129,0.1); text-align: right; letter-spacing: 1px;">Day counter</a>
+            <a href="emi.html" style="padding:13px 27px; text-decoration:none; font-size:17px; color:var(--text-color); border-bottom:1px solid rgba(16,185,129,0.1); text-align: right; letter-spacing: 1px;">Emi calculator</a>
+            <a href="date.html" style="padding:13px 27px; text-decoration:none; font-size:17px; color:var(--text-color); border-bottom:1px solid rgba(16,185,129,0.1); text-align: right; letter-spacing: 1px;">Date & Time calculator</a>
+            <a href="text-checker.html" style="padding:13px 27px; text-decoration:none; font-size:17px; color:var(--text-color); border-bottom:1px solid rgba(16,185,129,0.1); text-align: right; letter-spacing: 1px;">Smart Text checker</a>
+            <a href="qr-scan.html" style="padding:13px 27px; text-decoration:none; font-size:17px; color:var(--text-color); border-bottom:1px solid rgba(16,185,129,0.1); text-align: right; letter-spacing: 1px;">QR Code scanner</a>           
+            <a href="qr-gen.html" style="padding:13px 27px; text-decoration:none; font-size:17px; color:var(--text-color); border-bottom:1px solid rgba(16,185,129,0.1); text-align: right; letter-spacing: 1px;">QR Code Generator</a>
+            <a href="im-convert.html" style="padding:13px 27px; text-decoration:none; font-size:17px; color:var(--text-color); border-bottom:1px solid rgba(16,185,129,0.1); text-align: right; letter-spacing: 1px;">Image Converter</a>
         </div>
-    </div>
+    </div> 
 
     <script>
         const daySelect = document.getElementById('day');
