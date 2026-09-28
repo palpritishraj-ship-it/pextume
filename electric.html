@@ -3,265 +3,885 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-   <title>Voltage, Ampere & Watt Calculator</title>
-  <meta name="description" content="Calculate Voltage, Current (Ampere), and Power (Watt) instantly. A professional electronic engineering tool by Pextume for accurate circuit calculations.">
-<meta name="keywords" content="Electric Calculator, Voltage Calculator, Wattage Finder, Ampere Calculator, Electronics Tools, Pextume"
- 
+    <title>Electricity Calculator | Electric Bill, Resistor Value & Colour Code</title>
+    <meta name="description" content="Calculate 3, 4, 5, and 6-Band Resistor Color Codes, monthly Electricity bills, Voltage, Ampere and Watt instantly with Pextume.">
+    <meta name="keywords" content="Resistor Color Code Calculator, 4-Band Resistor, 5-Band Resistor, Electricity Calculator, Electronics Tools, Pextume">
 
-<meta property="og:site_name" content="Pextume">
-<meta property="og:title" content="Electric Calculator">
-<meta property="og:description" content="Calculate Voltage, Current (Ampere), and Power (Watt) instantly with Pextume.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://pextume.in/electric.html">
+    <meta property="og:site_name" content="Pextume">
+    <meta property="og:title" content="Electricity Calculator">
+    <meta property="og:description" content="Calculate Multi-Band Resistor Color Codes and electrical values instantly.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://pextume.in/electric.html">
 
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Pextume" />
 
-<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
-<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-<link rel="shortcut icon" href="/favicon.ico" />
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-<meta name="apple-mobile-web-app-title" content="Pextume " />
-
-<link rel="manifest" href="/site.webmanifest" />
-
-<link rel="canonical" href="https://pextume.in/electric.html"/>
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="canonical" href="https://pextume.in/electric.html"/>
   
     <style>
         * {
             -webkit-tap-highlight-color: transparent !important;
             outline: none !important;
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
         }
 
         body {
-            font-family: 'Segoe UI', Arial, sans-serif;
             background-color: #0f172a; 
             display: flex;
-            flex-direction: column; /* ফুটার নিচে সোজা নামানোর জন্য */
-            justify-content: center;
+            flex-direction: column; 
+            justify-content: flex-start;
             align-items: center;
-            min-height: 100vh; /* height বদলে min-height করা হলো যাতে স্ক্রিন কন্টেন্ট অনুযায়ী নমনীয় থাকে */
-            margin: 0;
+            min-height: 100vh; 
             padding: 20px;
+            padding-top: 90px;
+        }
+
+        .top-navbar {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 65px;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(10px);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 20px; z-index: 9999;
+            border-bottom: 1px solid rgba(0, 242, 255, 0.15);
+        }
+
+        .brand-logo { width: 130px; height: auto; display: block; transition: transform 0.3s ease; }
+        .brand-logo:hover { transform: scale(1.05); }
+
+        .menu-icon-btn {
+            cursor: pointer; font-size: 32px; color: #ffffff; 
+            background: none; border: none; line-height: 1; 
+            text-shadow: 0 0 12px rgba(255, 215, 0, 0.7); padding: 5px; outline: none;
         }
 
         .card {
-            background: #ffffff;
-            padding: 40px 25px;
-            border-radius: 40px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-            border: 1px solid #e0e0e0; 
-            width: 360px;
-            text-align: center;
-            margin-bottom: 20px; /* ফুটার থেকে সুন্দর ডিস্ট্যান্স বজায় রাখার জন্য */
+            background: #ffffff; padding: 40px 25px; border-radius: 40px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1); border: 1px solid #e0e0e0; 
+            width: 360px; text-align: center; margin-bottom: 20px; 
         }
 
         .heading {
-            font-size: 26px;
-            font-weight: 800;
+            font-size: 22px; font-weight: 800;
             background: linear-gradient(to right, #f39c12, #e74c3c, #9b59b6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 5px;
-            text-transform: uppercase; 
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            margin-bottom: 5px; text-transform: uppercase; 
         }
 
-        .icon-container { margin: 15px 0; font-size: 65px; display: flex; justify-content: center; align-items: center; }
+        .icon-container { margin: 12px 0; font-size: 55px; display: flex; justify-content: center; align-items: center; }
         .emoji-bolt { filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.15)); user-select: none; }
+        .sub-heading { color: #bdc3c7; font-size: 14px; font-weight: 600; text-transform: uppercase; margin-top: 5px; margin-bottom: 20px; letter-spacing: 1.2px; }
 
-        .sub-heading { color: #bdc3c7; font-size: 14px; font-weight: 600; text-transform: uppercase; margin-top: 5px; margin-bottom: 25px; letter-spacing: 1.2px; }
-
-        .menu-buttons { display: grid; gap: 15px; }
-        .btn { padding: 18px; border: none; border-radius: 20px; cursor: pointer; font-size: 17px; font-weight: 600; color: white; transition: 0.3s; text-transform: uppercase; }
+        .btn { padding: 15px; border: none; border-radius: 20px; cursor: pointer; font-size: 14px; font-weight: 600; color: white; transition: 0.3s; text-transform: uppercase; width: 100%; }
         .btn-v { background-color: #3fa2f6; }
         .btn-w { background-color: #2ecc71; }
-        .btn-a { background-color: #f1c40f; }
+        .btn-a { background-color: #f1c40f; color: #ffffff !important; } 
+        .btn-r { background-color: #9b59b6; }
+        .btn-cost { background-color: #34495e; grid-column: span 2; }
+        .btn-color { background-color: #e67e22; grid-column: span 2; }
         .btn:active { transform: scale(0.96); }
 
         .input-section { display: none; text-align: left; animation: fadeIn 0.3s; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        input { width: 100%; padding: 16px; margin: 10px 0; border: 2px solid #f0f0f0; border-radius: 15px; font-size: 17px; background: #fafafa; }
-        input:focus { border-color: #2ecc71 !important; background: #fff; }
+        input, select { width: 100%; padding: 14px; margin: 8px 0; border: 2px solid #f0f0f0; border-radius: 15px; font-size: 15px; background: #fafafa; outline: none; }
+        input:focus, select:focus { border-color: #2ecc71 !important; background: #fff; }
 
-        .calc-btn { background-color: #d1d5db; color: white; width: 100%; margin-top: 20px; border: none; padding: 18px; border-radius: 15px; font-weight: bold; font-size: 17px; transition: 0.2s; }
+        .calc-btn { background-color: #d1d5db; color: white; width: 100%; margin-top: 10px; border: none; padding: 14px; border-radius: 15px; font-weight: bold; font-size: 16px; transition: 0.2s; }
         .ready { background-color: #27ae60 !important; cursor: pointer; }
 
-        .clear-btn { display: inline-block; margin-top: 15px; color: #e74c3c; background: none; border: none; font-weight: bold; cursor: pointer; font-size: 13px; text-decoration: underline; }
-        .back-btn { display: block; margin-top: 20px; color: #3498db; background: none; border: none; width: 100%; font-weight: bold; cursor: pointer; font-size: 14px; }
+        .clear-btn { display: inline-block; margin-top: 8px; color: #e74c3c; background: none; border: none; font-weight: bold; cursor: pointer; font-size: 13px; text-decoration: underline; }
+        .back-btn { display: block; margin-top: 12px; color: #3498db; background: none; border: none; width: 100%; font-weight: bold; cursor: pointer; font-size: 14px; }
 
         #result-display {
-            margin-top: 25px; font-size: 34px; font-weight: 900;
+            margin-top: 12px; font-size: 22px; font-weight: 900;
             background: linear-gradient(45deg, #3498db, #9b59b6, #e74c3c);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            min-height: 45px; text-align: center;
+            min-height: 32px; text-align: center;
         }
 
-        .credit { margin-top: 40px; font-size: 13.5px; color: #b3b3b3; font-weight: 500; display: flex; justify-content: center; align-items: center; gap: 4px; }
-        .amp { font-family: serif; font-style: italic; font-size: 16px; }
-    .top-header {
-    position: fixed;   
-    top: 15px;
-    left: 8px;
-    z-index: 9999;
-}
+        .credit { margin-top: 20px; font-size: 13.5px; color: #b3b3b3; font-weight: 500; display: flex; justify-content: center; align-items: center; gap: 4px; }
+        .network-footer { font-size: 0.80rem; color: #94a3b8; text-align: center; margin-top: 15px; letter-spacing: 0.5px; white-space: nowrap; }
 
-.brand-logo {
-    width: 140px;     
-    height: auto;
-}
+        .mode-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 15px; }
+        .history-actions-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
 
-/* নেটওয়ার্ক ফুটারের নিখুঁত সাইজ ও নো-র‍্যাপ স্টাইল */
-.network-footer {
-    font-size: 0.80rem;
-    color: #475569;
-    text-align: center;
-    margin-top: 15px;
-    letter-spacing: 0.5px;
-    white-space: nowrap; /* লেখা ভাঙা চিরতরে বন্ধ করার ম্যাজিক ট্রিক */
-}
+        .resistor-preview {
+            width: 80%; max-width: 200px; height: 30px; background: #d4b895; 
+            border-radius: 15px; margin: 10px auto; display: flex; justify-content: space-around; align-items: center;
+            position: relative; box-shadow: inset 0 2px 4px rgba(0,0,0,0.2), 0 4px 8px rgba(0,0,0,0.1); border: 1px solid #b8976f;
+        }
+        .resistor-preview::before, .resistor-preview::after {
+            content: ''; position: absolute; top: 50%; width: 35px; height: 2px; background: #94a3b8; transform: translateY(-50%); z-index: 1;
+        }
+        .resistor-preview::before { left: -35px; }
+        .resistor-preview::after { right: -35px; }
+
+        .band-dot { width: 8px; height: 100%; background: #000; cursor: pointer; transition: transform 0.2s; z-index: 2; position: relative; }
+        .band-dot:hover { transform: scaleY(1.15); }
+
+        .custom-select-box { position: relative; width: 100%; margin: 8px 0; }
+        .select-trigger {
+            width: 100%; padding: 14px; border: 2px solid #f0f0f0; border-radius: 15px;
+            font-size: 15px; background: #fafafa; display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none;
+        }
+        .select-trigger:hover { border-color: #2ecc71; background: #fff; }
+        .selected-value-container { display: flex; align-items: center; gap: 10px; }
+        .color-dot-indicator { width: 18px; height: 18px; border-radius: 4px; border: 1px solid #cbd5e1; flex-shrink: 0; }
+
+        .color-modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(4px);
+            display: none; justify-content: center; align-items: flex-end; z-index: 999999;
+            animation: fadeInOverlay 0.2s ease-out;
+        }
+        @keyframes fadeInOverlay { from { opacity: 0; } to { opacity: 1; } }
+
+        .color-modal-sheet {
+            background: #ffffff; width: 100%; max-width: 400px; max-height: 65vh;
+            border-top-left-radius: 28px; border-top-right-radius: 28px; padding: 20px;
+            display: flex; flex-direction: column; box-shadow: 0 -10px 30px rgba(0,0,0,0.3);
+            animation: slideUpSheet 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @keyframes slideUpSheet { from { transform: translateY(100%); } to { transform: translateY(0); } }
+
+        .color-modal-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 15px; border-bottom: 1px solid #f1f5f9; padding-bottom: 10px;
+        }
+        .color-modal-title { font-size: 15px; font-weight: 700; color: #1e293b; text-transform: uppercase; }
+        .color-modal-close { background: none; border: none; font-size: 26px; color: #e74c3c; cursor: pointer; line-height: 1; outline: none; }
+
+        .color-modal-list { flex: 1; overflow-y: auto; padding-right: 4px; display: flex; flex-direction: column; gap: 6px; }
+        .custom-option-item {
+            padding: 12px 14px; display: flex; align-items: center; gap: 12px; cursor: pointer;
+            border-radius: 12px; transition: background 0.2s; background: #f8fafc; border: 1px solid #e2e8f0;
+        }
+        .custom-option-item:active { background: #e2e8f0; }
+
+        .color-picker-popup {
+            position: absolute; background: #ffffff; border: 1.5px solid #cbd5e1; box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            border-radius: 12px; padding: 10px; display: none; grid-template-columns: repeat(5, 1fr); gap: 8px; z-index: 99999; width: 180px;
+        }
+        .color-option-box { width: 26px; height: 26px; border-radius: 50%; cursor: pointer; border: 2px solid #e2e8f0; transition: transform 0.2s; }
+        .color-option-box:hover { transform: scale(1.15); border-color: #0f172a; }
+
+        .info-plain-section { width: 100%; max-width: 380px; padding: 10px; margin-top: 10px; margin-bottom: 20px; text-align: left; }
+        .info-plain-section p { color: #94a3b8; font-size: 0.9rem; line-height: 1.6; margin-bottom: 25px; }
+
+        .section-title-line { color: #94a3b8; font-size: 0.92rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; position: relative; display: inline-block; padding-bottom: 4px; }
+        .section-title-line::after { content: ''; position: absolute; left: 0; bottom: 0; width: 100%; height: 1.5px; background-color: #ffffff; opacity: 0.9; }
+
+        .section-title-plain { color: #ffffff; font-size: 1.2rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 10px; }
+        .info-links { list-style: none; margin-bottom: 25px; padding: 0; }
+        .info-links li { margin: 12px 0; }
+        .info-links a { color: #cbd5e1; text-decoration: none; font-size: 0.92rem; font-weight: 500; display: flex; align-items: center; gap: 10px; cursor: pointer; }
+        .info-links a:hover { color: #00f2ff; }
+
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(5px); display: none; justify-content: center; align-items: center; z-index: 99999; padding: 20px;
+        }
+        .modal-content {
+            background: #ffffff; color: #1e293b; border: 1px solid #e0e0e0; padding: 25px; border-radius: 25px;
+            width: 100%; max-width: 380px; text-align: left; box-shadow: 0 15px 35px rgba(0,0,0,0.2); max-height: 80vh; overflow-y: auto;
+        }
+        .modal-content h3 { color: #0f172a; margin-bottom: 15px; font-size: 1.1rem; text-transform: uppercase; }
+        .modal-content p { color: #475569; font-size: 0.9rem; line-height: 1.6; margin-bottom: 15px; text-align: left; }
+        .modal-content a { color: #3498db; font-weight: bold; text-decoration: none; }
+        .modal-close-btn { width: 100%; padding: 12px; background: #3498db; border: none; color: #fff; font-weight: bold; border-radius: 12px; cursor: pointer; text-transform: uppercase; margin-top: 10px; outline: none; }
+
+        #sideMenu {
+            height: 100%; width: 270px; position: fixed; z-index: 100000; top: 0; right: 0; background: #ffffff; 
+            transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); border-top-left-radius: 35px; 
+            border-bottom-left-radius: 35px; border-left: 2px solid #f39c12; box-shadow: -10px 0 30px rgba(0,0,0,0.3); overflow-x: hidden; overflow-y: auto;
+        }
     </style>
 </head>
 <body>
- <div class="top-header">
-        <img src="logo.png" alt="Logo" class="brand-logo">
+
+    <div class="top-navbar">
+        <div class="logo-container"><img src="logo.png" alt="Logo" class="brand-logo"></div>
+        <div class="menu-icon-btn" onclick="event.stopPropagation(); document.getElementById('sideMenu').style.transform='translateX(0)'">⋮</div>
     </div>
 
-    <div class="container">
-        </div>
-<div class="card">
-    <div id="main-menu">
-        <div class="heading">ELECTRIC CALCULATOR</div>
-        <div class="icon-container"><span class="emoji-bolt">⚡</span></div>
-        <div class="sub-heading">Select Category</div>
-        <div class="menu-buttons">
-            <button class="btn btn-v" onclick="openTool('V')">Voltage (V)</button>
-            <button class="btn btn-w" onclick="openTool('W')">Watt (P)</button>
-            <button class="btn btn-a" onclick="openTool('A')">Ampere (I)</button>
-        </div>
-    </div>
-
-    <div id="input-section" class="input-section">
-        <h3 id="tool-title" style="text-align: center; color: #7f8c8d; font-size: 18px; margin-bottom: 10px; text-transform: uppercase;"></h3>
-        <div id="fields"></div>
-        <button id="calc-button" class="calc-btn" onclick="startCalculation()">Calculate Now</button>
-        <div style="text-align: center;"><button class="clear-btn" onclick="clearFields()">Clear All</button></div>
-        <button class="back-btn" onclick="goBack()">← BACK TO MENU</button>
-        <div id="result-display"></div>
-    </div>
-
-    <div class="credit">💡 Tap (⋮) to explore other tools</div>
-</div>
-
-<!-- মেইন কার্ডের ঠিক নিচে সোজা সেন্টারে ফুটার বসালাম ভাই -->
-<div class="network-footer">
-    © 2026 Pextume Utility Network. All Rights Reserved.
-</div>
-
-<script>
-    let mode = '';
-
-    function openTool(m) {
-        mode = m;
-        document.getElementById('main-menu').style.display = 'none';
-        document.getElementById('input-section').style.display = 'block';
-        const fields = document.getElementById('fields');
-        const title = document.getElementById('tool-title');
-        
-        fields.innerHTML = '';
-        document.getElementById('result-display').innerText = '';
-        document.getElementById('calc-button').classList.remove('ready');
-
-        let p1 = "", p2 = "";
-        if (mode === 'V') { title.innerText = "Finding Voltage"; p1 = "Enter Watt (P)"; p2 = "Enter Ampere (I)"; }
-        else if (mode === 'W') { title.innerText = "Finding Watt"; p1 = "Enter Voltage (V)"; p2 = "Enter Ampere (I)"; }
-        else if (mode === 'A') { title.innerText = "Finding Ampere"; p1 = "Enter Watt (P)"; p2 = "Enter Voltage (V)"; }
-
-        fields.innerHTML = `<input type="number" id="in1" placeholder="${p1}" oninput="validateInput()">
-                            <input type="number" id="in2" placeholder="${p2}" oninput="validateInput()">`;
-    }
-
-    function validateInput() {
-        const v1 = document.getElementById('in1').value;
-        const v2 = document.getElementById('in2').value;
-        const btn = document.getElementById('calc-button');
-        
-        document.getElementById('result-display').innerText = '';
-
-        if (v1 !== '' && v2 !== '') {
-            btn.classList.add('ready');
-        } else {
-            btn.classList.remove('ready');
-        }
-    }
-
-    function startCalculation() {
-        const val1 = parseFloat(document.getElementById('in1').value);
-        const val2 = parseFloat(document.getElementById('in2').value);
-        const btn = document.getElementById('calc-button');
-        if (!btn.classList.contains('ready')) return;
-        let res = 0, unit = "";
-        if (mode === 'V') { res = val1 / val2; unit = " V"; }
-        else if (mode === 'W') { res = val1 * val2; unit = " W"; }
-        else if (mode === 'A') { res = val1 / val2; unit = " A"; }
-        if (!isNaN(res)) {
-            document.getElementById('result-display').innerText = res.toFixed(2) + unit;
-        }
-    }
-
-    function clearFields() {
-        const in1 = document.getElementById('in1');
-        const in2 = document.getElementById('in2');
-        if(in1) in1.value = '';
-        if(in2) in2.value = '';
-        document.getElementById('result-display').innerText = '';
-        document.getElementById('calc-button').classList.remove('ready');
-    }
-
-    function goBack() {
-        document.getElementById('main-menu').style.display = 'block';
-        document.getElementById('input-section').style.display = 'none';
-    }
-</script>
-<div id="menuBtnWrapper" style="position: fixed; top: 35px; right: 30px; z-index: 99999;">
-    <div onclick="event.stopPropagation(); document.getElementById('sideMenu').style.transform='translateX(0)'" 
-         style="cursor:pointer; font-size:35px; color:#ffffff; background:none; border:none; line-height:0.6; -webkit-tap-highlight-color:transparent; text-shadow: 0 0 10px rgba(255, 255, 255, 0.4); padding: 5px;">
-        ⋮
-    </div>
-</div>
-
-<div id="sideMenu" style="height:100%; width:270px; position:fixed; z-index:100000; top:0; right:0; background: rgba(255, 255, 255, 0.98); transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); border-top-left-radius: 35px; border-bottom-left-radius: 35px; border-left: 2px solid #f39c12; box-shadow: -10px 0 30px rgba(0,0,0,0.1); will-change: transform; overflow-x:hidden;">
-    
-    <a href="javascript:void(0)" onclick="document.getElementById('sideMenu').style.transform='translateX(100%)'" 
-       style="position:absolute; top:20px; right:25px; font-size:40px; color:#ff1744; text-decoration:none; font-family:sans-serif; -webkit-tap-highlight-color:transparent;">&times;</a>
-    
-    <div style="width: 270px; padding-top: 100px; display: flex; flex-direction: column; white-space: nowrap;">
-        
-        <div style="padding: 0 30px 15px 0; text-align: right; font-family: sans-serif; font-size: 15px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; 
-            background: linear-gradient(to right, #f39c12, #e74c3c, #9b59b6); 
-            -webkit-background-clip: text; 
-            -webkit-text-fill-color: transparent;">
-            Other Tools
+    <div class="card">
+        <div id="main-menu">
+            <div class="heading">ELECTRIC CALCULATOR</div>
+            <div class="icon-container"><span class="emoji-bolt">⚡</span></div>
+            <div class="history-actions-row">
+                <div class="sub-heading" style="margin: 0;">SELECT CATEGORY</div>
+                <button onclick="openHistoryModal()" style="background:transparent; border:none; color:#3498db; font-weight:bold; cursor:pointer; font-size:13px;">🕒 History</button>
+            </div>
+            
+            <div class="mode-container">
+                <button class="btn btn-v" onclick="openTool('V')">Voltage (V)</button>
+                <button class="btn btn-w" onclick="openTool('W')">Watt (P)</button>
+                <button class="btn btn-a" onclick="openTool('A')">Ampere (I)</button>
+                <button class="btn btn-r" onclick="openTool('R')">Resistance (Ω)</button>
+                <button class="btn btn-color" onclick="openResistorCalculator()">🎨 RESISTOR COLOR CODE</button>
+                <button class="btn btn-cost" onclick="openCostCalculator()">💡 ELECTRICITY BILL CALCULATOR</button>
+            </div>
         </div>
 
-        <a href="age.html" style="padding:18px 30px; text-decoration:none; font-size:18px; color:#000000; font-family:sans-serif; border-bottom:1px solid rgba(0,0,0,0.08); text-align: right; letter-spacing: 1px; font-weight: 500; -webkit-tap-highlight-color:transparent;">Age calculator</a>
-        <a href="day.html" style="padding:18px 30px; text-decoration:none; font-size:18px; color:#000000; font-family:sans-serif; border-bottom:1px solid rgba(0,0,0,0.08); text-align: right; letter-spacing: 1px; font-weight: 500; -webkit-tap-highlight-color:transparent;">Day counter</a>
-        <a href="https://pextume.in/" style="padding:18px 30px; text-decoration:none; font-size:18px; color:#000000; font-family:sans-serif; border-bottom:1px solid rgba(0,0,0,0.08); text-align: right; letter-spacing: 1px; font-weight: 500; -webkit-tap-highlight-color:transparent;">Gst calculator</a>
-        <a href="emi.html" style="padding:18px 30px; text-decoration:none; font-size:18px; color:#000000; font-family:sans-serif; border-bottom:1px solid rgba(0,0,0,0.08); text-align: right; letter-spacing: 1px; font-weight: 500; -webkit-tap-highlight-color:transparent;">Emi calculator</a>
-   <a href="date.html" style="padding:18px 30px; text-decoration:none; font-size:18px; color:#000000; font-family:sans-serif; border-bottom:1px solid rgba(0,0,0,0.08); text-align: right; letter-spacing: 1px; font-weight: 500; -webkit-tap-highlight-color:transparent;">Date calculator</a>
-    <a href="text-checker.html" style="padding:18px 30px; text-decoration:none; font-size:18px; color:#0042ff; font-family:sans-serif; border-bottom:1px solid rgba(255,255,255,0.05); text-align: right; letter-spacing: 1px; -webkit-tap-highlight-color:transparent;">Smart Text Checker</a>
-           <a href="qr-scan.html" style="padding:18px 30px; text-decoration:none; font-size:18px; color:#228B22; font-family:sans-serif; border-bottom:1px solid rgba(255,255,255,0.05); text-align: right; letter-spacing: 1px; -webkit-tap-highlight-color:transparent;">QR Code scanner</a>
-    </div>
-</div>
+        <div id="input-section" class="input-section">
+            <h3 id="tool-title" style="text-align: center; color: #7f8c8d; font-size: 16px; margin-bottom: 6px; text-transform: uppercase;"></h3>
+            <div id="fields" style="max-height: 300px; overflow-y: auto; padding-right: 4px;"></div>
+            <button id="calc-button" class="calc-btn" onclick="startCalculation()">Calculate Now</button>
+            <div style="text-align: center;"><button class="clear-btn" onclick="clearFields()">Clear All</button></div>
+            <button class="back-btn" onclick="goBack()">← BACK TO MENU</button>
+            <div id="result-display"></div>
+        </div>
 
-<script>
-    document.addEventListener('click', function(event) {
-        var sideMenu = document.getElementById('sideMenu');
-        var menuBtn = document.getElementById('menuBtnWrapper');
-        
-        if (!sideMenu.contains(event.target) && !menuBtn.contains(event.target)) {
-            sideMenu.style.transform = 'translateX(100%)';
+        <div class="credit">💡 Tap (⋮) to explore other tools</div>
+    </div>
+
+    <div class="info-plain-section">
+        <h3 class="section-title-plain">Pextume</h3>
+        <p>A premium secure subsystem of the Pextume Utility Network, dedicated to producing fast, open-source, and hardware-accelerated productivity web tools.</p>
+
+        <div class="section-title-line">User Support</div>
+        <ul class="info-links">
+            <li><a onclick="openModal('howToUseModal')">📖 How to Use</a></li>
+            <li><a onclick="openModal('faqModal')">❓ FAQ Guide</a></li>
+            <li><a onclick="openModal('contactModal')">📧 Contact Us</a></li>
+        </ul>
+
+        <div class="section-title-line">Legal Bureau</div>
+        <ul class="info-links" style="margin-bottom: 0;">
+            <li><a onclick="openModal('privacyModal')">🛡️ Privacy Policy</a></li>
+            <li><a onclick="openModal('termsModal')">📝 Terms of Service</a></li>
+            <li><a onclick="openModal('disclaimerModal')">⚖️ Disclaimer</a></li>
+        </ul>
+    </div>
+
+    <div class="network-footer">© 2026 Pextume Utility Network. All Rights Reserved.</div>
+
+    <div id="colorPalettePopup" class="color-picker-popup"></div>
+        <!-- কালার সিলেকশন পপআপ শিট -->
+    <div id="colorSelectModal" class="color-modal-overlay" onclick="closeColorModal()">
+        <div class="color-modal-sheet" onclick="event.stopPropagation()">
+            <div class="color-modal-header">
+                <div class="color-modal-title" id="colorModalTitle">Select Color</div>
+                <button class="color-modal-close" onclick="closeColorModal()">&times;</button>
+            </div>
+            <div class="color-modal-list" id="colorModalListContainer"></div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="howToUseModal" onclick="closeModal('howToUseModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h3>How to Use</h3>
+            <p>1. Select Resistor Color Code and choose band count (3, 4, 5, or 6 Band).<br>2. Tap directly on any color band on the resistor image to pick colors easily.<br>3. View instant accurate resistance value.</p>
+            <button class="modal-close-btn" onclick="closeModal('howToUseModal')">Close</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="faqModal" onclick="closeModal('faqModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h3>FAQ Guide</h3>
+            <p><b>Q: Does it support 3, 4, 5 and 6 bands?</b><br>Yes, you can dynamically switch between any band configuration.</p>
+            <button class="modal-close-btn" onclick="closeModal('faqModal')">Close</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="contactModal" onclick="closeModal('contactModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h3>Contact Us</h3>
+            <p>Reach out to us at:<br><br>👉 <a href="mailto:Support@pextume.in">Support@pextume.in</a></p>
+            <button class="modal-close-btn" onclick="closeModal('contactModal')">Close</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="privacyModal" onclick="closeModal('privacyModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h3>Privacy Policy</h3>
+            <p>Calculations run safely inside your browser. No data is stored externally.</p>
+            <button class="modal-close-btn" onclick="closeModal('privacyModal')">Close</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="termsModal" onclick="closeModal('termsModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h3>Terms of Service</h3>
+            <p>Pextume provides reliable utility tools for productivity.</p>
+            <button class="modal-close-btn" onclick="closeModal('termsModal')">Close</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="disclaimerModal" onclick="closeModal('disclaimerModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h3>Disclaimer</h3>
+            <p>Designed for calculation and electronics estimation purposes.</p>
+            <button class="modal-close-btn" onclick="closeModal('disclaimerModal')">Close</button>
+        </div>
+    </div>
+
+    <!-- হিস্ট্রি মডাল -->
+    <div id="historyModal" class="modal-overlay" onclick="closeHistoryModal()">
+        <div class="modal-content" onclick="event.stopPropagation()" style="display: flex; flex-direction: column; height: 75vh; max-height: 450px; padding: 20px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; flex-shrink: 0;">
+                <h3 style="margin:0; font-size: 16px; font-weight: 800; color: #0f172a;">CALCULATION HISTORY</h3>
+                <button onclick="closeHistoryModal()" style="background:none; border:none; font-size:28px; line-height:1; cursor:pointer; color:#e74c3c; outline:none; padding: 0 5px;">&times;</button>
+            </div>
+            
+            <div id="historyList" style="flex: 1; overflow-y: auto; padding-right: 4px; margin-bottom: 15px;">
+                <p style="color:#7f8c8d; font-size:13px; text-align:center;">No history found.</p>
+            </div>
+
+            <button onclick="clearHistory()" class="btn" style="background:#e74c3c; width:100%; padding:14px; font-size:14px; color:#fff; flex-shrink: 0; border-radius: 14px;">CLEAR HISTORY</button>
+        </div>
+    </div>
+
+    <div id="sideMenu">
+        <a href="javascript:void(0)" onclick="document.getElementById('sideMenu').style.transform='translateX(100%)'" style="position:absolute; top:20px; right:25px; font-size:40px; color:#ff4757; text-decoration:none; font-family:sans-serif; outline:none;">&times;</a>
+        <div style="width: 270px; padding-top: 80px; padding-bottom: 40px; display: flex; flex-direction: column;">
+           <div style="padding: 0 30px 15px 0; text-align: right; font-family: sans-serif; font-size: 15px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; background: linear-gradient(to right, #f39c12, #e74c3c, #9b59b6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Other Tools</div>          
+            <a href="age.html" style="padding:15px 30px; text-decoration:none; font-size:18px; color:#2d3748; border-bottom:1px solid rgba(0,0,0,0.08); text-align: right; letter-spacing: 1px; font-weight: 500;">Age calculator</a>
+            <a href="day.html" style="padding:15px 30px; text-decoration:none; font-size:18px; color:#2d3748; border-bottom:1px solid rgba(0,0,0,0.08); text-align: right; letter-spacing: 1px; font-weight: 500;">Day counter</a>
+            <a href="index.html" style="padding:15px 30px; text-decoration:none; font-size:18px; color:#2d3748; border-bottom:1px solid rgba(0,0,0,0.08); text-align: right; letter-spacing: 1px; font-weight: 500;">Gst calculator</a>
+            <a href="emi.html" style="padding:15px 30px; text-decoration:none; font-size:18px; color:#2d3748; border-bottom:1px solid rgba(0,0,0,0.08); text-align: right; letter-spacing: 1px; font-weight: 500;">Emi calculator</a>
+            <a href="date.html" style="padding:15px 30px; text-decoration:none; font-size:18px; color:#2d3748; border-bottom:1px solid rgba(0,0,0,0.08); text-align: right; letter-spacing: 1px; font-weight: 500;">Date & Time calculator</a>
+            <a href="text-checker.html" style="padding:15px 30px; text-decoration:none; font-size:18px; color:#2d3748; border-bottom:1px solid rgba(0,0,0,0.08); text-align: right; letter-spacing: 1px; font-weight: 500;">Smart Text checker</a>
+            <a href="qr-scan.html" style="padding:15px 30px; text-decoration:none; font-size:18px; color:#2d3748; border-bottom:1px solid rgba(0,0,0,0.08); text-align: right; letter-spacing: 1px; font-weight: 500;">QR Code scanner</a>           
+            <a href="qr-gen.html" style="padding:15px 30px; text-decoration:none; font-size:18px; color:#2d3748; border-bottom:1px solid rgba(0,0,0,0.08); text-align: right; letter-spacing: 1px; font-weight: 500;">QR Code Generator</a>
+            <a href="im-convert.html" style="padding:15px 30px; text-decoration:none; font-size:18px; color:#2d3748; border-bottom:1px solid rgba(0,0,0,0.08); text-align: right; letter-spacing: 1px; font-weight: 500;">Image Converter</a>
+        </div>
+    </div>
+        <!-- Script Part 1 -->
+    <script>
+        let mode = '';
+        let activeBandIndex = null;
+        let currentActiveBandNum = null;
+
+        const colorMap = {
+            black: { val: 0, mult: 1, color: '#000000' },
+            brown: { val: 1, mult: 10, color: '#8B4513' },
+            red: { val: 2, mult: 100, color: '#FF0000' },
+            orange: { val: 3, mult: 1000, color: '#FFA500' },
+            yellow: { val: 4, mult: 10000, color: '#FFFF00' },
+            green: { val: 5, mult: 100000, color: '#008000' },
+            blue: { val: 6, mult: 1000000, color: '#0000FF' },
+            violet: { val: 7, mult: 10000000, color: '#EE82EE' },
+            grey: { val: 8, mult: 100000000, color: '#808080' },
+            white: { val: 9, mult: 1000000000, color: '#FFFFFF' }
+        };
+
+        const tolMap = {
+            black: { tol: '±20%', color: '#000000' },
+            brown: { tol: '±1%', color: '#8B4513' },
+            red: { tol: '±2%', color: '#FF0000' },
+            green: { tol: '±0.5%', color: '#008000' },
+            blue: { tol: '±0.25%', color: '#0000FF' },
+            violet: { tol: '±0.1%', color: '#EE82EE' },
+            grey: { tol: '±0.05%', color: '#808080' },
+            gold: { tol: '±5%', color: '#FFD700' },
+            silver: { tol: '±10%', color: '#C0C0C0' }
+        };
+
+        const ppmMap = {
+            black: { ppm: '250 ppm/K', color: '#000000' },
+            brown: { ppm: '100 ppm/K', color: '#8B4513' },
+            red: { ppm: '50 ppm/K', color: '#FF0000' },
+            orange: { ppm: '15 ppm/K', color: '#FFA500' },
+            yellow: { ppm: '25 ppm/K', color: '#FFFF00' },
+            green: { ppm: '20 ppm/K', color: '#008000' },
+            blue: { ppm: '10 ppm/K', color: '#0000FF' },
+            violet: { ppm: '5 ppm/K', color: '#EE82EE' },
+            grey: { ppm: '1 ppm/K', color: '#808080' }
+        };
+
+        const colorDataList = [
+            { name: 'black', hex: '#000000', label: 'Black' },
+            { name: 'brown', hex: '#8B4513', label: 'Brown' },
+            { name: 'red', hex: '#FF0000', label: 'Red' },
+            { name: 'orange', hex: '#FFA500', label: 'Orange' },
+            { name: 'yellow', hex: '#FFFF00', label: 'Yellow' },
+            { name: 'green', hex: '#008000', label: 'Green' },
+            { name: 'blue', hex: '#0000FF', label: 'Blue' },
+            { name: 'violet', hex: '#EE82EE', label: 'Violet' },
+            { name: 'grey', hex: '#808080', label: 'Grey' },
+            { name: 'white', hex: '#FFFFFF', label: 'White' }
+        ];
+
+        const tolDataList = [
+            { name: 'gold', label: 'Gold (±5%)' },
+            { name: 'silver', label: 'Silver (±10%)' },
+            { name: 'brown', label: 'Brown (±1%)' },
+            { name: 'red', label: 'Red (±2%)' },
+            { name: 'green', label: 'Green (±0.5%)' },
+            { name: 'blue', label: 'Blue (±0.25%)' },
+            { name: 'violet', label: 'Violet (±0.1%)' },
+            { name: 'grey', label: 'Grey (±0.05%)' },
+            { name: 'black', label: 'Black (±20%)' }
+        ];
+
+        const ppmDataList = [
+            { name: 'brown', label: 'Brown (100 ppm)' },
+            { name: 'red', label: 'Red (50 ppm)' },
+            { name: 'orange', label: 'Orange (15 ppm)' },
+            { name: 'yellow', label: 'Yellow (25 ppm)' },
+            { name: 'green', label: 'Green (20 ppm)' },
+            { name: 'blue', label: 'Blue (10 ppm)' },
+            { name: 'violet', label: 'Violet (5 ppm)' },
+            { name: 'grey', label: 'Grey (1 ppm)' }
+        ];
+
+        function openTool(m) {
+            mode = m;
+            document.getElementById('main-menu').style.display = 'none';
+            
+            let inputSec = document.getElementById('input-section');
+            if (!inputSec) {
+                createInputSection();
+            } else {
+                inputSec.style.display = 'block';
+            }
+
+            const fields = document.getElementById('fields');
+            const title = document.getElementById('tool-title');
+            
+            fields.innerHTML = '';
+            document.getElementById('result-display').innerText = '';
+            document.getElementById('calc-button').classList.remove('ready');
+
+            if (mode === 'V') { title.innerText = "Finding Voltage"; fields.innerHTML = getInputs("Enter Watt (P)", "Enter Ampere (I)"); }
+            else if (mode === 'W') { title.innerText = "Finding Watt"; fields.innerHTML = getInputs("Enter Voltage (V)", "Enter Ampere (I)"); }
+            else if (mode === 'A') { title.innerText = "Finding Ampere"; fields.innerHTML = getInputs("Enter Watt (P)", "Enter Voltage (V)"); }
+            else if (mode === 'R') { title.innerText = "Finding Resistance"; fields.innerHTML = `<input type="number" id="in1" placeholder="Power/Battery Voltage (V)" oninput="validateInput()"><input type="number" id="in2" placeholder="Component/LED Voltage (V)" oninput="validateInput()"><input type="number" id="in3" placeholder="Component/LED Ampere (A)" oninput="validateInput()">`; }
+            else if (mode === 'COST') { title.innerText = "Electricity Cost"; fields.innerHTML = `<input type="number" id="in1" placeholder="Enter Watt (W)" oninput="validateInput()"><input type="number" id="in2" placeholder="Hours per Day" oninput="validateInput()"><input type="number" id="in3" placeholder="Rate per Unit (₹)" oninput="validateInput()">`; }
+            else if (mode === 'COLOR') {
+                title.innerText = "Resistor Color Code";
+                fields.innerHTML = `
+                    <label style="font-size:12px; font-weight:700; color:#1e293b;">Select Band Type:</label>
+                    <select id="bandCount" onchange="renderResistorBands()" style="padding:10px; border-radius:10px; border:1.5px solid #cbd5e1; margin-bottom:10px;">
+                        <option value="4">4-Band Resistor</option>
+                        <option value="5">5-Band Resistor</option>
+                        <option value="6">6-Band Resistor</option>
+                        <option value="3">3-Band Resistor</option>
+                    </select>
+
+                    <div class="resistor-preview" id="resistorPreview">
+                        <div class="band-dot" id="b1" onclick="showColorPalette(event, 1)"></div>
+                        <div class="band-dot" id="b2" onclick="showColorPalette(event, 2)"></div>
+                        <div class="band-dot" id="b3" onclick="showColorPalette(event, 3)"></div>
+                        <div class="band-dot" id="b4" onclick="showColorPalette(event, 4)"></div>
+                        <div class="band-dot" id="b5" onclick="showColorPalette(event, 5)"></div>
+                        <div class="band-dot" id="b6" onclick="showColorPalette(event, 6)"></div>
+                    </div>
+                    
+                    <div id="bandSelectors"></div>
+                `;
+                renderResistorBands();
+                document.getElementById('calc-button').classList.add('ready');
+                document.getElementById('calc-button').innerText = "Calculate Value";
+                return;
+            }
+
+            document.getElementById('calc-button').innerText = mode === 'COST' ? "Calculate Bill" : "Calculate Now";
         }
-    });
-</script>
+
+        function renderResistorBands() {
+            let bands = parseInt(document.getElementById('bandCount').value);
+            let container = document.getElementById('bandSelectors');
+            let html = '';
+
+            for(let i=1; i<=6; i++) {
+                let dot = document.getElementById('b' + i);
+                if(dot) dot.style.display = i <= bands ? 'block' : 'none';
+            }
+
+            if (bands === 3) {
+                html += `
+                    <label style="font-size:11px; font-weight:600; color:#64748b;">1st Digit:</label>${renderCustomSelect(1, colorDataList, 'black')}
+                    <label style="font-size:11px; font-weight:600; color:#64748b;">2nd Digit:</label>${renderCustomSelect(2, colorDataList, 'black')}
+                    <label style="font-size:11px; font-weight:600; color:#64748b;">Multiplier (3rd Band):</label>${renderCustomSelect(3, colorDataList, 'brown')}
+                `;
+            } else if (bands === 4) {
+                html += `
+                    <label style="font-size:11px; font-weight:600; color:#64748b;">1st Digit:</label>${renderCustomSelect(1, colorDataList, 'black')}
+                    <label style="font-size:11px; font-weight:600; color:#64748b;">2nd Digit:</label>${renderCustomSelect(2, colorDataList, 'black')}
+                    <label style="font-size:11px; font-weight:600; color:#64748b;">Multiplier (3rd Band):</label>${renderCustomSelect(3, colorDataList, 'brown')}
+                    <label style="font-size:11px; font-weight:600; color:#64748b;">Tolerance (4th Band):</label>${renderCustomSelect(4, tolDataList, 'gold')}
+                `;
+            } else if (bands === 5) {
+                html += `
+                    <label style="font-size:11px; font-weight:600; color:#64748b;">1st Digit:</label>${renderCustomSelect(1, colorDataList, 'black')}
+                    <label style="font-size:11px; font-weight:600; color:#64748b;">2nd Digit:</label>${renderCustomSelect(2, colorDataList, 'black')}
+                    <label style="font-size:11px; font-weight:600; color:#64748b;">3rd Digit:</label>${renderCustomSelect(3, colorDataList, 'black')}
+                    <label style="font-size:11px; font-weight:600; color:#64748b;">Multiplier (4th Band):</label>${renderCustomSelect(4, colorDataList, 'brown')}
+                    <label style="font-size:11px; font-weight:600; color:#64748b;">Tolerance (5th Band):</label>${renderCustomSelect(5, tolDataList, 'gold')}
+                `;
+            } else if (bands === 6) {
+                html += `
+                    <label style="font-size:11px; font-weight:600; color:#64748b;">1st Digit:</label>${renderCustomSelect(1, colorDataList, 'black')}
+                    <label style="font-size:11px; font-weight:600; color:#64748b;">2nd Digit:</label>${renderCustomSelect(2, colorDataList, 'black')}
+                    <label style="font-size:11px; font-weight:600; color:#64748b;">3rd Digit:</label>${renderCustomSelect(3, colorDataList, 'black')}
+                    <label style="font-size:11px; font-weight:600; color:#64748b;">Multiplier (4th Band):</label>${renderCustomSelect(4, colorDataList, 'brown')}
+                    <label style="font-size:11px; font-weight:600; color:#64748b;">Tolerance (5th Band):</label>${renderCustomSelect(5, tolDataList, 'gold')}
+                    <label style="font-size:11px; font-weight:600; color:#64748b;">Temp. Coeff (6th Band):</label>${renderCustomSelect(6, ppmDataList, 'brown')}
+                `;
+            }
+            container.innerHTML = html;
+            updateResistorPreview();
+        }
+
+        function renderCustomSelect(bandNum, dataList, defaultVal) {
+            let selectedObj = dataList.find(d => d.name === defaultVal) || dataList[0];
+            let hasHex = selectedObj.hex !== undefined;
+            let displayHex = hasHex ? selectedObj.hex : (tolMap[selectedObj.name] ? tolMap[selectedObj.name].color : '#ccc');
+
+            let html = `
+                <div class="custom-select-box" id="selectBox_${bandNum}">
+                    <div class="select-trigger" onclick="openColorModal(${bandNum}, '${selectedObj.label.replace(/'/g, "\\'")}')">
+                        <div class="selected-value-container">
+                            <div class="color-dot-indicator" id="triggerDot_${bandNum}" style="background: ${displayHex};"></div>
+                            <span id="triggerText_${bandNum}">${selectedObj.label}</span>
+                        </div>
+                        <span style="font-size:11px; color:#64748b;">▼</span>
+                    </div>
+                </div>
+                <input type="hidden" id="col${bandNum}" value="${selectedObj.name}">
+            `;
+            return html;
+        }
+
+        function openColorModal(bandNum, titleLabel) {
+            currentActiveBandNum = bandNum;
+            document.getElementById('colorModalTitle').innerText = "Select " + titleLabel;
+            
+            let bandCount = parseInt(document.getElementById('bandCount').value);
+            let dataList = colorDataList;
+            
+            if (bandCount === 4 && bandNum === 4) dataList = tolDataList;
+            if (bandCount === 5 && bandNum === 5) dataList = tolDataList;
+            if (bandCount === 6) {
+                if (bandNum === 5) dataList = tolDataList;
+                if (bandNum === 6) dataList = ppmDataList;
+            }
+
+            let listContainer = document.getElementById('colorModalListContainer');
+            let html = '';
+
+            dataList.forEach(d => {
+                let dHex = d.hex !== undefined ? d.hex : (tolMap[d.name] ? tolMap[d.name].color : (ppmMap[d.name] ? ppmMap[d.name].color : '#ccc'));
+                let safeLabel = d.label.replace(/'/g, "\\'");
+                html += `
+                    <div class="custom-option-item" onclick="selectColorFromModal('${d.name}', '${dHex}', '${safeLabel}')">
+                        <div class="color-dot-indicator" style="background: ${dHex}; width: 22px; height: 22px;"></div>
+                        <span style="font-size:14px; font-weight:600; color:#1e293b;">${d.label}</span>
+                    </div>
+                `;
+            });
+
+            listContainer.innerHTML = html;
+            document.getElementById('colorSelectModal').style.display = 'flex';
+        }
+
+        function selectColorFromModal(name, hex, label) {
+            if (currentActiveBandNum !== null) {
+                document.getElementById(`col${currentActiveBandNum}`).value = name;
+                document.getElementById(`triggerDot_${currentActiveBandNum}`).style.background = hex;
+                document.getElementById(`triggerText_${currentActiveBandNum}`).innerText = label;
+                updateResistorPreview();
+            }
+            closeColorModal();
+        }
+
+        function closeColorModal() {
+            document.getElementById('colorSelectModal').style.display = 'none';
+            currentActiveBandNum = null;
+        }
+
+        function getInputs(p1, p2) {
+            return `<input type="number" id="in1" placeholder="${p1}" oninput="validateInput()"><input type="number" id="in2" placeholder="${p2}" oninput="validateInput()">`;
+        }
+
+        function showColorPalette(event, bandIndex) {
+            event.stopPropagation();
+            activeBandIndex = bandIndex;
+            let popup = document.getElementById('colorPalettePopup');
+            let html = '';
+            colorDataList.forEach(c => {
+                html += `<div class="color-option-box" style="background:${c.hex};" onclick="selectColorFromPalette('${c.name}')" title="${c.label}"></div>`;
+            });
+            popup.innerHTML = html;
+
+            let rect = event.target.getBoundingClientRect();
+            popup.style.display = 'grid';
+            popup.style.top = (rect.bottom + window.scrollY + 8) + 'px';
+            popup.style.left = (rect.left + window.scrollX - 70) + 'px';
+        }
+
+        function selectColorFromPalette(colorName) {
+            if (activeBandIndex !== null) {
+                let obj = colorDataList.find(c => c.name === colorName);
+                if (obj) {
+                    let dHex = obj.hex;
+                    document.getElementById(`col${activeBandIndex}`).value = obj.name;
+                    document.getElementById(`triggerDot_${activeBandIndex}`).style.background = dHex;
+                    document.getElementById(`triggerText_${activeBandIndex}`).innerText = obj.label;
+                    updateResistorPreview();
+                }
+            }
+            document.getElementById('colorPalettePopup').style.display = 'none';
+        }
+    </script>
+        <!-- Script Part 2 -->
+    <script>
+        function updateResistorPreview() {
+            let bands = parseInt(document.getElementById('bandCount').value);
+            let c1 = document.getElementById('col1') ? document.getElementById('col1').value : 'black';
+            let c2 = document.getElementById('col2') ? document.getElementById('col2').value : 'black';
+            let c3 = document.getElementById('col3') ? document.getElementById('col3').value : 'brown';
+            let c4 = document.getElementById('col4') ? document.getElementById('col4').value : 'gold';
+            let c5 = document.getElementById('col5') ? document.getElementById('col5').value : 'gold';
+            let c6 = document.getElementById('col6') ? document.getElementById('col6').value : 'brown';
+
+            if(document.getElementById('b1')) document.getElementById('b1').style.background = colorMap[c1] ? colorMap[c1].color : '#000';
+            if(document.getElementById('b2')) document.getElementById('b2').style.background = colorMap[c2] ? colorMap[c2].color : '#000';
+            if(document.getElementById('b3')) {
+                if(bands === 3) document.getElementById('b3').style.background = colorMap[c3] ? colorMap[c3].mult : '#8B4513';
+                else document.getElementById('b3').style.background = colorMap[c3] ? colorMap[c3].color : '#000';
+            }
+            if(document.getElementById('b4')) {
+                if(bands === 4) document.getElementById('b4').style.background = tolMap[c4] ? tolMap[c4].color : '#FFD700';
+                else document.getElementById('b4').style.background = colorMap[c4] ? colorMap[c4].color : '#8B4513';
+            }
+            if(document.getElementById('b5')) {
+                if(bands === 5 || bands === 6) document.getElementById('b5').style.background = tolMap[c5] ? tolMap[c5].color : '#FFD700';
+            }
+            if(document.getElementById('b6')) {
+                if(bands === 6) document.getElementById('b6').style.background = ppmMap[c6] ? ppmMap[c6].color : '#8B4513';
+            }
+        }
+
+        function openCostCalculator() { openTool('COST'); }
+        function openResistorCalculator() { openTool('COLOR'); }
+
+        function createInputSection() {
+            let card = document.querySelector('.card');
+            if (!card) return;
+            let div = document.createElement('div');
+            div.id = 'input-section';
+            div.className = 'input-section';
+            div.innerHTML = `
+                <h3 id="tool-title" style="text-align: center; color: #7f8c8d; font-size: 16px; margin-bottom: 6px; text-transform: uppercase;"></h3>
+                <div id="fields" style="max-height: 300px; overflow-y: auto; padding-right: 4px;"></div>
+                <button id="calc-button" class="calc-btn" onclick="startCalculation()">Calculate Now</button>
+                <div style="text-align: center;"><button class="clear-btn" onclick="clearFields()">Clear All</button></div>
+                <button class="back-btn" onclick="goBack()">← BACK TO MENU</button>
+                <div id="result-display"></div>
+            `;
+            card.appendChild(div);
+        }
+
+        function validateInput() {
+            const v1 = document.getElementById('in1') ? document.getElementById('in1').value : '';
+            const v2 = document.getElementById('in2') ? document.getElementById('in2').value : '';
+            const v3 = document.getElementById('in3') ? document.getElementById('in3').value : '';
+            const btn = document.getElementById('calc-button');
+            
+            document.getElementById('result-display').innerText = '';
+
+            if (mode === 'R' || mode === 'COST') {
+                if (v1 !== '' && v2 !== '' && v3 !== '') btn.classList.add('ready');
+                else btn.classList.remove('ready');
+            } else {
+                if (v1 !== '' && v2 !== '') btn.classList.add('ready');
+                else btn.classList.remove('ready');
+            }
+        }
+
+        function startCalculation() {
+            if (mode === 'COLOR') {
+                let bands = parseInt(document.getElementById('bandCount').value);
+                let ohms = 0, finalResStr = "";
+
+                let v1 = document.getElementById('col1') ? document.getElementById('col1').value : 'black';
+                let v2 = document.getElementById('col2') ? document.getElementById('col2').value : 'black';
+                let v3 = document.getElementById('col3') ? document.getElementById('col3').value : 'brown';
+                let v4 = document.getElementById('col4') ? document.getElementById('col4').value : 'gold';
+                let v5 = document.getElementById('col5') ? document.getElementById('col5').value : 'gold';
+                let v6 = document.getElementById('col6') ? document.getElementById('col6').value : 'brown';
+
+                if (bands === 3) {
+                    let d1 = colorMap[v1].val;
+                    let d2 = colorMap[v2].val;
+                    let mult = colorMap[v3].mult;
+                    ohms = (d1 * 10 + d2) * mult;
+                    finalResStr = `${formatOhms(ohms)} (±20%)`;
+                } else if (bands === 4) {
+                    let d1 = colorMap[v1].val;
+                    let d2 = colorMap[v2].val;
+                    let mult = colorMap[v3].mult;
+                    let tol = tolMap[v4] ? tolMap[v4].tol : '±5%';
+                    ohms = (d1 * 10 + d2) * mult;
+                    finalResStr = `${formatOhms(ohms)} (${tol})`;
+                } else if (bands === 5) {
+                    let d1 = colorMap[v1].val;
+                    let d2 = colorMap[v2].val;
+                    let d3 = colorMap[v3].val;
+                    let mult = colorMap[v4].mult;
+                    let tol = tolMap[v5] ? tolMap[v5].tol : '±5%';
+                    ohms = (d1 * 100 + d2 * 10 + d3) * mult;
+                    finalResStr = `${formatOhms(ohms)} (${tol})`;
+                } else if (bands === 6) {
+                    let d1 = colorMap[v1].val;
+                    let d2 = colorMap[v2].val;
+                    let d3 = colorMap[v3].val;
+                    let mult = colorMap[v4].mult;
+                    let tol = tolMap[v5] ? tolMap[v5].tol : '±5%';
+                    let ppm = ppmMap[v6] ? ppmMap[v6].ppm : '100 ppm/K';
+                    ohms = (d1 * 100 + d2 * 10 + d3) * mult;
+                    finalResStr = `${formatOhms(ohms)} (${tol}), ${ppm}`;
+                }
+
+                document.getElementById('result-display').innerText = finalResStr;
+
+                saveHistory({
+                    title: `${bands}-Band Resistor`,
+                    result: finalResStr,
+                    date: new Date().toLocaleDateString()
+                });
+                return;
+            }
+
+            const val1 = document.getElementById('in1') ? parseFloat(document.getElementById('in1').value) : 0;
+            const val2 = document.getElementById('in2') ? parseFloat(document.getElementById('in2').value) : 0;
+            const val3 = document.getElementById('in3') ? parseFloat(document.getElementById('in3').value) : 0;
+            const btn = document.getElementById('calc-button');
+            if (!btn.classList.contains('ready')) return;
+            
+            let res = 0, unit = "", titleText = "";
+            
+            if (mode === 'V') { res = val1 / val2; unit = " V"; titleText = `Voltage: P=${val1}W, I=${val2}A`; }
+            else if (mode === 'W') { res = val1 * val2; unit = " W"; titleText = `Watt: V=${val1}V, I=${val2}A`; }
+            else if (mode === 'A') { res = val1 / val2; unit = " A"; titleText = `Ampere: P=${val1}W, V=${val2}V`; }
+            else if (mode === 'R') {
+                let voltageDrop = val1 - val2;
+                if (voltageDrop < 0) voltageDrop = 0;
+                res = voltageDrop / val3;
+                unit = " Ω";
+                titleText = `Resistance: Source=${val1}V, App=${val2}V, I=${val3}A`;
+            }
+            else if (mode === 'COST') {
+                let monthlyUnits = (val1 * val2 * 30) / 1000;
+                res = monthlyUnits * val3;
+                unit = " ₹/month";
+                titleText = `Bill: ${val1}W, ${val2}h/day`;
+            }
+
+            if (!isNaN(res)) {
+                let finalResStr = res.toFixed(2) + unit;
+                document.getElementById('result-display').innerText = finalResStr;
+                
+                saveHistory({
+                    title: titleText,
+                    result: finalResStr,
+                    date: new Date().toLocaleDateString()
+                });
+            }
+        }
+
+        function formatOhms(ohms) {
+            if (ohms >= 1000000) return (ohms / 1000000).toFixed(2) + " MΩ";
+            else if (ohms >= 1000) return (ohms / 1000).toFixed(2) + " kΩ";
+            else return ohms + " Ω";
+        }
+
+        function saveHistory(item) {
+            let history = JSON.parse(localStorage.getItem('electric_calc_history')) || [];
+            history.unshift(item);
+            if (history.length > 10) history.pop();
+            localStorage.setItem('electric_calc_history', JSON.stringify(history));
+        }
+
+        function openHistoryModal() {
+            let history = JSON.parse(localStorage.getItem('electric_calc_history')) || [];
+            let listDiv = document.getElementById('historyList');
+            if (!listDiv) return;
+            if (history.length === 0) {
+                listDiv.innerHTML = '<p style="color:#7f8c8d; font-size:13px; text-align:center;">No history found.</p>';
+            } else {
+                let html = '';
+                history.forEach((h, index) => {
+                    html += `<div style="background:#f8fafc; padding:10px 14px; border-radius:12px; margin-bottom:8px; border:1px solid #e2e8f0; font-size:13px; display:flex; justify-content:space-between; align-items:center;">
+                        <div style="flex: 1; padding-right: 10px;">
+                            <b style="color:#1e293b;">${h.title}</b><br>
+                            <span style="color:#27ae60; font-weight:bold; font-size:13px;">${h.result}</span><br>
+                            <span style="color:#64748b; font-size:11px;">${h.date}</span>
+                        </div>
+                        <button onclick="deleteSingleHistory(${index})" style="background:none; border:none; color:#e74c3c; cursor:pointer; padding:4px 8px; outline:none; display:flex; flex-direction:column; align-items:center; gap:2px;" title="Delete item">
+                            <span style="font-size:16px; line-height:1;">🗑️</span>
+                            <span style="font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px;">Delete</span>
+                        </button>
+                    </div>`;
+                });
+                listDiv.innerHTML = html;
+            }
+            document.getElementById('historyModal').style.display = 'flex';
+        }
+
+        function deleteSingleHistory(index) {
+            let history = JSON.parse(localStorage.getItem('electric_calc_history')) || [];
+            history.splice(index, 1);
+            localStorage.setItem('electric_calc_history', JSON.stringify(history));
+            openHistoryModal();
+        }
+
+        function closeHistoryModal() {
+            let modal = document.getElementById('historyModal');
+            if(modal) modal.style.display = 'none';
+        }
+
+        function clearHistory() {
+            localStorage.removeItem('electric_calc_history');
+            openHistoryModal();
+        }
+
+        function clearFields() {
+            if (mode === 'COLOR') {
+                renderResistorBands();
+                document.getElementById('result-display').innerText = '';
+                return;
+            }
+            if (document.getElementById('in1')) document.getElementById('in1').value = '';
+            if (document.getElementById('in2')) document.getElementById('in2').value = '';
+            if (document.getElementById('in3')) document.getElementById('in3').value = '';
+            document.getElementById('result-display').innerText = '';
+            document.getElementById('calc-button').classList.remove('ready');
+        }
+
+        function goBack() {
+            document.getElementById('main-menu').style.display = 'block';
+            let inputSec = document.getElementById('input-section');
+            if (inputSec) inputSec.style.display = 'none';
+        }
+
+        function openModal(modalId) { document.getElementById(modalId).style.display = 'flex'; }
+        function closeModal(modalId) { document.getElementById(modalId).style.display = 'none'; }
+
+        document.addEventListener('click', function(event) {
+            var sideMenu = document.getElementById('sideMenu');
+            var topNavbar = document.querySelector('.top-navbar');
+            let popup = document.getElementById('colorPalettePopup');
+            
+            if (sideMenu && topNavbar && !sideMenu.contains(event.target) && !topNavbar.contains(event.target)) {
+                sideMenu.style.transform = 'translateX(100%)';
+            }
+            if (popup && !popup.contains(event.target)) {
+                popup.style.display = 'none';
+            }
+        });
+    </script>
 </body>
 </html>
