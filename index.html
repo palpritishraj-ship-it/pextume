@@ -834,7 +834,7 @@
             </div>
 
             <a href="age.html" style="padding:15px 30px; text-decoration:none; font-size:18px; color:var(--text-color); border-bottom:1px solid rgba(16,185,129,0.1); text-align: right; letter-spacing: 1px;">Age calculator</a>
-            <a href="electric.html" style="padding:15px 30px; text-decoration:none; font-size:18px; color:var(--text-color); border-bottom:1px solid rgba(16,185,129,0.1); text-align: right; letter-spacing: 1px;">Electric calculator</a>
+            <a href="electric.html" style="padding:15px 30px; text-decoration:none; font-size:18px; color:var(--text-color); border-bottom:1px solid rgba(16,185,129,0.1); text-align: right; letter-spacing: 1px;">Electricity calculator</a>
             <a href="day.html" style="padding:15px 30px; text-decoration:none; font-size:18px; color:var(--text-color); border-bottom:1px solid rgba(16,185,129,0.1); text-align: right; letter-spacing: 1px;">Day counter</a>
             <a href="emi.html" style="padding:15px 30px; text-decoration:none; font-size:18px; color:var(--text-color); border-bottom:1px solid rgba(16,185,129,0.1); text-align: right; letter-spacing: 1px;">Emi calculator</a>
             <a href="date.html" style="padding:15px 30px; text-decoration:none; font-size:18px; color:var(--text-color); border-bottom:1px solid rgba(16,185,129,0.1); text-align: right; letter-spacing: 1px;">Date & Time calculator</a>
@@ -846,6 +846,13 @@
     </div>
 
     <script>
+     // রাইট-ক্লিক এবং সাধারণ শর্টকাট ব্লক করার কোড
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.onkeydown = function(e) {
+    if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85)) {
+        return false;
+    }
+}; 
         function toggleTheme() {
             const htmlTag = document.documentElement;
             const themeBtn = document.getElementById('themeToggleBtn');
