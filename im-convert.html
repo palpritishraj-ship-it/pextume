@@ -159,7 +159,7 @@
                    <a href="age.html" style="padding:14px 30px; text-decoration:none; font-size:18px; color:var(--text-main); font-family:sans-serif; border-bottom:1px solid rgba(0,0,0,0.05); text-align: right; letter-spacing: 1px; font-weight: 600; -webkit-tap-highlight-color:transparent;">Age calculator</a>
             <a href="date.html" style="padding:14px 30px; text-decoration:none; font-size:18px; color:var(--text-main); font-family:sans-serif; border-bottom:1px solid rgba(0,0,0,0.05); text-align: right; letter-spacing: 1px; font-weight: 600; -webkit-tap-highlight-color:transparent;">Date & Time calculator</a>
             <a href="day.html" style="padding:14px 30px; text-decoration:none; font-size:18px; color:var(--text-main); font-family:sans-serif; border-bottom:1px solid rgba(0,0,0,0.05); text-align: right; letter-spacing: 1px; font-weight: 600; -webkit-tap-highlight-color:transparent;">Day counter</a>
-        <a href="electric.html" style="padding:14px 30px; text-decoration:none; font-size:18px; color:var(--text-main); font-family:sans-serif; border-bottom:1px solid rgba(0,0,0,0.05); text-align: right; letter-spacing: 1px; font-weight: 600; -webkit-tap-highlight-color:transparent;">Electric calculator</a>
+        <a href="electric.html" style="padding:14px 30px; text-decoration:none; font-size:18px; color:var(--text-main); font-family:sans-serif; border-bottom:1px solid rgba(0,0,0,0.05); text-align: right; letter-spacing: 1px; font-weight: 600; -webkit-tap-highlight-color:transparent;">Electricity calculator</a>
             <a href="index.html" style="padding:14px 30px; text-decoration:none; font-size:18px; color:var(--text-main); font-family:sans-serif; border-bottom:1px solid rgba(0,0,0,0.05); text-align: right; letter-spacing: 1px; font-weight: 600; -webkit-tap-highlight-color:transparent;">Gst calculator</a>
             <a href="emi.html" style="padding:14px 30px; text-decoration:none; font-size:18px; color:var(--text-main); font-family:sans-serif; border-bottom:1px solid rgba(0,0,0,0.05); text-align: right; letter-spacing: 1px; font-weight: 600; -webkit-tap-highlight-color:transparent;">Emi calculator</a>
         
@@ -313,7 +313,13 @@
 </style>
 
 <script>  
-       
+    // রাইট-ক্লিক এবং সাধারণ শর্টকাট ব্লক করার কোড
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.onkeydown = function(e) {
+    if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85)) {
+        return false;
+    }
+};   
     let uploadedImageObj = null;
     let uploadedFileExtension = "";
 
