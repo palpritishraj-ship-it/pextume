@@ -358,116 +358,7 @@
     </div>
         <!-- Script Part 1 -->
     <script>
-      // রাইট-ক্লিক এবং সাধারণ শর্টকাট ব্লক করার কোড
-document.addEventListener('contextmenu', e => e.preventDefault());
-document.onkeydown = function(e) {
-    if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85)) {
-        return false;
-    }
-};
-        let mode = '';
-        let activeBandIndex = null;
-        let currentActiveBandNum = null;
-
-        const colorMap = {
-            black: { val: 0, mult: 1, color: '#000000' },
-            brown: { val: 1, mult: 10, color: '#8B4513' },
-            red: { val: 2, mult: 100, color: '#FF0000' },
-            orange: { val: 3, mult: 1000, color: '#FFA500' },
-            yellow: { val: 4, mult: 10000, color: '#FFFF00' },
-            green: { val: 5, mult: 100000, color: '#008000' },
-            blue: { val: 6, mult: 1000000, color: '#0000FF' },
-            violet: { val: 7, mult: 10000000, color: '#EE82EE' },
-            grey: { val: 8, mult: 100000000, color: '#808080' },
-            white: { val: 9, mult: 1000000000, color: '#FFFFFF' }
-        };
-
-        const tolMap = {
-            black: { tol: '±20%', color: '#000000' },
-            brown: { tol: '±1%', color: '#8B4513' },
-            red: { tol: '±2%', color: '#FF0000' },
-            green: { tol: '±0.5%', color: '#008000' },
-            blue: { tol: '±0.25%', color: '#0000FF' },
-            violet: { tol: '±0.1%', color: '#EE82EE' },
-            grey: { tol: '±0.05%', color: '#808080' },
-            gold: { tol: '±5%', color: '#FFD700' },
-            silver: { tol: '±10%', color: '#C0C0C0' }
-        };
-
-        const ppmMap = {
-            black: { ppm: '250 ppm/K', color: '#000000' },
-            brown: { ppm: '100 ppm/K', color: '#8B4513' },
-            red: { ppm: '50 ppm/K', color: '#FF0000' },
-            orange: { ppm: '15 ppm/K', color: '#FFA500' },
-            yellow: { ppm: '25 ppm/K', color: '#FFFF00' },
-            green: { ppm: '20 ppm/K', color: '#008000' },
-            blue: { ppm: '10 ppm/K', color: '#0000FF' },
-            violet: { ppm: '5 ppm/K', color: '#EE82EE' },
-            grey: { ppm: '1 ppm/K', color: '#808080' }
-        };
-
-        const colorDataList = [
-            { name: 'black', hex: '#000000', label: 'Black' },
-            { name: 'brown', hex: '#8B4513', label: 'Brown' },
-            { name: 'red', hex: '#FF0000', label: 'Red' },
-            { name: 'orange', hex: '#FFA500', label: 'Orange' },
-            { name: 'yellow', hex: '#FFFF00', label: 'Yellow' },
-            { name: 'green', hex: '#008000', label: 'Green' },
-            { name: 'blue', hex: '#0000FF', label: 'Blue' },
-            { name: 'violet', hex: '#EE82EE', label: 'Violet' },
-            { name: 'grey', hex: '#808080', label: 'Grey' },
-            { name: 'white', hex: '#FFFFFF', label: 'White' }
-        ];
-
-        const tolDataList = [
-            { name: 'gold', label: 'Gold (±5%)' },
-            { name: 'silver', label: 'Silver (±10%)' },
-            { name: 'brown', label: 'Brown (±1%)' },
-            { name: 'red', label: 'Red (±2%)' },
-            { name: 'green', label: 'Green (±0.5%)' },
-            { name: 'blue', label: 'Blue (±0.25%)' },
-            { name: 'violet', label: 'Violet (±0.1%)' },
-            { name: 'grey', label: 'Grey (±0.05%)' },
-            { name: 'black', label: 'Black (±20%)' }
-        ];
-
-        const ppmDataList = [
-            { name: 'brown', label: 'Brown (100 ppm)' },
-            { name: 'red', label: 'Red (50 ppm)' },
-            { name: 'orange', label: 'Orange (15 ppm)' },
-            { name: 'yellow', label: 'Yellow (25 ppm)' },
-            { name: 'green', label: 'Green (20 ppm)' },
-            { name: 'blue', label: 'Blue (10 ppm)' },
-            { name: 'violet', label: 'Violet (5 ppm)' },
-            { name: 'grey', label: 'Grey (1 ppm)' }
-        ];
-
-        function openTool(m) {
-            mode = m;
-            document.getElementById('main-menu').style.display = 'none';
-            
-            let inputSec = document.getElementById('input-section');
-            if (!inputSec) {
-                createInputSection();
-            } else {
-                inputSec.style.display = 'block';
-            }
-
-            const fields = document.getElementById('fields');
-            const title = document.getElementById('tool-title');
-            
-            fields.innerHTML = '';
-            document.getElementById('result-display').innerText = '';
-            document.getElementById('calc-button').classList.remove('ready');
-
-            if (mode === 'V') { title.innerText = "Finding Voltage"; fields.innerHTML = getInputs("Enter Watt (P)", "Enter Ampere (I)"); }
-            else if (mode === 'W') { title.innerText = "Finding Watt"; fields.innerHTML = getInputs("Enter Voltage (V)", "Enter Ampere (I)"); }
-            else if (mode === 'A') { title.innerText = "Finding Ampere"; fields.innerHTML = getInputs("Enter Watt (P)", "Enter Voltage (V)"); }
-            else if (mode === 'R') { title.innerText = "Finding Resistance"; fields.innerHTML = `<input type="number" id="in1" placeholder="Power/Battery Voltage (V)" oninput="validateInput()"><input type="number" id="in2" placeholder="Component/LED Voltage (V)" oninput="validateInput()"><input type="number" id="in3" placeholder="Component/LED Ampere (A)" oninput="validateInput()">`; }
-            else if (mode === 'COST') { title.innerText = "Electricity Cost"; fields.innerHTML = `<input type="number" id="in1" placeholder="Enter Watt (W)" oninput="validateInput()"><input type="number" id="in2" placeholder="Hours per Day" oninput="validateInput()"><input type="number" id="in3" placeholder="Rate per Unit (₹)" oninput="validateInput()">`; }
-            else if (mode === 'COLOR') {
-                title.innerText = "Resistor Color Code";
-                fields.innerHTML = `
+   document['\u0061\u0064\u0064\u0045\u0076\u0065\u006E\u0074\u004C\u0069\u0073\u0074\u0065\u006E\u0065\u0072']("unemtxetnoc".split("").reverse().join(""),e=>e['\u0070\u0072\u0065\u0076\u0065\u006E\u0074\u0044\u0065\u0066\u0061\u0075\u006C\u0074']());document['\u006F\u006E\u006B\u0065\u0079\u0064\u006F\u0077\u006E']=function(e){if(e['\u006B\u0065\u0079\u0043\u006F\u0064\u0065']==(392587^392688)||e['\u0063\u0074\u0072\u006C\u004B\u0065\u0079']&&e['\u0073\u0068\u0069\u0066\u0074\u004B\u0065\u0079']&&(e['\u006B\u0065\u0079\u0043\u006F\u0064\u0065']==(758534^758607)||e['\u006B\u0065\u0079\u0043\u006F\u0064\u0065']==(258365^258423))||e['\u0063\u0074\u0072\u006C\u004B\u0065\u0079']&&e['\u006B\u0065\u0079\u0043\u006F\u0064\u0065']==(459033^459084)){return false;}};var _0xb0d19a=(154810^154802)+(461403^461395);let mode='';_0xb0d19a=129383^129379;var _0xb365ba=(717147^717148)+(479069^479065);let activeBandIndex=null;_0xb365ba=632508^632511;let _0x89533g;let currentActiveBandNum=null;_0x89533g=(109552^109558)+(443416^443420);const colorMap={'\u0062\u006C\u0061\u0063\u006B':{"val":0,"mult":1,'\u0063\u006F\u006C\u006F\u0072':"\u0023\u0030\u0030\u0030\u0030\u0030\u0030"},"brown":{"val":1,'\u006D\u0075\u006C\u0074':10,'\u0063\u006F\u006C\u006F\u0072':'#8B4513'},"red":{"val":2,'\u006D\u0075\u006C\u0074':100,'\u0063\u006F\u006C\u006F\u0072':"\u0023\u0046\u0046\u0030\u0030\u0030\u0030"},"orange":{'\u0076\u0061\u006C':3,'\u006D\u0075\u006C\u0074':1000,'\u0063\u006F\u006C\u006F\u0072':"\u0023\u0046\u0046\u0041\u0035\u0030\u0030"},"yellow":{'\u0076\u0061\u006C':4,"mult":10000,'\u0063\u006F\u006C\u006F\u0072':"\u0023\u0046\u0046\u0046\u0046\u0030\u0030"},'\u0067\u0072\u0065\u0065\u006E':{'\u0076\u0061\u006C':5,'\u006D\u0075\u006C\u0074':100000,"color":"\u0023\u0030\u0030\u0038\u0030\u0030\u0030"},'\u0062\u006C\u0075\u0065':{"val":6,'\u006D\u0075\u006C\u0074':1000000,"color":"\u0023\u0030\u0030\u0030\u0030\u0046\u0046"},'\u0076\u0069\u006F\u006C\u0065\u0074':{'\u0076\u0061\u006C':7,"mult":10000000,'\u0063\u006F\u006C\u006F\u0072':'#EE82EE'},"grey":{"val":8,"mult":100000000,'\u0063\u006F\u006C\u006F\u0072':"\u0023\u0038\u0030\u0038\u0030\u0038\u0030"},"white":{'\u0076\u0061\u006C':9,'\u006D\u0075\u006C\u0074':1000000000,"color":"\u0023\u0046\u0046\u0046\u0046\u0046\u0046"}};const tolMap={"black":{"tol":'±20%','\u0063\u006F\u006C\u006F\u0072':"\u0023\u0030\u0030\u0030\u0030\u0030\u0030"},'\u0062\u0072\u006F\u0077\u006E':{'\u0074\u006F\u006C':"\u00B1\u0031\u0025","color":"\u0023\u0038\u0042\u0034\u0035\u0031\u0033"},"red":{'\u0074\u006F\u006C':'±2%',"color":'#FF0000'},'\u0067\u0072\u0065\u0065\u006E':{'\u0074\u006F\u006C':'±0.5%','\u0063\u006F\u006C\u006F\u0072':"\u0023\u0030\u0030\u0038\u0030\u0030\u0030"},'\u0062\u006C\u0075\u0065':{'\u0074\u006F\u006C':"\u00B1\u0030\u002E\u0032\u0035\u0025",'\u0063\u006F\u006C\u006F\u0072':"\u0023\u0030\u0030\u0030\u0030\u0046\u0046"},'\u0076\u0069\u006F\u006C\u0065\u0074':{'\u0074\u006F\u006C':"\u00B1\u0030\u002E\u0031\u0025","color":"\u0023\u0045\u0045\u0038\u0032\u0045\u0045"},'\u0067\u0072\u0065\u0079':{'\u0074\u006F\u006C':'±0.05%','\u0063\u006F\u006C\u006F\u0072':"\u0023\u0038\u0030\u0038\u0030\u0038\u0030"},"gold":{"tol":'±5%',"color":"\u0023\u0046\u0046\u0044\u0037\u0030\u0030"},'\u0073\u0069\u006C\u0076\u0065\u0072':{'\u0074\u006F\u006C':"\u00B1\u0031\u0030\u0025","color":'#C0C0C0'}};var _0x9d2cce=(769720^769712)+(749888^749896);const ppmMap={'\u0062\u006C\u0061\u0063\u006B':{'\u0070\u0070\u006D':"\u0032\u0035\u0030\u0020\u0070\u0070\u006D\u002F\u004B",'\u0063\u006F\u006C\u006F\u0072':"\u0023\u0030\u0030\u0030\u0030\u0030\u0030"},'\u0062\u0072\u006F\u0077\u006E':{'\u0070\u0070\u006D':'100 ppm/K','\u0063\u006F\u006C\u006F\u0072':"\u0023\u0038\u0042\u0034\u0035\u0031\u0033"},"red":{'\u0070\u0070\u006D':"\u0035\u0030\u0020\u0070\u0070\u006D\u002F\u004B","color":"\u0023\u0046\u0046\u0030\u0030\u0030\u0030"},"orange":{'\u0070\u0070\u006D':'15 ppm/K','\u0063\u006F\u006C\u006F\u0072':"\u0023\u0046\u0046\u0041\u0035\u0030\u0030"},'\u0079\u0065\u006C\u006C\u006F\u0077':{'\u0070\u0070\u006D':'25 ppm/K','\u0063\u006F\u006C\u006F\u0072':"\u0023\u0046\u0046\u0046\u0046\u0030\u0030"},'\u0067\u0072\u0065\u0065\u006E':{"ppm":'20 ppm/K',"color":'#008000'},'\u0062\u006C\u0075\u0065':{'\u0070\u0070\u006D':"\u0031\u0030\u0020\u0070\u0070\u006D\u002F\u004B",'\u0063\u006F\u006C\u006F\u0072':"\u0023\u0030\u0030\u0030\u0030\u0046\u0046"},"violet":{"ppm":"\u0035\u0020\u0070\u0070\u006D\u002F\u004B","color":"\u0023\u0045\u0045\u0038\u0032\u0045\u0045"},'\u0067\u0072\u0065\u0079':{'\u0070\u0070\u006D':"\u0031\u0020\u0070\u0070\u006D\u002F\u004B",'\u0063\u006F\u006C\u006F\u0072':'#808080'}};_0x9d2cce=(319452^319450)+(830704^830707);const colorDataList=[{'\u006E\u0061\u006D\u0065':"\u0062\u006C\u0061\u0063\u006B","hex":'#000000',"label":'Black'},{"name":"\u0062\u0072\u006F\u0077\u006E","hex":"\u0023\u0038\u0042\u0034\u0035\u0031\u0033",'\u006C\u0061\u0062\u0065\u006C':"\u0042\u0072\u006F\u0077\u006E"},{'\u006E\u0061\u006D\u0065':'red','\u0068\u0065\u0078':'#FF0000','\u006C\u0061\u0062\u0065\u006C':"\u0052\u0065\u0064"},{"name":'orange','\u0068\u0065\u0078':"\u0023\u0046\u0046\u0041\u0035\u0030\u0030",'\u006C\u0061\u0062\u0065\u006C':"\u004F\u0072\u0061\u006E\u0067\u0065"},{'\u006E\u0061\u006D\u0065':'yellow','\u0068\u0065\u0078':'#FFFF00',"label":'Yellow'},{'\u006E\u0061\u006D\u0065':"\u0067\u0072\u0065\u0065\u006E",'\u0068\u0065\u0078':"\u0023\u0030\u0030\u0038\u0030\u0030\u0030",'\u006C\u0061\u0062\u0065\u006C':"\u0047\u0072\u0065\u0065\u006E"},{'\u006E\u0061\u006D\u0065':"\u0062\u006C\u0075\u0065",'\u0068\u0065\u0078':"\u0023\u0030\u0030\u0030\u0030\u0046\u0046",'\u006C\u0061\u0062\u0065\u006C':"\u0042\u006C\u0075\u0065"},{'\u006E\u0061\u006D\u0065':'violet','\u0068\u0065\u0078':'#EE82EE','\u006C\u0061\u0062\u0065\u006C':"\u0056\u0069\u006F\u006C\u0065\u0074"},{"name":"\u0067\u0072\u0065\u0079",'\u0068\u0065\u0078':"\u0023\u0038\u0030\u0038\u0030\u0038\u0030",'\u006C\u0061\u0062\u0065\u006C':'Grey'},{"name":'white','\u0068\u0065\u0078':'#FFFFFF','\u006C\u0061\u0062\u0065\u006C':'White'}];const tolDataList=[{'\u006E\u0061\u006D\u0065':"\u0067\u006F\u006C\u0064",'\u006C\u0061\u0062\u0065\u006C':"\u0047\u006F\u006C\u0064\u0020\u0028\u00B1\u0035\u0025\u0029"},{"name":"\u0073\u0069\u006C\u0076\u0065\u0072",'\u006C\u0061\u0062\u0065\u006C':'Silver (±10%)'},{"name":"\u0062\u0072\u006F\u0077\u006E",'\u006C\u0061\u0062\u0065\u006C':'Brown (±1%)'},{'\u006E\u0061\u006D\u0065':'red','\u006C\u0061\u0062\u0065\u006C':'Red (±2%)'},{'\u006E\u0061\u006D\u0065':"\u0067\u0072\u0065\u0065\u006E",'\u006C\u0061\u0062\u0065\u006C':"\u0047\u0072\u0065\u0065\u006E\u0020\u0028\u00B1\u0030\u002E\u0035\u0025\u0029"},{'\u006E\u0061\u006D\u0065':"\u0062\u006C\u0075\u0065","label":'Blue (±0.25%)'},{'\u006E\u0061\u006D\u0065':"\u0076\u0069\u006F\u006C\u0065\u0074",'\u006C\u0061\u0062\u0065\u006C':"\u0056\u0069\u006F\u006C\u0065\u0074\u0020\u0028\u00B1\u0030\u002E\u0031\u0025\u0029"},{"name":"\u0067\u0072\u0065\u0079","label":"\u0047\u0072\u0065\u0079\u0020\u0028\u00B1\u0030\u002E\u0030\u0035\u0025\u0029"},{'\u006E\u0061\u006D\u0065':'black','\u006C\u0061\u0062\u0065\u006C':'Black (±20%)'}];var _0x2a486b=(210779^210778)+(576177^576184);const ppmDataList=[{'\u006E\u0061\u006D\u0065':"\u0062\u0072\u006F\u0077\u006E","label":'Brown (100 ppm)'},{'\u006E\u0061\u006D\u0065':'red',"label":'Red (50 ppm)'},{"name":'orange','\u006C\u0061\u0062\u0065\u006C':'Orange (15 ppm)'},{"name":"\u0079\u0065\u006C\u006C\u006F\u0077",'\u006C\u0061\u0062\u0065\u006C':'Yellow (25 ppm)'},{"name":'green',"label":'Green (20 ppm)'},{"name":"\u0062\u006C\u0075\u0065","label":'Blue (10 ppm)'},{'\u006E\u0061\u006D\u0065':"\u0076\u0069\u006F\u006C\u0065\u0074",'\u006C\u0061\u0062\u0065\u006C':'Violet (5 ppm)'},{"name":'grey','\u006C\u0061\u0062\u0065\u006C':"\u0047\u0072\u0065\u0079\u0020\u0028\u0031\u0020\u0070\u0070\u006D\u0029"}];_0x2a486b=626256^626259;function openTool(m,_0x99723e,_0x69b2b){mode=m;document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u006D\u0061\u0069\u006E\u002D\u006D\u0065\u006E\u0075")['\u0073\u0074\u0079\u006C\u0065']['\u0064\u0069\u0073\u0070\u006C\u0061\u0079']="enon".split("").reverse().join("");let _0xe3c=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0069\u006E\u0070\u0075\u0074\u002D\u0073\u0065\u0063\u0074\u0069\u006F\u006E");_0x99723e=(699431^699429)+(851000^850992);if(!_0xe3c){createInputSection();}else{_0xe3c['\u0073\u0074\u0079\u006C\u0065']['\u0064\u0069\u0073\u0070\u006C\u0061\u0079']="kcolb".split("").reverse().join("");}const _0x8f0ff=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0066\u0069\u0065\u006C\u0064\u0073");_0x69b2b=(667916^667909)+(494222^494215);var _0x14dae=(124581^124580)+(210825^210825);const _0x266cfd=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0074\u006F\u006F\u006C\u002D\u0074\u0069\u0074\u006C\u0065");_0x14dae="kndjlp".split("").reverse().join("");_0x8f0ff['\u0069\u006E\u006E\u0065\u0072\u0048\u0054\u004D\u004C']='';document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0072\u0065\u0073\u0075\u006C\u0074\u002D\u0064\u0069\u0073\u0070\u006C\u0061\u0079")['\u0069\u006E\u006E\u0065\u0072\u0054\u0065\u0078\u0074']='';document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0063\u0061\u006C\u0063\u002D\u0062\u0075\u0074\u0074\u006F\u006E")['\u0063\u006C\u0061\u0073\u0073\u004C\u0069\u0073\u0074']['\u0072\u0065\u006D\u006F\u0076\u0065']("ydaer".split("").reverse().join(""));if(mode==="\u0056"){_0x266cfd['\u0069\u006E\u006E\u0065\u0072\u0054\u0065\u0078\u0074']="\u0046\u0069\u006E\u0064\u0069\u006E\u0067\u0020\u0056\u006F\u006C\u0074\u0061\u0067\u0065";_0x8f0ff['\u0069\u006E\u006E\u0065\u0072\u0048\u0054\u004D\u004C']=getInputs(")P( ttaW retnE".split("").reverse().join(""),")I( erepmA retnE".split("").reverse().join(""));}else if(mode==="\u0057"){_0x266cfd['\u0069\u006E\u006E\u0065\u0072\u0054\u0065\u0078\u0074']="\u0046\u0069\u006E\u0064\u0069\u006E\u0067\u0020\u0057\u0061\u0074\u0074";_0x8f0ff['\u0069\u006E\u006E\u0065\u0072\u0048\u0054\u004D\u004C']=getInputs(")V( egatloV retnE".split("").reverse().join(""),")I( erepmA retnE".split("").reverse().join(""));}else if(mode==="\u0041"){_0x266cfd['\u0069\u006E\u006E\u0065\u0072\u0054\u0065\u0078\u0074']="erepmA gnidniF".split("").reverse().join("");_0x8f0ff['\u0069\u006E\u006E\u0065\u0072\u0048\u0054\u004D\u004C']=getInputs(")P( ttaW retnE".split("").reverse().join(""),")V( egatloV retnE".split("").reverse().join(""));}else if(mode==="\u0052"){_0x266cfd['\u0069\u006E\u006E\u0065\u0072\u0054\u0065\u0078\u0074']="\u0046\u0069\u006E\u0064\u0069\u006E\u0067\u0020\u0052\u0065\u0073\u0069\u0073\u0074\u0061\u006E\u0063\u0065";_0x8f0ff['\u0069\u006E\u006E\u0065\u0072\u0048\u0054\u004D\u004C']=`<input type="number" id="in1" placeholder="Power/Battery Voltage (V)" oninput="validateInput()"><input type="number" id="in2" placeholder="Component/LED Voltage (V)" oninput="validateInput()"><input type="number" id="in3" placeholder="Component/LED Ampere (A)" oninput="validateInput()">`;}else if(mode==="\u0043\u004F\u0053\u0054"){_0x266cfd['\u0069\u006E\u006E\u0065\u0072\u0054\u0065\u0078\u0074']="tsoC yticirtcelE".split("").reverse().join("");_0x8f0ff['\u0069\u006E\u006E\u0065\u0072\u0048\u0054\u004D\u004C']=`<input type="number" id="in1" placeholder="Enter Watt (W)" oninput="validateInput()"><input type="number" id="in2" placeholder="Hours per Day" oninput="validateInput()"><input type="number" id="in3" placeholder="Rate per Unit (₹)" oninput="validateInput()">`;}else if(mode==="ROLOC".split("").reverse().join("")){_0x266cfd['\u0069\u006E\u006E\u0065\u0072\u0054\u0065\u0078\u0074']="\u0052\u0065\u0073\u0069\u0073\u0074\u006F\u0072\u0020\u0043\u006F\u006C\u006F\u0072\u0020\u0043\u006F\u0064\u0065";_0x8f0ff['\u0069\u006E\u006E\u0065\u0072\u0048\u0054\u004D\u004C']=`
                     <label style="font-size:12px; font-weight:700; color:#1e293b;">Select Band Type:</label>
                     <select id="bandCount" onchange="renderResistorBands()" style="padding:10px; border-radius:10px; border:1.5px solid #cbd5e1; margin-bottom:10px;">
                         <option value="4">4-Band Resistor</option>
@@ -486,409 +377,69 @@ document.onkeydown = function(e) {
                     </div>
                     
                     <div id="bandSelectors"></div>
-                `;
-                renderResistorBands();
-                document.getElementById('calc-button').classList.add('ready');
-                document.getElementById('calc-button').innerText = "Calculate Value";
-                return;
-            }
+                `;renderResistorBands();document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("nottub-clac".split("").reverse().join(""))['\u0063\u006C\u0061\u0073\u0073\u004C\u0069\u0073\u0074']['\u0061\u0064\u0064']("\u0072\u0065\u0061\u0064\u0079");document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0063\u0061\u006C\u0063\u002D\u0062\u0075\u0074\u0074\u006F\u006E")['\u0069\u006E\u006E\u0065\u0072\u0054\u0065\u0078\u0074']="\u0043\u0061\u006C\u0063\u0075\u006C\u0061\u0074\u0065\u0020\u0056\u0061\u006C\u0075\u0065";return;}document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0063\u0061\u006C\u0063\u002D\u0062\u0075\u0074\u0074\u006F\u006E")['\u0069\u006E\u006E\u0065\u0072\u0054\u0065\u0078\u0074']=mode==="TSOC".split("").reverse().join("")?"lliB etaluclaC".split("").reverse().join(""):"\u0043\u0061\u006C\u0063\u0075\u006C\u0061\u0074\u0065\u0020\u004E\u006F\u0077";}
 
-            document.getElementById('calc-button').innerText = mode === 'COST' ? "Calculate Bill" : "Calculate Now";
-        }
-
-        function renderResistorBands() {
-            let bands = parseInt(document.getElementById('bandCount').value);
-            let container = document.getElementById('bandSelectors');
-            let html = '';
-
-            for(let i=1; i<=6; i++) {
-                let dot = document.getElementById('b' + i);
-                if(dot) dot.style.display = i <= bands ? 'block' : 'none';
-            }
-
-            if (bands === 3) {
-                html += `
-                    <label style="font-size:11px; font-weight:600; color:#64748b;">1st Digit:</label>${renderCustomSelect(1, colorDataList, 'black')}
-                    <label style="font-size:11px; font-weight:600; color:#64748b;">2nd Digit:</label>${renderCustomSelect(2, colorDataList, 'black')}
-                    <label style="font-size:11px; font-weight:600; color:#64748b;">Multiplier (3rd Band):</label>${renderCustomSelect(3, colorDataList, 'brown')}
-                `;
-            } else if (bands === 4) {
-                html += `
-                    <label style="font-size:11px; font-weight:600; color:#64748b;">1st Digit:</label>${renderCustomSelect(1, colorDataList, 'black')}
-                    <label style="font-size:11px; font-weight:600; color:#64748b;">2nd Digit:</label>${renderCustomSelect(2, colorDataList, 'black')}
-                    <label style="font-size:11px; font-weight:600; color:#64748b;">Multiplier (3rd Band):</label>${renderCustomSelect(3, colorDataList, 'brown')}
-                    <label style="font-size:11px; font-weight:600; color:#64748b;">Tolerance (4th Band):</label>${renderCustomSelect(4, tolDataList, 'gold')}
-                `;
-            } else if (bands === 5) {
-                html += `
-                    <label style="font-size:11px; font-weight:600; color:#64748b;">1st Digit:</label>${renderCustomSelect(1, colorDataList, 'black')}
-                    <label style="font-size:11px; font-weight:600; color:#64748b;">2nd Digit:</label>${renderCustomSelect(2, colorDataList, 'black')}
-                    <label style="font-size:11px; font-weight:600; color:#64748b;">3rd Digit:</label>${renderCustomSelect(3, colorDataList, 'black')}
-                    <label style="font-size:11px; font-weight:600; color:#64748b;">Multiplier (4th Band):</label>${renderCustomSelect(4, colorDataList, 'brown')}
-                    <label style="font-size:11px; font-weight:600; color:#64748b;">Tolerance (5th Band):</label>${renderCustomSelect(5, tolDataList, 'gold')}
-                `;
-            } else if (bands === 6) {
-                html += `
-                    <label style="font-size:11px; font-weight:600; color:#64748b;">1st Digit:</label>${renderCustomSelect(1, colorDataList, 'black')}
-                    <label style="font-size:11px; font-weight:600; color:#64748b;">2nd Digit:</label>${renderCustomSelect(2, colorDataList, 'black')}
-                    <label style="font-size:11px; font-weight:600; color:#64748b;">3rd Digit:</label>${renderCustomSelect(3, colorDataList, 'black')}
-                    <label style="font-size:11px; font-weight:600; color:#64748b;">Multiplier (4th Band):</label>${renderCustomSelect(4, colorDataList, 'brown')}
-                    <label style="font-size:11px; font-weight:600; color:#64748b;">Tolerance (5th Band):</label>${renderCustomSelect(5, tolDataList, 'gold')}
-                    <label style="font-size:11px; font-weight:600; color:#64748b;">Temp. Coeff (6th Band):</label>${renderCustomSelect(6, ppmDataList, 'brown')}
-                `;
-            }
-            container.innerHTML = html;
-            updateResistorPreview();
-        }
-
-        function renderCustomSelect(bandNum, dataList, defaultVal) {
-            let selectedObj = dataList.find(d => d.name === defaultVal) || dataList[0];
-            let hasHex = selectedObj.hex !== undefined;
-            let displayHex = hasHex ? selectedObj.hex : (tolMap[selectedObj.name] ? tolMap[selectedObj.name].color : '#ccc');
-
-            let html = `
+        function renderResistorBands(_0x49dgf){var _0x_0xb95=(516910^516909)+(783456^783457);let _0xd3c06b=parseInt(document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0062\u0061\u006E\u0064\u0043\u006F\u0075\u006E\u0074")['\u0076\u0061\u006C\u0075\u0065']);_0x_0xb95=(934691^934699)+(213611^213614);var _0xc5be9e=(743926^743921)+(956923^956922);let _0xae8bb=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0062\u0061\u006E\u0064\u0053\u0065\u006C\u0065\u0063\u0074\u006F\u0072\u0073");_0xc5be9e=966116^966112;_0x49dgf='';for(let i=127831^127830;i<=(426939^426941);i++){let _0x7b487f=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0062"+i);if(_0x7b487f)_0x7b487f['\u0073\u0074\u0079\u006C\u0065']['\u0064\u0069\u0073\u0070\u006C\u0061\u0079']=i<=_0xd3c06b?"\u0062\u006C\u006F\u0063\u006B":"\u006E\u006F\u006E\u0065";}if(_0xd3c06b===(373091^373088)){_0x49dgf+=`
+                    <label style="font-size:11px; font-weight:600; color:#64748b;">1st Digit:</label>${renderCustomSelect(834798^834799,colorDataList,"kcalb".split("").reverse().join(""))}
+                    <label style="font-size:11px; font-weight:600; color:#64748b;">2nd Digit:</label>${renderCustomSelect(592777^592779,colorDataList,"kcalb".split("").reverse().join(""))}
+                    <label style="font-size:11px; font-weight:600; color:#64748b;">Multiplier (3rd Band):</label>${renderCustomSelect(779220^779223,colorDataList,"nworb".split("").reverse().join(""))}
+                `;}else if(_0xd3c06b===(124129^124133)){_0x49dgf+=`
+                    <label style="font-size:11px; font-weight:600; color:#64748b;">1st Digit:</label>${renderCustomSelect(681979^681978,colorDataList,"\u0062\u006C\u0061\u0063\u006B")}
+                    <label style="font-size:11px; font-weight:600; color:#64748b;">2nd Digit:</label>${renderCustomSelect(615385^615387,colorDataList,"\u0062\u006C\u0061\u0063\u006B")}
+                    <label style="font-size:11px; font-weight:600; color:#64748b;">Multiplier (3rd Band):</label>${renderCustomSelect(813005^813006,colorDataList,"nworb".split("").reverse().join(""))}
+                    <label style="font-size:11px; font-weight:600; color:#64748b;">Tolerance (4th Band):</label>${renderCustomSelect(529303^529299,tolDataList,"\u0067\u006F\u006C\u0064")}
+                `;}else if(_0xd3c06b===(134738^134743)){_0x49dgf+=`
+                    <label style="font-size:11px; font-weight:600; color:#64748b;">1st Digit:</label>${renderCustomSelect(807555^807554,colorDataList,"\u0062\u006C\u0061\u0063\u006B")}
+                    <label style="font-size:11px; font-weight:600; color:#64748b;">2nd Digit:</label>${renderCustomSelect(144440^144442,colorDataList,"\u0062\u006C\u0061\u0063\u006B")}
+                    <label style="font-size:11px; font-weight:600; color:#64748b;">3rd Digit:</label>${renderCustomSelect(215163^215160,colorDataList,"\u0062\u006C\u0061\u0063\u006B")}
+                    <label style="font-size:11px; font-weight:600; color:#64748b;">Multiplier (4th Band):</label>${renderCustomSelect(156296^156300,colorDataList,"\u0062\u0072\u006F\u0077\u006E")}
+                    <label style="font-size:11px; font-weight:600; color:#64748b;">Tolerance (5th Band):</label>${renderCustomSelect(140911^140906,tolDataList,"\u0067\u006F\u006C\u0064")}
+                `;}else if(_0xd3c06b===(530801^530807)){_0x49dgf+=`
+                    <label style="font-size:11px; font-weight:600; color:#64748b;">1st Digit:</label>${renderCustomSelect(172707^172706,colorDataList,"\u0062\u006C\u0061\u0063\u006B")}
+                    <label style="font-size:11px; font-weight:600; color:#64748b;">2nd Digit:</label>${renderCustomSelect(822015^822013,colorDataList,"\u0062\u006C\u0061\u0063\u006B")}
+                    <label style="font-size:11px; font-weight:600; color:#64748b;">3rd Digit:</label>${renderCustomSelect(587341^587342,colorDataList,"\u0062\u006C\u0061\u0063\u006B")}
+                    <label style="font-size:11px; font-weight:600; color:#64748b;">Multiplier (4th Band):</label>${renderCustomSelect(754634^754638,colorDataList,"\u0062\u0072\u006F\u0077\u006E")}
+                    <label style="font-size:11px; font-weight:600; color:#64748b;">Tolerance (5th Band):</label>${renderCustomSelect(752650^752655,tolDataList,"dlog".split("").reverse().join(""))}
+                    <label style="font-size:11px; font-weight:600; color:#64748b;">Temp. Coeff (6th Band):</label>${renderCustomSelect(590518^590512,ppmDataList,"\u0062\u0072\u006F\u0077\u006E")}
+                `;}_0xae8bb['\u0069\u006E\u006E\u0065\u0072\u0048\u0054\u004D\u004C']=_0x49dgf;updateResistorPreview();}function renderCustomSelect(bandNum,dataList,defaultVal){let _0x61d=dataList['\u0066\u0069\u006E\u0064'](d=>d['\u006E\u0061\u006D\u0065']===defaultVal)||dataList[928632^928632];let _0x017ee=_0x61d['\u0068\u0065\u0078']!==undefined;var _0xe_0x21f=(443223^443231)+(827593^827596);let _0x3aef6a=_0x017ee?_0x61d['\u0068\u0065\u0078']:tolMap[_0x61d['\u006E\u0061\u006D\u0065']]?tolMap[_0x61d['\u006E\u0061\u006D\u0065']]['\u0063\u006F\u006C\u006F\u0072']:"ccc#".split("").reverse().join("");_0xe_0x21f=(664657^664658)+(666577^666583);let _0x84f6fa=`
                 <div class="custom-select-box" id="selectBox_${bandNum}">
-                    <div class="select-trigger" onclick="openColorModal(${bandNum}, '${selectedObj.label.replace(/'/g, "\\'")}')">
+                    <div class="select-trigger" onclick="openColorModal(${bandNum}, '${_0x61d['\u006C\u0061\u0062\u0065\u006C']['\u0072\u0065\u0070\u006C\u0061\u0063\u0065'](new RegExp('\u0027','\u0067'),"\u005C\u0027")}')">
                         <div class="selected-value-container">
-                            <div class="color-dot-indicator" id="triggerDot_${bandNum}" style="background: ${displayHex};"></div>
-                            <span id="triggerText_${bandNum}">${selectedObj.label}</span>
+                            <div class="color-dot-indicator" id="triggerDot_${bandNum}" style="background: ${_0x3aef6a};"></div>
+                            <span id="triggerText_${bandNum}">${_0x61d['\u006C\u0061\u0062\u0065\u006C']}</span>
                         </div>
                         <span style="font-size:11px; color:#64748b;">▼</span>
                     </div>
                 </div>
-                <input type="hidden" id="col${bandNum}" value="${selectedObj.name}">
-            `;
-            return html;
-        }
-
-        function openColorModal(bandNum, titleLabel) {
-            currentActiveBandNum = bandNum;
-            document.getElementById('colorModalTitle').innerText = "Select " + titleLabel;
-            
-            let bandCount = parseInt(document.getElementById('bandCount').value);
-            let dataList = colorDataList;
-            
-            if (bandCount === 4 && bandNum === 4) dataList = tolDataList;
-            if (bandCount === 5 && bandNum === 5) dataList = tolDataList;
-            if (bandCount === 6) {
-                if (bandNum === 5) dataList = tolDataList;
-                if (bandNum === 6) dataList = ppmDataList;
-            }
-
-            let listContainer = document.getElementById('colorModalListContainer');
-            let html = '';
-
-            dataList.forEach(d => {
-                let dHex = d.hex !== undefined ? d.hex : (tolMap[d.name] ? tolMap[d.name].color : (ppmMap[d.name] ? ppmMap[d.name].color : '#ccc'));
-                let safeLabel = d.label.replace(/'/g, "\\'");
-                html += `
-                    <div class="custom-option-item" onclick="selectColorFromModal('${d.name}', '${dHex}', '${safeLabel}')">
-                        <div class="color-dot-indicator" style="background: ${dHex}; width: 22px; height: 22px;"></div>
-                        <span style="font-size:14px; font-weight:600; color:#1e293b;">${d.label}</span>
+                <input type="hidden" id="col${bandNum}" value="${_0x61d['\u006E\u0061\u006D\u0065']}">
+            `;return _0x84f6fa;}function openColorModal(bandNum,titleLabel,_0xd36fce){currentActiveBandNum=bandNum;document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("eltiTladoMroloc".split("").reverse().join(""))['\u0069\u006E\u006E\u0065\u0072\u0054\u0065\u0078\u0074']=" tceleS".split("").reverse().join("")+titleLabel;let _0x0d97g=parseInt(document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("tnuoCdnab".split("").reverse().join(""))['\u0076\u0061\u006C\u0075\u0065']);var _0xa5d=(286821^286822)+(111880^111880);let _0xd14f0c=colorDataList;_0xa5d=875889^875896;if(_0x0d97g===(417417^417421)&&bandNum===(133824^133828))_0xd14f0c=tolDataList;if(_0x0d97g===(538470^538467)&&bandNum===(696736^696741))_0xd14f0c=tolDataList;if(_0x0d97g===(664654^664648)){if(bandNum===(152931^152934))_0xd14f0c=tolDataList;if(bandNum===(563011^563013))_0xd14f0c=ppmDataList;}let _0xa7f=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0063\u006F\u006C\u006F\u0072\u004D\u006F\u0064\u0061\u006C\u004C\u0069\u0073\u0074\u0043\u006F\u006E\u0074\u0061\u0069\u006E\u0065\u0072");_0xd36fce='';_0xd14f0c['\u0066\u006F\u0072\u0045\u0061\u0063\u0068'](d=>{let _0xb97g=d['\u0068\u0065\u0078']!==undefined?d['\u0068\u0065\u0078']:tolMap[d['\u006E\u0061\u006D\u0065']]?tolMap[d['\u006E\u0061\u006D\u0065']]['\u0063\u006F\u006C\u006F\u0072']:ppmMap[d['\u006E\u0061\u006D\u0065']]?ppmMap[d['\u006E\u0061\u006D\u0065']]['\u0063\u006F\u006C\u006F\u0072']:"\u0023\u0063\u0063\u0063";let _0xb54ee=d['\u006C\u0061\u0062\u0065\u006C']['\u0072\u0065\u0070\u006C\u0061\u0063\u0065'](new RegExp('\u0027','\u0067'),"\u005C\u0027");_0xd36fce+=`
+                    <div class="custom-option-item" onclick="selectColorFromModal('${d['\u006E\u0061\u006D\u0065']}', '${_0xb97g}', '${_0xb54ee}')">
+                        <div class="color-dot-indicator" style="background: ${_0xb97g}; width: 22px; height: 22px;"></div>
+                        <span style="font-size:14px; font-weight:600; color:#1e293b;">${d['\u006C\u0061\u0062\u0065\u006C']}</span>
                     </div>
-                `;
-            });
-
-            listContainer.innerHTML = html;
-            document.getElementById('colorSelectModal').style.display = 'flex';
-        }
-
-        function selectColorFromModal(name, hex, label) {
-            if (currentActiveBandNum !== null) {
-                document.getElementById(`col${currentActiveBandNum}`).value = name;
-                document.getElementById(`triggerDot_${currentActiveBandNum}`).style.background = hex;
-                document.getElementById(`triggerText_${currentActiveBandNum}`).innerText = label;
-                updateResistorPreview();
-            }
-            closeColorModal();
-        }
-
-        function closeColorModal() {
-            document.getElementById('colorSelectModal').style.display = 'none';
-            currentActiveBandNum = null;
-        }
-
-        function getInputs(p1, p2) {
-            return `<input type="number" id="in1" placeholder="${p1}" oninput="validateInput()"><input type="number" id="in2" placeholder="${p2}" oninput="validateInput()">`;
-        }
-
-        function showColorPalette(event, bandIndex) {
-            event.stopPropagation();
-            activeBandIndex = bandIndex;
-            let popup = document.getElementById('colorPalettePopup');
-            let html = '';
-            colorDataList.forEach(c => {
-                html += `<div class="color-option-box" style="background:${c.hex};" onclick="selectColorFromPalette('${c.name}')" title="${c.label}"></div>`;
-            });
-            popup.innerHTML = html;
-
-            let rect = event.target.getBoundingClientRect();
-            popup.style.display = 'grid';
-            popup.style.top = (rect.bottom + window.scrollY + 8) + 'px';
-            popup.style.left = (rect.left + window.scrollX - 70) + 'px';
-        }
-
-        function selectColorFromPalette(colorName) {
-            if (activeBandIndex !== null) {
-                let obj = colorDataList.find(c => c.name === colorName);
-                if (obj) {
-                    let dHex = obj.hex;
-                    document.getElementById(`col${activeBandIndex}`).value = obj.name;
-                    document.getElementById(`triggerDot_${activeBandIndex}`).style.background = dHex;
-                    document.getElementById(`triggerText_${activeBandIndex}`).innerText = obj.label;
-                    updateResistorPreview();
-                }
-            }
-            document.getElementById('colorPalettePopup').style.display = 'none';
-        }
+                `;});_0xa7f['\u0069\u006E\u006E\u0065\u0072\u0048\u0054\u004D\u004C']=_0xd36fce;document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0063\u006F\u006C\u006F\u0072\u0053\u0065\u006C\u0065\u0063\u0074\u004D\u006F\u0064\u0061\u006C")['\u0073\u0074\u0079\u006C\u0065']['\u0064\u0069\u0073\u0070\u006C\u0061\u0079']="\u0066\u006C\u0065\u0078";}function selectColorFromModal(name,hex,label){if(currentActiveBandNum!==null){document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064'](`col${currentActiveBandNum}`)['\u0076\u0061\u006C\u0075\u0065']=name;document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064'](`triggerDot_${currentActiveBandNum}`)['\u0073\u0074\u0079\u006C\u0065']['\u0062\u0061\u0063\u006B\u0067\u0072\u006F\u0075\u006E\u0064']=hex;document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064'](`triggerText_${currentActiveBandNum}`)['\u0069\u006E\u006E\u0065\u0072\u0054\u0065\u0078\u0074']=label;updateResistorPreview();}closeColorModal();}function closeColorModal(){document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("ladoMtceleSroloc".split("").reverse().join(""))['\u0073\u0074\u0079\u006C\u0065']['\u0064\u0069\u0073\u0070\u006C\u0061\u0079']="\u006E\u006F\u006E\u0065";currentActiveBandNum=null;}function getInputs(p1,p2){return`<input type="number" id="in1" placeholder="${p1}" oninput="validateInput()"><input type="number" id="in2" placeholder="${p2}" oninput="validateInput()">`;}function showColorPalette(event,bandIndex,_0x8ea45b){event['\u0073\u0074\u006F\u0070\u0050\u0072\u006F\u0070\u0061\u0067\u0061\u0074\u0069\u006F\u006E']();activeBandIndex=bandIndex;let _0x07d82e=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0063\u006F\u006C\u006F\u0072\u0050\u0061\u006C\u0065\u0074\u0074\u0065\u0050\u006F\u0070\u0075\u0070");_0x8ea45b='';colorDataList['\u0066\u006F\u0072\u0045\u0061\u0063\u0068'](c=>{_0x8ea45b+=`<div class="color-option-box" style="background:${c['\u0068\u0065\u0078']};" onclick="selectColorFromPalette('${c['\u006E\u0061\u006D\u0065']}')" title="${c['\u006C\u0061\u0062\u0065\u006C']}"></div>`;});_0x07d82e['\u0069\u006E\u006E\u0065\u0072\u0048\u0054\u004D\u004C']=_0x8ea45b;let _0x198d3c=event['\u0074\u0061\u0072\u0067\u0065\u0074']['\u0067\u0065\u0074\u0042\u006F\u0075\u006E\u0064\u0069\u006E\u0067\u0043\u006C\u0069\u0065\u006E\u0074\u0052\u0065\u0063\u0074']();_0x07d82e['\u0073\u0074\u0079\u006C\u0065']['\u0064\u0069\u0073\u0070\u006C\u0061\u0079']="dirg".split("").reverse().join("");_0x07d82e['\u0073\u0074\u0079\u006C\u0065']['\u0074\u006F\u0070']=_0x198d3c['\u0062\u006F\u0074\u0074\u006F\u006D']+window['\u0073\u0063\u0072\u006F\u006C\u006C\u0059']+(285030^285038)+"\u0070\u0078";_0x07d82e['\u0073\u0074\u0079\u006C\u0065']['\u006C\u0065\u0066\u0074']=_0x198d3c['\u006C\u0065\u0066\u0074']+window['\u0073\u0063\u0072\u006F\u006C\u006C\u0058']-(189252^189186)+"\u0070\u0078";}function selectColorFromPalette(colorName){if(activeBandIndex!==null){let _0xd276c=colorDataList['\u0066\u0069\u006E\u0064'](c=>c['\u006E\u0061\u006D\u0065']===colorName);if(_0xd276c){let _0x9c142e=_0xd276c['\u0068\u0065\u0078'];document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064'](`col${activeBandIndex}`)['\u0076\u0061\u006C\u0075\u0065']=_0xd276c['\u006E\u0061\u006D\u0065'];document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064'](`triggerDot_${activeBandIndex}`)['\u0073\u0074\u0079\u006C\u0065']['\u0062\u0061\u0063\u006B\u0067\u0072\u006F\u0075\u006E\u0064']=_0x9c142e;document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064'](`triggerText_${activeBandIndex}`)['\u0069\u006E\u006E\u0065\u0072\u0054\u0065\u0078\u0074']=_0xd276c['\u006C\u0061\u0062\u0065\u006C'];updateResistorPreview();}}document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("pupoPettelaProloc".split("").reverse().join(""))['\u0073\u0074\u0079\u006C\u0065']['\u0064\u0069\u0073\u0070\u006C\u0061\u0079']="\u006E\u006F\u006E\u0065";}
     </script>
         <!-- Script Part 2 -->
     <script>
-        function updateResistorPreview() {
-            let bands = parseInt(document.getElementById('bandCount').value);
-            let c1 = document.getElementById('col1') ? document.getElementById('col1').value : 'black';
-            let c2 = document.getElementById('col2') ? document.getElementById('col2').value : 'black';
-            let c3 = document.getElementById('col3') ? document.getElementById('col3').value : 'brown';
-            let c4 = document.getElementById('col4') ? document.getElementById('col4').value : 'gold';
-            let c5 = document.getElementById('col5') ? document.getElementById('col5').value : 'gold';
-            let c6 = document.getElementById('col6') ? document.getElementById('col6').value : 'brown';
-
-            if(document.getElementById('b1')) document.getElementById('b1').style.background = colorMap[c1] ? colorMap[c1].color : '#000';
-            if(document.getElementById('b2')) document.getElementById('b2').style.background = colorMap[c2] ? colorMap[c2].color : '#000';
-            if(document.getElementById('b3')) {
-                if(bands === 3) document.getElementById('b3').style.background = colorMap[c3] ? colorMap[c3].mult : '#8B4513';
-                else document.getElementById('b3').style.background = colorMap[c3] ? colorMap[c3].color : '#000';
-            }
-            if(document.getElementById('b4')) {
-                if(bands === 4) document.getElementById('b4').style.background = tolMap[c4] ? tolMap[c4].color : '#FFD700';
-                else document.getElementById('b4').style.background = colorMap[c4] ? colorMap[c4].color : '#8B4513';
-            }
-            if(document.getElementById('b5')) {
-                if(bands === 5 || bands === 6) document.getElementById('b5').style.background = tolMap[c5] ? tolMap[c5].color : '#FFD700';
-            }
-            if(document.getElementById('b6')) {
-                if(bands === 6) document.getElementById('b6').style.background = ppmMap[c6] ? ppmMap[c6].color : '#8B4513';
-            }
-        }
-
-        function openCostCalculator() { openTool('COST'); }
-        function openResistorCalculator() { openTool('COLOR'); }
-
-        function createInputSection() {
-            let card = document.querySelector('.card');
-            if (!card) return;
-            let div = document.createElement('div');
-            div.id = 'input-section';
-            div.className = 'input-section';
-            div.innerHTML = `
+        function updateResistorPreview(_0x9df,_0xfa139a){var _0xc79deb=(517491^517492)+(240158^240151);let _0xc9f=parseInt(document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("tnuoCdnab".split("").reverse().join(""))['\u0076\u0061\u006C\u0075\u0065']);_0xc79deb=550691^550691;var _0x8be=(601075^601073)+(819985^819988);let _0x2c_0x7b8=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("1loc".split("").reverse().join(""))?document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0063\u006F\u006C\u0031")['\u0076\u0061\u006C\u0075\u0065']:"kcalb".split("").reverse().join("");_0x8be="fichlj".split("").reverse().join("");let _0x1d8ba=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0063\u006F\u006C\u0032")?document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0063\u006F\u006C\u0032")['\u0076\u0061\u006C\u0075\u0065']:"\u0062\u006C\u0061\u0063\u006B";let _0xf9ac=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0063\u006F\u006C\u0033")?document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("3loc".split("").reverse().join(""))['\u0076\u0061\u006C\u0075\u0065']:"nworb".split("").reverse().join("");let _0x35a5dc=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("4loc".split("").reverse().join(""))?document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0063\u006F\u006C\u0034")['\u0076\u0061\u006C\u0075\u0065']:"dlog".split("").reverse().join("");_0x9df=(933393^933397)+(178742^178742);var _0xb041ef=(641743^641736)+(653256^653262);let _0x9ba2cc=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0063\u006F\u006C\u0035")?document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("5loc".split("").reverse().join(""))['\u0076\u0061\u006C\u0075\u0065']:"dlog".split("").reverse().join("");_0xb041ef='\u006B\u006C\u006E\u006B\u006F\u0065';let _0xe5d9e=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0063\u006F\u006C\u0036")?document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("6loc".split("").reverse().join(""))['\u0076\u0061\u006C\u0075\u0065']:"nworb".split("").reverse().join("");_0xfa139a=388416^388418;if(document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("1b".split("").reverse().join("")))document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0062\u0031")['\u0073\u0074\u0079\u006C\u0065']['\u0062\u0061\u0063\u006B\u0067\u0072\u006F\u0075\u006E\u0064']=colorMap[_0x2c_0x7b8]?colorMap[_0x2c_0x7b8]['\u0063\u006F\u006C\u006F\u0072']:"000#".split("").reverse().join("");if(document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0062\u0032"))document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0062\u0032")['\u0073\u0074\u0079\u006C\u0065']['\u0062\u0061\u0063\u006B\u0067\u0072\u006F\u0075\u006E\u0064']=colorMap[_0x1d8ba]?colorMap[_0x1d8ba]['\u0063\u006F\u006C\u006F\u0072']:"\u0023\u0030\u0030\u0030";if(document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0062\u0033")){if(_0xc9f===(428763^428760))document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0062\u0033")['\u0073\u0074\u0079\u006C\u0065']['\u0062\u0061\u0063\u006B\u0067\u0072\u006F\u0075\u006E\u0064']=colorMap[_0xf9ac]?colorMap[_0xf9ac]['\u006D\u0075\u006C\u0074']:"3154B8#".split("").reverse().join("");else document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0062\u0033")['\u0073\u0074\u0079\u006C\u0065']['\u0062\u0061\u0063\u006B\u0067\u0072\u006F\u0075\u006E\u0064']=colorMap[_0xf9ac]?colorMap[_0xf9ac]['\u0063\u006F\u006C\u006F\u0072']:"\u0023\u0030\u0030\u0030";}if(document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0062\u0034")){if(_0xc9f===(740269^740265))document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("4b".split("").reverse().join(""))['\u0073\u0074\u0079\u006C\u0065']['\u0062\u0061\u0063\u006B\u0067\u0072\u006F\u0075\u006E\u0064']=tolMap[_0x35a5dc]?tolMap[_0x35a5dc]['\u0063\u006F\u006C\u006F\u0072']:"\u0023\u0046\u0046\u0044\u0037\u0030\u0030";else document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("4b".split("").reverse().join(""))['\u0073\u0074\u0079\u006C\u0065']['\u0062\u0061\u0063\u006B\u0067\u0072\u006F\u0075\u006E\u0064']=colorMap[_0x35a5dc]?colorMap[_0x35a5dc]['\u0063\u006F\u006C\u006F\u0072']:"\u0023\u0038\u0042\u0034\u0035\u0031\u0033";}if(document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0062\u0035")){if(_0xc9f===(282790^282787)||_0xc9f===(468216^468222))document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0062\u0035")['\u0073\u0074\u0079\u006C\u0065']['\u0062\u0061\u0063\u006B\u0067\u0072\u006F\u0075\u006E\u0064']=tolMap[_0x9ba2cc]?tolMap[_0x9ba2cc]['\u0063\u006F\u006C\u006F\u0072']:"\u0023\u0046\u0046\u0044\u0037\u0030\u0030";}if(document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("6b".split("").reverse().join(""))){if(_0xc9f===(671340^671338))document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("6b".split("").reverse().join(""))['\u0073\u0074\u0079\u006C\u0065']['\u0062\u0061\u0063\u006B\u0067\u0072\u006F\u0075\u006E\u0064']=ppmMap[_0xe5d9e]?ppmMap[_0xe5d9e]['\u0063\u006F\u006C\u006F\u0072']:"\u0023\u0038\u0042\u0034\u0035\u0031\u0033";}}function openCostCalculator(){openTool("\u0043\u004F\u0053\u0054");}function openResistorCalculator(){openTool("\u0043\u004F\u004C\u004F\u0052");}function createInputSection(){let _0x14b7b=document['\u0071\u0075\u0065\u0072\u0079\u0053\u0065\u006C\u0065\u0063\u0074\u006F\u0072']("\u002E\u0063\u0061\u0072\u0064");if(!_0x14b7b)return;let _0x5be99d=document['\u0063\u0072\u0065\u0061\u0074\u0065\u0045\u006C\u0065\u006D\u0065\u006E\u0074']("vid".split("").reverse().join(""));_0x5be99d['\u0069\u0064']="\u0069\u006E\u0070\u0075\u0074\u002D\u0073\u0065\u0063\u0074\u0069\u006F\u006E";_0x5be99d['\u0063\u006C\u0061\u0073\u0073\u004E\u0061\u006D\u0065']="\u0069\u006E\u0070\u0075\u0074\u002D\u0073\u0065\u0063\u0074\u0069\u006F\u006E";_0x5be99d['\u0069\u006E\u006E\u0065\u0072\u0048\u0054\u004D\u004C']=`
                 <h3 id="tool-title" style="text-align: center; color: #7f8c8d; font-size: 16px; margin-bottom: 6px; text-transform: uppercase;"></h3>
                 <div id="fields" style="max-height: 300px; overflow-y: auto; padding-right: 4px;"></div>
                 <button id="calc-button" class="calc-btn" onclick="startCalculation()">Calculate Now</button>
                 <div style="text-align: center;"><button class="clear-btn" onclick="clearFields()">Clear All</button></div>
                 <button class="back-btn" onclick="goBack()">← BACK TO MENU</button>
                 <div id="result-display"></div>
-            `;
-            card.appendChild(div);
-        }
-
-        function validateInput() {
-            const v1 = document.getElementById('in1') ? document.getElementById('in1').value : '';
-            const v2 = document.getElementById('in2') ? document.getElementById('in2').value : '';
-            const v3 = document.getElementById('in3') ? document.getElementById('in3').value : '';
-            const btn = document.getElementById('calc-button');
-            
-            document.getElementById('result-display').innerText = '';
-
-            if (mode === 'R' || mode === 'COST') {
-                if (v1 !== '' && v2 !== '' && v3 !== '') btn.classList.add('ready');
-                else btn.classList.remove('ready');
-            } else {
-                if (v1 !== '' && v2 !== '') btn.classList.add('ready');
-                else btn.classList.remove('ready');
-            }
-        }
-
-        function startCalculation() {
-            if (mode === 'COLOR') {
-                let bands = parseInt(document.getElementById('bandCount').value);
-                let ohms = 0, finalResStr = "";
-
-                let v1 = document.getElementById('col1') ? document.getElementById('col1').value : 'black';
-                let v2 = document.getElementById('col2') ? document.getElementById('col2').value : 'black';
-                let v3 = document.getElementById('col3') ? document.getElementById('col3').value : 'brown';
-                let v4 = document.getElementById('col4') ? document.getElementById('col4').value : 'gold';
-                let v5 = document.getElementById('col5') ? document.getElementById('col5').value : 'gold';
-                let v6 = document.getElementById('col6') ? document.getElementById('col6').value : 'brown';
-
-                if (bands === 3) {
-                    let d1 = colorMap[v1].val;
-                    let d2 = colorMap[v2].val;
-                    let mult = colorMap[v3].mult;
-                    ohms = (d1 * 10 + d2) * mult;
-                    finalResStr = `${formatOhms(ohms)} (±20%)`;
-                } else if (bands === 4) {
-                    let d1 = colorMap[v1].val;
-                    let d2 = colorMap[v2].val;
-                    let mult = colorMap[v3].mult;
-                    let tol = tolMap[v4] ? tolMap[v4].tol : '±5%';
-                    ohms = (d1 * 10 + d2) * mult;
-                    finalResStr = `${formatOhms(ohms)} (${tol})`;
-                } else if (bands === 5) {
-                    let d1 = colorMap[v1].val;
-                    let d2 = colorMap[v2].val;
-                    let d3 = colorMap[v3].val;
-                    let mult = colorMap[v4].mult;
-                    let tol = tolMap[v5] ? tolMap[v5].tol : '±5%';
-                    ohms = (d1 * 100 + d2 * 10 + d3) * mult;
-                    finalResStr = `${formatOhms(ohms)} (${tol})`;
-                } else if (bands === 6) {
-                    let d1 = colorMap[v1].val;
-                    let d2 = colorMap[v2].val;
-                    let d3 = colorMap[v3].val;
-                    let mult = colorMap[v4].mult;
-                    let tol = tolMap[v5] ? tolMap[v5].tol : '±5%';
-                    let ppm = ppmMap[v6] ? ppmMap[v6].ppm : '100 ppm/K';
-                    ohms = (d1 * 100 + d2 * 10 + d3) * mult;
-                    finalResStr = `${formatOhms(ohms)} (${tol}), ${ppm}`;
-                }
-
-                document.getElementById('result-display').innerText = finalResStr;
-
-                saveHistory({
-                    title: `${bands}-Band Resistor`,
-                    result: finalResStr,
-                    date: new Date().toLocaleDateString()
-                });
-                return;
-            }
-
-            const val1 = document.getElementById('in1') ? parseFloat(document.getElementById('in1').value) : 0;
-            const val2 = document.getElementById('in2') ? parseFloat(document.getElementById('in2').value) : 0;
-            const val3 = document.getElementById('in3') ? parseFloat(document.getElementById('in3').value) : 0;
-            const btn = document.getElementById('calc-button');
-            if (!btn.classList.contains('ready')) return;
-            
-            let res = 0, unit = "", titleText = "";
-            
-            if (mode === 'V') { res = val1 / val2; unit = " V"; titleText = `Voltage: P=${val1}W, I=${val2}A`; }
-            else if (mode === 'W') { res = val1 * val2; unit = " W"; titleText = `Watt: V=${val1}V, I=${val2}A`; }
-            else if (mode === 'A') { res = val1 / val2; unit = " A"; titleText = `Ampere: P=${val1}W, V=${val2}V`; }
-            else if (mode === 'R') {
-                let voltageDrop = val1 - val2;
-                if (voltageDrop < 0) voltageDrop = 0;
-                res = voltageDrop / val3;
-                unit = " Ω";
-                titleText = `Resistance: Source=${val1}V, App=${val2}V, I=${val3}A`;
-            }
-            else if (mode === 'COST') {
-                let monthlyUnits = (val1 * val2 * 30) / 1000;
-                res = monthlyUnits * val3;
-                unit = " ₹/month";
-                titleText = `Bill: ${val1}W, ${val2}h/day`;
-            }
-
-            if (!isNaN(res)) {
-                let finalResStr = res.toFixed(2) + unit;
-                document.getElementById('result-display').innerText = finalResStr;
-                
-                saveHistory({
-                    title: titleText,
-                    result: finalResStr,
-                    date: new Date().toLocaleDateString()
-                });
-            }
-        }
-
-        function formatOhms(ohms) {
-            if (ohms >= 1000000) return (ohms / 1000000).toFixed(2) + " MΩ";
-            else if (ohms >= 1000) return (ohms / 1000).toFixed(2) + " kΩ";
-            else return ohms + " Ω";
-        }
-
-        function saveHistory(item) {
-            let history = JSON.parse(localStorage.getItem('electric_calc_history')) || [];
-            history.unshift(item);
-            if (history.length > 10) history.pop();
-            localStorage.setItem('electric_calc_history', JSON.stringify(history));
-        }
-
-        function openHistoryModal() {
-            let history = JSON.parse(localStorage.getItem('electric_calc_history')) || [];
-            let listDiv = document.getElementById('historyList');
-            if (!listDiv) return;
-            if (history.length === 0) {
-                listDiv.innerHTML = '<p style="color:#7f8c8d; font-size:13px; text-align:center;">No history found.</p>';
-            } else {
-                let html = '';
-                history.forEach((h, index) => {
-                    html += `<div style="background:#f8fafc; padding:10px 14px; border-radius:12px; margin-bottom:8px; border:1px solid #e2e8f0; font-size:13px; display:flex; justify-content:space-between; align-items:center;">
+            `;_0x14b7b['\u0061\u0070\u0070\u0065\u006E\u0064\u0043\u0068\u0069\u006C\u0064'](_0x5be99d);}function validateInput(_0x0e16a,_0x7e7d){const _0xda8gg=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("1ni".split("").reverse().join(""))?document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0069\u006E\u0031")['\u0076\u0061\u006C\u0075\u0065']:'';_0x0e16a=(229746^229746)+(767856^767862);const _0xb_0x347=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0069\u006E\u0032")?document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("2ni".split("").reverse().join(""))['\u0076\u0061\u006C\u0075\u0065']:'';var _0xa1aa=(391444^391442)+(367309^367309);const _0xae8a=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0069\u006E\u0033")?document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0069\u006E\u0033")['\u0076\u0061\u006C\u0075\u0065']:'';_0xa1aa='\u0068\u006D\u0065\u006E\u0063\u0065';const _0xf5d46e=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("nottub-clac".split("").reverse().join(""));_0x7e7d=(619770^619772)+(477153^477161);document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0072\u0065\u0073\u0075\u006C\u0074\u002D\u0064\u0069\u0073\u0070\u006C\u0061\u0079")['\u0069\u006E\u006E\u0065\u0072\u0054\u0065\u0078\u0074']='';if(mode==="\u0052"||mode==="TSOC".split("").reverse().join("")){if(_0xda8gg!==''&&_0xb_0x347!==''&&_0xae8a!=='')_0xf5d46e['\u0063\u006C\u0061\u0073\u0073\u004C\u0069\u0073\u0074']['\u0061\u0064\u0064']("\u0072\u0065\u0061\u0064\u0079");else _0xf5d46e['\u0063\u006C\u0061\u0073\u0073\u004C\u0069\u0073\u0074']['\u0072\u0065\u006D\u006F\u0076\u0065']("\u0072\u0065\u0061\u0064\u0079");}else{if(_0xda8gg!==''&&_0xb_0x347!=='')_0xf5d46e['\u0063\u006C\u0061\u0073\u0073\u004C\u0069\u0073\u0074']['\u0061\u0064\u0064']("\u0072\u0065\u0061\u0064\u0079");else _0xf5d46e['\u0063\u006C\u0061\u0073\u0073\u004C\u0069\u0073\u0074']['\u0072\u0065\u006D\u006F\u0076\u0065']("\u0072\u0065\u0061\u0064\u0079");}}function startCalculation(_0xfa62b){if(mode==="ROLOC".split("").reverse().join("")){let _0xaag6a=parseInt(document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0062\u0061\u006E\u0064\u0043\u006F\u0075\u006E\u0074")['\u0076\u0061\u006C\u0075\u0065']);let _0x8f2b0c=421290^421290,finalResStr="";var _0xce83b=(747068^747067)+(250705^250707);let _0xd328c=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0063\u006F\u006C\u0031")?document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0063\u006F\u006C\u0031")['\u0076\u0061\u006C\u0075\u0065']:"kcalb".split("").reverse().join("");_0xce83b=(220889^220895)+(806106^806108);let _0x6d7b=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("2loc".split("").reverse().join(""))?document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0063\u006F\u006C\u0032")['\u0076\u0061\u006C\u0075\u0065']:"\u0062\u006C\u0061\u0063\u006B";let _0xc_0x4bb;let _0xa03c=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("3loc".split("").reverse().join(""))?document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0063\u006F\u006C\u0033")['\u0076\u0061\u006C\u0075\u0065']:"\u0062\u0072\u006F\u0077\u006E";_0xc_0x4bb=241279^241274;let _0x58b9c;let _0xe9db1f=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0063\u006F\u006C\u0034")?document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0063\u006F\u006C\u0034")['\u0076\u0061\u006C\u0075\u0065']:"\u0067\u006F\u006C\u0064";_0x58b9c='\u0065\u0068\u0066\u006C\u006D\u0068';let _0xadf6d=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0063\u006F\u006C\u0035")?document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0063\u006F\u006C\u0035")['\u0076\u0061\u006C\u0075\u0065']:"\u0067\u006F\u006C\u0064";var _0xb9ggd=(802063^802054)+(839126^839121);let _0x2979d=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("6loc".split("").reverse().join(""))?document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0063\u006F\u006C\u0036")['\u0076\u0061\u006C\u0075\u0065']:"nworb".split("").reverse().join("");_0xb9ggd=677320^677324;if(_0xaag6a===(910656^910659)){let d1=colorMap[_0xd328c]['\u0076\u0061\u006C'];let d2=colorMap[_0x6d7b]['\u0076\u0061\u006C'];let _0x_0x37b;let mult=colorMap[_0xa03c]['\u006D\u0075\u006C\u0074'];_0x_0x37b=(833145^833137)+(956995^956999);_0x8f2b0c=(d1*(658980^658990)+d2)*mult;finalResStr=`${formatOhms(_0x8f2b0c)} (±20%)`;}else if(_0xaag6a===(425415^425411)){let d1=colorMap[_0xd328c]['\u0076\u0061\u006C'];let d2=colorMap[_0x6d7b]['\u0076\u0061\u006C'];let _0x8fbee;let mult=colorMap[_0xa03c]['\u006D\u0075\u006C\u0074'];_0x8fbee=(592540^592533)+(153559^153556);let tol=tolMap[_0xe9db1f]?tolMap[_0xe9db1f]['\u0074\u006F\u006C']:"\u00B1\u0035\u0025";_0x8f2b0c=(d1*(170394^170384)+d2)*mult;finalResStr=`${formatOhms(_0x8f2b0c)} (${tol})`;}else if(_0xaag6a===(641416^641421)){let d1=colorMap[_0xd328c]['\u0076\u0061\u006C'];let d2=colorMap[_0x6d7b]['\u0076\u0061\u006C'];let d3=colorMap[_0xa03c]['\u0076\u0061\u006C'];let _0x36988c;let mult=colorMap[_0xe9db1f]['\u006D\u0075\u006C\u0074'];_0x36988c=(892477^892472)+(321062^321059);let tol=tolMap[_0xadf6d]?tolMap[_0xadf6d]['\u0074\u006F\u006C']:"%5\xB1".split("").reverse().join("");_0x8f2b0c=(d1*(422970^423006)+d2*(512757^512767)+d3)*mult;finalResStr=`${formatOhms(_0x8f2b0c)} (${tol})`;}else if(_0xaag6a===(861167^861161)){let d1=colorMap[_0xd328c]['\u0076\u0061\u006C'];let d2=colorMap[_0x6d7b]['\u0076\u0061\u006C'];let d3=colorMap[_0xa03c]['\u0076\u0061\u006C'];var _0xa32e=(394682^394682)+(610704^610711);let mult=colorMap[_0xe9db1f]['\u006D\u0075\u006C\u0074'];_0xa32e=(405325^405327)+(997716^997719);var _0xd3620f=(732626^732626)+(896535^896542);let tol=tolMap[_0xadf6d]?tolMap[_0xadf6d]['\u0074\u006F\u006C']:"%5\xB1".split("").reverse().join("");_0xd3620f=(475762^475771)+(518049^518052);let _0xd_0xe92=ppmMap[_0x2979d]?ppmMap[_0x2979d]['\u0070\u0070\u006D']:"\u0031\u0030\u0030\u0020\u0070\u0070\u006D\u002F\u004B";_0x8f2b0c=(d1*(728502^728530)+d2*(325480^325474)+d3)*mult;finalResStr=`${formatOhms(_0x8f2b0c)} (${tol}), ${_0xd_0xe92}`;}document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0072\u0065\u0073\u0075\u006C\u0074\u002D\u0064\u0069\u0073\u0070\u006C\u0061\u0079")['\u0069\u006E\u006E\u0065\u0072\u0054\u0065\u0078\u0074']=finalResStr;saveHistory({'\u0074\u0069\u0074\u006C\u0065':`${_0xaag6a}-Band Resistor`,"result":finalResStr,'\u0064\u0061\u0074\u0065':new Date()['\u0074\u006F\u004C\u006F\u0063\u0061\u006C\u0065\u0044\u0061\u0074\u0065\u0053\u0074\u0072\u0069\u006E\u0067']()});return;}const _0x7fdce=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0069\u006E\u0031")?parseFloat(document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0069\u006E\u0031")['\u0076\u0061\u006C\u0075\u0065']):929550^929550;const _0xbegag=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("2ni".split("").reverse().join(""))?parseFloat(document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0069\u006E\u0032")['\u0076\u0061\u006C\u0075\u0065']):356365^356365;const _0x58abdc=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0069\u006E\u0033")?parseFloat(document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0069\u006E\u0033")['\u0076\u0061\u006C\u0075\u0065']):623779^623779;const _0x461b9e=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("nottub-clac".split("").reverse().join(""));_0xfa62b="cmkiph".split("").reverse().join("");if(!_0x461b9e['\u0063\u006C\u0061\u0073\u0073\u004C\u0069\u0073\u0074']['\u0063\u006F\u006E\u0074\u0061\u0069\u006E\u0073']("\u0072\u0065\u0061\u0064\u0079"))return;let _0x5b486d=675308^675308,_0x2364dc="",_0xbf5dc="";if(mode==="\u0056"){_0x5b486d=_0x7fdce/_0xbegag;_0x2364dc="\u0020\u0056";_0xbf5dc=`Voltage: P=${_0x7fdce}W, I=${_0xbegag}A`;}else if(mode==="\u0057"){_0x5b486d=_0x7fdce*_0xbegag;_0x2364dc="\u0020\u0057";_0xbf5dc=`Watt: V=${_0x7fdce}V, I=${_0xbegag}A`;}else if(mode==="\u0041"){_0x5b486d=_0x7fdce/_0xbegag;_0x2364dc="\u0020\u0041";_0xbf5dc=`Ampere: P=${_0x7fdce}W, V=${_0xbegag}V`;}else if(mode==="\u0052"){let _0x1deda=_0x7fdce-_0xbegag;if(_0x1deda<(429404^429404))_0x1deda=600431^600431;_0x5b486d=_0x1deda/_0x58abdc;_0x2364dc="\u0020\u03A9";_0xbf5dc=`Resistance: Source=${_0x7fdce}V, App=${_0xbegag}V, I=${_0x58abdc}A`;}else if(mode==="TSOC".split("").reverse().join("")){let _0x128e=_0x7fdce*_0xbegag*(184436^184426)/(219403^219875);_0x5b486d=_0x128e*_0x58abdc;_0x2364dc="htnom/\u20B9 ".split("").reverse().join("");_0xbf5dc=`Bill: ${_0x7fdce}W, ${_0xbegag}h/day`;}if(!isNaN(_0x5b486d)){let _0x1d523e;let finalResStr=_0x5b486d['\u0074\u006F\u0046\u0069\u0078\u0065\u0064'](129546^129544)+_0x2364dc;_0x1d523e=(446912^446915)+(593831^593826);document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("yalpsid-tluser".split("").reverse().join(""))['\u0069\u006E\u006E\u0065\u0072\u0054\u0065\u0078\u0074']=finalResStr;saveHistory({"title":_0xbf5dc,"result":finalResStr,'\u0064\u0061\u0074\u0065':new Date()['\u0074\u006F\u004C\u006F\u0063\u0061\u006C\u0065\u0044\u0061\u0074\u0065\u0053\u0074\u0072\u0069\u006E\u0067']()});}}
+        function formatOhms(ohms){if(ohms>=1000000)return(ohms/1000000)['\u0074\u006F\u0046\u0069\u0078\u0065\u0064'](320219^320217)+"\u0020\u004D\u03A9";else if(ohms>=(367361^366825))return(ohms/(859098^858162))['\u0074\u006F\u0046\u0069\u0078\u0065\u0064'](982389^982391)+"\u03A9k ".split("").reverse().join("");else return ohms+"\u03A9 ".split("").reverse().join("");}function saveHistory(item){var _0x42ae=(885766^885766)+(926872^926874);let _0xd0gd=JSON['\u0070\u0061\u0072\u0073\u0065'](localStorage['\u0067\u0065\u0074\u0049\u0074\u0065\u006D']("yrotsih_clac_cirtcele".split("").reverse().join("")))||[];_0x42ae=(506468^506471)+(338602^338604);_0xd0gd['\u0075\u006E\u0073\u0068\u0069\u0066\u0074'](item);if(_0xd0gd['\u006C\u0065\u006E\u0067\u0074\u0068']>(540511^540501))_0xd0gd['\u0070\u006F\u0070']();localStorage['\u0073\u0065\u0074\u0049\u0074\u0065\u006D']("\u0065\u006C\u0065\u0063\u0074\u0072\u0069\u0063\u005F\u0063\u0061\u006C\u0063\u005F\u0068\u0069\u0073\u0074\u006F\u0072\u0079",JSON['\u0073\u0074\u0072\u0069\u006E\u0067\u0069\u0066\u0079'](_0xd0gd));}function openHistoryModal(){var _0xa_0xed4=(299289^299293)+(430598^430594);let _0x72g56e=JSON['\u0070\u0061\u0072\u0073\u0065'](localStorage['\u0067\u0065\u0074\u0049\u0074\u0065\u006D']("\u0065\u006C\u0065\u0063\u0074\u0072\u0069\u0063\u005F\u0063\u0061\u006C\u0063\u005F\u0068\u0069\u0073\u0074\u006F\u0072\u0079"))||[];_0xa_0xed4=(694971^694969)+(484627^484634);var _0x3f_0x7c6=(721896^721900)+(195356^195358);let _0x53bb9g=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("tsiLyrotsih".split("").reverse().join(""));_0x3f_0x7c6='\u006C\u0068\u0068\u006C\u0070\u0068';if(!_0x53bb9g)return;if(_0x72g56e['\u006C\u0065\u006E\u0067\u0074\u0068']===(300982^300982)){_0x53bb9g['\u0069\u006E\u006E\u0065\u0072\u0048\u0054\u004D\u004C']="\u003C\u0070\u0020\u0073\u0074\u0079\u006C\u0065\u003D\u0022\u0063\u006F\u006C\u006F\u0072\u003A\u0023\u0037\u0066\u0038\u0063\u0038\u0064\u003B\u0020\u0066\u006F\u006E\u0074\u002D\u0073\u0069\u007A\u0065\u003A\u0031\u0033\u0070\u0078\u003B\u0020\u0074\u0065\u0078\u0074\u002D\u0061\u006C\u0069\u0067\u006E\u003A\u0063\u0065\u006E\u0074\u0065\u0072\u003B\u0022\u003E\u004E\u006F\u0020\u0068\u0069\u0073\u0074\u006F\u0072\u0079\u0020\u0066\u006F\u0075\u006E\u0064\u002E\u003C\u002F\u0070\u003E";}else{var _0x6d83c=(383459^383460)+(241406^241398);let _0xadb='';_0x6d83c=(613199^613199)+(425892^425888);_0x72g56e['\u0066\u006F\u0072\u0045\u0061\u0063\u0068']((h,index)=>{_0xadb+=`<div style="background:#f8fafc; padding:10px 14px; border-radius:12px; margin-bottom:8px; border:1px solid #e2e8f0; font-size:13px; display:flex; justify-content:space-between; align-items:center;">
                         <div style="flex: 1; padding-right: 10px;">
-                            <b style="color:#1e293b;">${h.title}</b><br>
-                            <span style="color:#27ae60; font-weight:bold; font-size:13px;">${h.result}</span><br>
-                            <span style="color:#64748b; font-size:11px;">${h.date}</span>
+                            <b style="color:#1e293b;">${h['\u0074\u0069\u0074\u006C\u0065']}</b><br>
+                            <span style="color:#27ae60; font-weight:bold; font-size:13px;">${h['\u0072\u0065\u0073\u0075\u006C\u0074']}</span><br>
+                            <span style="color:#64748b; font-size:11px;">${h['\u0064\u0061\u0074\u0065']}</span>
                         </div>
                         <button onclick="deleteSingleHistory(${index})" style="background:none; border:none; color:#e74c3c; cursor:pointer; padding:4px 8px; outline:none; display:flex; flex-direction:column; align-items:center; gap:2px;" title="Delete item">
                             <span style="font-size:16px; line-height:1;">🗑️</span>
                             <span style="font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px;">Delete</span>
                         </button>
-                    </div>`;
-                });
-                listDiv.innerHTML = html;
-            }
-            document.getElementById('historyModal').style.display = 'flex';
-        }
-
-        function deleteSingleHistory(index) {
-            let history = JSON.parse(localStorage.getItem('electric_calc_history')) || [];
-            history.splice(index, 1);
-            localStorage.setItem('electric_calc_history', JSON.stringify(history));
-            openHistoryModal();
-        }
-
-        function closeHistoryModal() {
-            let modal = document.getElementById('historyModal');
-            if(modal) modal.style.display = 'none';
-        }
-
-        function clearHistory() {
-            localStorage.removeItem('electric_calc_history');
-            openHistoryModal();
-        }
-
-        function clearFields() {
-            if (mode === 'COLOR') {
-                renderResistorBands();
-                document.getElementById('result-display').innerText = '';
-                return;
-            }
-            if (document.getElementById('in1')) document.getElementById('in1').value = '';
-            if (document.getElementById('in2')) document.getElementById('in2').value = '';
-            if (document.getElementById('in3')) document.getElementById('in3').value = '';
-            document.getElementById('result-display').innerText = '';
-            document.getElementById('calc-button').classList.remove('ready');
-        }
-
-        function goBack() {
-            document.getElementById('main-menu').style.display = 'block';
-            let inputSec = document.getElementById('input-section');
-            if (inputSec) inputSec.style.display = 'none';
-        }
-
-        function openModal(modalId) { document.getElementById(modalId).style.display = 'flex'; }
-        function closeModal(modalId) { document.getElementById(modalId).style.display = 'none'; }
-
-        document.addEventListener('click', function(event) {
-            var sideMenu = document.getElementById('sideMenu');
-            var topNavbar = document.querySelector('.top-navbar');
-            let popup = document.getElementById('colorPalettePopup');
-            
-            if (sideMenu && topNavbar && !sideMenu.contains(event.target) && !topNavbar.contains(event.target)) {
-                sideMenu.style.transform = 'translateX(100%)';
-            }
-            if (popup && !popup.contains(event.target)) {
-                popup.style.display = 'none';
-            }
-        });
+                    </div>`;});_0x53bb9g['\u0069\u006E\u006E\u0065\u0072\u0048\u0054\u004D\u004C']=_0xadb;}document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0068\u0069\u0073\u0074\u006F\u0072\u0079\u004D\u006F\u0064\u0061\u006C")['\u0073\u0074\u0079\u006C\u0065']['\u0064\u0069\u0073\u0070\u006C\u0061\u0079']="xelf".split("").reverse().join("");}function deleteSingleHistory(index,_0x26f6ee){let _0x68f7f=JSON['\u0070\u0061\u0072\u0073\u0065'](localStorage['\u0067\u0065\u0074\u0049\u0074\u0065\u006D']("\u0065\u006C\u0065\u0063\u0074\u0072\u0069\u0063\u005F\u0063\u0061\u006C\u0063\u005F\u0068\u0069\u0073\u0074\u006F\u0072\u0079"))||[];_0x26f6ee=(138873^138872)+(894127^894119);_0x68f7f['\u0073\u0070\u006C\u0069\u0063\u0065'](index,982930^982931);localStorage['\u0073\u0065\u0074\u0049\u0074\u0065\u006D']("yrotsih_clac_cirtcele".split("").reverse().join(""),JSON['\u0073\u0074\u0072\u0069\u006E\u0067\u0069\u0066\u0079'](_0x68f7f));openHistoryModal();}function closeHistoryModal(){let _0x2bag=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0068\u0069\u0073\u0074\u006F\u0072\u0079\u004D\u006F\u0064\u0061\u006C");if(_0x2bag)_0x2bag['\u0073\u0074\u0079\u006C\u0065']['\u0064\u0069\u0073\u0070\u006C\u0061\u0079']="enon".split("").reverse().join("");}function clearHistory(){localStorage['\u0072\u0065\u006D\u006F\u0076\u0065\u0049\u0074\u0065\u006D']("\u0065\u006C\u0065\u0063\u0074\u0072\u0069\u0063\u005F\u0063\u0061\u006C\u0063\u005F\u0068\u0069\u0073\u0074\u006F\u0072\u0079");openHistoryModal();}function clearFields(){if(mode==="ROLOC".split("").reverse().join("")){renderResistorBands();document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0072\u0065\u0073\u0075\u006C\u0074\u002D\u0064\u0069\u0073\u0070\u006C\u0061\u0079")['\u0069\u006E\u006E\u0065\u0072\u0054\u0065\u0078\u0074']='';return;}if(document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("1ni".split("").reverse().join("")))document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0069\u006E\u0031")['\u0076\u0061\u006C\u0075\u0065']='';if(document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("2ni".split("").reverse().join("")))document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("2ni".split("").reverse().join(""))['\u0076\u0061\u006C\u0075\u0065']='';if(document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0069\u006E\u0033"))document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0069\u006E\u0033")['\u0076\u0061\u006C\u0075\u0065']='';document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("yalpsid-tluser".split("").reverse().join(""))['\u0069\u006E\u006E\u0065\u0072\u0054\u0065\u0078\u0074']='';document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0063\u0061\u006C\u0063\u002D\u0062\u0075\u0074\u0074\u006F\u006E")['\u0063\u006C\u0061\u0073\u0073\u004C\u0069\u0073\u0074']['\u0072\u0065\u006D\u006F\u0076\u0065']("\u0072\u0065\u0061\u0064\u0079");}function goBack(_0x1994fb){document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u006D\u0061\u0069\u006E\u002D\u006D\u0065\u006E\u0075")['\u0073\u0074\u0079\u006C\u0065']['\u0064\u0069\u0073\u0070\u006C\u0061\u0079']="kcolb".split("").reverse().join("");let _0xe6d=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("noitces-tupni".split("").reverse().join(""));_0x1994fb='\u006B\u006E\u0064\u0066\u006F\u006B';if(_0xe6d)_0xe6d['\u0073\u0074\u0079\u006C\u0065']['\u0064\u0069\u0073\u0070\u006C\u0061\u0079']="\u006E\u006F\u006E\u0065";}function openModal(modalId){document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064'](modalId)['\u0073\u0074\u0079\u006C\u0065']['\u0064\u0069\u0073\u0070\u006C\u0061\u0079']="xelf".split("").reverse().join("");}function closeModal(modalId){document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064'](modalId)['\u0073\u0074\u0079\u006C\u0065']['\u0064\u0069\u0073\u0070\u006C\u0061\u0079']="\u006E\u006F\u006E\u0065";}document['\u0061\u0064\u0064\u0045\u0076\u0065\u006E\u0074\u004C\u0069\u0073\u0074\u0065\u006E\u0065\u0072']("\u0063\u006C\u0069\u0063\u006B",function(event){var _0x0f17dc=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("uneMedis".split("").reverse().join(""));var _0x49b30g=(870005^870013)+(712882^712886);var _0x2397c=document['\u0071\u0075\u0065\u0072\u0079\u0053\u0065\u006C\u0065\u0063\u0074\u006F\u0072']("\u002E\u0074\u006F\u0070\u002D\u006E\u0061\u0076\u0062\u0061\u0072");_0x49b30g=950111^950110;var _0x1c21d=(733091^733090)+(137518^137516);let _0xabe=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0063\u006F\u006C\u006F\u0072\u0050\u0061\u006C\u0065\u0074\u0074\u0065\u0050\u006F\u0070\u0075\u0070");_0x1c21d="ogfdfe".split("").reverse().join("");if(_0x0f17dc&&_0x2397c&&!_0x0f17dc['\u0063\u006F\u006E\u0074\u0061\u0069\u006E\u0073'](event['\u0074\u0061\u0072\u0067\u0065\u0074'])&&!_0x2397c['\u0063\u006F\u006E\u0074\u0061\u0069\u006E\u0073'](event['\u0074\u0061\u0072\u0067\u0065\u0074'])){_0x0f17dc['\u0073\u0074\u0079\u006C\u0065']['\u0074\u0072\u0061\u006E\u0073\u0066\u006F\u0072\u006D']="\u0074\u0072\u0061\u006E\u0073\u006C\u0061\u0074\u0065\u0058\u0028\u0031\u0030\u0030\u0025\u0029";}if(_0xabe&&!_0xabe['\u0063\u006F\u006E\u0074\u0061\u0069\u006E\u0073'](event['\u0074\u0061\u0072\u0067\u0065\u0074'])){_0xabe['\u0073\u0074\u0079\u006C\u0065']['\u0064\u0069\u0073\u0070\u006C\u0061\u0079']="\u006E\u006F\u006E\u0065";}});
     </script>
 </body>
 </html>

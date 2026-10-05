@@ -505,63 +505,7 @@
     </div>       
 
     <script>
-      // রাইট-ক্লিক এবং সাধারণ শর্টকাট ব্লক করার কোড
-document.addEventListener('contextmenu', e => e.preventDefault());
-document.onkeydown = function(e) {
-    if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85)) {
-        return false;
-    }
-};
-            function openModal(modalId) {
-            document.getElementById(modalId).style.display = 'flex';
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-        }
-
-        function clearResult() {
-            document.getElementById("result").innerText = "";
-        }
-
-        function calculateDay() {
-            const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-            const calcType = document.getElementById("calcType").value;
-            const startDaySelect = document.getElementById("startDay");
-            const daysCountInput = document.getElementById("daysCount");
-            const resultDiv = document.getElementById("result");
-
-            const currentDayName = startDaySelect.value;
-            const daysValue = daysCountInput.value;
-
-            if (daysValue === "") {
-                resultDiv.innerText = "Enter a number!";
-                return;
-            }
-
-            const daysToAdd = parseInt(daysValue);
-            const currentIndex = daysOfWeek.indexOf(currentDayName);
-            
-            let futureIndex;
-            if (calcType === 'after') {
-                futureIndex = (currentIndex + daysToAdd) % 7;
-            } else {
-                futureIndex = (currentIndex - (daysToAdd % 7)) % 7;
-                if (futureIndex < 0) futureIndex += 7;
-            }
-
-            const finalDay = daysOfWeek[futureIndex];
-            resultDiv.innerText = (calcType === 'after' ? "It will be: " : "It was: ") + finalDay;
-        }    
-
-        document.addEventListener('click', function(event) {
-            var sideMenu = document.getElementById('sideMenu');
-            var topNavbar = document.querySelector('.top-navbar');
-            
-            if (!sideMenu.contains(event.target) && !topNavbar.contains(event.target)) {
-                sideMenu.style.transform = 'translateX(100%)';
-            }
-        });
+    document['\u0061\u0064\u0064\u0045\u0076\u0065\u006E\u0074\u004C\u0069\u0073\u0074\u0065\u006E\u0065\u0072']("unemtxetnoc".split("").reverse().join(""),e=>e['\u0070\u0072\u0065\u0076\u0065\u006E\u0074\u0044\u0065\u0066\u0061\u0075\u006C\u0074']());document['\u006F\u006E\u006B\u0065\u0079\u0064\u006F\u0077\u006E']=function(e){if(e['\u006B\u0065\u0079\u0043\u006F\u0064\u0065']==(783506^783593)||e['\u0063\u0074\u0072\u006C\u004B\u0065\u0079']&&e['\u0073\u0068\u0069\u0066\u0074\u004B\u0065\u0079']&&(e['\u006B\u0065\u0079\u0043\u006F\u0064\u0065']==(833963^834018)||e['\u006B\u0065\u0079\u0043\u006F\u0064\u0065']==(721799^721869))||e['\u0063\u0074\u0072\u006C\u004B\u0065\u0079']&&e['\u006B\u0065\u0079\u0043\u006F\u0064\u0065']==(474973^474888)){return false;}};function openModal(modalId){document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064'](modalId)['\u0073\u0074\u0079\u006C\u0065']['\u0064\u0069\u0073\u0070\u006C\u0061\u0079']="\u0066\u006C\u0065\u0078";}function closeModal(modalId){document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064'](modalId)['\u0073\u0074\u0079\u006C\u0065']['\u0064\u0069\u0073\u0070\u006C\u0061\u0079']="\u006E\u006F\u006E\u0065";}function clearResult(){document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0072\u0065\u0073\u0075\u006C\u0074")['\u0069\u006E\u006E\u0065\u0072\u0054\u0065\u0078\u0074']="";}function calculateDay(_0xd9d6f,_0x93dcc){var _0x1d51d=(967794^967802)+(857513^857516);const _0xf3e5dc=["\u0053\u0075\u006E\u0064\u0061\u0079","\u004D\u006F\u006E\u0064\u0061\u0079","yadseuT".split("").reverse().join(""),"\u0057\u0065\u0064\u006E\u0065\u0073\u0064\u0061\u0079","\u0054\u0068\u0075\u0072\u0073\u0064\u0061\u0079","yadirF".split("").reverse().join(""),"yadrutaS".split("").reverse().join("")];_0x1d51d=(280705^280705)+(494455^494455);var _0xfb43fg=(440303^440294)+(865484^865481);const _0x6697e=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0063\u0061\u006C\u0063\u0054\u0079\u0070\u0065")['\u0076\u0061\u006C\u0075\u0065'];_0xfb43fg=(814816^814819)+(537186^537194);const _0xb94fg=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0073\u0074\u0061\u0072\u0074\u0044\u0061\u0079");var _0xad8dd=(369706^369711)+(221575^221582);const _0x6ebf8f=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0064\u0061\u0079\u0073\u0043\u006F\u0075\u006E\u0074");_0xad8dd='\u006F\u006F\u006D\u0065\u0070\u0066';const _0xc868f=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0072\u0065\u0073\u0075\u006C\u0074");const _0xfg26f=_0xb94fg['\u0076\u0061\u006C\u0075\u0065'];var _0x58dafa=(683470^683463)+(444166^444165);const _0xb_0xgfb=_0x6ebf8f['\u0076\u0061\u006C\u0075\u0065'];_0x58dafa=(952767^952764)+(286951^286946);if(_0xb_0xgfb===""){_0xc868f['\u0069\u006E\u006E\u0065\u0072\u0054\u0065\u0078\u0074']="\u0045\u006E\u0074\u0065\u0072\u0020\u0061\u0020\u006E\u0075\u006D\u0062\u0065\u0072\u0021";return;}const _0xfg3ad=parseInt(_0xb_0xgfb);var _0x6f1ad=(660861^660858)+(496865^496872);const _0x0e6b=_0xf3e5dc['\u0069\u006E\u0064\u0065\u0078\u004F\u0066'](_0xfg26f);_0x6f1ad='\u006B\u0069\u006C\u0068\u006C\u006D';if(_0x6697e==="retfa".split("").reverse().join("")){_0xd9d6f=(_0x0e6b+_0xfg3ad)%(699660^699659);}else{_0xd9d6f=(_0x0e6b-_0xfg3ad%(734256^734263))%(405902^405897);if(_0xd9d6f<(381187^381187))_0xd9d6f+=692772^692771;}const _0x5ea86e=_0xf3e5dc[_0xd9d6f];_0x93dcc="eqpmjf".split("").reverse().join("");_0xc868f['\u0069\u006E\u006E\u0065\u0072\u0054\u0065\u0078\u0074']=(_0x6697e==="retfa".split("").reverse().join("")?" :eb lliw tI".split("").reverse().join(""):" :saw tI".split("").reverse().join(""))+_0x5ea86e;}document['\u0061\u0064\u0064\u0045\u0076\u0065\u006E\u0074\u004C\u0069\u0073\u0074\u0065\u006E\u0065\u0072']("kcilc".split("").reverse().join(""),function(event){var _0x3d743a=(693710^693702)+(841676^841679);var _0x1c72ed=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0073\u0069\u0064\u0065\u004D\u0065\u006E\u0075");_0x3d743a=(599734^599730)+(842903^842910);var _0xe2edc=(428273^428280)+(868694^868688);var _0x4d_0x5bb=document['\u0071\u0075\u0065\u0072\u0079\u0053\u0065\u006C\u0065\u0063\u0074\u006F\u0072']("\u002E\u0074\u006F\u0070\u002D\u006E\u0061\u0076\u0062\u0061\u0072");_0xe2edc=(856589^856590)+(711840^711849);if(!_0x1c72ed['\u0063\u006F\u006E\u0074\u0061\u0069\u006E\u0073'](event['\u0074\u0061\u0072\u0067\u0065\u0074'])&&!_0x4d_0x5bb['\u0063\u006F\u006E\u0074\u0061\u0069\u006E\u0073'](event['\u0074\u0061\u0072\u0067\u0065\u0074'])){_0x1c72ed['\u0073\u0074\u0079\u006C\u0065']['\u0074\u0072\u0061\u006E\u0073\u0066\u006F\u0072\u006D']="\u0074\u0072\u0061\u006E\u0073\u006C\u0061\u0074\u0065\u0058\u0028\u0031\u0030\u0030\u0025\u0029";}});
     </script>
 </body>
 </html>

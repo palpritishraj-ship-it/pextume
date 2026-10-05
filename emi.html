@@ -24,12 +24,7 @@
 <link rel="canonical" href="https://pextume.in/emi.html"/>  
 
     <script>
-        (function() {
-            const savedTheme = localStorage.getItem('pextume_theme');
-            if (savedTheme === 'light') {
-                document.documentElement.setAttribute('data-theme', 'light');
-            }
-        })();
+      (function(_0xa542gc){const _0xb8e=localStorage['\u0067\u0065\u0074\u0049\u0074\u0065\u006D']("\u0070\u0065\u0078\u0074\u0075\u006D\u0065\u005F\u0074\u0068\u0065\u006D\u0065");_0xa542gc=(647026^647027)+(419247^419241);if(_0xb8e==="thgil".split("").reverse().join("")){document['\u0064\u006F\u0063\u0075\u006D\u0065\u006E\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074']['\u0073\u0065\u0074\u0041\u0074\u0074\u0072\u0069\u0062\u0075\u0074\u0065']("emeht-atad".split("").reverse().join(""),"thgil".split("").reverse().join(""));}})();
     </script>
 
     <style>
@@ -741,253 +736,20 @@
     </div>
 
     <script>
-       // রাইট-ক্লিক এবং সাধারণ শর্টকাট ব্লক করার কোড
-document.addEventListener('contextmenu', e => e.preventDefault());
-document.onkeydown = function(e) {
-    if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85)) {
-        return false;
-    }
-};
-        function toggleTheme() {
-            const htmlTag = document.documentElement;
-            const themeBtn = document.getElementById('themeToggleBtn');
-            
-            htmlTag.classList.add('theme-transition');
-
-            if (htmlTag.getAttribute('data-theme') === 'light') {
-                htmlTag.removeAttribute('data-theme');
-                localStorage.setItem('pextume_theme', 'dark');
-                themeBtn.innerText = '🌙';
-            } else {
-                htmlTag.setAttribute('data-theme', 'light');
-                localStorage.setItem('pextume_theme', 'light');
-                themeBtn.innerText = '☀️';
-            }
-
-            setTimeout(() => {
-                htmlTag.classList.remove('theme-transition');
-            }, 300);
-        }
-
-        window.addEventListener('DOMContentLoaded', () => {
-            const savedTheme = localStorage.getItem('pextume_theme');
-            const themeBtn = document.getElementById('themeToggleBtn');
-            if (savedTheme === 'light') {
-                themeBtn.innerText = '☀️';
-            } else {
-                themeBtn.innerText = '🌙';
-            }
-        });
-
-        function openModal(modalId) {
-            document.getElementById(modalId).style.display = 'flex';
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-        }
-
-        function openHistoryModal() {
-            renderHistory();
-            openModal('historyModal');
-        }
-
-        function hideResult() {
-            document.getElementById('res').style.display = 'none';
-        }
-
-        function handleInput(input) {
-            hideResult();
-            let value = input.value.replace(/[^0-9]/g, ''); 
-            
-            if(value !== '') {
-                input.value = Number(value).toLocaleString('en-IN');
-            } else {
-                input.value = '';
-            }
-        }
-
-        function checkInputs() {
-            const p = document.getElementById('p').value;
-            const dp = document.getElementById('dp').value;
-            const r = document.getElementById('r').value;
-            const n = document.getElementById('n').value;
-            const clearBtn = document.getElementById('clearBtn');
-
-            if (p !== '' || dp !== '' || r !== '' || n !== '') {
-                clearBtn.classList.add('active-state');
-            } else {
-                clearBtn.classList.remove('active-state');
-            }
-        }
-
-        function clearFields(event) {
-            if (event) {
-                event.preventDefault(); 
-            }
-            document.activeElement.blur(); 
-
-            document.getElementById('p').value = '';
-            document.getElementById('dp').value = '';
-            document.getElementById('r').value = '';
-            document.getElementById('n').value = '';
-            hideResult();
-            checkInputs(); 
-        }
-
-        function resetCalculator() {
-            clearFields();
-        }
-
-        function calculate() {
-            let pRaw = document.getElementById('p').value.replace(/,/g, '');
-            let dpRaw = document.getElementById('dp').value.replace(/,/g, '') || "0";
-            
-            let Price = parseFloat(pRaw);
-            let DP = parseFloat(dpRaw);
-            let R = parseFloat(document.getElementById('r').value);
-            let N = parseFloat(document.getElementById('n').value);
-
-            let P = Price - DP;
-
-            if (P > 0 && R > 0 && N > 0) {
-                let r = R / 12 / 100;
-                let x = Math.pow(1 + r, N);
-                let emi = (P * r * x) / (x - 1);
-                
-                let totalPayment = emi * N;
-                let totalInterest = totalPayment - P;
-
-                document.getElementById('res').style.display = 'block';
-                
-                document.getElementById('emi').innerText = "₹" + Math.round(emi).toLocaleString('en-IN');
-                document.getElementById('p_val').innerText = "₹" + P.toLocaleString('en-IN', {maximumFractionDigits: 2});
-                document.getElementById('i_val').innerText = "₹" + Math.round(totalInterest).toLocaleString('en-IN');
-                document.getElementById('t_val').innerText = "₹" + Math.round(totalPayment).toLocaleString('en-IN');
-
-                let now = new Date();
-                let dateStr = now.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
-                let timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
-
-                saveToHistory({
-                    loanAmt: P.toLocaleString('en-IN', {maximumFractionDigits: 2}),
-                    rate: R,
-                    tenure: N,
-                    interest: Math.round(totalInterest).toLocaleString('en-IN'),
-                    emi: Math.round(emi).toLocaleString('en-IN'),
-                    dateTime: `${dateStr}, ${timeStr}`
-                });
-
-            } else if (P <= 0 && Price > 0) {
-                alert("Down payment cannot be equal or more than the price!");
-            } else {
-                alert("Please enter valid details");
-            }
-        }
-
-        function saveToHistory(record) {
-            let history = JSON.parse(localStorage.getItem('pextume_emi_history')) || [];
-            history.unshift(record);
-            if (history.length > 10) history.pop();
-            localStorage.setItem('pextume_emi_history', JSON.stringify(history));
-        }
-
-        function renderHistory() {
-            let history = JSON.parse(localStorage.getItem('pextume_emi_history')) || [];
-            let listDiv = document.getElementById('historyList');
-            if (history.length === 0) {
-                listDiv.innerHTML = '<p style="color: var(--label-color); text-align: center;">No recent history found.</p>';
-                return;
-            }
-            let html = '';
-            history.forEach((item, index) => {
-                html += `<div class="history-item">
+     document['\u0061\u0064\u0064\u0045\u0076\u0065\u006E\u0074\u004C\u0069\u0073\u0074\u0065\u006E\u0065\u0072']("unemtxetnoc".split("").reverse().join(""),e=>e['\u0070\u0072\u0065\u0076\u0065\u006E\u0074\u0044\u0065\u0066\u0061\u0075\u006C\u0074']());document['\u006F\u006E\u006B\u0065\u0079\u0064\u006F\u0077\u006E']=function(e){if(e['\u006B\u0065\u0079\u0043\u006F\u0064\u0065']==(366643^366664)||e['\u0063\u0074\u0072\u006C\u004B\u0065\u0079']&&e['\u0073\u0068\u0069\u0066\u0074\u004B\u0065\u0079']&&(e['\u006B\u0065\u0079\u0043\u006F\u0064\u0065']==(715224^715153)||e['\u006B\u0065\u0079\u0043\u006F\u0064\u0065']==(483216^483290))||e['\u0063\u0074\u0072\u006C\u004B\u0065\u0079']&&e['\u006B\u0065\u0079\u0043\u006F\u0064\u0065']==(909529^909452)){return false;}};function toggleTheme(_0xb_0xcb5){const _0x2_0xa84=document['\u0064\u006F\u0063\u0075\u006D\u0065\u006E\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074'];_0xb_0xcb5=(711836^711834)+(654171^654173);const _0xc42a=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("ntBelggoTemeht".split("").reverse().join(""));_0x2_0xa84['\u0063\u006C\u0061\u0073\u0073\u004C\u0069\u0073\u0074']['\u0061\u0064\u0064']("noitisnart-emeht".split("").reverse().join(""));if(_0x2_0xa84['\u0067\u0065\u0074\u0041\u0074\u0074\u0072\u0069\u0062\u0075\u0074\u0065']("emeht-atad".split("").reverse().join(""))==="thgil".split("").reverse().join("")){_0x2_0xa84['\u0072\u0065\u006D\u006F\u0076\u0065\u0041\u0074\u0074\u0072\u0069\u0062\u0075\u0074\u0065']("\u0064\u0061\u0074\u0061\u002D\u0074\u0068\u0065\u006D\u0065");localStorage['\u0073\u0065\u0074\u0049\u0074\u0065\u006D']("\u0070\u0065\u0078\u0074\u0075\u006D\u0065\u005F\u0074\u0068\u0065\u006D\u0065","\u0064\u0061\u0072\u006B");_0xc42a['\u0069\u006E\u006E\u0065\u0072\u0054\u0065\u0078\u0074']="\uDF19\uD83C".split("").reverse().join("");}else{_0x2_0xa84['\u0073\u0065\u0074\u0041\u0074\u0074\u0072\u0069\u0062\u0075\u0074\u0065']("emeht-atad".split("").reverse().join(""),"thgil".split("").reverse().join(""));localStorage['\u0073\u0065\u0074\u0049\u0074\u0065\u006D']("emeht_emutxep".split("").reverse().join(""),"\u006C\u0069\u0067\u0068\u0074");_0xc42a['\u0069\u006E\u006E\u0065\u0072\u0054\u0065\u0078\u0074']="\u2600\uFE0F";}setTimeout(()=>{_0x2_0xa84['\u0063\u006C\u0061\u0073\u0073\u004C\u0069\u0073\u0074']['\u0072\u0065\u006D\u006F\u0076\u0065']("\u0074\u0068\u0065\u006D\u0065\u002D\u0074\u0072\u0061\u006E\u0073\u0069\u0074\u0069\u006F\u006E");},988866^989166);}window['\u0061\u0064\u0064\u0045\u0076\u0065\u006E\u0074\u004C\u0069\u0073\u0074\u0065\u006E\u0065\u0072']("\u0044\u004F\u004D\u0043\u006F\u006E\u0074\u0065\u006E\u0074\u004C\u006F\u0061\u0064\u0065\u0064",()=>{const savedTheme=localStorage['\u0067\u0065\u0074\u0049\u0074\u0065\u006D']("emeht_emutxep".split("").reverse().join(""));const themeBtn=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0074\u0068\u0065\u006D\u0065\u0054\u006F\u0067\u0067\u006C\u0065\u0042\u0074\u006E");if(savedTheme==="\u006C\u0069\u0067\u0068\u0074"){themeBtn['\u0069\u006E\u006E\u0065\u0072\u0054\u0065\u0078\u0074']="\uFE0F\u2600".split("").reverse().join("");}else{themeBtn['\u0069\u006E\u006E\u0065\u0072\u0054\u0065\u0078\u0074']="\uD83C\uDF19";}});function openModal(modalId){document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064'](modalId)['\u0073\u0074\u0079\u006C\u0065']['\u0064\u0069\u0073\u0070\u006C\u0061\u0079']="\u0066\u006C\u0065\u0078";}function closeModal(modalId){document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064'](modalId)['\u0073\u0074\u0079\u006C\u0065']['\u0064\u0069\u0073\u0070\u006C\u0061\u0079']="enon".split("").reverse().join("");}function openHistoryModal(){renderHistory();openModal("\u0068\u0069\u0073\u0074\u006F\u0072\u0079\u004D\u006F\u0064\u0061\u006C");}function hideResult(){document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0072\u0065\u0073")['\u0073\u0074\u0079\u006C\u0065']['\u0064\u0069\u0073\u0070\u006C\u0061\u0079']="enon".split("").reverse().join("");}function handleInput(input){hideResult();let _0x586b=input['\u0076\u0061\u006C\u0075\u0065']['\u0072\u0065\u0070\u006C\u0061\u0063\u0065'](new RegExp('\u005B\u005E\u0030\u002D\u0039\u005D','\u0067'),'');if(_0x586b!==''){input['\u0076\u0061\u006C\u0075\u0065']=Number(_0x586b)['\u0074\u006F\u004C\u006F\u0063\u0061\u006C\u0065\u0053\u0074\u0072\u0069\u006E\u0067']("NI-ne".split("").reverse().join(""));}else{input['\u0076\u0061\u006C\u0075\u0065']='';}}function checkInputs(_0x_0x208){var _0x77c9gf=(922348^922346)+(288167^288166);const p=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0070")['\u0076\u0061\u006C\u0075\u0065'];_0x77c9gf=(939801^939793)+(688108^688104);const _0x36279d=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("pd".split("").reverse().join(""))['\u0076\u0061\u006C\u0075\u0065'];const r=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0072")['\u0076\u0061\u006C\u0075\u0065'];const n=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u006E")['\u0076\u0061\u006C\u0075\u0065'];_0x_0x208=(334003^334011)+(640402^640407);const _0xbcfb=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0063\u006C\u0065\u0061\u0072\u0042\u0074\u006E");if(p!==''||_0x36279d!==''||r!==''||n!==''){_0xbcfb['\u0063\u006C\u0061\u0073\u0073\u004C\u0069\u0073\u0074']['\u0061\u0064\u0064']("etats-evitca".split("").reverse().join(""));}else{_0xbcfb['\u0063\u006C\u0061\u0073\u0073\u004C\u0069\u0073\u0074']['\u0072\u0065\u006D\u006F\u0076\u0065']("\u0061\u0063\u0074\u0069\u0076\u0065\u002D\u0073\u0074\u0061\u0074\u0065");}}function clearFields(event){if(event){event['\u0070\u0072\u0065\u0076\u0065\u006E\u0074\u0044\u0065\u0066\u0061\u0075\u006C\u0074']();}document['\u0061\u0063\u0074\u0069\u0076\u0065\u0045\u006C\u0065\u006D\u0065\u006E\u0074']['\u0062\u006C\u0075\u0072']();document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0070")['\u0076\u0061\u006C\u0075\u0065']='';document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0064\u0070")['\u0076\u0061\u006C\u0075\u0065']='';document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0072")['\u0076\u0061\u006C\u0075\u0065']='';document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u006E")['\u0076\u0061\u006C\u0075\u0065']='';hideResult();checkInputs();}function resetCalculator(){clearFields();}function calculate(_0xe997fg){let _0xa1f66g=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0070")['\u0076\u0061\u006C\u0075\u0065']['\u0072\u0065\u0070\u006C\u0061\u0063\u0065'](new RegExp('\u002C','\u0067'),'');let _0x946f8d=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0064\u0070")['\u0076\u0061\u006C\u0075\u0065']['\u0072\u0065\u0070\u006C\u0061\u0063\u0065'](new RegExp('\u002C','\u0067'),'')||"\u0030";let _0xed31de=parseFloat(_0xa1f66g);let _0x05a=parseFloat(_0x946f8d);_0xe997fg=(653312^653313)+(303899^303899);var _0x9005ac=(541434^541432)+(406645^406644);let R=parseFloat(document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0072")['\u0076\u0061\u006C\u0075\u0065']);_0x9005ac=(355946^355938)+(281574^281570);var _0xde9fb=(555758^555751)+(740615^740611);let N=parseFloat(document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u006E")['\u0076\u0061\u006C\u0075\u0065']);_0xde9fb=(569334^569331)+(439830^439829);var _0x36ea=(610531^610529)+(795281^795288);let P=_0xed31de-_0x05a;_0x36ea=997684^997681;if(P>(363993^363993)&&R>(663053^663053)&&N>(691144^691144)){let r=R/(670740^670744)/(858747^858655);let x=Math['\u0070\u006F\u0077']((990710^990711)+r,N);let _0x14cef;let _0x0c4c=P*r*x/(x-(942719^942718));_0x14cef='\u0071\u006E\u0064\u0069\u006E\u006A';let _0xfg_0x41b;let _0xec6af=_0x0c4c*N;_0xfg_0x41b=(756115^756112)+(326827^326819);let _0xd_0x79f=_0xec6af-P;document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("ser".split("").reverse().join(""))['\u0073\u0074\u0079\u006C\u0065']['\u0064\u0069\u0073\u0070\u006C\u0061\u0079']="\u0062\u006C\u006F\u0063\u006B";document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0065\u006D\u0069")['\u0069\u006E\u006E\u0065\u0072\u0054\u0065\u0078\u0074']="\u20B9"+Math['\u0072\u006F\u0075\u006E\u0064'](_0x0c4c)['\u0074\u006F\u004C\u006F\u0063\u0061\u006C\u0065\u0053\u0074\u0072\u0069\u006E\u0067']("NI-ne".split("").reverse().join(""));document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0070\u005F\u0076\u0061\u006C")['\u0069\u006E\u006E\u0065\u0072\u0054\u0065\u0078\u0074']="\u20B9"+P['\u0074\u006F\u004C\u006F\u0063\u0061\u006C\u0065\u0053\u0074\u0072\u0069\u006E\u0067']("\u0065\u006E\u002D\u0049\u004E",{"maximumFractionDigits":2});document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0069\u005F\u0076\u0061\u006C")['\u0069\u006E\u006E\u0065\u0072\u0054\u0065\u0078\u0074']="\u20B9"+Math['\u0072\u006F\u0075\u006E\u0064'](_0xd_0x79f)['\u0074\u006F\u004C\u006F\u0063\u0061\u006C\u0065\u0053\u0074\u0072\u0069\u006E\u0067']("\u0065\u006E\u002D\u0049\u004E");document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0074\u005F\u0076\u0061\u006C")['\u0069\u006E\u006E\u0065\u0072\u0054\u0065\u0078\u0074']="\u20B9"+Math['\u0072\u006F\u0075\u006E\u0064'](_0xec6af)['\u0074\u006F\u004C\u006F\u0063\u0061\u006C\u0065\u0053\u0074\u0072\u0069\u006E\u0067']("NI-ne".split("").reverse().join(""));var _0x7abcfe=(450631^450625)+(496386^496385);let _0xe7a1bc=new Date();_0x7abcfe="agdgne".split("").reverse().join("");let _0xb93ge=_0xe7a1bc['\u0074\u006F\u004C\u006F\u0063\u0061\u006C\u0065\u0044\u0061\u0074\u0065\u0053\u0074\u0072\u0069\u006E\u0067']("\u0065\u006E\u002D\u0047\u0042",{"day":"\u0032\u002D\u0064\u0069\u0067\u0069\u0074","month":"\u0073\u0068\u006F\u0072\u0074","year":"\u006E\u0075\u006D\u0065\u0072\u0069\u0063"});let _0xfacafd;let _0x61079f=_0xe7a1bc['\u0074\u006F\u004C\u006F\u0063\u0061\u006C\u0065\u0054\u0069\u006D\u0065\u0053\u0074\u0072\u0069\u006E\u0067']("SU-ne".split("").reverse().join(""),{'\u0068\u006F\u0075\u0072':"\u0032\u002D\u0064\u0069\u0067\u0069\u0074","minute":"\u0032\u002D\u0064\u0069\u0067\u0069\u0074","hour12":!![]});_0xfacafd=(310522^310523)+(919748^919756);saveToHistory({"loanAmt":P['\u0074\u006F\u004C\u006F\u0063\u0061\u006C\u0065\u0053\u0074\u0072\u0069\u006E\u0067']("NI-ne".split("").reverse().join(""),{'\u006D\u0061\u0078\u0069\u006D\u0075\u006D\u0046\u0072\u0061\u0063\u0074\u0069\u006F\u006E\u0044\u0069\u0067\u0069\u0074\u0073':2}),'\u0072\u0061\u0074\u0065':R,"tenure":N,'\u0069\u006E\u0074\u0065\u0072\u0065\u0073\u0074':Math['\u0072\u006F\u0075\u006E\u0064'](_0xd_0x79f)['\u0074\u006F\u004C\u006F\u0063\u0061\u006C\u0065\u0053\u0074\u0072\u0069\u006E\u0067']("\u0065\u006E\u002D\u0049\u004E"),"emi":Math['\u0072\u006F\u0075\u006E\u0064'](_0x0c4c)['\u0074\u006F\u004C\u006F\u0063\u0061\u006C\u0065\u0053\u0074\u0072\u0069\u006E\u0067']("NI-ne".split("").reverse().join("")),'\u0064\u0061\u0074\u0065\u0054\u0069\u006D\u0065':`${_0xb93ge}, ${_0x61079f}`});}else if(P<=(867553^867553)&&_0xed31de>(208636^208636)){alert("\u0044\u006F\u0077\u006E\u0020\u0070\u0061\u0079\u006D\u0065\u006E\u0074\u0020\u0063\u0061\u006E\u006E\u006F\u0074\u0020\u0062\u0065\u0020\u0065\u0071\u0075\u0061\u006C\u0020\u006F\u0072\u0020\u006D\u006F\u0072\u0065\u0020\u0074\u0068\u0061\u006E\u0020\u0074\u0068\u0065\u0020\u0070\u0072\u0069\u0063\u0065\u0021");}else{alert("\u0050\u006C\u0065\u0061\u0073\u0065\u0020\u0065\u006E\u0074\u0065\u0072\u0020\u0076\u0061\u006C\u0069\u0064\u0020\u0064\u0065\u0074\u0061\u0069\u006C\u0073");}}function saveToHistory(record){var _0xb7d1g=(443832^443832)+(634292^634289);let _0x45db=JSON['\u0070\u0061\u0072\u0073\u0065'](localStorage['\u0067\u0065\u0074\u0049\u0074\u0065\u006D']("yrotsih_ime_emutxep".split("").reverse().join("")))||[];_0xb7d1g='\u0063\u006D\u006F\u006C\u0062\u006A';_0x45db['\u0075\u006E\u0073\u0068\u0069\u0066\u0074'](record);if(_0x45db['\u006C\u0065\u006E\u0067\u0074\u0068']>(439856^439866))_0x45db['\u0070\u006F\u0070']();localStorage['\u0073\u0065\u0074\u0049\u0074\u0065\u006D']("\u0070\u0065\u0078\u0074\u0075\u006D\u0065\u005F\u0065\u006D\u0069\u005F\u0068\u0069\u0073\u0074\u006F\u0072\u0079",JSON['\u0073\u0074\u0072\u0069\u006E\u0067\u0069\u0066\u0079'](_0x45db));} 
+      function renderHistory(_0x08g7e,_0xcd_0xf93){var _0x3a_0x21b=(694033^694036)+(534600^534602);let _0x0cad=JSON['\u0070\u0061\u0072\u0073\u0065'](localStorage['\u0067\u0065\u0074\u0049\u0074\u0065\u006D']("\u0070\u0065\u0078\u0074\u0075\u006D\u0065\u005F\u0065\u006D\u0069\u005F\u0068\u0069\u0073\u0074\u006F\u0072\u0079"))||[];_0x3a_0x21b=(750372^750380)+(639152^639155);let _0xd0cg=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("tsiLyrotsih".split("").reverse().join(""));_0x08g7e=(458701^458698)+(742443^742443);if(_0x0cad['\u006C\u0065\u006E\u0067\u0074\u0068']===(358953^358953)){_0xd0cg['\u0069\u006E\u006E\u0065\u0072\u0048\u0054\u004D\u004C']="\u003C\u0070\u0020\u0073\u0074\u0079\u006C\u0065\u003D\u0022\u0063\u006F\u006C\u006F\u0072\u003A\u0020\u0076\u0061\u0072\u0028\u002D\u002D\u006C\u0061\u0062\u0065\u006C\u002D\u0063\u006F\u006C\u006F\u0072\u0029\u003B\u0020\u0074\u0065\u0078\u0074\u002D\u0061\u006C\u0069\u0067\u006E\u003A\u0020\u0063\u0065\u006E\u0074\u0065\u0072\u003B\u0022\u003E\u004E\u006F\u0020\u0072\u0065\u0063\u0065\u006E\u0074\u0020\u0068\u0069\u0073\u0074\u006F\u0072\u0079\u0020\u0066\u006F\u0075\u006E\u0064\u002E\u003C\u002F\u0070\u003E";return;}_0xcd_0xf93='';_0x0cad['\u0066\u006F\u0072\u0045\u0061\u0063\u0068']((item,index)=>{_0xcd_0xf93+=`<div class="history-item">
                     <button class="history-menu-btn" onclick="toggleHistoryMenu(event, ${index})">⋮</button>
-                    <div class="history-line"><span style="color:var(--label-color);">Loan Amount:</span> <b style="color:var(--text-color);">₹${item.loanAmt}</b></div>
-                    <div class="history-line"><span style="color:var(--label-color);">Interest & Tenure:</span> <b style="color:var(--text-color);">${item.rate}% (${item.tenure}m)</b></div>
-                    <div class="history-line"><span style="color:var(--label-color);">Total Interest:</span> <b style="color:var(--text-color);">₹${item.interest}</b></div>
-                    <div class="history-line" style="margin-bottom:0; border-top: 1px dashed var(--input-border); padding-top: 5px;"><span style="color:var(--accent-color); font-weight:bold;">Monthly EMI:</span> <span style="color:var(--accent-color); font-weight:bold;">₹${item.emi}</span></div>
-                    <div class="history-date-time">📅 ${item.dateTime || 'Recent'}</div>
+                    <div class="history-line"><span style="color:var(--label-color);">Loan Amount:</span> <b style="color:var(--text-color);">₹${item['\u006C\u006F\u0061\u006E\u0041\u006D\u0074']}</b></div>
+                    <div class="history-line"><span style="color:var(--label-color);">Interest & Tenure:</span> <b style="color:var(--text-color);">${item['\u0072\u0061\u0074\u0065']}% (${item['\u0074\u0065\u006E\u0075\u0072\u0065']}m)</b></div>
+                    <div class="history-line"><span style="color:var(--label-color);">Total Interest:</span> <b style="color:var(--text-color);">₹${item['\u0069\u006E\u0074\u0065\u0072\u0065\u0073\u0074']}</b></div>
+                    <div class="history-line" style="margin-bottom:0; border-top: 1px dashed var(--input-border); padding-top: 5px;"><span style="color:var(--accent-color); font-weight:bold;">Monthly EMI:</span> <span style="color:var(--accent-color); font-weight:bold;">₹${item['\u0065\u006D\u0069']}</span></div>
+                    <div class="history-date-time">📅 ${item['\u0064\u0061\u0074\u0065\u0054\u0069\u006D\u0065']||"\u0052\u0065\u0063\u0065\u006E\u0074"}</div>
                     <div class="history-dropdown" id="dropdown_${index}">
-                        <button onclick="downloadSpecificInvoice('${item.loanAmt}', '${item.rate}', '${item.tenure}', '${item.interest}', '${item.emi}')">📥 Download</button>
-                        <button onclick="copySpecificHistory('${item.loanAmt}', '${item.rate}', '${item.tenure}', '${item.interest}', '${item.emi}')">📋 Copy</button>
+                        <button onclick="downloadSpecificInvoice('${item['\u006C\u006F\u0061\u006E\u0041\u006D\u0074']}', '${item['\u0072\u0061\u0074\u0065']}', '${item['\u0074\u0065\u006E\u0075\u0072\u0065']}', '${item['\u0069\u006E\u0074\u0065\u0072\u0065\u0073\u0074']}', '${item['\u0065\u006D\u0069']}')">📥 Download</button>
+                        <button onclick="copySpecificHistory('${item['\u006C\u006F\u0061\u006E\u0041\u006D\u0074']}', '${item['\u0072\u0061\u0074\u0065']}', '${item['\u0074\u0065\u006E\u0075\u0072\u0065']}', '${item['\u0069\u006E\u0074\u0065\u0072\u0065\u0073\u0074']}', '${item['\u0065\u006D\u0069']}')">📋 Copy</button>
                         <button onclick="deleteHistoryItem(${index})">🗑️ Delete</button>
                     </div>
-                </div>`;
-            });
-            listDiv.innerHTML = html;
-        }
-
-        function toggleHistoryMenu(event, index) {
-            event.stopPropagation();
-            let dropdown = document.getElementById(`dropdown_${index}`);
-            let isOpen = dropdown.style.display === 'flex';
-            document.querySelectorAll('.history-dropdown').forEach(el => el.style.display = 'none');
-            if (!isOpen) {
-                dropdown.style.display = 'flex';
-            }
-        }
-
-        document.addEventListener('click', function() {
-            document.querySelectorAll('.history-dropdown').forEach(el => el.style.display = 'none');
-        });
-
-        function deleteHistoryItem(index) {
-            let history = JSON.parse(localStorage.getItem('pextume_emi_history')) || [];
-            history.splice(index, 1);
-            localStorage.setItem('pextume_emi_history', JSON.stringify(history));
-            renderHistory();
-        }
-
-        function clearHistory() {
-            localStorage.removeItem('pextume_emi_history');
-            renderHistory();
-        }
-
-        function copyResult() {
-            let emi = document.getElementById('emi').innerText;
-            let p_val = document.getElementById('p_val').innerText;
-            let i_val = document.getElementById('i_val').innerText;
-            let t_val = document.getElementById('t_val').innerText;
-
-            let textToCopy = `--- EMI Calculation Summary (Pextume) ---\n` +
-                             `Loan Amount: ${p_val}\n` +
-                             `Total Interest: ${i_val}\n` +
-                             `Total Payment: ${t_val}\n` +
-                             `Monthly EMI: ${emi}\n` +
-                             `Calculated via Pextume.in`;
-
-            navigator.clipboard.writeText(textToCopy).then(() => {
-                alert("EMI summary copied to clipboard!");
-            });
-        }
-
-        function copySpecificHistory(loanAmt, rate, tenure, interest, emi) {
-            let textToCopy = `--- EMI Calculation Summary (Pextume) ---\n` +
-                             `Loan Amount: ₹${loanAmt}\n` +
-                             `Interest: ${rate}% (${tenure} months)\n` +
-                             `Total Interest: ₹${interest}\n` +
-                             `Monthly EMI: ₹${emi}\n` +
-                             `Calculated via Pextume.in`;
-
-            navigator.clipboard.writeText(textToCopy).then(() => {
-                alert("History summary copied to clipboard!");
-            });
-        }
-
-        function downloadInvoice() {
-            let emi = document.getElementById('emi').innerText;
-            let p_val = document.getElementById('p_val').innerText;
-            let i_val = document.getElementById('i_val').innerText;
-            let t_val = document.getElementById('t_val').innerText;
-            triggerPrintWindow(p_val, i_val, t_val, emi);
-        }
-
-        function downloadSpecificInvoice(loanAmt, rate, tenure, interest, emi) {
-            let totalPay = (parseFloat(loanAmt.replace(/,/g, '')) + parseFloat(interest.replace(/,/g, ''))).toLocaleString('en-IN', {maximumFractionDigits: 2});
-            triggerPrintWindow('₹' + loanAmt, '₹' + interest, '₹' + totalPay, '₹' + emi);
-        }
-
+                </div>`;});_0xd0cg['\u0069\u006E\u006E\u0065\u0072\u0048\u0054\u004D\u004C']=_0xcd_0xf93;}function toggleHistoryMenu(event,index,_0xb_0xcf3){event['\u0073\u0074\u006F\u0070\u0050\u0072\u006F\u0070\u0061\u0067\u0061\u0074\u0069\u006F\u006E']();let _0x86d=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064'](`dropdown_${index}`);_0xb_0xcf3=918614^918623;var _0x52e25d=(368508^368506)+(342344^342347);let _0x34188d=_0x86d['\u0073\u0074\u0079\u006C\u0065']['\u0064\u0069\u0073\u0070\u006C\u0061\u0079']==="\u0066\u006C\u0065\u0078";_0x52e25d=852761^852752;document['\u0071\u0075\u0065\u0072\u0079\u0053\u0065\u006C\u0065\u0063\u0074\u006F\u0072\u0041\u006C\u006C']("\u002E\u0068\u0069\u0073\u0074\u006F\u0072\u0079\u002D\u0064\u0072\u006F\u0070\u0064\u006F\u0077\u006E")['\u0066\u006F\u0072\u0045\u0061\u0063\u0068'](el=>el['\u0073\u0074\u0079\u006C\u0065']['\u0064\u0069\u0073\u0070\u006C\u0061\u0079']="\u006E\u006F\u006E\u0065");if(!_0x34188d){_0x86d['\u0073\u0074\u0079\u006C\u0065']['\u0064\u0069\u0073\u0070\u006C\u0061\u0079']="xelf".split("").reverse().join("");}}document['\u0061\u0064\u0064\u0045\u0076\u0065\u006E\u0074\u004C\u0069\u0073\u0074\u0065\u006E\u0065\u0072']("kcilc".split("").reverse().join(""),function(){document['\u0071\u0075\u0065\u0072\u0079\u0053\u0065\u006C\u0065\u0063\u0074\u006F\u0072\u0041\u006C\u006C']("nwodpord-yrotsih.".split("").reverse().join(""))['\u0066\u006F\u0072\u0045\u0061\u0063\u0068'](el=>el['\u0073\u0074\u0079\u006C\u0065']['\u0064\u0069\u0073\u0070\u006C\u0061\u0079']="\u006E\u006F\u006E\u0065");});function deleteHistoryItem(index){let _0x9979a=JSON['\u0070\u0061\u0072\u0073\u0065'](localStorage['\u0067\u0065\u0074\u0049\u0074\u0065\u006D']("\u0070\u0065\u0078\u0074\u0075\u006D\u0065\u005F\u0065\u006D\u0069\u005F\u0068\u0069\u0073\u0074\u006F\u0072\u0079"))||[];_0x9979a['\u0073\u0070\u006C\u0069\u0063\u0065'](index,106164^106165);localStorage['\u0073\u0065\u0074\u0049\u0074\u0065\u006D']("yrotsih_ime_emutxep".split("").reverse().join(""),JSON['\u0073\u0074\u0072\u0069\u006E\u0067\u0069\u0066\u0079'](_0x9979a));renderHistory();}function clearHistory(){localStorage['\u0072\u0065\u006D\u006F\u0076\u0065\u0049\u0074\u0065\u006D']("\u0070\u0065\u0078\u0074\u0075\u006D\u0065\u005F\u0065\u006D\u0069\u005F\u0068\u0069\u0073\u0074\u006F\u0072\u0079");renderHistory();}function copyResult(_0xaa92bc,_0x47a4e){let _0xg067cd=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("ime".split("").reverse().join(""))['\u0069\u006E\u006E\u0065\u0072\u0054\u0065\u0078\u0074'];_0xaa92bc=(367403^367400)+(270944^270952);let _0xe_0x878=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("lav_p".split("").reverse().join(""))['\u0069\u006E\u006E\u0065\u0072\u0054\u0065\u0078\u0074'];let _0x2_0xe2e=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0069\u005F\u0076\u0061\u006C")['\u0069\u006E\u006E\u0065\u0072\u0054\u0065\u0078\u0074'];_0x47a4e=(544296^544297)+(405228^405220);let _0xc4281f=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0074\u005F\u0076\u0061\u006C")['\u0069\u006E\u006E\u0065\u0072\u0054\u0065\u0078\u0074'];let _0xa2a2e=`--- EMI Calculation Summary (Pextume) ---\n`+`Loan Amount: ${_0xe_0x878}\n`+`Total Interest: ${_0x2_0xe2e}\n`+`Total Payment: ${_0xc4281f}\n`+`Monthly EMI: ${_0xg067cd}\n`+`Calculated via Pextume.in`;navigator['\u0063\u006C\u0069\u0070\u0062\u006F\u0061\u0072\u0064']['\u0077\u0072\u0069\u0074\u0065\u0054\u0065\u0078\u0074'](_0xa2a2e)['\u0074\u0068\u0065\u006E'](()=>{alert("!draobpilc ot deipoc yrammus IME".split("").reverse().join(""));});}function copySpecificHistory(loanAmt,rate,tenure,interest,emi){var _0x6b90a=(291728^291732)+(712270^712270);let _0x5bf1f=`--- EMI Calculation Summary (Pextume) ---\n`+`Loan Amount: ₹${loanAmt}\n`+`Interest: ${rate}% (${tenure} months)\n`+`Total Interest: ₹${interest}\n`+`Monthly EMI: ₹${emi}\n`+`Calculated via Pextume.in`;_0x6b90a=(224546^224548)+(352848^352851);navigator['\u0063\u006C\u0069\u0070\u0062\u006F\u0061\u0072\u0064']['\u0077\u0072\u0069\u0074\u0065\u0054\u0065\u0078\u0074'](_0x5bf1f)['\u0074\u0068\u0065\u006E'](()=>{alert("\u0048\u0069\u0073\u0074\u006F\u0072\u0079\u0020\u0073\u0075\u006D\u006D\u0061\u0072\u0079\u0020\u0063\u006F\u0070\u0069\u0065\u0064\u0020\u0074\u006F\u0020\u0063\u006C\u0069\u0070\u0062\u006F\u0061\u0072\u0064\u0021");});}function downloadInvoice(){let _0x63cde=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0065\u006D\u0069")['\u0069\u006E\u006E\u0065\u0072\u0054\u0065\u0078\u0074'];let _0xa1d=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0070\u005F\u0076\u0061\u006C")['\u0069\u006E\u006E\u0065\u0072\u0054\u0065\u0078\u0074'];let _0xe2b5g=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0069\u005F\u0076\u0061\u006C")['\u0069\u006E\u006E\u0065\u0072\u0054\u0065\u0078\u0074'];var _0x40c8e=(117063^117060)+(287993^287998);let _0xca0b8a=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0074\u005F\u0076\u0061\u006C")['\u0069\u006E\u006E\u0065\u0072\u0054\u0065\u0078\u0074'];_0x40c8e=(755047^755045)+(475992^475994);triggerPrintWindow(_0xa1d,_0xe2b5g,_0xca0b8a,_0x63cde);}function downloadSpecificInvoice(loanAmt,rate,tenure,interest,emi){var _0x528dfa=(197076^197072)+(394728^394733);let _0xb8b=(parseFloat(loanAmt['\u0072\u0065\u0070\u006C\u0061\u0063\u0065'](new RegExp('\u002C','\u0067'),''))+parseFloat(interest['\u0072\u0065\u0070\u006C\u0061\u0063\u0065'](new RegExp('\u002C','\u0067'),'')))['\u0074\u006F\u004C\u006F\u0063\u0061\u006C\u0065\u0053\u0074\u0072\u0069\u006E\u0067']("\u0065\u006E\u002D\u0049\u004E",{"maximumFractionDigits":2});_0x528dfa='\u0063\u006A\u006B\u006F\u0065\u006A';triggerPrintWindow("\u20B9"+loanAmt,"\u20B9"+interest,"\u20B9"+_0xb8b,"\u20B9"+emi);}  
         function triggerPrintWindow(loanAmt, interest, totalPay, emi) {
             let invoiceWindow = window.open('', '_PRINTER', 'width=700,height=800');
             invoiceWindow.document.write(`
@@ -1021,14 +783,7 @@ document.onkeydown = function(e) {
             invoiceWindow.document.close();
         }
 
-        document.addEventListener('click', function(event) {
-            var sideMenu = document.getElementById('sideMenu');
-            var topNavbar = document.querySelector('.top-navbar');
-            
-            if (!sideMenu.contains(event.target) && !topNavbar.contains(event.target)) {
-                sideMenu.style.transform = 'translateX(100%)';
-            }
-        });
+       document['\u0061\u0064\u0064\u0045\u0076\u0065\u006E\u0074\u004C\u0069\u0073\u0074\u0065\u006E\u0065\u0072']("kcilc".split("").reverse().join(""),function(event,_0xd820e,_0x5g9a5g){var _0x99b5aa=document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0073\u0069\u0064\u0065\u004D\u0065\u006E\u0075");_0xd820e=627323^627326;var _0x0d43c=document['\u0071\u0075\u0065\u0072\u0079\u0053\u0065\u006C\u0065\u0063\u0074\u006F\u0072']("\u002E\u0074\u006F\u0070\u002D\u006E\u0061\u0076\u0062\u0061\u0072");_0x5g9a5g=(855547^855547)+(855696^855696);if(!_0x99b5aa['\u0063\u006F\u006E\u0074\u0061\u0069\u006E\u0073'](event['\u0074\u0061\u0072\u0067\u0065\u0074'])&&!_0x0d43c['\u0063\u006F\u006E\u0074\u0061\u0069\u006E\u0073'](event['\u0074\u0061\u0072\u0067\u0065\u0074'])){_0x99b5aa['\u0073\u0074\u0079\u006C\u0065']['\u0074\u0072\u0061\u006E\u0073\u0066\u006F\u0072\u006D']="\u0074\u0072\u0061\u006E\u0073\u006C\u0061\u0074\u0065\u0058\u0028\u0031\u0030\u0030\u0025\u0029";}}); 
     </script>
 </body>
 </html>
