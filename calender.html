@@ -69,7 +69,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 18px;
+            margin-bottom: 16px;
         }
 
         .app-title h1 {
@@ -100,42 +100,78 @@
         .dashboard {
             background: linear-gradient(135deg, #059669 0%, #0d9488 100%);
             border-radius: 20px;
-            padding: 18px;
+            padding: 16px;
             color: #ffffff;
-            margin-bottom: 18px;
+            margin-bottom: 16px;
             box-shadow: 0 8px 20px rgba(16, 185, 129, 0.25);
         }
 
         .dash-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
+            gap: 10px;
             text-align: center;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
         }
 
         .dash-item {
             background: rgba(255, 255, 255, 0.16);
             backdrop-filter: blur(6px);
-            padding: 12px 8px;
+            padding: 10px 8px;
             border-radius: 14px;
         }
 
         .dash-item span {
             display: block;
-            font-size: 0.82rem;
+            font-size: 0.8rem;
             opacity: 0.92;
         }
 
         .dash-item strong {
-            font-size: 1.4rem;
+            font-size: 1.35rem;
             font-weight: 700;
+        }
+
+        /* আলাদা নোট হিসাবের বক্স */
+        .note-breakdown {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+
+        .note-box {
+            background: rgba(0, 0, 0, 0.18);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            padding: 7px 4px;
+            text-align: center;
+        }
+
+        .note-box .n-label {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: #fde047;
+            display: block;
+        }
+
+        .note-box .n-val {
+            font-size: 0.98rem;
+            font-weight: 700;
+            display: block;
+            line-height: 1.2;
+        }
+
+        .note-box .n-count {
+            font-size: 0.68rem;
+            opacity: 0.85;
+            display: block;
         }
 
         .progress-wrapper {
             background: rgba(0, 0, 0, 0.2);
             border-radius: 10px;
-            height: 10px;
+            height: 9px;
             width: 100%;
             overflow: hidden;
             margin-bottom: 6px;
@@ -152,7 +188,7 @@
         .progress-info {
             display: flex;
             justify-content: space-between;
-            font-size: 0.82rem;
+            font-size: 0.8rem;
             opacity: 0.95;
         }
 
@@ -166,7 +202,7 @@
             font-size: 0.95rem;
             font-weight: 700;
             cursor: pointer;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
             transition: 0.2s;
             display: flex;
             align-items: center;
@@ -186,7 +222,7 @@
             background: var(--bg-sub);
             padding: 8px 12px;
             border-radius: 14px;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
             border: 1px solid var(--border-color);
         }
 
@@ -226,7 +262,7 @@
             background: var(--bg-sub);
             border: 1.5px solid var(--border-color);
             border-radius: 14px;
-            padding: 6px 4px;
+            padding: 6px 3px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -269,15 +305,15 @@
         .coins {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 4px;
+            gap: 3px;
             width: 100%;
         }
 
         .coin-btn {
             background: var(--coin-bg);
             border: 1px solid var(--coin-border);
-            border-radius: 7px;
-            font-size: 0.75rem;
+            border-radius: 6px;
+            font-size: 0.68rem;
             font-weight: 700;
             color: var(--text-main);
             padding: 4px 0;
@@ -328,18 +364,18 @@
 
         @media (max-width: 440px) {
             .app-container {
-                padding: 14px 10px;
+                padding: 14px 8px;
                 border-radius: 18px;
             }
             .calendar-grid {
                 gap: 4px;
             }
             .coin-btn {
-                font-size: 0.68rem;
+                font-size: 0.62rem;
                 padding: 3px 0;
             }
             .dash-item strong {
-                font-size: 1.25rem;
+                font-size: 1.2rem;
             }
         }
     </style>
@@ -366,6 +402,31 @@
                 <strong id="fullDaysCount">০ দিন</strong>
             </div>
         </div>
+
+        <!-- আলাদা আলাদা নোট জমার হিসাব -->
+        <div class="note-breakdown">
+            <div class="note-box">
+                <span class="n-label">১০ (ক)</span>
+                <span class="n-val" id="sum10A">₹০</span>
+                <span class="n-count" id="cnt10A">০টি</span>
+            </div>
+            <div class="note-box">
+                <span class="n-label">১০ (খ)</span>
+                <span class="n-val" id="sum10B">₹০</span>
+                <span class="n-count" id="cnt10B">০টি</span>
+            </div>
+            <div class="note-box">
+                <span class="n-label">২০ (গ)</span>
+                <span class="n-val" id="sum20">₹০</span>
+                <span class="n-count" id="cnt20">০টি</span>
+            </div>
+            <div class="note-box">
+                <span class="n-label">৩০ (ঘ)</span>
+                <span class="n-val" id="sum30">₹০</span>
+                <span class="n-count" id="cnt30">০টি</span>
+            </div>
+        </div>
+
         <div class="progress-wrapper">
             <div class="progress-fill" id="progressBar"></div>
         </div>
@@ -398,11 +459,12 @@
     <div class="calendar-grid" id="calendarGrid"></div>
 
     <div class="bottom-reset">
-        <button class="reset-btn" onclick="resetCurrentMonth()"> এই মাস রিসেট করুন</button>
+        <button class="reset-btn" onclick="resetCurrentMonth()">এই মাস রিসেট করুন</button>
     </div>
 </div>
 <script>
     const denominations = [10, 10, 20, 30];
+    const buttonLabels = ["১০", "১০", "২০", "৩০"];
     const monthNames = [
         "জানুয়ারি", "ফেব্রুয়ারি", "মার্চ", "এপ্রিল", "মে", "জুন",
         "জুলাই", "আগস্ট", "সেপ্টেম্বর", "অক্টোবর", "নভেম্বর", "ডিসেম্বর"
@@ -466,6 +528,12 @@
         let monthSum = 0;
         let fullDays = 0;
 
+        // আলাদা নোট কাউন্টার
+        let count10A = 0;
+        let count10B = 0;
+        let count20 = 0;
+        let count30 = 0;
+
         const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
         const monthTarget = daysInMonth * 70;
         const monthPrefix = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}`;
@@ -473,9 +541,11 @@
         for (const [key, checks] of Object.entries(savingsData)) {
             if (key.startsWith(monthPrefix)) {
                 let daySum = 0;
-                checks.forEach((isChecked, idx) => {
-                    if (isChecked) daySum += denominations[idx];
-                });
+                if (checks[0]) { count10A++; daySum += 10; }
+                if (checks[1]) { count10B++; daySum += 10; }
+                if (checks[2]) { count20++;  daySum += 20; }
+                if (checks[3]) { count30++;  daySum += 30; }
+
                 monthSum += daySum;
                 if (daySum === 70) fullDays++;
             }
@@ -485,6 +555,20 @@
 
         document.getElementById('monthTotal').innerText = `₹${toBengaliNumber(monthSum)}`;
         document.getElementById('fullDaysCount').innerText = `${toBengaliNumber(fullDays)} দিন`;
+
+        // আলাদা হিসাব আপডেট
+        document.getElementById('sum10A').innerText = `₹${toBengaliNumber(count10A * 10)}`;
+        document.getElementById('cnt10A').innerText = `${toBengaliNumber(count10A)}টি`;
+
+        document.getElementById('sum10B').innerText = `₹${toBengaliNumber(count10B * 10)}`;
+        document.getElementById('cnt10B').innerText = `${toBengaliNumber(count10B)}টি`;
+
+        document.getElementById('sum20').innerText = `₹${toBengaliNumber(count20 * 20)}`;
+        document.getElementById('cnt20').innerText = `${toBengaliNumber(count20)}টি`;
+
+        document.getElementById('sum30').innerText = `₹${toBengaliNumber(count30 * 30)}`;
+        document.getElementById('cnt30').innerText = `${toBengaliNumber(count30)}টি`;
+
         document.getElementById('progressBar').style.width = `${percentage}%`;
         document.getElementById('progressText').innerText = `মাসিক অগ্রগতি: ${toBengaliNumber(percentage)}%`;
         document.getElementById('monthTargetText').innerText = `মাসিক লক্ষ্য: ₹${toBengaliNumber(monthTarget)}`;
@@ -545,10 +629,10 @@
             const coinsDiv = document.createElement('div');
             coinsDiv.className = 'coins';
 
-            denominations.forEach((val, idx) => {
+            buttonLabels.forEach((label, idx) => {
                 const btn = document.createElement('div');
                 btn.className = 'coin-btn' + (checks[idx] ? ' checked' : '');
-                btn.innerText = toBengaliNumber(val);
+                btn.innerText = label;
                 btn.onclick = () => toggleCoin(dateKey, idx);
                 coinsDiv.appendChild(btn);
             });
